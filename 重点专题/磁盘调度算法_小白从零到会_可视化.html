@@ -1,0 +1,853 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#3b82f6">
+<title>磁盘调度算法_小白从零到会 - 软考软件设计师重点专题</title>
+<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+<script>
+if(typeof marked==='undefined'){
+window.marked={parse:function(md){
+var h=md;
+h=h.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+h=h.replace(/```([\s\S]*?)```/g,function(m,c){return'<pre><code>'+c+'</code></pre>';});
+h=h.replace(/^#### (.*)$/gm,'<h4>$1</h4>');
+h=h.replace(/^### (.*)$/gm,'<h3>$1</h3>');
+h=h.replace(/^## (.*)$/gm,'<h2>$1</h2>');
+h=h.replace(/^# (.*)$/gm,'<h1>$1</h1>');
+h=h.replace(/^&gt; (.*)$/gm,'<blockquote><p>$1</p></blockquote>');
+h=h.replace(/^---$/gm,'<hr>');
+h=h.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
+h=h.replace(/^- (.*)$/gm,'<li>$1</li>');
+h=h.replace(/^\* (.*)$/gm,'<li>$1</li>');
+h=h.replace(/(<li>[\s\S]*?<\/li>)/g,'<ul>$1</ul>');
+h=h.replace(/^\|(.*)\|$/gm,function(m,r){
+var cells=r.split('|').filter(function(c){return c.trim();});
+if(cells[0]&&cells[0].indexOf('-')>=0&&cells[0].indexOf(':')<0)return'';
+return'<tr>'+cells.map(function(c){return'<td>'+c.trim()+'</td>';}).join('')+'</tr>';
+});
+h=h.replace(/(<tr>[\s\S]*?<\/tr>)/g,'<table>$1</table>');
+h=h.replace(/\n\n/g,'</p><p>');
+h='<div><p>'+h+'</p></div>';
+h=h.replace(/<p><\/p>/g,'');
+h=h.replace(/<p>(<h[1-4]>)/g,'$1');
+h=h.replace(/(<\/h[1-4]>)<\/p>/g,'$1');
+h=h.replace(/<p>(<blockquote>)/g,'$1');
+h=h.replace(/(<\/blockquote>)<\/p>/g,'$1');
+h=h.replace(/<p>(<hr>)/g,'$1');
+h=h.replace(/<p>(<pre>)/g,'$1');
+h=h.replace(/(<\/pre>)<\/p>/g,'$1');
+h=h.replace(/<p>(<table>)/g,'$1');
+h=h.replace(/(<\/table>)<\/p>/g,'$1');
+h=h.replace(/<p>(<ul>)/g,'$1');
+h=h.replace(/(<\/ul>)<\/p>/g,'$1');
+return h;
+}};
+}
+</script>
+<style>
+:root[data-theme="light"]{--bg:#ffffff;--text:#1e293b;--sidebar-bg:#f8fafc;--accent:#3b82f6;--border:#e2e8f0;--code-bg:#f1f5f9;--block-bg:#eff6ff;--table-head:#3b82f6;}
+:root[data-theme="dark"]{--bg:#0f172a;--text:#e2e8f0;--sidebar-bg:#1e293b;--accent:#60a5fa;--border:#334155;--code-bg:#1e293b;--block-bg:#1e3a5f;--table-head:#1e40af;}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.8;font-size:16px;transition:background .3s,color .3s;}
+.sidebar{position:fixed;top:0;left:0;width:280px;height:100vh;background:var(--sidebar-bg);border-right:1px solid var(--border);overflow-y:auto;padding:20px 16px;z-index:100;transition:transform .3s;}
+.sidebar::-webkit-scrollbar{width:6px;}
+.sidebar::-webkit-scrollbar-thumb{background:#94a3b8;border-radius:3px;}
+.sidebar h3{font-size:16px;margin:0 0 12px;display:flex;justify-content:space-between;align-items:center;color:var(--accent);}
+.theme-toggle{background:none;border:none;font-size:18px;cursor:pointer;padding:4px 8px;border-radius:6px;color:var(--text);}
+.theme-toggle:hover{background:rgba(128,128,128,.1);}
+.search-box{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:14px;background:var(--bg);color:var(--text);margin-bottom:12px;}
+#toc{font-size:14px;}
+#toc a{display:block;padding:6px 10px;color:var(--text);text-decoration:none;border-radius:6px;margin-bottom:2px;transition:all .2s;border-left:3px solid transparent;}
+#toc a:hover,#toc a.active{background:rgba(59,130,246,.1);color:var(--accent);border-left-color:var(--accent);}
+#toc a.h2{font-weight:600;margin-top:8px;}
+#toc a.h3{padding-left:24px;font-size:13px;color:#64748b;}
+:root[data-theme="dark"] #toc a.h3{color:#94a3b8;}
+.content-wrapper{margin-left:280px;min-height:100vh;transition:margin .3s;}
+.content{max-width:900px;margin:0 auto;padding:24px 28px 80px;}
+.content h1{font-size:26px;border-bottom:3px solid var(--accent);padding-bottom:10px;margin-top:8px;color:var(--accent);}
+.content h2{font-size:22px;margin-top:36px;padding:10px 14px;background:var(--block-bg);border-left:4px solid var(--accent);border-radius:6px;}
+.content h3{font-size:18px;margin-top:28px;color:var(--accent);}
+.content h4{font-size:16px;margin-top:20px;}
+.content p{margin:12px 0;}
+.content strong{color:var(--accent);}
+:root[data-theme="dark"] .content strong{color:#fbbf24;}
+.content code{background:var(--code-bg);padding:2px 6px;border-radius:4px;font-family:"Consolas","Monaco",monospace;font-size:14px;color:#dc2626;}
+:root[data-theme="dark"] .content code{color:#f87171;}
+.content pre{background:var(--code-bg);padding:14px;border-radius:8px;overflow-x:auto;border:1px solid var(--border);}
+.content pre code{background:none;padding:0;color:var(--text);}
+.content table{border-collapse:collapse;width:100%;margin:14px 0;font-size:14px;}
+.content th{background:var(--table-head);color:#fff;padding:10px 12px;text-align:left;border:1px solid var(--border);}
+.content td{padding:8px 12px;border:1px solid var(--border);}
+.content tr:nth-child(even){background:var(--code-bg);}
+.content blockquote{background:var(--block-bg);border-left:4px solid var(--accent);padding:12px 16px;margin:14px 0;border-radius:0 8px 8px 0;}
+.content blockquote p{margin:6px 0;}
+.content hr{border:none;border-top:2px dashed var(--border);margin:28px 0;}
+.content ul{padding-left:22px;}
+.content li{margin-bottom:6px;}
+.content details{margin:14px 0;border:1px solid var(--border);border-radius:8px;overflow:hidden;background:var(--code-bg);}
+.content summary{padding:12px 16px;cursor:pointer;font-weight:600;color:var(--accent);background:var(--block-bg);}
+.content details[open] summary{border-bottom:1px solid var(--border);}
+.content details .rk-detail-body{padding:14px 16px;}
+#menu-btn{display:none;position:fixed;top:12px;left:12px;z-index:200;background:var(--accent);color:#fff;border:none;padding:8px 14px;border-radius:8px;font-size:14px;cursor:pointer;}
+.progress-bar{position:fixed;top:0;left:0;height:3px;background:var(--accent);z-index:300;transition:width .1s;width:0;}
+.float-btn{position:fixed;right:20px;bottom:20px;width:44px;height:44px;border-radius:50%;background:var(--accent);color:#fff;border:none;cursor:pointer;font-size:18px;box-shadow:0 2px 8px rgba(0,0,0,.2);z-index:150;display:flex;align-items:center;justify-content:center;text-decoration:none;}
+#menu-close{display:none;}
+@media(max-width:900px){
+.sidebar{transform:translateX(-100%);}
+.sidebar.open{transform:translateX(0);box-shadow:4px 0 20px rgba(0,0,0,.15);}
+.content-wrapper{margin-left:0;}
+#menu-btn{display:flex;}
+#menu-close{display:block;position:absolute;top:12px;right:12px;background:none;border:none;font-size:20px;cursor:pointer;color:var(--text);}
+}
+.search-hide{display:none!important;}
+mark{background:#fde047;color:#1e293b;border-radius:2px;}
+</style>
+</head>
+<body>
+<div class="progress-bar" id="progressBar"></div>
+<button id="menu-btn">☰ 目录</button>
+<div class="sidebar" id="sidebar">
+<h3>📌 重点专题 <button class="theme-toggle" id="theme-btn">🌙</button></h3>
+<input type="text" class="search-box" id="searchBox" placeholder="🔍 搜索考点...">
+<button id="menu-close">✕</button>
+<div id="toc"></div>
+</div>
+<div class="content-wrapper">
+<div class="content">
+<div id="markdown-content"><p>正在渲染内容,请稍候...</p></div>
+</div>
+</div>
+<a href="#" class="float-btn" id="totop" title="回到顶部">↑</a>
+<script id="raw-markdown" type="text/markdown">
+# 磁盘调度算法 · 重点专题(小白从零到会)
+
+> **使用方法**:从上往下读,每读完一节,把后面的练习做掉再继续。所有练习和讲解放在一起,用抽屉(`details`)折叠,先做再展开对答案。
+> **配套**:读完本文,再回 `分类题库_标准版.md` 第 2.9 题及之后所有磁盘题,就能秒杀。
+
+---
+
+## 第 0 步 · 先搞懂磁盘长什么样(这是你不会的根源)
+
+### 磁盘的物理结构(三句话)
+
+1. **盘片**:像一张 CD,信息存在表面。一张盘片有正反两面,都能存数据。
+2. **磁道**:盘片上一圈一圈的同心圆,像树桩的年轮。**磁道编号从外向内递增**(最外圈是 0 道)。
+3. **扇区**:每个磁道再切成一段段弧,每段叫一个扇区,是**读写的最小单位**。
+
+### 关键部件
+
+| 部件 | 作用 | 像什么 |
+|---|---|---|
+| **磁头** | 读写数据 | 唱片机的针 |
+| **机械臂** | 带着磁头移动 | 唱片机的横臂 |
+| **柱面** | 所有盘片同一编号的磁道组成 | 一摞盘片上同一圈 |
+
+> 💡 **柱面为什么重要?** 同一柱面上的磁道,磁头不用动就能一起读(只是切换盘面的磁头)。所以**按柱面访问**比按磁道访问更省。
+
+### 一次磁盘读写的三步时间(必背)
+
+$$T = T_{寻道} + T_{旋转延迟} + T_{数据传输}$$
+
+| 时间 | 占比 | 决定因素 | 由什么调度 |
+|---|---|---|---|
+| **寻道时间** | **最大**(机械运动) | 磁头移动跨多少磁道 | **移臂调度** |
+| 旋转延迟 | 中等 | 盘片转到目标扇区 | **旋转调度** |
+| 数据传输 | 最小 | 扇区数 × 传输速率 | — |
+
+> 💡 **核心结论**:**寻道时间最慢**,所以**移臂调度**(选磁道)是重点。
+>
+> 但**旋转调度**(选扇区)也会考:磁头到了指定磁道后,盘片还在转,同一磁道上多个请求,先服务哪个扇区由旋转调度决定。
+
+---
+
+## 第 1 步 · 把请求看成一根数轴(做题第一步)
+
+这是小白最容易卡的地方:**题目给的数字到底是什么?**
+
+题目里那一串数字(如 98, 183, 37, 122, 14, 124, 65, 67)就是**磁道号**。
+磁头当前所在的数字(如 53)就是**磁头现在所在的磁道**。
+
+**把磁道号画在一根数轴上**,问题就变成:磁头从 53 出发,怎么走才能服务所有请求,且总路程最少?
+
+```
+磁道号  0────14──37────53(起点)──65─67────98──────122─124────183
+                              ↑
+                           磁头在这
+```
+
+> 💡 **小白菜谱**:每次做题,先在草稿纸上画这根数轴,标出起点和所有请求,再开始动。
+
+---
+
+## 第 2 步 · 六种移臂调度算法(从最笨到最聪明)
+
+### 算法 1 · FCFS(先来先服务)——最笨
+
+**规则**:按请求到达的顺序服务,不管远近。
+
+**比喻**:食堂排队,谁先来谁先打饭,不管你站哪。
+
+**例子**(磁头在 53,队列 98,183,37,122,14,124,65,67):
+
+```
+53 → 98 → 183 → 37 → 122 → 14 → 124 → 65 → 67
+```
+
+总距离 = |98-53| + |183-98| + |37-183| + ... = 45+85+146+85+108+110+59+2 = **640**
+
+**特点**:公平,但磁头来回乱跑,总距离大。
+
+---
+
+### 算法 2 · SSTF(最短寻道时间优先)——贪心找最近
+
+**规则**:每次都服务**离当前磁头最近**的请求。
+
+**比喻**:你站在原地,每次伸手够离你最近的东西。
+
+**口诀**:**SSTF 找最近的**。
+
+**例子**(磁头在 53,队列同上):
+
+**第一步**(磁头在 53,比较距离):
+
+| 请求 | 98 | 183 | 37 | 122 | 14 | 124 | 65 | 67 |
+|---|---|---|---|---|---|---|---|---|
+| 距离 | 45 | 130 | 16 | 69 | 39 | 71 | **12** | 14 |
+
+→ 65 最近,服务 **65**,磁头到 65。
+
+**第二步**(磁头在 65,比较剩余):
+
+| 请求 | 98 | 183 | 37 | 122 | 14 | 124 | 67 |
+|---|---|---|---|---|---|---|---|
+| 距离 | 33 | 118 | 28 | 57 | 51 | 59 | **2** |
+
+→ 67 最近,服务 **67**,磁头到 67。
+
+**第三步**(磁头在 67,比较剩余):
+
+| 请求 | 98 | 183 | 37 | 122 | 14 | 124 |
+|---|---|---|---|---|---|---|
+| 距离 | 31 | 116 | **30** | 55 | 53 | 57 |
+
+→ 37 最近(30),服务 **37**,磁头到 37。
+
+> ⚠️ **小白易错**:这时 98 距离 31,37 距离 30,只差 1。别看错,37 才是最近。
+
+**继续**:从 37 出发,14 最近(23),然后 98(84),然后 122(24),然后 124(2),然后 183(59)。
+
+**完整顺序**:53 → 65 → 67 → 37 → 14 → 98 → 122 → 124 → 183
+
+**特点**:总距离小,但**远处请求可能"饥饿"**(老轮不到)。
+
+---
+
+### 算法 3 · SCAN(电梯算法)——一个方向走到头
+
+**规则**:磁头沿一个方向走,**到该方向最远请求才折返**,像电梯上下楼。
+
+**口诀**:**SCAN 像电梯,走到头才折返**。
+
+**例子**(磁头在 53,队列同上,**向右扫**):
+
+向右走,服务所有 ≥53 的请求(从近到远):
+→ 65 → 67 → 98 → 122 → 124 → 183(到头)
+
+折返向左,服务所有 <53 的请求(从近到远,即从 183 往左数):
+→ 37 → 14
+
+**完整顺序**:53 → 65 → 67 → 98 → 122 → 124 → **183(折返)** → 37 → 14
+
+**特点**:不会饥饿(每个方向都会扫到),但**必须走到头**(即使尽头没请求也要走)。
+
+> ⚠️ **常见变体 LOOK**:不走到真正的尽头,走到**最远请求**就折返。SCAN 是走到磁盘边,LOOK 是走到最远请求。考试常混用,看题目表述。
+
+---
+
+### 算法 4 · C-SCAN(循环扫描)——只往一个方向扫
+
+**规则**:磁头只往一个方向服务请求,到头后**直接跳回起点**,再往同方向扫。
+
+**口诀**:**C-SCAN 单向扫,到头直接回起点**。
+
+**例子**(磁头在 53,向右扫):
+
+向右:53 → 65 → 67 → 98 → 122 → 124 → 183(到头)
+
+直接跳回最左(14),继续向右:
+→ 14 → 37
+
+**完整顺序**:53 → 65 → 67 → 98 → 122 → 124 → 183 → **(跳回)** 14 → 37
+
+**特点**:所有请求等待时间更均匀(都只被一个方向扫到)。
+
+---
+
+### 算法 5 · N-Step-SCAN(N 步扫描)——防止饥饿
+
+**规则**:把请求队列分成若干个子队列(每个长度 N),**每个子队列用 SCAN**。
+
+**关键**:处理一个子队列时,**新请求放进下一个子队列**,不会插队。
+
+**作用**:**防止 SSTF 那种"远处饥饿"**。
+
+> 💡 **小白记法**:N-Step-SCAN = SCAN + 分批,新请求不能插队,远处不会饿。
+
+---
+
+### 算法 6 · FSCAN(F = Freeze 冻结)
+
+**规则**:**两个队列**。一个队列在用 SCAN 处理,新请求全部进**另一个队列**(冻结),等第一个处理完再处理第二个。
+
+**作用**:和 N-Step-SCAN 类似,防止饥饿,但更彻底(整个队列都冻结)。
+
+> 💡 **小白记法**:FSCAN = SCAN + 双队列,新请求全进"候场区",当前队列处理完才轮到。
+
+---
+
+## 第 3 步 · 旋转调度(选扇区,不是选磁道)
+
+**移臂调度**选完磁道后,磁头到了指定磁道,但**盘片还在转**。同一磁道上有多个扇区请求,先服务哪个?
+
+**旋转调度规则**:
+1. 同一磁道多个请求 → 选**旋转延迟最短**(转过去最快)的扇区。
+2. 跨磁道请求 → 先移臂(移臂慢),再旋转。
+
+> 💡 **小白记法**:**先移臂,后旋转**。移臂是"换磁道",旋转是"等扇区转过来"。
+
+---
+
+## 第 4 步 · 六种算法对比表(必背)
+
+| 算法 | 一句话 | 是否会饥饿 | 总距离 |
+|---|---|---|---|
+| **FCFS** | 先来先服务 | ❌ 不会 | 最大 |
+| **SSTF** | 找最近的 | ✅ **会饥饿** | 较小 |
+| **SCAN** | 电梯,走到头折返 | ❌ 不会 | 较小 |
+| **C-SCAN** | 单向扫,到头跳回起点 | ❌ 不会 | 中等 |
+| **N-Step-SCAN** | SCAN + 分批 | ❌ 不会 | 较小 |
+| **FSCAN** | SCAN + 双队列 | ❌ 不会 | 较小 |
+
+> 💡 **小白秒杀口诀**:
+> - FCFS = 排队(公平但慢)
+> - SSTF = 找最近(贪心但会饥饿)
+> - SCAN = 电梯(走到头折返)
+> - C-SCAN = 单行道(到头跳回起点)
+> - N-Step-SCAN = SCAN 分批(防饥饿)
+> - FSCAN = SCAN 双队列(防饥饿加强版)
+
+---
+
+## 第 5 步 · 动手练习(抽屉折叠,先做再展开)
+
+### 练习 1 [FCFS]
+磁头在 50,请求队列:80, 20, 90, 10。用 FCFS,服务顺序是?总寻道距离?
+
+<details>
+<summary>👉 展开答案</summary>
+
+**服务顺序**(按到达顺序):50 → 80 → 20 → 90 → 10
+
+**计算**:
+- 50→80:30
+- 80→20:60
+- 20→90:70
+- 90→10:80
+
+**总距离** = 30+60+70+80 = **240**
+
+**口诀**:FCFS 按顺序,不管远近。
+</details>
+
+---
+
+### 练习 2 [SSTF]
+磁头在 50,请求队列:80, 20, 90, 10。用 SSTF,服务顺序是?
+
+<details>
+<summary>👉 展开答案</summary>
+
+**第一步**(磁头在 50,比较距离):
+- 80:30
+- 20:30
+- 90:40
+- 10:40
+
+80 和 20 距离都是 30(并列最小),**通常选较大的**(80)继续。
+
+→ 服务 **80**,磁头到 80。
+
+**第二步**(磁头在 80):
+- 20:60
+- 90:10 ← 最近
+- 10:70
+
+→ 服务 **90**,磁头到 90。
+
+**第三步**(磁头在 90):
+- 20:70
+- 10:80
+
+→ 服务 **20**,磁头到 20。
+
+**第四步**:→ 服务 **10**。
+
+**完整顺序**:50 → 80 → 90 → 20 → 10
+
+**总距离** = 30+10+70+10 = **120**
+
+**口诀**:SSTF 每次找最近的。
+</details>
+
+---
+
+### 练习 3 [SCAN 向右]
+磁头在 50,请求队列:80, 20, 90, 10。用 SCAN **向右扫**,服务顺序是?
+
+<details>
+<summary>👉 展开答案</summary>
+
+**向右**(服务所有 ≥50 的请求,从近到远):
+→ 80 → 90(到头)
+
+**折返向左**(服务所有 <50 的请求,从近到远,即从 90 往左数):
+→ 20 → 10
+
+**完整顺序**:50 → 80 → 90 → **(折返)** 20 → 10
+
+**总距离** = 30+10+70+10 = **120**
+
+**口诀**:SCAN 电梯,走到头折返。
+</details>
+
+---
+
+### 练习 4 [SCAN 向左] ⭐ 新增
+磁头在 50,请求队列:80, 20, 90, 10。用 SCAN **向左扫**,服务顺序是?
+
+<details>
+<summary>👉 展开答案</summary>
+
+**向左**(服务所有 ≤50 的请求,从近到远,即从 50 往左数):
+→ 20 → 10(到头)
+
+**折返向右**(服务所有 >50 的请求,从近到远):
+→ 80 → 90
+
+**完整顺序**:50 → 20 → 10 → **(折返)** 80 → 90
+
+**总距离** = 30+10+70+10 = **120**
+
+**口诀**:SCAN 向左扫到 10(最左),再折返向右扫到 90。
+
+> ⚠️ **对比**:向右扫是 80→90→20→10,向左扫是 20→10→80→90。**方向不同顺序不同,但总距离一样**。
+</details>
+
+---
+
+### 练习 5 [C-SCAN 向右]
+磁头在 50,请求队列:80, 20, 90, 10。用 C-SCAN **向右扫**,服务顺序是?
+
+<details>
+<summary>👉 展开答案</summary>
+
+**向右**(服务所有 ≥50 的请求,从近到远):
+→ 80 → 90(到头)
+
+**直接跳回最左**(10),继续向右:
+→ 10 → 20
+
+**完整顺序**:50 → 80 → 90 → **(跳回)** 10 → 20
+
+**总距离** = 30+10+(90→10 的跳跃距离 80)+10 = **130**
+
+**口诀**:C-SCAN 单向扫,到头直接回起点。
+</details>
+
+---
+
+### 练习 6 [真题级 SSTF]
+磁头在 53,请求队列:98,183,37,122,14,124,65,67。用 SSTF,前三个服务的是?
+
+<details>
+<summary>👉 展开答案</summary>
+
+**第一步**(磁头在 53):
+- 65:12 ← 最近!
+- 67:14
+- 37:16
+
+→ 服务 **65**
+
+**第二步**(磁头在 65):
+- 67:2 ← 最近!
+- 37:28
+- 98:33
+
+→ 服务 **67**
+
+**第三步**(磁头在 67):
+- 37:30 ← 最近!
+- 98:31
+- 14:53
+
+→ 服务 **37**
+
+**前三个**:65 → 67 → 37
+
+**口诀**:SSTF 找最近,一步步走。
+</details>
+
+---
+
+### 练习 7 [SCAN 真题级]
+磁头在 53,请求队列:98,183,37,122,14,124,65,67。用 SCAN **向右扫**,服务顺序是?
+
+<details>
+<summary>👉 展开答案</summary>
+
+**向右**(服务所有 ≥53 的请求,从近到远):
+→ 65 → 67 → 98 → 122 → 124 → 183(到头)
+
+**折返向左**(服务所有 <53 的请求,从近到远):
+→ 37 → 14
+
+**完整顺序**:53 → 65 → 67 → 98 → 122 → 124 → 183 → 37 → 14
+
+**总距离**:
+- 右半段:12+2+31+24+2+59 = 130
+- 折返:183→37 = 146
+- 左半段:37→14 = 23
+- 合计 = 130+146+23 = **299**
+
+**口诀**:SCAN 向右扫到 183(最右),再折返向左扫到 14。
+</details>
+
+---
+
+### 练习 8 [C-SCAN 真题级]
+磁头在 53,请求队列:98,183,37,122,14,124,65,67。用 C-SCAN **向右扫**,服务顺序是?
+
+<details>
+<summary>👉 展开答案</summary>
+
+**向右**(服务所有 ≥53 的请求,从近到远):
+→ 65 → 67 → 98 → 122 → 124 → 183(到头)
+
+**直接跳回最左**(14),继续向右:
+→ 14 → 37
+
+**完整顺序**:53 → 65 → 67 → 98 → 122 → 124 → 183 → 14 → 37
+
+**关键区别**(对比 SCAN):
+- SCAN:到 183 后**折返向左**,服务 37 → 14(从近到远)
+- C-SCAN:到 183 后**跳回最左 14**,再向右服务 14 → 37
+
+**口诀**:C-SCAN 到头跳回起点,只往一个方向服务。
+</details>
+
+---
+
+### 练习 9 [通用:第一站怎么找] ⭐ 新增
+磁头在 100,请求队列:55, 58, 39, 18, 90, 160, 150, 38, 184。分别用 SSTF、SCAN 向右、C-SCAN 向右,第一个服务的是?
+
+<details>
+<summary>👉 展开答案</summary>
+
+**答案**:三个算法第一个都是 **90**。
+
+**解析**(比较所有请求到 100 的距离):
+
+| 请求 | 55 | 58 | 39 | 18 | 90 | 160 | 150 | 38 | 184 |
+|---|---|---|---|---|---|---|---|---|---|
+| 距离 | 45 | 42 | 61 | 82 | **10** | 60 | 50 | 62 | 84 |
+
+- **SSTF**:90 最近 → 第一站 90。
+- **SCAN 向右**:服务 ≥100 的,从近到远 → 第一站 90(注意 90<100,不在向右范围!)→ 实际第一站是 **150**(≥100 中最近)。
+
+> ⚠️ **修正**:SCAN 向右只服务 ≥100 的请求,所以第一站是 **150**(距离 50),不是 90!
+
+- **C-SCAN 向右**:同 SCAN,第一站也是 **150**。
+
+**关键区分**:
+- **SSTF 第一站**:找所有请求中最近的(不管方向)。
+- **SCAN/C-SCAN 第一站**:只找**该方向上**的最近请求。
+
+**口诀**:**SSTF 找最近,SCAN/C-SCAN 找方向上最近**。
+</details>
+
+---
+
+### 练习 10 [概念辨析]
+以下哪种算法**可能产生饥饿**?
+- A. FCFS
+- B. SSTF
+- C. SCAN
+- D. C-SCAN
+
+<details>
+<summary>👉 展开答案</summary>
+
+**答案:B**
+
+**解析**:
+- **SSTF 会饥饿**:如果远处请求一直有新请求插队(更近的),远处请求可能永远轮不到。
+- FCFS 按顺序不会饥饿。
+- SCAN 和 C-SCAN 全盘扫,不会饥饿。
+
+**口诀**:SSTF 贪心,远处会饿。
+</details>
+
+---
+
+### 练习 11 [概念辨析]
+SCAN 和 C-SCAN 的主要区别是?
+- A. SCAN 单向,C-SCAN 双向
+- B. SCAN 到头折返,C-SCAN 到头跳回起点
+- C. SCAN 找最近,C-SCAN 按顺序
+- D. 两者没有区别
+
+<details>
+<summary>👉 展开答案</summary>
+
+**答案:B**
+
+**对比**:
+- **SCAN**:到头后**反向移动**,继续服务。
+- **C-SCAN**:到头后**直接跳回起点**,只往一个方向服务请求。
+
+**口诀**:SCAN 折返,C-SCAN 跳回。
+</details>
+
+---
+
+### 练习 12 [N-Step-SCAN / FSCAN] ⭐ 新增
+关于 N-Step-SCAN 和 FSCAN,以下说法正确的是?
+- A. 两者都会产生饥饿
+- B. N-Step-SCAN 分子队列,FSCAN 用双队列
+- C. 两者都用 SSTF
+- D. FSCAN 比 N-Step-SCAN 更容易饥饿
+
+<details>
+<summary>👉 展开答案</summary>
+
+**答案:B**
+
+**解析**:
+- **N-Step-SCAN**:把请求分成若干长度为 N 的子队列,每个子队列用 SCAN。
+- **FSCAN**:用两个队列,一个处理时另一个冻结。
+
+**共同点**:都是 SCAN 的改进,**防止饥饿**。
+
+**口诀**:N-SCAN 分批,FSCAN 双队列,都是防饥饿。
+</details>
+
+---
+
+### 练习 13 [旋转调度] ⭐ 新增
+磁头已定位到某磁道,该磁道上有 3 个请求(分别在扇区 5、扇区 9、扇区 2),磁头当前在扇区 4,盘片单向旋转(从小到大)。用旋转调度,服务顺序是?
+
+<details>
+<summary>👉 展开答案</summary>
+
+**答案**:扇区 5 → 扇区 9 → 扇区 2
+
+**解析**(旋转调度 = 找旋转延迟最短的):
+- 当前在扇区 4。
+- 接下来要转到的请求扇区:5(转过 1 个)、9(转过 5 个)、2(转过 8 个,因为要转一整圈)。
+- 按旋转距离排序:5(最近)→ 9 → 2(最远,转一整圈)。
+
+**口诀**:旋转调度 = 找转过去最近的扇区,像移臂调度但转的是盘片。
+</details>
+
+---
+
+## 第 6 步 · 做题流程图(小白照着做)
+
+```
+┌─────────────────────────────┐
+│ 1. 画数轴,标起点和所有请求     │
+└──────────────┬──────────────┘
+               ↓
+┌─────────────────────────────┐
+│ 2. 看题目问什么算法?          │
+│   FCFS / SSTF / SCAN / C-SCAN │
+│   N-Step-SCAN / FSCAN        │
+└──────────────┬──────────────┘
+               ↓
+   ┌───────────┴───────────┐
+   ↓                       ↓
+┌─────────┐         ┌─────────────┐
+│ FCFS:   │         │ SSTF:       │
+│ 按顺序  │         │ 每次找最近  │
+└─────────┘         └─────────────┘
+   ┌───────────┴───────────┐
+   ↓                       ↓
+┌─────────────┐     ┌──────────────┐
+│ SCAN:       │     │ C-SCAN:      │
+│ 向右扫到头  │     │ 向右扫到头    │
+│ 折返向左    │     │ 跳回起点向右  │
+└─────────────┘     └──────────────┘
+               ↓
+┌─────────────────────────────┐
+│ 3. 写出服务顺序,算总距离      │
+└──────────────┬──────────────┘
+               ↓
+┌─────────────────────────────┐
+│ 4. 若问"第一站":             │
+│   SSTF 找所有最近的          │
+│   SCAN/C-SCAN 找方向上最近   │
+└─────────────────────────────┘
+```
+
+---
+
+## 第 7 步 · 易错点清单(考试陷阱)
+
+| 陷阱 | 正解 |
+|---|---|
+| SSTF 遇到两个请求距离相等 | 通常选较大的(向大磁道方向)继续 |
+| SCAN 折返后服务顺序 | 折返后**从近到远**服务(不是从原来的顺序) |
+| SCAN vs LOOK | SCAN 走到磁盘边,LOOK 走到最远请求(考试常混用) |
+| C-SCAN 跳回后 | 跳回最左(或最右),**继续原方向**服务 |
+| **第一站找法** | SSTF 找所有最近;**SCAN/C-SCAN 只找方向上的最近** |
+| 总距离计算 | 每段相加,折返/跳回的距离也要算 |
+| 旋转调度 | 先移臂(选磁道),后旋转(选扇区) |
+| N-Step-SCAN vs FSCAN | 都是防饥饿,前者分子队列,后者双队列 |
+
+---
+
+## 第 8 步 · 速记口诀(考前背)
+
+> **FCFS 排队,**
+> **SSTF 找最近,**
+> **SCAN 电梯走到头折返,**
+> **C-SCAN 单向到头跳回起点。**
+>
+> **N-Step-SCAN 分批防饿,FSCAN 双队列更稳。**
+>
+> **寻道最慢,调度目标少跑路;**
+> **SSTF 会饥饿,其余都不会。**
+>
+> **先移臂,后旋转;**
+> **第一站:SSTF 找全,SCAN/C-SCAN 找方向。**
+
+---
+
+## 附:和真题对接
+
+做完以上 13 道练习,你已经能秒杀:
+
+1. `分类题库_标准版.md` 第 **2.9 题**([磁盘调度] SSTF 第一个服务)→ 练习 6 已覆盖。
+2. `2_专项练习题集.md` 模块一第 **9 题** → 练习 6 同款。
+3. 任何"FCFS/SSTF/SCAN/C-SCAN 服务顺序或总距离"真题。
+4. SCAN 向左扫真题 → 练习 4。
+5. 第一站辨析(SSTF vs SCAN)→ 练习 9。
+6. N-Step-SCAN/FSCAN 概念 → 练习 12。
+7. 旋转调度 → 练习 13。
+
+**核心动作**:读题 → 画数轴 → 选算法 → 写顺序 → 算距离 → 查第一站。六步搞定。
+
+---
+
+## 附:真题年份参考(软考软件设计师)
+
+| 考点 | 出现年份 |
+|---|---|
+| SSTF 第一个服务 | 2021 上、2023 上 |
+| SCAN 服务顺序 | 2022 上 |
+| C-SCAN 总距离 | 2021 下 |
+| 磁盘结构(磁道/扇区) | 2022 下 |
+| 移臂调度概念 | 2024 上 |
+
+> 💪 **磁盘调度就这点东西。画数轴、找最近、写顺序——你现在已经会了。回 `分类题库_标准版_可视化.html` 把 2.9 题做掉验证一下!**
+
+</script>
+<script>
+var md=document.getElementById('raw-markdown').textContent;
+var html=marked.parse(md);
+// 把 <details> 内部包一层 div,便于样式
+document.getElementById('markdown-content').innerHTML=html;
+var htmlEl=document.documentElement;
+var savedTheme=localStorage.getItem('rk-theme');
+if(savedTheme){htmlEl.setAttribute('data-theme',savedTheme);document.getElementById('theme-btn').textContent=savedTheme==='dark'?'☀️':'🌙';}
+document.getElementById('theme-btn').addEventListener('click',function(){
+var currentTheme=htmlEl.getAttribute('data-theme');
+var newTheme=currentTheme==='dark'?'light':'dark';
+htmlEl.setAttribute('data-theme',newTheme);
+this.textContent=newTheme==='dark'?'☀️':'🌙';
+localStorage.setItem('rk-theme',newTheme);
+});
+var toc=document.getElementById('toc');
+var headers=document.querySelectorAll('.content h1, .content h2, .content h3');
+headers.forEach(function(h){
+if(!h.id){h.id='h-'+Math.random().toString(36).substr(2,9);}
+var level=parseInt(h.tagName[1]);
+var cls=level===2?'h2':(level===3?'h3':'');
+var a=document.createElement('a');
+a.href='#'+h.id;
+a.textContent=h.textContent;
+a.className=cls+' rk-toc-link';
+a.dataset.target=h.id;
+toc.appendChild(a);
+});
+document.getElementById('menu-btn').addEventListener('click',function(){
+document.getElementById('sidebar').classList.toggle('open');
+});
+document.getElementById('menu-close').addEventListener('click',function(){
+document.getElementById('sidebar').classList.remove('open');
+});
+document.addEventListener('click',function(e){
+var sidebar=document.getElementById('sidebar');
+if(window.innerWidth<=900&&!sidebar.contains(e.target)&&e.target.id!=='menu-btn'){
+sidebar.classList.remove('open');
+}
+if(e.target.classList.contains('rk-toc-link')){
+if(window.innerWidth<=900){sidebar.classList.remove('open');}
+}
+});
+var tocLinks=document.querySelectorAll('.rk-toc-link');
+function updateActiveToc(){
+var scrollPos=window.scrollY+100;
+var current=null;
+headers.forEach(function(h){
+if(h.offsetTop<=scrollPos){current=h;}
+});
+if(current){
+tocLinks.forEach(function(l){l.classList.remove('active');});
+var activeLink=document.querySelector('.rk-toc-link[data-target="'+current.id+'"]');
+if(activeLink){activeLink.classList.add('active');}
+}
+}
+window.addEventListener('scroll',function(){
+var scrollTop=window.scrollY;
+var docHeight=document.documentElement.scrollHeight-window.innerHeight;
+var percent=Math.min(100,(scrollTop/docHeight)*100);
+document.getElementById('progressBar').style.width=percent+'%';
+updateActiveToc();
+});
+document.getElementById('totop').addEventListener('click',function(e){
+e.preventDefault();window.scrollTo({top:0,behavior:'smooth'});
+});
+var searchBox=document.getElementById('searchBox');
+searchBox.addEventListener('input',function(){
+var q=this.value.trim().toLowerCase();
+var blocks=document.querySelectorAll('#markdown-content > *');
+if(!q){
+blocks.forEach(function(b){b.classList.remove('search-hide');});
+return;
+}
+blocks.forEach(function(b){
+var text=b.textContent.toLowerCase();
+if(text.indexOf(q)>=0){b.classList.remove('search-hide');}
+else{b.classList.add('search-hide');}
+});
+});
+</script>
+</body>
+</html>

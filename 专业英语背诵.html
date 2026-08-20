@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="theme-color" content="#6c5ce7">
+<title>专业英语每日背</title>
+<style>
+:root{--primary:#6c5ce7;--primary-dark:#5a4bd1;--primary-light:#a29bfe;--accent:#fd79a8;--bg:#0f0f23;--card-bg:#1a1a2e;--card-bg2:#16213e;--text:#e8e8f0;--text-dim:#8888aa;--success:#00b894;--warning:#fdcb6e;--danger:#e17055;--radius:16px;--shadow:0 8px 32px rgba(0,0,0,.4)}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','PingFang SC','Hiragino Sans GB',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+.topbar{position:sticky;top:0;z-index:100;background:rgba(15,15,35,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,.06);padding:12px 16px;display:flex;align-items:center;justify-content:space-between}
+.topbar h1{font-size:18px;font-weight:700;background:linear-gradient(135deg,var(--primary-light),var(--accent));-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.topbar .stats{display:flex;gap:12px;font-size:12px;color:var(--text-dim);align-items:center}
+.topbar .stats span{display:flex;align-items:center;gap:3px}
+.topbar .stats b{color:var(--primary-light);font-size:14px}
+.progress-bar{height:3px;background:rgba(255,255,255,.06);position:relative}
+.progress-bar .fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--accent));transition:width .4s ease;border-radius:0 3px 3px 0}
+.container{max-width:560px;margin:0 auto;padding:16px;padding-bottom:100px}
+.mode-tabs{display:flex;gap:6px;margin-bottom:12px}
+.mode-tab{flex:1;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,.06);background:var(--card-bg);color:var(--text-dim);font-size:13px;cursor:pointer;transition:all .2s;text-align:center}
+.mode-tab.active{background:var(--primary);color:#fff;border-color:var(--primary)}
+.categories{display:flex;gap:8px;overflow-x:auto;padding:4px 0 12px;-ms-overflow-style:none;scrollbar-width:none}
+.categories::-webkit-scrollbar{display:none}
+.cat-btn{flex-shrink:0;padding:8px 16px;border-radius:20px;border:1px solid rgba(255,255,255,.08);background:var(--card-bg);color:var(--text-dim);font-size:13px;cursor:pointer;transition:all .25s;white-space:nowrap}
+.cat-btn.active{background:var(--primary);color:#fff;border-color:var(--primary);box-shadow:0 4px 14px rgba(108,92,231,.4)}
+.stats-panel{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:16px 0}
+.stat-card{background:var(--card-bg);border-radius:12px;padding:14px 10px;text-align:center;border:1px solid rgba(255,255,255,.04)}
+.stat-card .num{font-size:24px;font-weight:800}
+.stat-card .desc{font-size:11px;color:var(--text-dim);margin-top:4px}
+.stat-card.s1 .num{color:var(--success)}
+.stat-card.s2 .num{color:var(--warning)}
+.stat-card.s3 .num{color:var(--primary-light)}
+.card-area{perspective:1200px;margin:16px 0}
+.card{position:relative;width:100%;min-height:380px;border-radius:var(--radius);transform-style:preserve-3d;transition:transform .6s cubic-bezier(.4,0,.2,1);cursor:pointer}
+.card.flipped{transform:rotateY(180deg)}
+.card-face{position:absolute;top:0;left:0;width:100%;min-height:380px;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:var(--radius);padding:28px 24px;display:flex;flex-direction:column;align-items:center;justify-content:center;box-shadow:var(--shadow)}
+.card-front{background:linear-gradient(145deg,var(--card-bg),var(--card-bg2));border:1px solid rgba(108,92,231,.15)}
+.card-back{background:linear-gradient(145deg,#1e1e3a,#1a1a3e);border:1px solid rgba(253,121,168,.15);transform:rotateY(180deg);overflow-y:auto}
+.word{font-size:32px;font-weight:800;color:#fff;text-align:center;word-break:break-word;line-height:1.2}
+.phonetic{font-size:15px;color:var(--primary-light);margin-top:8px;font-style:italic}
+.pos-tag{display:inline-block;padding:2px 10px;border-radius:10px;font-size:12px;margin-top:10px;background:rgba(108,92,231,.2);color:var(--primary-light)}
+.speak-btn{margin-top:18px;width:52px;height:52px;border-radius:50%;border:none;background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;font-size:22px;cursor:pointer;display:flex;align-items:center;justify-content:center;box-shadow:0 6px 20px rgba(108,92,231,.45);transition:transform .15s}
+.speak-btn:active{transform:scale(.9)}
+.speak-btn.speaking{animation:pulse 1s ease infinite}
+@keyframes pulse{0%,100%{box-shadow:0 6px 20px rgba(108,92,231,.45)}50%{box-shadow:0 6px 30px rgba(108,92,231,.8)}}
+.hint{margin-top:16px;font-size:12px;color:var(--text-dim)}
+.back-label{font-size:11px;color:var(--accent);text-transform:uppercase;letter-spacing:1px;margin-bottom:6px;align-self:flex-start}
+.back-meaning{font-size:17px;color:var(--text);line-height:1.6;margin-bottom:14px;align-self:flex-start}
+.back-example{font-size:14px;color:var(--primary-light);line-height:1.5;margin-bottom:8px;align-self:flex-start;font-style:italic}
+.back-example-trans{font-size:13px;color:var(--text-dim);line-height:1.5;align-self:flex-start;margin-bottom:14px}
+.mnemonic-box{align-self:stretch;margin-top:6px;padding:12px 14px;border-radius:12px;background:rgba(253,203,110,.08);border-left:3px solid var(--warning);margin-bottom:12px}
+.mnemonic-label{font-size:11px;color:var(--warning);font-weight:700;margin-bottom:4px}
+.mnemonic-text{font-size:13px;color:var(--text);line-height:1.5}
+.exam-box{align-self:stretch;padding:12px 14px;border-radius:12px;background:rgba(0,184,148,.08);border-left:3px solid var(--success)}
+.exam-label{font-size:11px;color:var(--success);font-weight:700;margin-bottom:4px}
+.exam-text{font-size:13px;color:var(--text);line-height:1.5}
+.action-bar{position:fixed;bottom:0;left:0;right:0;z-index:100;background:rgba(15,15,35,.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-top:1px solid rgba(255,255,255,.06);padding:12px 16px;padding-bottom:max(12px,env(safe-area-inset-bottom));display:flex;gap:10px;justify-content:center;max-width:560px;margin:0 auto}
+.action-btn{flex:1;padding:14px 8px;border-radius:14px;border:none;font-size:14px;font-weight:600;cursor:pointer;transition:all .2s;display:flex;flex-direction:column;align-items:center;gap:4px}
+.action-btn .icon{font-size:20px}
+.action-btn .label{font-size:11px}
+.btn-again{background:rgba(225,112,85,.15);color:var(--danger);border:1px solid rgba(225,112,85,.3)}
+.btn-hard{background:rgba(253,203,110,.15);color:var(--warning);border:1px solid rgba(253,203,110,.3)}
+.btn-good{background:rgba(0,184,148,.15);color:var(--success);border:1px solid rgba(0,184,148,.3)}
+.btn-easy{background:rgba(108,92,231,.15);color:var(--primary-light);border:1px solid rgba(108,92,231,.3)}
+.action-btn:active{transform:scale(.95)}
+.complete-screen{display:none;text-align:center;padding:40px 20px}
+.complete-screen.show{display:block}
+.complete-icon{font-size:64px;margin-bottom:16px}
+.complete-title{font-size:22px;font-weight:700;margin-bottom:8px}
+.complete-sub{font-size:14px;color:var(--text-dim);margin-bottom:24px}
+.complete-btn{padding:14px 32px;border-radius:14px;border:none;background:var(--primary);color:#fff;font-size:16px;font-weight:600;cursor:pointer;box-shadow:0 6px 20px rgba(108,92,231,.4);margin:0 6px}
+.settings-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:200;display:none;align-items:flex-end;justify-content:center}
+.settings-overlay.show{display:flex}
+.settings-panel{width:100%;max-width:560px;background:var(--card-bg);border-radius:20px 20px 0 0;padding:24px 20px;padding-bottom:max(24px,env(safe-area-inset-bottom));animation:slideUp .3s ease;max-height:80vh;overflow-y:auto}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.settings-panel h2{font-size:18px;margin-bottom:16px;text-align:center}
+.setting-row{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.setting-row label{font-size:14px}
+.setting-row select{background:var(--card-bg2);color:var(--text);border:1px solid rgba(255,255,255,.08);border-radius:8px;padding:6px 10px;font-size:13px}
+.setting-row input[type=range]{-webkit-appearance:none;width:120px;height:4px;border:none;background:var(--primary);border-radius:2px}
+.setting-row input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:18px;height:18px;border-radius:50%;background:var(--primary-light);cursor:pointer}
+.settings-close{width:100%;margin-top:16px;padding:14px;border-radius:14px;border:none;background:var(--primary);color:#fff;font-size:16px;font-weight:600;cursor:pointer}
+.toast{position:fixed;top:60px;left:50%;transform:translateX(-50%) translateY(-20px);background:var(--card-bg);border:1px solid rgba(108,92,231,.3);border-radius:12px;padding:10px 20px;font-size:14px;z-index:300;opacity:0;transition:all .3s;pointer-events:none;box-shadow:var(--shadow)}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.list-mode{display:none}
+.list-mode.show{display:block}
+.search-box{width:100%;padding:10px 14px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:var(--card-bg);color:var(--text);font-size:14px;margin-bottom:12px}
+.search-box::placeholder{color:var(--text-dim)}
+.word-item{background:var(--card-bg);border-radius:12px;padding:14px 16px;margin-bottom:8px;border:1px solid rgba(255,255,255,.04);display:flex;align-items:center;gap:12px;transition:all .2s;cursor:pointer}
+.word-item:active{transform:scale(.98)}
+.word-item .wi-word{font-size:16px;font-weight:600;flex:1}
+.word-item .wi-meaning{font-size:13px;color:var(--text-dim);flex:2}
+.word-item .wi-speak{width:36px;height:36px;border-radius:50%;border:none;background:rgba(108,92,231,.15);color:var(--primary-light);font-size:16px;cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.word-item .wi-status{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+.word-item .wi-status.new{background:var(--text-dim)}
+.word-item .wi-status.learning{background:var(--warning)}
+.word-item .wi-status.mastered{background:var(--success)}
+.card-mode.hidden{display:none}
+/* 测验模式 */
+.quiz-mode{display:none}
+.quiz-mode.show{display:block}
+.quiz-card{background:var(--card-bg);border-radius:var(--radius);padding:24px 20px;margin:16px 0;box-shadow:var(--shadow);border:1px solid rgba(108,92,231,.15)}
+.quiz-q{font-size:15px;color:var(--text-dim);margin-bottom:8px}
+.quiz-word{font-size:24px;font-weight:700;color:#fff;margin-bottom:20px}
+.quiz-options{display:flex;flex-direction:column;gap:10px}
+.quiz-opt{padding:14px 16px;border-radius:12px;border:1px solid rgba(255,255,255,.08);background:var(--card-bg2);color:var(--text);font-size:15px;cursor:pointer;transition:all .2s;text-align:left}
+.quiz-opt:active{transform:scale(.98)}
+.quiz-opt.correct{background:rgba(0,184,148,.15);border-color:var(--success);color:var(--success)}
+.quiz-opt.wrong{background:rgba(225,112,85,.15);border-color:var(--danger);color:var(--danger)}
+.quiz-result{display:none;text-align:center;padding:40px 20px}
+.quiz-result.show{display:block}
+.quiz-score{font-size:48px;font-weight:800;color:var(--primary-light);margin-bottom:8px}
+.quiz-score-label{font-size:14px;color:var(--text-dim);margin-bottom:24px}
+.swipe-hint{text-align:center;font-size:11px;color:var(--text-dim);margin-top:8px}
+@media(max-width:380px){.word{font-size:26px}.action-btn .label{font-size:10px}}
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <h1>📖 专业英语每日背</h1>
+  <div class="stats">
+    <span>🔥<b id="streak">0</b>天</span>
+    <span>✅<b id="todayDone">0</b>/<b id="todayTotal">0</b></span>
+    <span id="settingsBtn" style="cursor:pointer;font-size:18px">⚙️</span>
+  </div>
+</div>
+<div class="progress-bar"><div class="fill" id="progressFill" style="width:0%"></div></div>
+
+<div class="container">
+  <div class="mode-tabs">
+    <div class="mode-tab active" id="tabCard">📇 卡片</div>
+    <div class="mode-tab" id="tabList">📋 列表</div>
+    <div class="mode-tab" id="tabQuiz">📝 测验</div>
+  </div>
+  <div class="categories" id="categories"></div>
+  <div class="stats-panel">
+    <div class="stat-card s1"><div class="num" id="masteredCount">0</div><div class="desc">已掌握</div></div>
+    <div class="stat-card s2"><div class="num" id="learningCount">0</div><div class="desc">学习中</div></div>
+    <div class="stat-card s3"><div class="num" id="newCount">0</div><div class="desc">未学习</div></div>
+  </div>
+
+  <div class="card-mode" id="cardMode">
+    <div class="card-area">
+      <div class="card" id="card">
+        <div class="card-face card-front">
+          <div class="word" id="wordText"></div>
+          <div class="phonetic" id="phonetic"></div>
+          <div class="pos-tag" id="posTag"></div>
+          <button class="speak-btn" id="speakBtn" onclick="event.stopPropagation()">🔊</button>
+          <div class="hint">点击卡片查看释义 · 左右滑动切换</div>
+        </div>
+        <div class="card-face card-back">
+          <div class="back-label">释义</div>
+          <div class="back-meaning" id="meaning"></div>
+          <div class="back-label">例句</div>
+          <div class="back-example" id="example"></div>
+          <div class="back-example-trans" id="exampleTrans"></div>
+          <div class="mnemonic-box">
+            <div class="mnemonic-label">💡 记忆技巧</div>
+            <div class="mnemonic-text" id="mnemonic"></div>
+          </div>
+          <div class="exam-box">
+            <div class="exam-label">🎯 考点提示</div>
+            <div class="exam-text" id="examPoint"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="swipe-hint">⬅️ 上一个 · 右滑下一个 ➡️</div>
+  </div>
+
+  <div class="list-mode" id="listMode">
+    <input type="text" class="search-box" id="searchBox" placeholder="🔍 搜索单词或释义...">
+    <div id="wordList"></div>
+  </div>
+
+  <div class="quiz-mode" id="quizMode">
+    <div id="quizContent"></div>
+    <div class="quiz-result" id="quizResult">
+      <div class="complete-icon">📊</div>
+      <div class="quiz-score" id="quizScore">0/0</div>
+      <div class="quiz-score-label">测验完成！</div>
+      <button class="complete-btn" id="quizRestartBtn">再测一次</button>
+    </div>
+  </div>
+
+  <div class="complete-screen" id="completeScreen">
+    <div class="complete-icon">🎉</div>
+    <div class="complete-title">今日学习完成！</div>
+    <div class="complete-sub" id="completeSub">你今天学习了 0 个单词</div>
+    <button class="complete-btn" id="restartBtn">再学一轮</button>
+    <button class="complete-btn" id="goQuizBtn" style="background:var(--accent)">去做测验</button>
+  </div>
+</div>
+
+<div class="action-bar" id="actionBar">
+  <button class="action-btn btn-again" data-grade="0"><span class="icon">😵</span><span class="label">不会</span></button>
+  <button class="action-btn btn-hard" data-grade="1"><span class="icon">🤔</span><span class="label">困难</span></button>
+  <button class="action-btn btn-good" data-grade="2"><span class="icon">🙂</span><span class="label">良好</span></button>
+  <button class="action-btn btn-easy" data-grade="3"><span class="icon">😎</span><span class="label">简单</span></button>
+</div>
+
+<div class="settings-overlay" id="settingsOverlay">
+  <div class="settings-panel">
+    <h2>⚙️ 设置</h2>
+    <div class="setting-row"><label>🔊 语音引擎</label><select id="voiceEngineSelect"><option value="auto" selected>自动（推荐）</option><option value="online">在线语音</option><option value="system">系统语音</option></select></div>
+    <div class="setting-row"><label>🔊 语音语速</label><input type="range" id="rateSlider" min="0.5" max="1.5" step="0.1" value="0.8"></div>
+    <div class="setting-row"><label>🗣️ 发音口音</label><select id="voiceSelect"><option value="en-US">美式英语</option><option value="en-GB">英式英语</option><option value="en-AU">澳式英语</option></select></div>
+    <div class="setting-row"><label>📊 每日新词数</label><select id="dailySelect"><option value="10">10个</option><option value="15">15个</option><option value="20" selected>20个</option><option value="30">30个</option><option value="50">50个</option></select></div>
+    <div class="setting-row"><label>🔄 自动播放</label><select id="autoPlaySelect"><option value="0" selected>关闭</option><option value="1">开启</option></select></div>
+    <div class="setting-row"><label>📤 导出进度</label><button id="exportBtn" style="background:rgba(108,92,231,.15);color:var(--primary-light);border:1px solid rgba(108,92,231,.3);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer">导出</button></div>
+    <div class="setting-row"><label>📥 导入进度</label><button id="importBtn" style="background:rgba(0,184,148,.15);color:var(--success);border:1px solid rgba(0,184,148,.3);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer">导入</button></div>
+    <div class="setting-row"><label>🗑️ 重置进度</label><button id="resetBtn" style="background:rgba(225,112,85,.15);color:var(--danger);border:1px solid rgba(225,112,85,.3);border-radius:8px;padding:6px 14px;font-size:13px;cursor:pointer">重置</button></div>
+    <button class="settings-close" id="settingsCloseBtn">关闭</button>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ===================== 词库 =====================
+var WORDS=[
+{cat:"软件工程",word:"requirement",phonetic:"/rɪˈkwaɪərmənt/",pos:"n.",meaning:"需求，要求",example:"The requirement analysis is the first step.",exampleTrans:"需求分析是第一步。",mnemonic:"require(要求)+ment(名词后缀)→需求",examPoint:"软考常考需求分析阶段的活动。区分功能需求与非功能需求。"},
+{cat:"软件工程",word:"specification",phonetic:"/ˌspesɪfɪˈkeɪʃn/",pos:"n.",meaning:"规格说明，规范",example:"The software specification document defines the system behavior.",exampleTrans:"软件规格说明文档定义了系统行为。",mnemonic:"specify(指定)的名词形式→详细指定→规格说明",examPoint:"软件需求规格说明书(SRS)是需求阶段的核心交付物，常出现在英语填空题中。"},
+{cat:"软件工程",word:"maintenance",phonetic:"/ˈmeɪntənəns/",pos:"n.",meaning:"维护，保养",example:"Software maintenance accounts for a large portion of the cost.",exampleTrans:"软件维护占成本的很大一部分。",mnemonic:"maintain(维持)+ance→维护",examPoint:"软件维护占软件生命周期成本的60%以上。四种维护类型：改正性、适应性、完善性、预防性。完善性维护占比最大。"},
+{cat:"软件工程",word:"verification",phonetic:"/ˌverɪfɪˈkeɪʃn/",pos:"n.",meaning:"验证",example:"Verification ensures the product meets its design specifications.",exampleTrans:"验证确保产品符合设计规格。",mnemonic:"verify(核实)→verification 验证（是否做对了产品）",examPoint:"V&V：Verification=验证（是否正确地构造了产品），Validation=确认（是否构造了正确的产品）。高频考点！"},
+{cat:"软件工程",word:"validation",phonetic:"/ˌvælɪˈdeɪʃn/",pos:"n.",meaning:"确认，有效性验证",example:"Validation ensures the product meets user needs.",exampleTrans:"确认确保产品满足用户需求。",mnemonic:"valid(有效的)→validation 确认（是否做了对的产品）",examPoint:"与verification成对出现。Validation关注'是否满足用户需求'，Verification关注'是否符合规格说明'。"},
+{cat:"软件工程",word:"prototype",phonetic:"/ˈproʊtətaɪp/",pos:"n.",meaning:"原型，样机",example:"We built a prototype to test the concept.",exampleTrans:"我们构建了一个原型来测试概念。",mnemonic:"proto(原始)+type(类型)→原型",examPoint:"原型模型分抛弃式和演化式两种。抛弃式原型用于明确需求后丢弃，演化式原型最终演变为产品。"},
+{cat:"软件工程",word:"iteration",phonetic:"/ˌɪtəˈreɪʃn/",pos:"n.",meaning:"迭代，反复",example:"Agile development uses short iterations.",exampleTrans:"敏捷开发使用短迭代。",mnemonic:"iterate(反复)的名词→迭代",examPoint:"迭代模型与瀑布模型的对比是高频考点。迭代模型每次迭代都产生可运行的增量。"},
+{cat:"软件工程",word:"increment",phonetic:"/ˈɪŋkrəmənt/",pos:"n.",meaning:"增量，递增",example:"Each increment adds new functionality to the product.",exampleTrans:"每个增量给产品增加新功能。",mnemonic:"in(进入)+crease(增长)→增量",examPoint:"增量模型：每个增量发布一个可交付版本。与迭代模型的区别是常考点。"},
+{cat:"软件工程",word:"deliverable",phonetic:"/dɪˈlɪvərəbl/",pos:"n.",meaning:"可交付成果",example:"The deliverable for this phase is the design document.",exampleTrans:"本阶段的可交付成果是设计文档。",mnemonic:"deliver(交付)+able(可…的)→可交付的",examPoint:"每个开发阶段都有对应的deliverable，如需求阶段的SRS、设计阶段的SDD。"},
+{cat:"软件工程",word:"milestone",phonetic:"/ˈmaɪlstoʊn/",pos:"n.",meaning:"里程碑",example:"We reached a major milestone in the project.",exampleTrans:"我们达到了项目的一个主要里程碑。",mnemonic:"mile(英里)+stone(石头)→里程碑",examPoint:"里程碑是项目进度跟踪的关键节点，通常标志一个阶段的完成。"},
+{cat:"软件工程",word:"lifecycle",phonetic:"/ˈlaɪfˌsaɪkl/",pos:"n.",meaning:"生命周期",example:"The software lifecycle includes requirements, design, coding, testing, and maintenance.",exampleTrans:"软件生命周期包括需求、设计、编码、测试和维护。",mnemonic:"life(生命)+cycle(循环)→生命周期",examPoint:"软件生命周期模型（瀑布、螺旋、增量、迭代）是必考内容。"},
+{cat:"软件工程",word:"spiral",phonetic:"/ˈspaɪrəl/",pos:"n./adj.",meaning:"螺旋（的）",example:"The spiral model emphasizes risk analysis.",exampleTrans:"螺旋模型强调风险分析。",mnemonic:"spiral(螺旋)→螺旋模型",examPoint:"螺旋模型四阶段：制定计划→风险分析→实施工程→客户评估。最大特点是风险驱动。"},
+{cat:"面向对象",word:"encapsulation",phonetic:"/ɪnˌkæpsjuˈleɪʃn/",pos:"n.",meaning:"封装",example:"Encapsulation hides the internal state of an object.",exampleTrans:"封装隐藏了对象的内部状态。",mnemonic:"capsule(胶囊)→把东西装进胶囊→封装",examPoint:"面向对象三大特性之一。封装=数据+操作封装在一起，隐藏内部细节，仅通过接口访问。"},
+{cat:"面向对象",word:"inheritance",phonetic:"/ɪnˈherɪtəns/",pos:"n.",meaning:"继承",example:"Inheritance allows a subclass to reuse parent class code.",exampleTrans:"继承允许子类复用父类代码。",mnemonic:"inherit(继承)的名词形式",examPoint:"OO三大特性之一。单继承vs多继承、继承的is-a关系是常考点。"},
+{cat:"面向对象",word:"polymorphism",phonetic:"/ˌpɒlɪˈmɔːfɪzəm/",pos:"n.",meaning:"多态",example:"Polymorphism allows methods to have different behaviors.",exampleTrans:"多态允许方法有不同的行为。",mnemonic:"poly(多)+morph(形态)+ism→多态",examPoint:"OO三大特性之一。多态分静态多态（重载）和动态多态（重写+虚函数）。"},
+{cat:"面向对象",word:"abstraction",phonetic:"/æbˈstrækʃn/",pos:"n.",meaning:"抽象",example:"Abstraction focuses on essential features.",exampleTrans:"抽象关注本质特征。",mnemonic:"abs(离开)+tract(拉)→从具体中抽出→抽象",examPoint:"抽象是OO的基础。抽象类不能实例化，抽象方法必须在子类中实现。"},
+{cat:"面向对象",word:"instantiation",phonetic:"/ɪnˌstænʃiˈeɪʃn/",pos:"n.",meaning:"实例化",example:"Object instantiation creates an instance of a class.",exampleTrans:"对象实例化创建类的实例。",mnemonic:"instance(实例)→instantiate→实例化",examPoint:"类是模板，对象是实例。实例化=创建对象的过程。"},
+{cat:"面向对象",word:"constructor",phonetic:"/kənˈstrʌktər/",pos:"n.",meaning:"构造函数",example:"The constructor initializes the object state.",exampleTrans:"构造函数初始化对象状态。",mnemonic:"construct(构造)+or→构造者/构造函数",examPoint:"构造函数与类同名，无返回值，在创建对象时自动调用。"},
+{cat:"面向对象",word:"destructor",phonetic:"/dɪˈstrʌktər/",pos:"n.",meaning:"析构函数",example:"The destructor releases resources when the object is destroyed.",exampleTrans:"析构函数在对象销毁时释放资源。",mnemonic:"de(反)+struct(构造)→析构",examPoint:"析构函数在对象生命周期结束时自动调用，用于释放资源。"},
+{cat:"面向对象",word:"overriding",phonetic:"/ˌoʊvərˈraɪdɪŋ/",pos:"n.",meaning:"重写，覆盖",example:"Method overriding redefines a parent class method.",exampleTrans:"方法重写重新定义父类方法。",mnemonic:"over(覆盖)+ride(骑)→骑在上面覆盖→重写",examPoint:"重写(override)vs重载(overload)的区别是高频考点！重写是子类重新定义父类方法，重载是同类同名不同参。"},
+{cat:"面向对象",word:"overloading",phonetic:"/ˌoʊvərˈloʊdɪŋ/",pos:"n.",meaning:"重载",example:"Function overloading allows same name with different parameters.",exampleTrans:"函数重载允许同名不同参数。",mnemonic:"over(过度)+load(装载)→装太多→重载",examPoint:"重载发生在编译时（静态绑定），重写发生在运行时（动态绑定）。"},
+{cat:"数据结构",word:"algorithm",phonetic:"/ˈælgərɪðəm/",pos:"n.",meaning:"算法",example:"This algorithm has O(n log n) complexity.",exampleTrans:"该算法的复杂度为O(n log n)。",mnemonic:"以波斯数学家al-Khwarizmi命名",examPoint:"算法的五个特性：有穷性、确定性、可行性、输入、输出。常考填空。"},
+{cat:"数据结构",word:"recursion",phonetic:"/rɪˈkɜːrʃn/",pos:"n.",meaning:"递归",example:"Recursion solves problems by self-reference.",exampleTrans:"递归通过自我引用解决问题。",mnemonic:"re(回)+cur(跑)→跑回来→递归",examPoint:"递归必须有终止条件，否则栈溢出。常见递归：阶乘、斐波那契、树的遍历。"},
+{cat:"数据结构",word:"traversal",phonetic:"/trævərsəl/",pos:"n.",meaning:"遍历",example:"Tree traversal visits every node exactly once.",exampleTrans:"树的遍历访问每个节点恰好一次。",mnemonic:"travel(旅行)→traversal遍历",examPoint:"二叉树遍历：前序(根左右)、中序(左根右)、后序(左右根)。前序+中序可唯一确定一棵树。"},
+{cat:"数据结构",word:"stack",phonetic:"/stæk/",pos:"n.",meaning:"栈",example:"A stack follows the LIFO principle.",exampleTrans:"栈遵循后进先出原则。",mnemonic:"stack=一叠盘子→栈（后进先出）",examPoint:"栈是LIFO结构。应用：函数调用、表达式求值、括号匹配、递归。"},
+{cat:"数据结构",word:"queue",phonetic:"/kjuː/",pos:"n.",meaning:"队列",example:"A queue follows the FIFO principle.",exampleTrans:"队列遵循先进先出原则。",mnemonic:"queue读音同Q→排队→队列",examPoint:"队列是FIFO结构。循环队列、优先队列是常考点。"},
+{cat:"数据结构",word:"linked list",phonetic:"/lɪŋkt lɪst/",pos:"n.",meaning:"链表",example:"A linked list allows dynamic memory allocation.",exampleTrans:"链表允许动态内存分配。",mnemonic:"link(链接)+list(列表)→链表",examPoint:"链表vs数组的区别：链表插入删除O(1)，数组随机访问O(1)。"},
+{cat:"数据结构",word:"hash table",phonetic:"/hæʃ ˈteɪbl/",pos:"n.",meaning:"哈希表",example:"A hash table provides O(1) average lookup time.",exampleTrans:"哈希表提供O(1)平均查找时间。",mnemonic:"hash(切碎)→把数据切碎映射→哈希",examPoint:"哈希冲突解决方法：开放地址法、链地址法。哈希表平均查找O(1)。"},
+{cat:"数据结构",word:"complexity",phonetic:"/kəmˈpleksəti/",pos:"n.",meaning:"复杂度",example:"Time complexity measures algorithm efficiency.",exampleTrans:"时间复杂度衡量算法效率。",mnemonic:"complex(复杂的)→complexity复杂度",examPoint:"时间复杂度排序：O(1)<O(logn)<O(n)<O(nlogn)<O(n²)<O(2ⁿ)<O(n!)。常考比较。"},
+{cat:"数据结构",word:"asymptotic",phonetic:"/ˌeɪsɪmˈtɒtɪk/",pos:"adj.",meaning:"渐近的",example:"Asymptotic notation describes algorithm growth rate.",exampleTrans:"渐近记号描述算法增长率。",mnemonic:"a(向)+sym(同)+totic→渐近趋向",examPoint:"大O记号表示上界，Ω表示下界，Θ表示确界。"},
+{cat:"操作系统",word:"concurrency",phonetic:"/kənˈkʌrənsi/",pos:"n.",meaning:"并发",example:"Concurrency allows multiple tasks to make progress.",exampleTrans:"并发允许多个任务同时推进。",mnemonic:"con(共同)+cur(跑)→一起跑→并发",examPoint:"并发vs并行：并发是宏观同时微观交替，并行是真正同时（多核）。"},
+{cat:"操作系统",word:"synchronization",phonetic:"/ˌsɪŋkrənaɪˈzeɪʃn/",pos:"n.",meaning:"同步",example:"Synchronization prevents race conditions.",exampleTrans:"同步防止竞态条件。",mnemonic:"syn(同)+chron(时间)→同步",examPoint:"PV操作实现进程同步与互斥。互斥信号量初值为1，同步信号量初值为0。"},
+{cat:"操作系统",word:"deadlock",phonetic:"/ˈdedlɒk/",pos:"n.",meaning:"死锁",example:"Deadlock occurs when processes wait for each other.",exampleTrans:"当进程互相等待时发生死锁。",mnemonic:"dead(死)+lock(锁)→死锁",examPoint:"死锁四必要条件：互斥、请求保持、不剥夺、环路等待。破坏任一即可预防死锁。高频！"},
+{cat:"操作系统",word:"semaphore",phonetic:"/ˈseməfɔːr/",pos:"n.",meaning:"信号量",example:"A semaphore controls access to shared resources.",exampleTrans:"信号量控制对共享资源的访问。",mnemonic:"sema(信号)+phore(携带)→信号量",examPoint:"PV操作：P=wait(S=S-1)，V=signal(S=S+1)。S>0时进程可进入，S<=0时进程阻塞。下午题必考！"},
+{cat:"操作系统",word:"scheduling",phonetic:"/ˈʃedjuːlɪŋ/",pos:"n.",meaning:"调度",example:"CPU scheduling determines which process runs next.",exampleTrans:"CPU调度决定下一个运行的进程。",mnemonic:"schedule(时间表)→scheduling调度",examPoint:"调度算法：FCFS、SJF、RR、优先级调度。常考平均周转时间计算。"},
+{cat:"操作系统",word:"interrupt",phonetic:"/ˌɪntəˈrʌpt/",pos:"n./v.",meaning:"中断",example:"An interrupt signals the CPU to handle an event.",exampleTrans:"中断通知CPU处理事件。",mnemonic:"inter(在中间)+rupt(断)→中断",examPoint:"中断分为硬件中断和软件中断。中断处理过程：保存现场→处理中断→恢复现场。"},
+{cat:"操作系统",word:"virtual",phonetic:"/ˈvɜːrtʃuəl/",pos:"adj.",meaning:"虚拟的",example:"Virtual memory extends physical memory capacity.",exampleTrans:"虚拟内存扩展物理内存容量。",mnemonic:"virtue(效能)→virtual虚拟的",examPoint:"虚拟内存通过分页/分段实现。页面置换算法：FIFO、LRU、OPT。LRU是常考点。"},
+{cat:"操作系统",word:"throughput",phonetic:"/ˈθruːpʊt/",pos:"n.",meaning:"吞吐量",example:"The system throughput is measured in transactions per second.",exampleTrans:"系统吞吐量以每秒事务数衡量。",mnemonic:"through(通过)+put(放)→通过的量→吞吐量",examPoint:"吞吐量=单位时间内完成的进程数。与周转时间、响应时间一起考。"},
+{cat:"操作系统",word:"fragmentation",phonetic:"/ˌfræɡmenˈteɪʃn/",pos:"n.",meaning:"碎片（化）",example:"External fragmentation wastes memory between allocated blocks.",exampleTrans:"外部碎片浪费了已分配块之间的内存。",mnemonic:"fragment(碎片)→fragmentation碎片化",examPoint:"内部碎片=分配了没用，外部碎片=没分配但太小不能用。紧凑技术解决外部碎片。"},
+{cat:"数据库",word:"transaction",phonetic:"/trænˈzækʃn/",pos:"n.",meaning:"事务",example:"A transaction must satisfy ACID properties.",exampleTrans:"事务必须满足ACID特性。",mnemonic:"trans(跨越)+action(行动)→事务",examPoint:"ACID：原子性、一致性、隔离性、持久性。四个特性全称是必考填空题！"},
+{cat:"数据库",word:"normalization",phonetic:"/ˌnɔːrməlaɪˈzeɪʃn/",pos:"n.",meaning:"规范化",example:"Normalization eliminates data redundancy.",exampleTrans:"规范化消除数据冗余。",mnemonic:"normal(正常)→normalization规范化",examPoint:"范式：1NF→2NF→3NF→BCNF。BCNF消除了主属性对码的部分和传递依赖。"},
+{cat:"数据库",word:"redundancy",phonetic:"/rɪˈdʌndənsi/",pos:"n.",meaning:"冗余",example:"Data redundancy wastes storage space.",exampleTrans:"数据冗余浪费存储空间。",mnemonic:"re(再)+dund(多余)→冗余",examPoint:"规范化目的就是消除冗余，但冗余不一定是坏事（如反规范化提升查询性能）。"},
+{cat:"数据库",word:"integrity",phonetic:"/ɪnˈteɡrəti/",pos:"n.",meaning:"完整性",example:"Referential integrity ensures valid foreign keys.",exampleTrans:"参照完整性确保外键有效。",mnemonic:"integer(完整)→integrity完整性",examPoint:"三种完整性：实体完整性(主键)、参照完整性(外键)、用户定义完整性。"},
+{cat:"数据库",word:"constraint",phonetic:"/kənˈstreɪnt/",pos:"n.",meaning:"约束",example:"A primary key constraint ensures uniqueness.",exampleTrans:"主键约束确保唯一性。",mnemonic:"con(一起)+strain(拉紧)→约束",examPoint:"常见约束：PRIMARY KEY、FOREIGN KEY、UNIQUE、NOT NULL、CHECK。"},
+{cat:"数据库",word:"schema",phonetic:"/ˈskiːmə/",pos:"n.",meaning:"模式，架构",example:"The database schema defines the table structure.",exampleTrans:"数据库模式定义了表结构。",mnemonic:"scheme(方案)→schema模式",examPoint:"三级模式：外模式(用户视图)、模式(逻辑结构)、内模式(物理存储)。两级映像保证数据独立性。"},
+{cat:"数据库",word:"query",phonetic:"/ˈkwɪri/",pos:"n./v.",meaning:"查询",example:"SQL queries retrieve data from tables.",exampleTrans:"SQL查询从表中检索数据。",mnemonic:"query=question(问题)→查询",examPoint:"SQL查询语句：SELECT...FROM...WHERE...GROUP BY...HAVING...ORDER BY。执行顺序是考点。"},
+{cat:"数据库",word:"index",phonetic:"/ˈɪndeks/",pos:"n.",meaning:"索引",example:"An index speeds up database queries.",exampleTrans:"索引加快数据库查询。",mnemonic:"in(进入)+dex(指示)→索引",examPoint:"索引类型：B+树索引、哈希索引。索引提升查询但降低更新速度。"},
+{cat:"数据库",word:"candidacy",phonetic:"/ˈkændɪdəsi/",pos:"n.",meaning:"候选",example:"A candidate key minimally identifies a tuple.",exampleTrans:"候选键最小地标识一个元组。",mnemonic:"candidate(候选人)→candidacy候选",examPoint:"候选键→选一个作主键。主键属性非空且唯一。超键包含候选键。"},
+{cat:"网络",word:"protocol",phonetic:"/ˈproʊtəkɒl/",pos:"n.",meaning:"协议",example:"TCP is a reliable transport protocol.",exampleTrans:"TCP是可靠的传输协议。",mnemonic:"proto(第一)+col→协议",examPoint:"OSI七层模型各层协议：物理层(PPP)、数据链路层(HDLC)、网络层(IP)、传输层(TCP/UDP)、应用层(HTTP/FTP/SMTP)。"},
+{cat:"网络",word:"packet",phonetic:"/ˈpækɪt/",pos:"n.",meaning:"数据包",example:"Data is transmitted in packets across the network.",exampleTrans:"数据以数据包形式在网络中传输。",mnemonic:"pack(打包)→packet小包",examPoint:"数据在网络层被封装为数据包(packet)，在传输层为报文段(segment)。"},
+{cat:"网络",word:"routing",phonetic:"/ˈruːtɪŋ/",pos:"n.",meaning:"路由",example:"Routing determines the path for data packets.",exampleTrans:"路由决定数据包的路径。",mnemonic:"route(路线)→routing路由",examPoint:"路由协议：RIP(距离向量)、OSPF(链路状态)、BGP(路径向量)。RIP最大跳数15。"},
+{cat:"网络",word:"bandwidth",phonetic:"/ˈbændwɪdθ/",pos:"n.",meaning:"带宽",example:"Higher bandwidth allows faster data transfer.",exampleTrans:"更高带宽允许更快的数据传输。",mnemonic:"band(频带)+width(宽度)→带宽",examPoint:"奈奎斯特定理(无噪声)和香农定理(有噪声)是计算带宽上限的公式。"},
+{cat:"网络",word:"encryption",phonetic:"/ɪnˈkrɪpʃn/",pos:"n.",meaning:"加密",example:"Encryption protects data confidentiality.",exampleTrans:"加密保护数据机密性。",mnemonic:"en(使)+crypt(隐藏)→加密",examPoint:"对称加密(DES/AES)vs非对称加密(RSA)。对称加密速度快但密钥分发困难。"},
+{cat:"网络",word:"authentication",phonetic:"/ɔːˌθentɪˈkeɪʃn/",pos:"n.",meaning:"认证，身份验证",example:"Authentication verifies user identity.",exampleTrans:"认证验证用户身份。",mnemonic:"auth(真实)→authentication认证",examPoint:"认证(authentication)vs授权(authorization)：认证=你是谁，授权=你能做什么。"},
+{cat:"网络",word:"firewall",phonetic:"/ˈfaɪərwɔːl/",pos:"n.",meaning:"防火墙",example:"A firewall blocks unauthorized network access.",exampleTrans:"防火墙阻止未授权的网络访问。",mnemonic:"fire(火)+wall(墙)→防火墙",examPoint:"防火墙工作在网络层和传输层，过滤规则基于IP地址和端口号。"},
+{cat:"网络",word:"socket",phonetic:"/ˈsɒkɪt/",pos:"n.",meaning:"套接字",example:"A socket is an endpoint for network communication.",exampleTrans:"套接字是网络通信的端点。",mnemonic:"socket(插座)→像插座一样连接→套接字",examPoint:"Socket=IP地址+端口号。TCP三次握手建立连接，四次挥手释放连接。"},
+{cat:"网络",word:"topology",phonetic:"/təˈpɒlədʒi/",pos:"n.",meaning:"拓扑",example:"Common network topologies include star, bus, and ring.",exampleTrans:"常见网络拓扑包括星型、总线型和环型。",mnemonic:"topo(地方)+logy(学科)→拓扑",examPoint:"网络拓扑：总线型、星型、环型、树型、网状。星型最常用，中心节点故障则全网瘫痪。"},
+{cat:"设计模式",word:"singleton",phonetic:"/ˈsɪŋɡltən/",pos:"n.",meaning:"单例模式",example:"The singleton pattern ensures only one instance exists.",exampleTrans:"单例模式确保只有一个实例存在。",mnemonic:"single(单一)→singleton单例",examPoint:"创建型模式。确保一个类只有一个实例，提供全局访问点。"},
+{cat:"设计模式",word:"observer",phonetic:"/əbˈzɜːrvər/",pos:"n.",meaning:"观察者",example:"The observer pattern notifies subscribers of changes.",exampleTrans:"观察者模式通知订阅者变化。",mnemonic:"observe(观察)→observer观察者",examPoint:"行为型模式。一对多依赖关系，状态变化时通知所有观察者。MVC中用到。"},
+{cat:"设计模式",word:"factory",phonetic:"/ˈfæktəri/",pos:"n.",meaning:"工厂模式",example:"The factory pattern creates objects without specifying the class.",exampleTrans:"工厂模式创建对象而不指定类。",mnemonic:"factory(工厂)→生产对象→工厂模式",examPoint:"创建型模式。分简单工厂、工厂方法、抽象工厂三种。"},
+{cat:"设计模式",word:"adapter",phonetic:"/əˈdæptər/",pos:"n.",meaning:"适配器",example:"The adapter pattern converts one interface to another.",exampleTrans:"适配器模式将一个接口转换为另一个。",mnemonic:"adapt(适应)→adapter适配器",examPoint:"结构型模式。适配器让不兼容的接口协同工作。类适配器vs对象适配器。"},
+{cat:"设计模式",word:"decorator",phonetic:"/ˈdekəreɪtər/",pos:"n.",meaning:"装饰器",example:"The decorator pattern adds behavior dynamically.",exampleTrans:"装饰器模式动态添加行为。",mnemonic:"decorate(装饰)→decorator装饰器",examPoint:"结构型模式。动态地给对象添加职责，比继承更灵活。"},
+{cat:"设计模式",word:"coupling",phonetic:"/ˈkʌplɪŋ/",pos:"n.",meaning:"耦合",example:"Low coupling is a goal of good design.",exampleTrans:"低耦合是好设计的目标。",mnemonic:"couple(一对/连接)→coupling耦合",examPoint:"高内聚低耦合是软件设计的基本原则。耦合度从低到高：数据→标记→控制→公共→内容。"},
+{cat:"设计模式",word:"cohesion",phonetic:"/koʊˈhiːʒn/",pos:"n.",meaning:"内聚",example:"High cohesion means modules focus on one task.",exampleTrans:"高内聚意味着模块专注于一个任务。",mnemonic:"co(一起)+hes(粘)→粘在一起→内聚",examPoint:"内聚从低到高：偶然→逻辑→时间→过程→通信→顺序→功能。功能内聚最高。"},
+{cat:"项目管理",word:"stakeholder",phonetic:"/ˈsteɪkhoʊldər/",pos:"n.",meaning:"利益相关者",example:"Stakeholders include customers, users, and developers.",exampleTrans:"利益相关者包括客户、用户和开发者。",mnemonic:"stake(股份)+holder(持有者)→利益相关者",examPoint:"项目管理中需识别所有stakeholder，包括项目发起人、客户、用户、团队成员等。"},
+{cat:"项目管理",word:"feasibility",phonetic:"/ˌfiːzəˈbɪləti/",pos:"n.",meaning:"可行性",example:"A feasibility study evaluates project viability.",exampleTrans:"可行性研究评估项目可行性。",mnemonic:"feasible(可行的)→feasibility可行性",examPoint:"可行性研究从技术、经济、操作三个方面评估。经济可行性最关键。"},
+{cat:"项目管理",word:"estimation",phonetic:"/ˌestɪˈmeɪʃn/",pos:"n.",meaning:"估算",example:"Effort estimation predicts the project cost.",exampleTrans:"工作量估算预测项目成本。",mnemonic:"estimate(估计)→estimation估算",examPoint:"估算方法：代码行估算法、功能点分析(FPA)、COCOMO模型、专家判断法。"},
+{cat:"项目管理",word:"baseline",phonetic:"/ˈbeɪslaɪn/",pos:"n.",meaning:"基线",example:"The baseline serves as a reference for progress tracking.",exampleTrans:"基线作为进度跟踪的参考。",mnemonic:"base(基础)+line(线)→基线",examPoint:"基线是经过正式评审和批准的规格或产品，只能通过正式变更控制程序修改。"},
+{cat:"项目管理",word:"metric",phonetic:"/ˈmetrɪk/",pos:"n.",meaning:"度量，指标",example:"Software metrics measure code quality.",exampleTrans:"软件度量衡量代码质量。",mnemonic:"meter(测量)→metric度量",examPoint:"软件度量分过程度量、产品度量、项目度量。LOC(代码行)和功能点是常用度量。"},
+{cat:"项目管理",word:"outsource",phonetic:"/ˈaʊtsɔːrs/",pos:"v.",meaning:"外包",example:"The company outsourced its testing work.",exampleTrans:"公司外包了测试工作。",mnemonic:"out(外)+source(来源)→外包",examPoint:"外包风险：知识转移不完整、质量难控、沟通成本高。"},
+{cat:"项目管理",word:"procurement",phonetic:"/prəˈkjʊrmənt/",pos:"n.",meaning:"采购",example:"The procurement process ensures quality supplies.",exampleTrans:"采购流程确保优质供应。",mnemonic:"procure(获取)→procurement采购",examPoint:"采购管理是项目管理十大知识领域之一。"},
+{cat:"测试",word:"regression",phonetic:"/rɪˈɡreʃn/",pos:"n.",meaning:"回归",example:"Regression testing checks for new bugs after changes.",exampleTrans:"回归测试检查变更后的新缺陷。",mnemonic:"re(回)+gress(走)→回归",examPoint:"回归测试=修改代码后重新测试，确保未引入新缺陷。优先级：高风险模块优先回归。"},
+{cat:"测试",word:"coverage",phonetic:"/ˈkʌvərɪdʒ/",pos:"n.",meaning:"覆盖率",example:"Test coverage measures code exercised by tests.",exampleTrans:"测试覆盖率衡量被测试执行的代码。",mnemonic:"cover(覆盖)→coverage覆盖率",examPoint:"覆盖率类型：语句覆盖(最弱)、分支覆盖、条件覆盖、路径覆盖(最强)。"},
+{cat:"测试",word:"debug",phonetic:"/ˌdiːˈbʌɡ/",pos:"v.",meaning:"调试",example:"We need to debug the application before release.",exampleTrans:"我们需要在发布前调试应用程序。",mnemonic:"de(去除)+bug(虫子/缺陷)→调试",examPoint:"调试vs测试：测试发现缺陷，调试定位并修复缺陷。"},
+{cat:"测试",word:"integration",phonetic:"/ˌɪntɪˈɡreɪʃn/",pos:"n.",meaning:"集成",example:"Integration testing checks module interactions.",exampleTrans:"集成测试检查模块交互。",mnemonic:"integer(整体)→integration集成",examPoint:"集成测试策略：自顶向下(需stub)、自底向上(需driver)、大爆炸(一次性)。"},
+{cat:"测试",word:"simulation",phonetic:"/ˌsɪmjuˈleɪʃn/",pos:"n.",meaning:"模拟",example:"Simulation tests the system under virtual conditions.",exampleTrans:"模拟在虚拟条件下测试系统。",mnemonic:"similar(相似)→simulation模拟",examPoint:"模拟vs形式化验证：模拟是动态的，形式化验证是静态的数学证明。"},
+{cat:"测试",word:"defect",phonetic:"/dɪˈfekt/",pos:"n.",meaning:"缺陷",example:"A defect tracking system manages bug reports.",exampleTrans:"缺陷跟踪系统管理缺陷报告。",mnemonic:"de(偏离)+fect(做)→做偏了→缺陷",examPoint:"缺陷状态流转：新建→分配→修复→验证→关闭。缺陷优先级vs严重程度是两个维度。"},
+{cat:"高频词汇",word:"implement",phonetic:"/ˈɪmplɪment/",pos:"v.",meaning:"实现，实施",example:"We need to implement the interface correctly.",exampleTrans:"我们需要正确实现接口。",mnemonic:"im(进入)+ple(填满)→填满→实现",examPoint:"implement an interface / implement a design pattern。软考英语填空高频词。"},
+{cat:"高频词汇",word:"invoke",phonetic:"/ɪnˈvoʊk/",pos:"v.",meaning:"调用",example:"The method is invoked when the button is clicked.",exampleTrans:"点击按钮时调用该方法。",mnemonic:"in(进入)+vok(叫)→叫进来→调用",examPoint:"invoke vs call：invoke常用于反射调用或远程调用，call用于普通函数调用。"},
+{cat:"高频词汇",word:"deprecated",phonetic:"/ˈdeprəkeɪtɪd/",pos:"adj.",meaning:"已弃用的",example:"This API is deprecated and will be removed.",exampleTrans:"此API已弃用，将被移除。",mnemonic:"de(否定)+precate(祈祷)→不再需要→弃用",examPoint:"deprecated API不建议使用，通常有替代方案。"},
+{cat:"高频词汇",word:"explicit",phonetic:"/ɪkˈsplɪsɪt/",pos:"adj.",meaning:"显式的",example:"Explicit type conversion requires a cast operator.",exampleTrans:"显式类型转换需要强制转换运算符。",mnemonic:"ex(外)+plic(折叠)→展开在外→显式的",examPoint:"explicit vs implicit：显式转换(强转)vs隐式转换(自动)。常考类型转换。"},
+{cat:"高频词汇",word:"implicit",phonetic:"/ɪmˈplɪsɪt/",pos:"adj.",meaning:"隐式的",example:"Implicit conversion happens automatically.",exampleTrans:"隐式转换自动发生。",mnemonic:"im(内)+plic(折叠)→折叠在内→隐式的",examPoint:"隐式转换可能导致精度丢失，如int→float。"},
+{cat:"高频词汇",word:"persistent",phonetic:"/pərˈsɪstənt/",pos:"adj.",meaning:"持久的，持久化的",example:"Persistent storage retains data after restart.",exampleTrans:"持久化存储在重启后保留数据。",mnemonic:"per(始终)+sist(站)→一直站着→持久的",examPoint:"持久化(persistence)是将内存数据保存到磁盘的过程。"},
+{cat:"高频词汇",word:"concurrent",phonetic:"/kənˈkʌrənt/",pos:"adj.",meaning:"并发的",example:"Concurrent access may cause data inconsistency.",exampleTrans:"并发访问可能导致数据不一致。",mnemonic:"con(共同)+cur(跑)→一起跑→并发的",examPoint:"并发问题：脏读、不可重复读、幻读。隔离级别解决并发问题。"},
+{cat:"高频词汇",word:"distribute",phonetic:"/dɪˈstrɪbjuːt/",pos:"v.",meaning:"分布，分发",example:"A distributed system spans multiple machines.",exampleTrans:"分布式系统跨越多台机器。",mnemonic:"dis(分开)+tribute(给)→分发",examPoint:"分布式系统特性：透明性、可扩展性、可靠性。CAP定理：一致性、可用性、分区容错性。"},
+{cat:"高频词汇",word:"optimize",phonetic:"/ˈɒptɪmaɪz/",pos:"v.",meaning:"优化",example:"We optimize the algorithm for better performance.",exampleTrans:"我们优化算法以获得更好性能。",mnemonic:"opt(最佳)→optimize优化",examPoint:"优化目标：时间效率、空间效率。常需trade-off(权衡)。"},
+{cat:"高频词汇",word:"compatible",phonetic:"/kəmˈpætəbl/",pos:"adj.",meaning:"兼容的",example:"The new version is backward compatible.",exampleTrans:"新版本向后兼容。",mnemonic:"com(一起)+pat(忍受)→能共存→兼容的",examPoint:"向后兼容(backward compatible)=新版本能处理旧版本数据。向前兼容(forward compatible)反之。"},
+{cat:"高频词汇",word:"robust",phonetic:"/roʊˈbʌst/",pos:"adj.",meaning:"健壮的",example:"A robust system handles errors gracefully.",exampleTrans:"健壮的系统优雅地处理错误。",mnemonic:"robust(强壮的)→健壮的",examPoint:"健壮性(robustness)=系统在异常情况下仍能正常运行的能力。"},
+{cat:"高频词汇",word:"scalable",phonetic:"/ˈskeɪləbl/",pos:"adj.",meaning:"可扩展的",example:"A scalable architecture supports growth.",exampleTrans:"可扩展的架构支持增长。",mnemonic:"scale(规模)+able→可扩展的",examPoint:"可扩展性(scalability)分垂直扩展(加硬件)和水平扩展(加节点)。"},
+{cat:"高频词汇",word:"agile",phonetic:"/ˈædʒaɪl/",pos:"adj.",meaning:"敏捷的",example:"Agile methodology emphasizes flexibility.",exampleTrans:"敏捷方法论强调灵活性。",mnemonic:"agile=灵活敏捷→敏捷开发",examPoint:"敏捷宣言四价值观：个体互动>流程工具、可工作软件>详尽文档、客户协作>合同谈判、响应变化>遵循计划。"},
+{cat:"高频词汇",word:"artifact",phonetic:"/ˈɑːrtɪfækt/",pos:"n.",meaning:"制品，工件",example:"Build artifacts include compiled binaries.",exampleTrans:"构建制品包括编译后的二进制文件。",mnemonic:"arti(技艺)+fact(做)→人造物→制品",examPoint:"软件配置项(SCI)包括代码、文档、数据等artifact。配置管理管的就是这些。"},
+{cat:"高频词汇",word:"paradigm",phonetic:"/ˈpærədaɪm/",pos:"n.",meaning:"范式",example:"Object-oriented is a programming paradigm.",exampleTrans:"面向对象是一种编程范式。",mnemonic:"para(旁边)+digm(展示)→并排展示→范式",examPoint:"编程范式：面向过程、面向对象、函数式、逻辑式。"},
+{cat:"高频词汇",word:"refactor",phonetic:"/riːˈfæktər/",pos:"v.",meaning:"重构",example:"We refactor the code to improve readability.",exampleTrans:"我们重构代码以提高可读性。",mnemonic:"re(重新)+factor(分解)→重新分解→重构",examPoint:"重构=不改变外部行为的前提下改善内部结构。重构不修bug，不加功能。"},
+{cat:"高频词汇",word:"deploy",phonetic:"/dɪˈplɔɪ/",pos:"v.",meaning:"部署",example:"We deploy the application to the cloud.",exampleTrans:"我们将应用程序部署到云端。",mnemonic:"de(展开)+ploy(折叠)→展开→部署",examPoint:"部署策略：蓝绿部署、金丝雀部署、滚动部署。"},
+{cat:"高频词汇",word:"compile",phonetic:"/kəmˈpaɪl/",pos:"v.",meaning:"编译",example:"The compiler compiles source code into machine code.",exampleTrans:"编译器将源代码编译成机器码。",mnemonic:"com(一起)+pile(堆)→堆在一起→编译",examPoint:"编译过程：词法分析→语法分析→语义分析→中间代码生成→优化→目标代码生成。"},
+{cat:"高频词汇",word:"runtime",phonetic:"/ˈrʌntaɪm/",pos:"n.",meaning:"运行时",example:"A runtime error occurs during execution.",exampleTrans:"运行时错误在执行期间发生。",mnemonic:"run(运行)+time(时间)→运行时",examPoint:"运行时错误vs编译时错误：运行时错误在程序执行时发生，编译时错误在编译阶段发现。"},
+{cat:"高频词汇",word:"framework",phonetic:"/ˈfreɪmwɜːrk/",pos:"n.",meaning:"框架",example:"Spring is a popular Java framework.",exampleTrans:"Spring是一个流行的Java框架。",mnemonic:"frame(骨架)+work(工作)→框架",examPoint:"框架vs库：框架控制流程(IoC)，库被你调用。框架是反转控制(IoC)的体现。"},
+{cat:"高频词汇",word:"component",phonetic:"/kəmˈpoʊnənt/",pos:"n.",meaning:"组件",example:"Each component handles a specific function.",exampleTrans:"每个组件处理一个特定功能。",mnemonic:"com(一起)+pon(放置)→放在一起→组件",examPoint:"组件(component)是可复用的软件单元，具有明确接口。CBSD(基于构件的软件设计)核心概念。"},
+{cat:"高频词汇",word:"module",phonetic:"/ˈmɒdjuːl/",pos:"n.",meaning:"模块",example:"The system is divided into independent modules.",exampleTrans:"系统被划分为独立的模块。",mnemonic:"mod(模式)+ule→模块",examPoint:"模块化设计原则：高内聚低耦合。模块独立性的两个度量：内聚和耦合。"},
+{cat:"高频词汇",word:"thread",phonetic:"/θred/",pos:"n.",meaning:"线程",example:"A thread is the smallest unit of execution.",exampleTrans:"线程是最小的执行单元。",mnemonic:"thread(线)→一条线执行→线程",examPoint:"线程vs进程：线程是轻量级进程，同一进程的线程共享内存。线程切换开销小于进程。"},
+{cat:"高频词汇",word:"buffer",phonetic:"/ˈbʌfər/",pos:"n.",meaning:"缓冲区",example:"A buffer temporarily stores data during transfer.",exampleTrans:"缓冲区在传输期间临时存储数据。",mnemonic:"buff(缓冲)+er→缓冲区",examPoint:"缓冲区解决生产者-消费者速度不匹配问题。经典PV操作场景。"},
+{cat:"高频词汇",word:"cache",phonetic:"/kæʃ/",pos:"n.",meaning:"缓存",example:"The cache stores frequently accessed data.",exampleTrans:"缓存存储频繁访问的数据。",mnemonic:"cache(隐藏处)→藏起来快速取→缓存",examPoint:"缓存局部性原理：时间局部性(最近访问的将来还会访问)和空间局部性(附近的数据也会被访问)。"},
+{cat:"高频词汇",word:"exception",phonetic:"/ɪkˈsepʃn/",pos:"n.",meaning:"异常",example:"An exception is thrown when an error occurs.",exampleTrans:"发生错误时抛出异常。",mnemonic:"ex(出)+cept(取)→取出来→异常",examPoint:"异常处理：try-catch-finally。受检异常(checked)必须处理，非受检异常(unchecked)可不处理。"},
+{cat:"高频词汇",word:"serialize",phonetic:"/ˈsɪriəlaɪz/",pos:"v.",meaning:"序列化",example:"We serialize the object to JSON format.",exampleTrans:"我们将对象序列化为JSON格式。",mnemonic:"series(系列)→排成系列→序列化",examPoint:"序列化=对象→字节流，反序列化=字节流→对象。用于网络传输和持久化。"},
+{cat:"高频词汇",word:"asynchronous",phonetic:"/eɪˈsɪŋkrənəs/",pos:"adj.",meaning:"异步的",example:"Asynchronous calls do not block the caller.",exampleTrans:"异步调用不会阻塞调用者。",mnemonic:"a(不)+syn(同)+chron(时间)→不同时→异步",examPoint:"异步vs同步：异步不等待结果返回，同步等待。AJAX是典型异步。"},
+{cat:"高频词汇",word:"synchronous",phonetic:"/ˈsɪŋkrənəs/",pos:"adj.",meaning:"同步的",example:"Synchronous communication waits for a response.",exampleTrans:"同步通信等待响应。",mnemonic:"syn(同)+chron(时间)→同时→同步",examPoint:"同步通信=发送方等待接收方确认。异步通信=发送方不等待。"},
+{cat:"高频词汇",word:"metadata",phonetic:"/ˈmetədeɪtə/",pos:"n.",meaning:"元数据",example:"Metadata describes the structure and properties of data.",exampleTrans:"元数据描述数据的结构和属性。",mnemonic:"meta(超越)+data(数据)→关于数据的数据",examPoint:"元数据=描述数据的数据。数据仓库中元数据分为技术元数据和业务元数据。"},
+{cat:"高频词汇",word:"repository",phonetic:"/rɪˈpɒzətɔːri/",pos:"n.",meaning:"仓库，存储库",example:"The code repository stores all versions of the source code.",exampleTrans:"代码仓库存储所有版本的源代码。",mnemonic:"re(回)+posit(放)→放回去→存储",examPoint:"配置库(repository)是配置管理的核心，存储所有配置项及其变更历史。"},
+{cat:"高频词汇",word:"iteration",phonetic:"/ˌɪtəˈreɪʃn/",pos:"n.",meaning:"迭代",example:"Each iteration produces a working increment.",exampleTrans:"每次迭代产生一个可工作的增量。",mnemonic:"iterate(反复)→iteration迭代",examPoint:"迭代开发：每次迭代都经历需求→设计→编码→测试完整流程。"},
+{cat:"高频词汇",word:"dependency",phonetic:"/dɪˈpendənsi/",pos:"n.",meaning:"依赖",example:"Module A has a dependency on module B.",exampleTrans:"模块A依赖于模块B。",mnemonic:"depend(依靠)→dependency依赖",examPoint:"依赖注入(DI)是控制反转(IoC)的一种实现方式。依赖关系是UML类图的重要关系。"},
+{cat:"高频词汇",word:"granularity",phonetic:"/ˌɡrænjuˈlærəti/",pos:"n.",meaning:"粒度",example:"Fine-grained access control provides better security.",exampleTrans:"细粒度访问控制提供更好的安全性。",mnemonic:"granule(颗粒)→granularity粒度",examPoint:"组件粒度：粗粒度(大组件，接口少)vs细粒度(小组件，接口多)。"},
+{cat:"高频词汇",word:"latency",phonetic:"/ˈleɪtnsi/",pos:"n.",meaning:"延迟",example:"Network latency affects user experience.",exampleTrans:"网络延迟影响用户体验。",mnemonic:"latent(潜在的)→latency延迟",examPoint:"延迟(latency)vs带宽(bandwidth)：延迟=数据到达的时间，带宽=单位时间传输量。"},
+{cat:"高频词汇",word:"consistency",phonetic:"/kənˈsɪstənsi/",pos:"n.",meaning:"一致性",example:"Eventual consistency is acceptable in many systems.",exampleTrans:"最终一致性在许多系统中是可接受的。",mnemonic:"consist(一致)→consistency一致性",examPoint:"CAP定理中C=一致性。强一致性vs最终一致性是分布式系统常考点。"},
+{cat:"高频词汇",word:"availability",phonetic:"/əˌveɪləˈbɪləti/",pos:"n.",meaning:"可用性",example:"High availability requires redundant systems.",exampleTrans:"高可用性需要冗余系统。",mnemonic:"available(可用的)→availability可用性",examPoint:"可用性=系统可正常使用的时间比例。CAP定理中A=可用性。常考99.99%等可用性计算。"},
+];
+
+// ===================== 状态管理 =====================
+var STORAGE_KEY='pro_english_v2';
+var _memStore={}; // 内存备份，防止localStorage不可用时崩溃
+var _lsOK=false;
+try{localStorage.setItem('_test','1');localStorage.removeItem('_test');_lsOK=true;}catch(e){_lsOK=false;}
+
+var state={category:'全部',cardIndex:0,todayQueue:[],learned:{},settings:{rate:0.8,voice:'en-US',daily:20,autoPlay:0,voiceEngine:'auto'},streak:0,lastStudyDate:'',mode:'card',quizIndex:0,quizScore:0,quizQuestions:[]};
+
+function loadState(){
+  try{
+    var s=_lsOK?localStorage.getItem(STORAGE_KEY):_memStore[STORAGE_KEY];
+    if(s){var p=JSON.parse(s);for(var k in p){if(k!=='quizIndex'&&k!=='quizScore'&&k!=='quizQuestions')state[k]=p[k];}}
+  }catch(e){}
+  var today=new Date().toDateString();
+  if(state.lastStudyDate!==today){
+    var yest=new Date(Date.now()-86400000).toDateString();
+    if(state.lastStudyDate!==yest&&state.lastStudyDate!==today){state.streak=0;}
+  }
+}
+function saveState(){
+  try{
+    var d=JSON.stringify(state);
+    if(_lsOK)localStorage.setItem(STORAGE_KEY,d);
+    else _memStore[STORAGE_KEY]=d;
+  }catch(e){}
+}
+
+// ===================== 间隔重复 (SM-2简化) =====================
+function getInterval(g,rc,pi){
+  if(g===0)return 1;
+  if(g===1)return Math.max(1,Math.round(pi*1.2));
+  if(g===2){if(rc===0)return 2;if(rc===1)return 4;return Math.round(pi*2);}
+  if(g===3){if(rc===0)return 4;if(rc===1)return 7;return Math.round(pi*2.5);}
+  return 1;
+}
+function getWordStatus(w){
+  var i=state.learned[w];if(!i)return'new';
+  if(i.grade>=2&&i.reviewCount>=3)return'mastered';return'learning';
+}
+function isDueToday(w){
+  var i=state.learned[w];if(!i)return true;
+  if(!i.nextReview)return true;return new Date(i.nextReview)<=new Date();
+}
+
+// ===================== 初始化今日队列 =====================
+function initTodayQueue(){
+  var today=new Date().toDateString();
+  if(state.todayQueue.length>0&&state.lastStudyDate===today)return;
+  var pool=state.category==='全部'?WORDS:WORDS.filter(function(w){return w.cat===state.category;});
+  var due=pool.filter(function(w){var i=state.learned[w.word];return i&&isDueToday(w.word);}).map(function(w){return w.word;});
+  var nw=pool.filter(function(w){return!state.learned[w.word];}).map(function(w){return w.word;});
+  var q=due.concat(nw).slice(0,state.settings.daily);
+  if(q.length<state.settings.daily){
+    var extra=pool.filter(function(w){return q.indexOf(w.word)<0;}).map(function(w){return w.word;});
+    q=q.concat(extra).slice(0,state.settings.daily);
+  }
+  state.todayQueue=q;state.cardIndex=0;state.lastStudyDate=today;saveState();
+}
+
+// ===================== 渲染 =====================
+function renderCategories(){
+  var cats=['全部'];WORDS.forEach(function(w){if(cats.indexOf(w.cat)<0)cats.push(w.cat);});
+  var c=document.getElementById('categories');
+  c.innerHTML=cats.map(function(c2){return'<div class="cat-btn '+(c2===state.category?'active':'')+'" data-cat="'+c2+'">'+c2+'</div>';}).join('');
+  c.querySelectorAll('.cat-btn').forEach(function(btn){
+    btn.onclick=function(){state.category=btn.dataset.cat;state.todayQueue=[];initTodayQueue();renderCategories();renderCard();renderStats();renderList();};
+  });
+}
+
+function renderCard(){
+  if(state.cardIndex>=state.todayQueue.length){showComplete();return;}
+  document.getElementById('cardMode').style.display='';
+  document.getElementById('completeScreen').classList.remove('show');
+  document.getElementById('actionBar').style.display='';
+  var word=state.todayQueue[state.cardIndex];
+  var w=WORDS.find(function(x){return x.word===word;});
+  if(!w){state.cardIndex++;renderCard();return;}
+  document.getElementById('wordText').textContent=w.word;
+  document.getElementById('phonetic').textContent=w.phonetic;
+  document.getElementById('posTag').textContent=w.pos;
+  document.getElementById('meaning').textContent=w.meaning;
+  document.getElementById('example').textContent=w.example;
+  document.getElementById('exampleTrans').textContent=w.exampleTrans;
+  document.getElementById('mnemonic').textContent=w.mnemonic;
+  document.getElementById('examPoint').textContent=w.examPoint||'';
+  document.getElementById('card').classList.remove('flipped');
+  if(state.settings.autoPlay)setTimeout(function(){speak(w.word);},300);
+  var prog=(state.cardIndex/state.todayQueue.length)*100;
+  document.getElementById('progressFill').style.width=prog+'%';
+  document.getElementById('todayDone').textContent=state.cardIndex;
+  document.getElementById('todayTotal').textContent=state.todayQueue.length;
+}
+
+function renderStats(){
+  var pool=state.category==='全部'?WORDS:WORDS.filter(function(w){return w.cat===state.category;});
+  var m=0,l=0,n=0;
+  pool.forEach(function(w){var s=getWordStatus(w.word);if(s==='mastered')m++;else if(s==='learning')l++;else n++;});
+  document.getElementById('masteredCount').textContent=m;
+  document.getElementById('learningCount').textContent=l;
+  document.getElementById('newCount').textContent=n;
+  document.getElementById('streak').textContent=state.streak;
+  document.getElementById('todayDone').textContent=state.cardIndex;
+  document.getElementById('todayTotal').textContent=state.todayQueue.length;
+}
+
+function renderList(){
+  var pool=state.category==='全部'?WORDS:WORDS.filter(function(w){return w.cat===state.category;});
+  var searchVal=(document.getElementById('searchBox')||{}).value||'';
+  if(searchVal){
+    var sv=searchVal.toLowerCase();
+    pool=pool.filter(function(w){return w.word.toLowerCase().indexOf(sv)>=0||w.meaning.indexOf(searchVal)>=0;});
+  }
+  var c=document.getElementById('wordList');
+  c.innerHTML=pool.map(function(w){
+    var s=getWordStatus(w.word);
+    return'<div class="word-item" data-word="'+w.word+'"><div class="wi-status '+s+'"></div><div class="wi-word">'+w.word+'</div><div class="wi-meaning">'+w.meaning+'</div><button class="wi-speak">🔊</button></div>';
+  }).join('');
+  c.querySelectorAll('.word-item').forEach(function(item){
+    item.onclick=function(){
+      var word=item.dataset.word;var idx=state.todayQueue.indexOf(word);
+      if(idx>=0){state.cardIndex=idx;}else{state.todayQueue.push(word);state.cardIndex=state.todayQueue.length-1;}
+      switchMode('card');renderCard();
+    };
+    var sp=item.querySelector('.wi-speak');
+    sp.onclick=function(e){e.stopPropagation();speak(item.dataset.word);};
+  });
+}
+
+function showComplete(){
+  document.getElementById('cardMode').style.display='none';
+  document.getElementById('actionBar').style.display='none';
+  document.getElementById('completeScreen').classList.add('show');
+  document.getElementById('progressFill').style.width='100%';
+  document.getElementById('todayDone').textContent=state.todayQueue.length;
+  document.getElementById('completeSub').textContent='你今天学习了 '+state.todayQueue.length+' 个单词，继续加油！';
+  state.streak++;saveState();renderStats();
+}
+
+// ===================== 测验模式 =====================
+function initQuiz(){
+  var pool=state.category==='全部'?WORDS:WORDS.filter(function(w){return w.cat===state.category;});
+  // 随机抽取10题
+  var shuffled=pool.slice().sort(function(){return Math.random()-0.5;});
+  var quizWords=shuffled.slice(0,Math.min(10,pool.length));
+  state.quizQuestions=quizWords.map(function(w){
+    // 随机出题方向：英文选中文 或 中文选英文
+    var enToZh=Math.random()>0.5;
+    var correct=enToZh?w.meaning:w.word;
+    // 随机生成3个干扰项
+    var distractors=pool.filter(function(x){return x.word!==w.word;}).slice().sort(function(){return Math.random()-0.5;}).slice(0,3).map(function(x){return enToZh?x.meaning:x.word;});
+    var options=[correct].concat(distractors).sort(function(){return Math.random()-0.5;});
+    return{word:w.word,meaning:w.meaning,enToZh:enToZh,correct:correct,options:options,answered:false};
+  });
+  state.quizIndex=0;state.quizScore=0;
+  renderQuiz();
+}
+
+function renderQuiz(){
+  var qc=document.getElementById('quizContent');
+  var qr=document.getElementById('quizResult');
+  if(state.quizIndex>=state.quizQuestions.length){
+    qc.style.display='none';
+    qr.classList.add('show');
+    document.getElementById('quizScore').textContent=state.quizScore+'/'+state.quizQuestions.length;
+    return;
+  }
+  qr.classList.remove('show');
+  qc.style.display='block';
+  var q=state.quizQuestions[state.quizIndex];
+  var progress='第 '+(state.quizIndex+1)+'/'+state.quizQuestions.length+' 题';
+  var questionText=q.enToZh?'以下英文单词的中文释义是？':'以下中文释义对应的英文单词是？';
+  var questionWord=q.enToZh?q.word:q.meaning;
+  var html='<div class="quiz-card">';
+  html+='<div class="quiz-q">'+progress+' · '+questionText+'</div>';
+  html+='<div class="quiz-word">'+questionWord+'</div>';
+  if(q.enToZh){
+    html+='<button class="speak-btn" style="margin:0 auto 16px" onclick="speak(\''+q.word+'\')">🔊</button>';
+  }
+  html+='<div class="quiz-options">';
+  q.options.forEach(function(opt,i){
+    var cls='';
+    if(q.answered){
+      if(opt===q.correct)cls='correct';
+      else if(opt===q.selected)cls='wrong';
+    }
+    html+='<button class="quiz-opt '+cls+'" data-opt="'+opt+'" '+(q.answered?'disabled':'')+'>'+opt+'</button>';
+  });
+  html+='</div>';
+  if(q.answered){
+    var w=WORDS.find(function(x){return x.word===q.word;});
+    if(w){
+      html+='<div class="mnemonic-box" style="margin-top:14px"><div class="mnemonic-label">💡 '+w.word+' '+w.phonetic+'</div><div class="mnemonic-text">'+w.meaning+'。'+w.mnemonic+'</div></div>';
+    }
+  }
+  html+='</div>';
+  qc.innerHTML=html;
+  // 更新进度条
+  var prog=(state.quizIndex/state.quizQuestions.length)*100;
+  document.getElementById('progressFill').style.width=prog+'%';
+  // 绑定选项点击
+  qc.querySelectorAll('.quiz-opt').forEach(function(btn){
+    btn.onclick=function(){
+      if(q.answered)return;
+      var opt=btn.dataset.opt;
+      q.selected=opt;q.answered=true;
+      if(opt===q.correct){state.quizScore++;showToast('✅ 正确！');}
+      else{showToast('❌ 正确答案：'+q.correct);}
+      saveState();
+      renderQuiz();
+      // 2秒后自动下一题
+      setTimeout(function(){
+        state.quizIndex++;renderQuiz();
+      },2000);
+    };
+  });
+}
+
+// ===================== 语音 =====================
+var voices=[];
+var _speechOK=(typeof speechSynthesis!=='undefined'&&speechSynthesis!==null);
+function loadVoices(){if(_speechOK)voices=speechSynthesis.getVoices();}
+if(_speechOK){
+  loadVoices();
+  if(speechSynthesis.onvoiceschanged!==undefined)speechSynthesis.onvoiceschanged=loadVoices;
+}
+
+// 语音引擎：auto=先试在线再试系统，online=仅在线，system=仅系统
+function _getVoiceEngine(){
+  return state.settings.voiceEngine||'auto';
+}
+
+function speak(text){
+  var btn=document.getElementById('speakBtn');
+  if(btn)btn.classList.add('speaking');
+  var engine=_getVoiceEngine();
+  if(engine==='online'){_speakOnline(text);return;}
+  if(engine==='system'){_speakSystem(text);return;}
+  // auto: 先在线，失败再系统
+  _speakOnline(text,function(ok){
+    if(!ok)_speakSystem(text);
+  });
+}
+
+// 在线语音（有道TTS，手机上最可靠）
+function _speakOnline(text,fallback){
+  var lang=(state.settings.voice||'en-US').split('-')[0];
+  var type=lang==='en'?(state.settings.voice==='en-GB'?1:2):2;
+  var url='https://dict.youdao.com/dictvoice?audio='+encodeURIComponent(text)+'&type='+type;
+  var audio=new Audio();
+  audio.src=url;
+  var btn=document.getElementById('speakBtn');
+  var done=false;
+  audio.oncanplay=function(){
+    if(done)return;done=true;
+    audio.play().catch(function(){if(fallback)fallback(false);else _speakSystem(text);});
+  };
+  audio.onended=function(){if(btn)btn.classList.remove('speaking');};
+  audio.onerror=function(){
+    if(done)return;done=true;
+    if(fallback)fallback(false);
+    else{if(btn)btn.classList.remove('speaking');_speakSystem(text);}
+  };
+  // 超时检测：3秒没加载成功就走备用
+  setTimeout(function(){
+    if(!done){done=true;if(fallback)fallback(false);else _speakSystem(text);}
+  },3000);
+  audio.load();
+}
+
+// 系统语音（Web Speech API，桌面端用）
+function _speakSystem(text){
+  if(!_speechOK){
+    var btn=document.getElementById('speakBtn');
+    if(btn)btn.classList.remove('speaking');
+    showToast('语音不可用，请在设置中切换在线语音');
+    return;
+  }
+  try{
+    speechSynthesis.cancel();
+    var u=new SpeechSynthesisUtterance(text);
+    u.lang=state.settings.voice;u.rate=parseFloat(state.settings.rate);
+    var v=voices.find(function(v2){return v2.lang===state.settings.voice;});
+    if(v)u.voice=v;
+    var btn=document.getElementById('speakBtn');
+    u.onend=function(){if(btn)btn.classList.remove('speaking');};
+    u.onerror=function(){if(btn)btn.classList.remove('speaking');};
+    speechSynthesis.speak(u);
+  }catch(e){
+    var btn2=document.getElementById('speakBtn');
+    if(btn2)btn2.classList.remove('speaking');
+  }
+}
+
+// ===================== 评分 =====================
+function handleGrade(grade){
+  var word=state.todayQueue[state.cardIndex];if(!word)return;
+  var info=state.learned[word]||{grade:0,nextReview:null,reviewCount:0,lastSeen:null};
+  var prevInt=info.nextReview?Math.max(1,Math.round((new Date(info.nextReview)-new Date(info.lastSeen))/86400000)):1;
+  var interval=getInterval(grade,info.reviewCount,prevInt);
+  var now=new Date();
+  state.learned[word]={grade:grade,reviewCount:info.reviewCount+1,lastSeen:now.toISOString(),nextReview:new Date(now.getTime()+interval*86400000).toISOString()};
+  saveState();state.cardIndex++;renderCard();renderStats();renderList();
+}
+
+// ===================== 模式切换 =====================
+function switchMode(m){
+  state.mode=m;
+  document.getElementById('tabCard').classList.toggle('active',m==='card');
+  document.getElementById('tabList').classList.toggle('active',m==='list');
+  document.getElementById('tabQuiz').classList.toggle('active',m==='quiz');
+  document.getElementById('cardMode').classList.toggle('hidden',m!=='card');
+  document.getElementById('listMode').classList.toggle('show',m==='list');
+  document.getElementById('quizMode').classList.toggle('show',m==='quiz');
+  document.getElementById('actionBar').style.display=m==='card'?'':'none';
+  if(m==='card'){document.getElementById('cardMode').style.display='';}
+  else{document.getElementById('cardMode').style.display='none';}
+  if(m==='quiz'){initQuiz();}
+  if(m==='list'){renderList();}
+}
+
+// ===================== Toast =====================
+function showToast(msg){
+  var t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(function(){t.classList.remove('show');},2000);
+}
+
+// ===================== 滑动手势 =====================
+var touchStartX=0,touchStartY=0,touchEndX=0,touchEndY=0;
+var cardEl=document.getElementById('card');
+cardEl.addEventListener('touchstart',function(e){
+  touchStartX=e.changedTouches[0].screenX;
+  touchStartY=e.changedTouches[0].screenY;
+},false);
+cardEl.addEventListener('touchend',function(e){
+  touchEndX=e.changedTouches[0].screenX;
+  touchEndY=e.changedTouches[0].screenY;
+  handleSwipe();
+},false);
+function handleSwipe(){
+  var dx=touchEndX-touchStartX;
+  var dy=touchEndY-touchStartY;
+  if(Math.abs(dx)<50||Math.abs(dy)>Math.abs(dx))return; // 水平滑动距离不够或垂直滑动为主
+  if(dx>0){
+    // 右滑=上一个
+    if(state.cardIndex>0){state.cardIndex--;renderCard();renderStats();}
+  }else{
+    // 左滑=下一个（不评分直接跳过）
+    if(state.cardIndex<state.todayQueue.length-1){state.cardIndex++;renderCard();renderStats();}
+  }
+}
+
+// ===================== 事件绑定 =====================
+document.getElementById('card').addEventListener('click',function(e){
+  if(e.target.id==='speakBtn'||e.target.closest('#speakBtn'))return;
+  document.getElementById('card').classList.toggle('flipped');
+});
+document.getElementById('speakBtn').addEventListener('click',function(e){
+  e.stopPropagation();var word=state.todayQueue[state.cardIndex];if(word)speak(word);
+});
+document.querySelectorAll('.action-btn').forEach(function(btn){
+  btn.addEventListener('click',function(){handleGrade(parseInt(btn.dataset.grade));});
+});
+document.getElementById('tabCard').addEventListener('click',function(){switchMode('card');});
+document.getElementById('tabList').addEventListener('click',function(){switchMode('list');});
+document.getElementById('tabQuiz').addEventListener('click',function(){switchMode('quiz');});
+document.getElementById('restartBtn').addEventListener('click',function(){
+  state.todayQueue=[];initTodayQueue();renderCard();renderStats();renderList();
+});
+document.getElementById('goQuizBtn').addEventListener('click',function(){switchMode('quiz');});
+document.getElementById('quizRestartBtn').addEventListener('click',function(){initQuiz();});
+document.getElementById('settingsBtn').addEventListener('click',function(){
+  document.getElementById('settingsOverlay').classList.add('show');
+  document.getElementById('rateSlider').value=state.settings.rate;
+  document.getElementById('voiceSelect').value=state.settings.voice;
+  document.getElementById('dailySelect').value=state.settings.daily;
+  document.getElementById('autoPlaySelect').value=state.settings.autoPlay;
+  document.getElementById('voiceEngineSelect').value=state.settings.voiceEngine||'auto';
+});
+document.getElementById('settingsCloseBtn').addEventListener('click',function(){
+  document.getElementById('settingsOverlay').classList.remove('show');
+});
+document.getElementById('rateSlider').addEventListener('input',function(e){
+  state.settings.rate=parseFloat(e.target.value);saveState();
+});
+document.getElementById('voiceSelect').addEventListener('change',function(e){
+  state.settings.voice=e.target.value;saveState();
+});
+document.getElementById('dailySelect').addEventListener('change',function(e){
+  state.settings.daily=parseInt(e.target.value);saveState();
+});
+document.getElementById('autoPlaySelect').addEventListener('change',function(e){
+  state.settings.autoPlay=parseInt(e.target.value);saveState();
+});
+document.getElementById('voiceEngineSelect').addEventListener('change',function(e){
+  state.settings.voiceEngine=e.target.value;saveState();showToast('语音引擎已切换');
+});
+document.getElementById('resetBtn').addEventListener('click',function(){
+  if(confirm('确定重置所有学习进度？')){state.learned={};state.streak=0;state.todayQueue=[];saveState();initTodayQueue();renderCard();renderStats();renderList();showToast('已重置');}
+});
+document.getElementById('settingsOverlay').addEventListener('click',function(e){
+  if(e.target===this)document.getElementById('settingsOverlay').classList.remove('show');
+});
+// 搜索
+document.getElementById('searchBox').addEventListener('input',function(){renderList();});
+// 导出
+document.getElementById('exportBtn').addEventListener('click',function(){
+  var data=JSON.stringify({learned:state.learned,streak:state.streak,settings:state.settings});
+  var blob=new Blob([data],{type:'application/json'});
+  var url=URL.createObjectURL(blob);
+  var a=document.createElement('a');a.href=url;a.download='english_progress.json';a.click();
+  URL.revokeObjectURL(url);showToast('进度已导出');
+});
+// 导入
+document.getElementById('importBtn').addEventListener('click',function(){
+  var input=document.createElement('input');input.type='file';input.accept='.json';
+  input.onchange=function(e){
+    var file=e.target.files[0];if(!file)return;
+    var reader=new FileReader();
+    reader.onload=function(ev){
+      try{
+        var data=JSON.parse(ev.target.result);
+        if(data.learned)state.learned=data.learned;
+        if(data.streak)state.streak=data.streak;
+        if(data.settings)state.settings=data.settings;
+        saveState();renderCard();renderStats();renderList();showToast('进度已导入');
+      }catch(err){showToast('导入失败：文件格式错误');}
+    };
+    reader.readAsText(file);
+  };
+  input.click();
+});
+
+// ===================== 启动 =====================
+try{
+  loadState();
+  initTodayQueue();
+  renderCategories();
+  renderCard();
+  renderStats();
+  renderList();
+}catch(e){
+  document.body.innerHTML='<div style="padding:40px 20px;text-align:center;color:#e8e8f0;font-size:14px"><h2>⚠️ 脚本出错</h2><p style="margin:16px 0;color:#8888aa">'+e.message+'</p><p>请尝试用Chrome浏览器打开</p></div>';
+}
+</script>
+</body>
+</html>

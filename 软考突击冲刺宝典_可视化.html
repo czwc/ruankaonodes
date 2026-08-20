@@ -1,0 +1,1407 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="theme-color" content="#3b82f6">
+    <title>软考突击冲刺宝典 - 考前必看</title>
+    <!-- Marked.js (CDN + 离线降级) -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <script>
+    // CDN加载失败时的简易Markdown解析器
+    if(typeof marked==='undefined'){
+      window.marked={parse:function(md){
+        // 基础Markdown转HTML，保证离线也能看
+        var h=md;
+        // 转义HTML
+        h=h.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+        // 代码块
+        h=h.replace(/```([\s\S]*?)```/g,function(m,c){return'<pre><code>'+c+'</code></pre>';});
+        // 标题
+        h=h.replace(/^#### (.*)$/gm,'<h4>$1</h4>');
+        h=h.replace(/^### (.*)$/gm,'<h3>$1</h3>');
+        h=h.replace(/^## (.*)$/gm,'<h2>$1</h2>');
+        h=h.replace(/^# (.*)$/gm,'<h1>$1</h1>');
+        // 引用
+        h=h.replace(/^&gt; (.*)$/gm,'<blockquote><p>$1</p></blockquote>');
+        // 分割线
+        h=h.replace(/^---$/gm,'<hr>');
+        // 粗体
+        h=h.replace(/\*\*(.*?)\*\*/g,'<strong>$1</strong>');
+        // 行内代码
+        h=h.replace(/`([^`]+)`/g,'<code>$1</code>');
+        // 列表
+        h=h.replace(/^- \[ \] (.*)$/gm,'<li><input type="checkbox"> $1</li>');
+        h=h.replace(/^- (.*)$/gm,'<li>$1</li>');
+        h=h.replace(/^\* (.*)$/gm,'<li>$1</li>');
+        // 表格（简易处理）
+        h=h.replace(/^\|(.*)\|$/gm,function(m,r){
+          var cells=r.split('|').filter(function(c){return c.trim();});
+          if(cells[0]&&cells[0].indexOf('-')>=0&&cells[0].indexOf(':')<0)return'';
+          return'<tr>'+cells.map(function(c){return'<td>'+c.trim()+'</td>';}).join('')+'</tr>';
+        });
+        h=h.replace(/(<tr>[\s\S]*?<\/tr>)/g,'<table>$1</table>');
+        // 段落
+        h=h.replace(/\n\n/g,'</p><p>');
+        h='<div><p>'+h+'</p></div>';
+        // 清理空段落
+        h=h.replace(/<p><\/p>/g,'');
+        h=h.replace(/<p>(<h[1-4]>)/g,'$1');
+        h=h.replace(/(<\/h[1-4]>)<\/p>/g,'$1');
+        h=h.replace(/<p>(<blockquote>)/g,'$1');
+        h=h.replace(/(<\/blockquote>)<\/p>/g,'$1');
+        h=h.replace(/<p>(<hr>)/g,'$1');
+        h=h.replace(/<p>(<pre>)/g,'$1');
+        h=h.replace(/(<\/pre>)<\/p>/g,'$1');
+        h=h.replace(/<p>(<table>)/g,'$1');
+        h=h.replace(/(<\/table>)<\/p>/g,'$1');
+        h=h.replace(/<p>(<ul>)/g,'$1');
+        h=h.replace(/(<\/ul>)<\/p>/g,'$1');
+        h=h.replace(/<p>(<li>)/g,'<ul>$1');
+        h=h.replace(/(<\/li>)<\/p>/g,'$1</ul>');
+        return h;
+      }};
+    }
+    </script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root[data-theme="light"] {
+            --bg-color: #ffffff;
+            --text-color: #334155;
+            --sidebar-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --accent-color: #3b82f6;
+            --heading-color: #0f172a;
+            --code-bg: #f1f5f9;
+            --quote-bg: #f8fafc;
+            --quote-border: #3b82f6;
+            --table-header: #f1f5f9;
+        }
+        :root[data-theme="dark"] {
+            --bg-color: #0f172a;
+            --text-color: #cbd5e1;
+            --sidebar-bg: #1e293b;
+            --border-color: #334155;
+            --accent-color: #60a5fa;
+            --heading-color: #f8fafc;
+            --code-bg: #1e293b;
+            --quote-bg: #1e293b;
+            --quote-border: #60a5fa;
+            --table-header: #1e293b;
+        }
+        
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            height: 100vh;
+            overflow-y: auto;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+            z-index: 50;
+        }
+        
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+        
+        .sidebar h3 {
+            margin-top: 0;
+            color: var(--heading-color);
+            font-size: 1.2rem;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .theme-toggle:hover { background: rgba(128,128,128,0.1); }
+        
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            font-size: 14px;
+            transition: color 0.2s, padding-left 0.2s;
+            opacity: 0.8;
+            line-height: 1.5;
+            padding: 4px 0;
+            border-radius: 4px;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            color: var(--accent-color);
+            opacity: 1;
+            padding-left: 10px;
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        .toc-h1 { font-weight: 600; margin-top: 15px; font-size: 15px !important; color: var(--heading-color) !important; }
+        .toc-h2 { margin-left: 15px; font-weight: 500; }
+        .toc-h3 { margin-left: 30px; font-size: 13px !important; }
+        .toc-h4 { margin-left: 45px; font-size: 13px !important; opacity: 0.7; }
+        
+        /* Content */
+        .content-wrapper {
+            margin-left: 320px;
+            width: calc(100% - 320px);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .content {
+            padding: 60px 50px;
+            max-width: 850px;
+            width: 100%;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            color: var(--heading-color);
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        h1 { font-size: 2.5rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-top: 0; display: inline-block; }
+        h2 { font-size: 1.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        h3 { font-size: 1.4rem; }
+        
+        p { margin-bottom: 1.2em; }
+        
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin: 25px auto;
+            display: block;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 25px 0;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px var(--border-color);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--table-header);
+            font-weight: 600;
+            color: var(--heading-color);
+        }
+        
+        blockquote {
+            border-left: 4px solid var(--quote-border);
+            margin: 25px 0;
+            padding: 15px 20px;
+            background-color: var(--quote-bg);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+        
+        blockquote p { margin: 0; }
+        
+        pre {
+            border-radius: 8px !important;
+            margin: 20px 0 !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            background-color: var(--code-bg);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-color);
+        }
+        pre code { background-color: transparent; padding: 0; color: inherit; font-size: 0.85em; }
+        
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--border-color);
+            margin: 40px 0;
+        }
+        
+        /* Highlight specific markdown features (bold, italics) */
+        strong { 
+            color: var(--heading-color); 
+            font-weight: 600; 
+            background: linear-gradient(transparent 50%, rgba(253, 224, 71, 0.6) 50%);
+            padding: 0 4px;
+            border-radius: 2px;
+        }
+        
+        :root[data-theme="dark"] strong {
+            background: linear-gradient(transparent 50%, rgba(234, 179, 8, 0.4) 50%);
+            color: #fef08a;
+        }
+
+        /* 重点符号高亮 */
+        .highlight-icon {
+            color: #ef4444;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Floating To Top */
+        #totop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-color);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            text-decoration: none;
+            font-size: 20px;
+            z-index: 100;
+        }
+        #totop:hover { transform: translateY(-3px); }
+        #totop.visible { opacity: 1; }
+        
+        /* Header nav */
+        .top-nav {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        .top-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .top-nav a:hover, .top-nav a.active-nav {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+        /* tab切换时隐藏非当前部分 */
+        .content-section { display: none; }
+        .content-section.active { display: block; }
+        /* 手机端tab横向滚动 */
+        @media (max-width: 600px) {
+            .top-nav { overflow-x: auto; -ms-overflow-style: none; scrollbar-width: none; }
+            .top-nav::-webkit-scrollbar { display: none; }
+            .top-nav a { white-space: nowrap; flex-shrink: 0; }
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
+            .content-wrapper { margin-left: 0; width: 100%; }
+            .content { padding: 80px 30px 40px; }
+            #menu-btn { display: flex; }
+        }
+        
+        #menu-btn {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 101;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text-color);
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+        
+        /* 搜索框 */
+        .search-box {
+            width: 100%;
+            padding: 8px 12px;
+            margin-bottom: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            background: var(--bg-color);
+            color: var(--text-color);
+            font-size: 13px;
+            box-sizing: border-box;
+        }
+        .search-box:focus { outline: none; border-color: var(--accent-color); }
+        
+        /* 阅读进度 */
+        .read-progress {
+            font-size: 12px;
+            color: var(--text-color);
+            opacity: 0.6;
+            margin-bottom: 10px;
+            padding: 6px 10px;
+            background: rgba(59,130,246,0.05);
+            border-radius: 6px;
+        }
+        .read-progress .bar { height:3px; background:rgba(128,128,128,0.15); border-radius:2px; margin-top:4px; }
+        .read-progress .bar-fill { height:100%; background:var(--accent-color); border-radius:2px; transition:width .3s; }
+        
+        /* 折叠面板 */
+        .content h2 { cursor: pointer; position: relative; padding-right: 30px; }
+        .content h2::after {
+            content: '▼'; position: absolute; right: 0; top: 0;
+            font-size: 0.7em; transition: transform 0.3s; opacity: 0.5;
+        }
+        .content h2.collapsed::after { transform: rotate(-90deg); }
+        .content h2.collapsed ~ * { display: none; }
+        
+        /* 快速复习闪卡 */
+        .flashcard-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.7); z-index: 300;
+            display: none; align-items: center; justify-content: center;
+        }
+        .flashcard-overlay.show { display: flex; }
+        .flashcard {
+            background: var(--bg-color); border-radius: 16px; padding: 30px 24px;
+            max-width: 500px; width: 90%; text-align: center; box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        .flashcard .fc-cat { font-size: 12px; color: var(--accent-color); margin-bottom: 8px; }
+        .flashcard .fc-q { font-size: 18px; color: var(--heading-color); margin-bottom: 20px; font-weight: 600; }
+        .flashcard .fc-a { font-size: 16px; color: var(--text-color); margin-bottom: 20px; display: none; line-height: 1.6; }
+        .flashcard .fc-a.show { display: block; }
+        .flashcard .fc-btn { padding: 10px 24px; border-radius: 10px; border: none; cursor: pointer; font-size: 14px; margin: 0 6px; }
+        .flashcard .fc-show { background: var(--accent-color); color: #fff; }
+        .flashcard .fc-next { background: var(--sidebar-bg); color: var(--text-color); border: 1px solid var(--border-color); }
+        .flashcard .fc-close { position: absolute; top: 16px; right: 16px; background: none; border: none; font-size: 24px; cursor: pointer; color: #fff; }
+        
+        /* 浮动按钮 */
+        .float-btns { position: fixed; bottom: 30px; right: 30px; display: flex; flex-direction: column; gap: 10px; z-index: 100; }
+        .float-btn {
+            width: 45px; height: 45px; border-radius: 50%; border: none; cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2); font-size: 20px;
+            display: flex; align-items: center; justify-content: center;
+            transition: transform 0.3s, opacity 0.3s;
+        }
+        .float-btn:hover { transform: translateY(-3px); }
+        .float-btn.fb-top { background: var(--accent-color); color: white; opacity: 0; }
+        .float-btn.fb-top.visible { opacity: 1; }
+        .float-btn.fb-flash { background: #e17055; color: white; }
+        
+        /* 高亮搜索结果 */
+        .search-highlight { background: rgba(253,224,71,0.5); border-radius: 2px; }
+        
+        /* 清单复选框样式 */
+        .content input[type="checkbox"] { width: 18px; height: 18px; margin-right: 8px; cursor: pointer; accent-color: var(--accent-color); }
+        .content li { list-style: none; margin-bottom: 6px; }
+        .content li.checked { opacity: 0.5; text-decoration: line-through; }
+    </style>
+</head>
+<body>
+    <button id="menu-btn">☰ 目录</button>
+    
+    <div class="sidebar" id="sidebar">
+        <h3>目录 <button class="theme-toggle" id="theme-btn" title="切换主题">🌙</button></h3>
+        <input type="text" class="search-box" id="searchBox" placeholder="🔍 搜索考点...">
+        <div class="read-progress" id="readProgress">📖 阅读进度: 0%<div class="bar"><div class="bar-fill" style="width:0%"></div></div></div>
+        <div id="toc"></div>
+    </div>
+    
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="top-nav" id="topNav">
+                <a href="javascript:void(0)" class="active-nav" data-tab="all">📖 全部考点</a>
+                <a href="javascript:void(0)" data-tab="morning">☀️ 上午选择</a>
+                <a href="javascript:void(0)" data-tab="afternoon">🌙 下午大题</a>
+                <a href="javascript:void(0)" data-tab="extra">🔥 高频补充</a>
+                <a href="javascript:void(0)" data-tab="checklist">✅ 冲刺清单</a>
+            </div>
+            <div id="markdown-content">
+                <p>正在渲染内容，请稍候...</p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="float-btns">
+        <button class="float-btn fb-flash" id="flashBtn" title="快速复习">⚡</button>
+        <a href="#" class="float-btn fb-top" id="totop">↑</a>
+    </div>
+    
+    <div class="flashcard-overlay" id="flashcardOverlay">
+        <div class="flashcard" id="flashcard">
+            <button class="fc-close" id="fcClose">✕</button>
+            <div class="fc-cat" id="fcCat"></div>
+            <div class="fc-q" id="fcQ"></div>
+            <div class="fc-a" id="fcA"></div>
+            <button class="fc-btn fc-show" id="fcShow">显示答案</button>
+            <button class="fc-btn fc-next" id="fcNext">下一个</button>
+        </div>
+    </div>
+
+    <!-- Raw Markdown Data -->
+    <script id="raw-markdown" type="text/markdown">
+# 软考突击冲刺宝典 (含小白真题解析)
+
+> **写在前面的话：**
+> 这份宝典是专门为**基础薄弱、时间紧迫（如考前几个月）**的同学准备的。里面没有长篇大论，全是**口诀、套路、真题和保姆级解析**。哪怕你是一个步骤都不懂的小白，只要跟着这套逻辑顺下来，也能稳拿及格分！
+
+---
+
+## 第一部分：上午选择题 (高频必背考点)
+
+### 1. 数据结构与算法
+
+#### 🌳 二叉树遍历
+*   **前序遍历**：根 → 左 → 右
+*   **中序遍历**：左 → 根 → 右
+*   **后序遍历**：左 → 右 → 根
+
+> 💡 **小白白话解**：前、中、后，指的都是**“根节点”**什么时候被访问。如果是前序，第一个就是根！
+
+> **🎯 经典真题实战**
+> **题目**：已知某二叉树的前序遍历序列为 `A-B-D-C`，中序遍历序列为 `B-D-A-C`，请问它的后序遍历序列是什么？
+> A. D-B-C-A  　　 B. B-D-C-A 　　 C. D-C-B-A 　　 D. B-C-D-A
+> 
+> **👦 小白保姆级解析（选 A）**：
+> **第一步（找根）**：看前序 `A-B-D-C`。前序的**第一个字母永远是整棵树的根**！所以这棵树的根是 **A**。
+> **第二步（分左右）**：拿着这个根 **A**，去中序 `B-D-A-C` 里面找它。找到了吧？在A左边的 `B-D` 就是A的左子树，在A右边的 `C` 就是A的右子树。
+> **第三步（确定内部顺序）**：现在知道左边是 `B-D`。再回看前序，`B` 在 `D` 前面，说明左子树里 **B** 是根。再去中序看，`D` 在 `B` 的右边，说明 `D` 是 `B` 的右孩子。
+> **第四步（画图）**：A 是老大，左边小弟是 B，B 的右脚底下踩着 D；A 的右边小弟是 C。
+> **第五步（写后序）**：后序口诀是“左右根”。先读左子树（B和D的后序是 D-B），再读右子树（C），最后读根（A）。拼起来就是 `D-B-C-A`。
+
+#### 📊 线性表、栈、队列与排序
+*   **链表 vs 顺序表**：
+    *   链表：插入删除快，查找慢（就像一条绳子上的蚂蚱，找谁得顺着摸，但拔掉一只很方便）。
+    *   顺序表：查找快，插入删除慢（就像带座号的电影院，找座位很快，但如果在中间加个座位，后面所有人都要挪位置）。
+*   **栈与队列**：
+    *   **栈**：后进先出 LIFO（像个竹筒装豆子，最后放进去的，最先倒出来）。
+    *   **队列**：先进先出 FIFO（就像食堂排队，先排队的人先打饭）。
+*   **排序复杂度（必记口诀）**：
+    *   **冒泡 / 插入 / 选择**：都是慢吞吞的，最坏情况时间复杂度都是 **$O(n^2)$**。
+    *   **快速 / 归并 / 堆排序**：高级货，时间复杂度都是 **$O(n\log n)$**。
+
+#### 🕸️ 图
+*   **最小生成树**：Prim（普里姆算法，加点法）、Kruskal（克鲁斯卡尔算法，加边法）。
+*   **最短路径**：Dijkstra（迪杰斯特拉算法）。
+> 💡 **小白白话解**：考试只要看到问“最小生成树”，答案必定在 Prim 或 Kruskal 之间选；看到“最短路径”，选 Dijkstra 绝对没错！
+
+---
+
+### 2. 操作系统
+
+#### 🔒 死锁四大条件
+（必须同时满足才会死锁）：**互斥、请求保持、不剥夺、环路等待**。
+> 💡 **小白白话解**：两个人在独木桥中间碰头。桥只能过一人（**互斥**）；谁都不肯退后（**请求保持**）；又不能把对方推下水（**不剥夺**）；就这么大眼瞪小眼僵持着（**环路等待**）。
+
+#### 📁 内存管理
+*   **分页**：逻辑地址拆成 → **页号 + 页内偏移量**。系统把内存分成固定大小的块（页框），程序也分成同样大小的页，一页对应一个页框。
+*   **分段**：按程序的逻辑模块划分（比如主函数一段，子函数一段），有利于保护和共享。
+*   **虚拟内存**：物理内存不够，拿硬盘凑。基于**局部性原理**（程序运行时只集中在某个区域），当找不到数据时会发生**缺页中断**。
+    *   **局部性原理是什么？**：程序在一段时间内只访问一小部分地址。分两种：**时间局部性**（刚访问过的数据很快还会再访问，比如循环体）和**空间局部性**（访问了某个地址，附近地址也会被访问，比如数组遍历）。
+    *   **缺页中断是什么？**：CPU要访问的页不在内存中（在硬盘上），触发中断 → OS把缺的页从硬盘调入内存 → 如果内存满了就用页面置换算法淘汰一页 → 调入新页后继续执行。这个过程对程序透明（程序不知道）。
+
+#### 🚦 进程三态模型
+**就绪 (Ready)、运行 (Running)、阻塞 (Blocked)**。
+
+> **🎯 经典真题实战**
+> **题目**：进程 P 正在等待打印机输出，此时 P 处于什么状态？如果打印机输出完毕，P 变成了什么状态？
+> A. 阻塞状态，运行状态
+> B. 阻塞状态，就绪状态
+> C. 运行状态，就绪状态
+> 
+> **👦 小白保姆级解析（选 B）**：
+> **第一步**：理解三种状态。
+> “运行” = 正在被 CPU 算。
+> “就绪” = 万事俱备，只欠 CPU（资源都有了，就等 CPU 临幸）。
+> “阻塞” = 卡住了，在等别的资源（比如等用户输入，等打印机）。
+> **第二步**：套入题目。P 在等打印机，所以它卡住了，处于**阻塞状态**。
+> **第三步**：打印机完事了，它不卡了。但是！**解除阻塞后绝对不能直接去运行**，因为 CPU 可能还在忙别的事，所以它必须乖乖去排队，也就是变成**就绪状态**。
+
+---
+
+### 3. 计算机网络
+
+#### 🌐 五层模型与协议
+1.  **应用层**：HTTP（80端口）、HTTPS（443端口）、FTP（21端口）、SSH（22端口）、DHCP（分发IP）、DNS（域名解析）。
+2.  **传输层**：
+    *   **TCP**：可靠、面向连接。有“三次握手”（建立连接）和“四次挥手”（断开连接）。（打电话，保证接通）。
+    *   **UDP**：不可靠、无连接、速度快。用于视频直播等。（发短信，不管你收没收到）。
+3.  **网络层**：IP（路由器在这里）。
+4.  **数据链路层**：MAC 地址、交换机。
+5.  **物理层**：网线、光纤、集线器。
+
+#### 🏠 私有 IP 段（必考，死记硬背）
+局域网内用的 IP（路由器给你分配的），外网无法直接访问：
+*   **10.0.0.0** ~ 10.255.255.255
+*   **172.16.0.0** ~ 172.31.255.255
+*   **192.168.0.0** ~ 192.168.255.255
+
+> **🎯 经典真题实战**
+> **题目**：以下 IP 地址中，可以在 Internet 上直接使用的是？
+> A. 192.168.1.1 　　 B. 10.254.1.2 　　 C. 172.15.2.3 　　 D. 172.16.0.1
+> 
+> **👦 小白保姆级解析（选 C）**：
+> 题目问可以在 Internet（公网/外网）上直接用的，也就是问**哪个不是私有 IP**。
+> 选项A：192.168 开头，家里 WiFi 常见，私有，排除。
+> 选项B：10 开头，私有，排除。
+> 选项D：172.16 开头，属于 172.16~172.31 的私有范围，排除。
+> 选项C：172.**15**，不在私有段里面，所以它是公网 IP。选它！
+
+---
+
+### 4. 数据库
+
+#### 🔒 事务 ACID 属性
+*   **A - 原子性**：要么全做，要么全不做（转账不能我扣了钱你没收到）。
+*   **C - 一致性**：执行前后，数据总量要守恒。
+*   **I - 隔离性**：多个事务并发执行时互不干扰。
+*   **D - 持久性**：一旦提交，数据就永远保存在硬盘上了，系统崩溃也不怕。
+
+#### 📊 三大范式 (Normal Form)
+*   **1NF（第一范式）**：列不可再分（每个格子只能装一个数据）。比如"电话"字段不能同时存"手机和座机"，必须拆成两列。
+*   **2NF（第二范式）**：消除**部分函数依赖**。
+    *   **部分函数依赖是什么意思？**：就是某个非主键属性，只依赖了联合主键的**一部分**。比如主键是(学号,课程号)，但"姓名"只跟"学号"有关，跟"课程号"无关——这就是"部分依赖"，说明姓名不应该放在这张表里。
+    *   **怎么解决**：把只依赖部分主键的属性拆出去，单独建表。
+*   **3NF（第三范式）**：消除**传递函数依赖**。
+    *   **传递函数依赖是什么意思？**：A决定B，B又决定C，就说C对A有"传递依赖"。比如学号→系号→系主任，系主任是通过系号"传递"过来的，不是学号直接决定的。
+    *   **怎么解决**：把传递链上的属性拆出去单独建表。
+
+> **🎯 经典真题实战**
+> **题目**：关系表 学生(学号，姓名，系号，系主任姓名) 中，存在哪个级别的依赖问题？不满足哪一范式？
+> A. 部分依赖，不满足2NF
+> B. 传递依赖，不满足3NF
+> 
+> **👦 小白保姆级解析（选 B）**：
+> **第一步**：找主键。谁能唯一确定一个学生？显然是“学号”。
+> **第二步**：分析依赖。
+> 学号 → 姓名（学号决定姓名，没毛病）
+> 学号 → 系号（学号决定你在哪个系，没毛病）
+> 系号 → 系主任姓名（**问题来了！**系主任的名字是由系号决定的，而不是直接由学号决定的）。
+> **第三步**：结论。这就形成了：`学号` 决定 `系号`，`系号` 又决定 `系主任`。这叫“**传递依赖**”。只要有传递依赖，就不满足 **3NF**。
+
+#### 🔑 ER图与键
+*   **实体、属性、联系**：矩形画实体，椭圆画属性，菱形画联系。
+*   **1:1、1:n、m:n**：一对一、一对多、多对多。
+*   **主键**：唯一标识一行记录，不能重复，不能为空。
+*   **外键**：把别人家的主键拿过来放到自己表里，用来做关联。
+
+---
+
+### 5. 软件工程
+
+#### 🏗️ 开发模型必背套路
+*   **瀑布模型**：一步接一步，不回头。适用于**需求明确**的项目。缺点是后期改动极难。
+*   **原型模型**：**需求不明确**。先糊弄一个界面（原型）给客户看，客户满意了再写代码。
+*   **增量模型**：把软件拆成一个个小模块，**逐步交付**。（先给你一个能打字的版本，下个月再给你加上排版功能）。
+*   **螺旋模型**：强调**风险分析**。适用于庞大、复杂、高风险的项目。
+*   **敏捷开发**：小团队、小步快跑、拥抱需求变化（老板一天一个想法就用这个）。
+
+#### 📐 模块独立性与测试
+*   **模块独立性**：**高内聚，低耦合**。（自己内部紧密团结，和别的模块划清界限。耦合越低越好，内聚越高越好）。
+    *   **内聚（从低到高7级）**：偶然内聚（最差，模块内各元素毫无关系）→ 逻辑内聚（执行逻辑相似的功能）→ 时间内聚（同一时间执行）→ 过程内聚（按特定顺序执行）→ 通信内聚（操作同一数据）→ 顺序内聚（一个的输出是另一个的输入）→ 功能内聚（最好，所有元素完成一个功能）。
+    *   **耦合（从低到高7级）**：非直接耦合（无直接关系）→ 数据耦合（传数据参数）→ 标记耦合（传数据结构）→ 控制耦合（传控制信号）→ 外部耦合（共享外部数据）→ 公共耦合（共享全局变量）→ 内容耦合（最差，直接访问对方内部）。
+    *   **口诀**：内聚越高越好（功能内聚最好），耦合越低越好（数据耦合最好）。
+
+#### 🏢 软件过程能力成熟度（CMMI）
+*   **CMMI是什么？**：评估软件开发组织的能力成熟度等级，从低到高5级：
+    *   **1级-初始级**：无序混乱，靠个人英雄主义，成功靠运气。
+    *   **2级-已管理级**：建立了基本项目管理，能重复以前的成功。
+    *   **3级-已定义级**：有了标准的过程规范，全组织统一执行。
+    *   **4级-量化管理级**：用数据量化管理过程，可预测结果。
+    *   **5级-优化级**：持续改进，不断优化过程。
+    *   **口诀**：初(1)管(2)定(3)量(4)优(5)——"初管定量优"
+*   **测试阶段顺序**：单元测试（测单个文件） → 集成测试（拼起来测接口） → 系统测试（在真实环境测整体） → 验收测试（甲方爸爸来测）。
+
+---
+
+### 6. UML 必背 (统一建模语言)
+
+#### 🔗 五大关系强度
+**泛化（继承） > 实现 > 组合 > 聚合 > 关联 > 依赖**。
+*   **泛化**：就是面向对象里的“继承”（猫 泛化于 动物）。
+*   **组合**：整体和部分共生死。（人 和 人的大脑）。
+*   **聚合**：整体和部分可分离。（车队 和 汽车，汽车离开车队照样开）。
+
+#### 🗺️ 常用图
+*   **用例图**：从用户角度看系统能干啥。
+*   **类图**：展示系统的静态结构（包含哪些类，类有什么方法）。
+*   **时序图/状态图/活动图**：表示动态的行为。
+
+> **🎯 经典真题实战**
+> **题目**：在面向对象建模中，汽车（Car）包含引擎（Engine）和轮胎（Wheel），且没有了引擎汽车就报废不能存在了，而轮胎可以被拆下来换到别的车上。请问汽车与引擎、汽车与轮胎分别是什么关系？
+> A. 组合、聚合 　　 B. 聚合、组合
+> 
+> **👦 小白保姆级解析（选 A）**：
+> 题目说汽车和引擎“共生死（不能存在了）”，这就叫**组合**（强烈的拥有）。
+> 题目说轮胎可以“拆下来分离”，这就叫**聚合**（较弱的拼凑）。
+
+---
+
+### 7. 知识产权 & 标准 (送分题)
+
+*   **著作权**：你写完代码的一瞬间就**自动产生**了，不需要去登记。
+*   **保护期限**：
+    *   发明专利：保护 **20 年**。
+    *   实用新型：保护 **10 年**。
+    *   外观设计：保护 **15 年**。
+*   **标准代号**：
+    *   **GB**：国标（强制性国家标准）。
+    *   **GB/T**：推荐性国家标准（T=推）。
+    *   **GJB**：国家军用标准。
+
+---
+---
+
+## 第二部分：下午四大题 万能答题模板
+
+下午题表面看起来很吓人，但其实全是死套路。只要背熟这几个模板，照猫画虎，拿高分非常容易！
+
+### 📝 题型一：数据流图 (DFD) 答题模板
+
+**这是下午第一题，纯阅读理解找茬游戏。一共15分，争取拿满！**
+
+#### 📋 DFD四大基本元素（必须认识！）
+*   **外部实体**：系统外面的人或系统（用**矩形**表示）。比如"用户"、"管理员"、"银行系统"。
+*   **加工（Process）**：对数据的处理动作（用**圆圈/圆角矩形**表示）。比如"计算工资"、"验证密码"。
+*   **数据流**：数据的流动方向（用**箭头**表示），箭头上要标数据名称。比如"订单信息→"。
+*   **数据存储**：保存数据的地方（用**两条平行线**表示）。比如"学生表"、"库存数据库"。
+
+#### 🔑 核心法宝：父子图平衡原则
+顶层图（父图）和 0层图（子图）的输入、输出箭头必须一模一样！父图有几个箭头进出，子图边缘也必须有对应的箭头。
+
+#### 🔍 找缺失的数据流（固定套路三板斧）
+1.  **对比父子图找茬**：父图有的流，子图边上没有？补上！
+2.  **找外部实体与加工**：看看题干描述，用户/系统（外部实体）发出的动作，有没有箭头指向圈圈（加工）？如果没有，补充！
+3.  **找文件读写**：题干说“保存至数据库/将某某存档”，有没有圈圈指向两条横线（数据存储）的箭头？如果没有，补充！
+
+#### 🗣️ 改错题固定话术（直接默写）
+题目问：图中某某加工有问题，请指出。
+*   **黑洞现象**：某加工只有输入的数据流，没有输出的数据流。（光吃不拉，存在黑洞）。
+*   **奇迹现象**：某加工只有输出，没有输入。（凭空产生，存在奇迹）。
+*   **平衡问题**：父图和子图的数据流不平衡，需补充 / 删减相应的输入输出流。
+
+---
+
+### 🗄️ 题型二：数据库 ER 设计模板
+
+**这是下午第二题。题目会给你一段需求，让你画 ER 图并转成关系表。**
+
+#### 🔑 万能转换法则（直接背）
+怎么把 ER 图里的菱形（联系）变成表格里的外键？
+*   **1:1（一对一）**：随便！两边的表，你可以把A的主键塞进B做外键，也可以把B的主键塞进A。
+*   **1:n（一对多）**：**把 1 的一方的主键，拿过来放进 n 的一方做外键**。（比如：一个班级有多个学生。就把“班级号”作为外键放进“学生表”里）。
+*   **m:n（多对多）**：**必须新建一张中间关系表！** 这张新表必须包含双方的主键，组成“联合主键”。（比如：学生和课程是多对多，必须建一张“选课成绩表”，里面包含“学号”和“课程号”）。
+
+> **🎯 小白实战演示**
+> **题目**：部门（部门号，名称）和 员工（员工号，姓名）。一个部门有多个员工，一个员工只属于一个部门。现需转换为关系模式，请问员工关系表应该包含哪些属性？
+> **小白秒杀**：
+> 1. 判断关系：部门(1) 对 员工(n)。是 1:n 关系。
+> 2. 背口诀：“1的主键放进n做外键”。1是部门，主键是“部门号”。
+> 3. 结果：员工表里必须强行加上“部门号”。所以员工表 = (员工号，姓名，**部门号**)！
+
+#### 🗣️ 范式判断话术
+*   如果题目问：这个表为什么不满足 2NF？
+    答：因为存在**部分函数依赖**。（有非主键属性只依赖了联合主键的一部分）。
+*   如果题目问：这个表为什么不满足 3NF？
+    答：因为存在**传递函数依赖**。
+
+---
+
+### 🧩 题型三：UML 类图 / 用例图模板
+
+**下午第三题，看图填空。这题纯考英语单词和常识。**
+
+#### 🔑 解题套路
+1.  **类图填空**：矩形框里分三层：第一层是类名，第二层是属性（变量），第三层是方法（函数）。
+    题目让你填空缺，你就在题目文本里找**名词**填第二层，找**动词**填第三层。
+    注意看修饰符：`+`表示 `public`，`-` 表示 `private`，`#` 表示 `protected`。
+2.  **写类之间的关系**：如果你看到英文代码 `class A extends B`，毫不犹豫在图里填 **“泛化”**（实线+空心三角）。如果看到 `implements`，填 **“实现”**（虚线+空心三角）。
+3.  **用例图关系**：
+    *   **包含关系 (<<include>>)**：必定会发生的步骤。比如“借书”必然包含“验证读者身份”。
+    *   **扩展关系 (<<extend>>)**：可能会发生的特殊情况。比如“买东西”，可能会发生“修改密码”。
+
+---
+
+### 💻 题型四：算法 & 程序填空套路
+
+**这是下午第四题，通常是C语言填空。很多小白直接放弃，千万别！套路很深，可以蒙分！**
+
+#### 🔑 小白蒙分绝学
+不用你自己从头写代码！考卷已经给出了 90% 的代码，你只需要在划线的地方填空。
+*   **找上下文变量名**：如果你看到上面定义了 `int i, j, max;`，但下面代码死活没用到 `max`，那填空处 80% 的概率要填 `max = ...`。
+*   **死记二分查找模板**：如果考二分查找，几乎必定要填：
+    *   循环条件：`while (low <= high)`  （注意那个等号千万别漏）
+    *   求中点：`mid = (low + high) / 2`
+*   **死记冒泡排序条件**：如果考排序，外层循环一般是 `for(i=0; i<n-1; i++)`，内层循环必定考边界，填 `j < n - 1 - i`。
+*   **看大意猜填空**：就算你完全看不懂这段 C 语言，只要跟着旁边的中文注释去“找对应的变量翻译”，拼凑一下也能蒙对一半！
+
+> **最后提醒：**
+> 考试的时候，**不会拼的英文单词去前面的大题里找**，前面题目里往往会有完整的拼写！下午题就算不会，也绝对不要空着，把相关的术语默写上去，阅卷老师可能会给辛苦分！
+
+---
+
+## 第三部分：高频考点补充（必背！）
+
+### 8. PV操作（下午题必考15分！）
+
+> ⚠️ **这是下午题的"半壁江山"，几乎每年必考！务必背熟！**
+
+#### 🔑 信号量基本概念
+*   **信号量S**：一个整数变量，表示可用资源数。
+*   **P操作（wait）**：`S = S - 1`。如果 `S < 0`，进程**阻塞等待**。（申请资源，资源-1）
+*   **V操作（signal）**：`S = S + 1`。如果 `S <= 0`，**唤醒**一个等待进程。（释放资源，资源+1）
+
+> 💡 **小白白话解**：S就是"停车场空位数"。P操作就是"开进去一辆"（空位-1），没位了就排队等。V操作就是"开出来一辆"（空位+1），有排队的就放行一辆。
+
+#### 🔑 互斥 vs 同步
+*   **互斥**：多个进程争抢**同一个**资源。设互斥信号量 `mutex = 1`。
+    *   进入临界区前 `P(mutex)`，退出后 `V(mutex)`。
+    *   **临界区是什么？**：就是访问共享资源的那段代码。比如两个进程都要写同一个文件，写文件的那几行代码就是临界区，同一时刻只能一个进程进去。
+*   **同步**：进程间有**先后顺序**要求。设同步信号量 `S = 0`。
+    *   前驱操作完成后 `V(S)`，后继操作开始前 `P(S)`。
+    *   **同步是什么意思？**：就是"你先做完我才能做"。比如必须先生产出产品，消费者才能取。生产者做完后V(S)通知，消费者P(S)等待通知。
+
+#### 🎯 PV操作万能解题步骤
+1.  **找共享资源** → 设互斥信号量（初值=1）
+2.  **找先后顺序** → 设同步信号量（初值=0）
+3.  **找缓冲区** → 设缓冲区信号量（初值=缓冲区大小）
+4.  **套模板**：互斥P操作夹在同步P操作中间（P(mutex)必须在P(S)之后！否则会死锁）
+
+> **🎯 经典真题：生产者-消费者问题**
+> 生产者生产产品放入缓冲区，消费者从缓冲区取产品。缓冲区容量为N。
+> ```
+> semaphore empty = N;   // 空缓冲区数
+> semaphore full = 0;    // 满缓冲区数
+> semaphore mutex = 1;   // 互斥信号量
+> 
+> 生产者:                 消费者:
+> while(true) {           while(true) {
+>   生产一个产品;            P(full);    // 等有产品
+>   P(empty);   // 等有空位     P(mutex);  // 锁缓冲区
+>   P(mutex);   // 锁缓冲区     从缓冲区取产品;
+>   放入缓冲区;               V(mutex);  // 解锁
+>   V(mutex);   // 解锁         V(empty);  // 空位+1
+>   V(full);    // 产品+1      消费产品;
+> }                        }
+> ```
+> **关键**：P操作的顺序不能颠倒！必须先P(empty/full)再P(mutex)，否则会死锁！
+
+---
+
+### 9. 设计模式（上午选择题高频）
+
+#### 🔑 创建型模式（5个）
+| 模式 | 一句话记忆 | 关键词 |
+|------|-----------|--------|
+| **单例(Singleton)** | 全局只有一个实例 | 唯一实例 |
+| **工厂方法(Factory)** | 子类决定创建哪个产品 | 定义接口，子类实现 |
+| **抽象工厂(Abstract Factory)** | 创建一系列相关产品 | 产品族 |
+| **建造者(Builder)** | 分步骤构建复杂对象 | 一步步组装 |
+| **原型(Prototype)** | 通过克隆创建对象 | 深拷贝/浅拷贝 |
+
+#### 🔑 结构型模式（7个）
+| 模式 | 一句话记忆 |
+|------|-----------|
+| **适配器(Adapter)** | 接口转换器（Type-C转USB） |
+| **桥接(Bridge)** | 将抽象与实现分离（遥控器↔电视） |
+| **组合(Composite)** | 树形结构，整体与部分一致 |
+| **装饰器(Decorator)** | 动态加功能（套娃） |
+| **外观(Facade)** | 给复杂子系统一个简单入口 |
+| **享元(Flyweight)** | 共享细粒度对象（线程池） |
+| **代理(Proxy)** | 控制访问（经纪人） |
+
+#### 🔑 行为型模式（11个）
+| 模式 | 一句话记忆 |
+|------|-----------|
+| **观察者(Observer)** | 状态变化通知所有人 |
+| **策略(Strategy)** | 算法族可互相替换 |
+| **模板方法(Template)** | 父类定骨架，子类填细节 |
+| **命令(Command)** | 把请求封装成对象 |
+| **职责链(Chain)** | 请求沿链传递 |
+| **状态(State)** | 状态变行为也变 |
+| **迭代器(Iterator)** | 顺序访问集合元素 |
+| **中介者(Mediator)** | 用中介代替多对多通信 |
+| **备忘录(Memento)** | 保存/恢复对象状态 |
+| **解释器(Interpreter)** | 定义语言文法解释 |
+
+> 💡 **口诀**：创建5+结构7+行为11=23种设计模式。考试常考：单例、工厂、观察者、策略、适配器、装饰器、代理。
+
+---
+
+### 10. 面向对象设计原则（SOLID+）
+
+| 原则 | 口诀 | 解释 |
+|------|------|------|
+| **单一职责(SRP)** | 一个类只干一件事 | 不要把所有功能塞进一个类 |
+| **开闭原则(OCP)** | 对扩展开放，对修改关闭 | 加新功能不改老代码 |
+| **里氏替换(LSP)** | 子类能替父类 | 子类不能比父类更严格 |
+| **依赖倒置(DIP)** | 依赖抽象不依赖具体 | 面向接口编程 |
+| **接口隔离(ISP)** | 接口要小而专 | 不要胖接口 |
+| **迪米特法则(LoD)** | 最少知道原则 | 只跟直接朋友说话 |
+| **组合复用(CRP)** | 优先组合而非继承 | has-a比is-a更灵活 |
+
+> **🎯 考点**：开闭原则(OCP)是面向对象设计的**核心目标**，考得最多！
+
+---
+
+### 11. 计算机组成原理（上午必考3-5分）
+
+#### 🔑 校验码
+*   **奇偶校验**：只能检奇数个错，不能纠错。加一位校验位让1的个数为偶数（偶校验）或奇数（奇校验）。
+*   **海明码**：可检错可纠错。公式：`2^r >= m + r + 1`（r=校验位，m=数据位）。
+    *   **海明码是什么？**：在数据位中插入多个校验位，每个校验位负责一组数据位的奇偶校验。出错时通过校验位的组合就能定位到哪一位错了，然后翻转那一位就纠正了。
+*   **CRC循环冗余校验**：用模2除法（异或），只能检错不能纠错。
+    *   **模2除法是什么？**：就是做除法时不借位，用异或(XOR)代替减法。比如1011除以11，不借位直接异或。CRC用这个方法算出余数（校验码）附在数据后面，接收方用同样的方式验证余数是否为0。
+
+#### 🔑 存储体系（速度从快到慢）
+寄存器 → Cache → 内存 → 硬盘 → 外存
+*   **Cache命中率**：`命中率 = 命中次数 / 总访问次数`
+*   **平均访问时间**：`T = h × Tc + (1-h) × Tm`（h=命中率，Tc=Cache时间，Tm=内存时间）
+
+#### 🔑 寻址方式
+*   **立即寻址**：操作数直接在指令中。
+*   **直接寻址**：指令中放操作数的地址。
+*   **间接寻址**：指令中放"指向操作数地址的地址"。
+*   **寄存器寻址**：操作数在寄存器中。
+*   **基址寻址**：基址寄存器+偏移量。
+
+> **🎯 考点**：流水线、Cache、校验码是三大高频考点。
+
+#### 🔑 流水线技术
+*   **流水线是什么？**：把一条指令的执行分成多个阶段（如取指→译码→执行→访存→写回），每个阶段用不同的硬件部件，这样多条指令可以重叠执行，就像工厂流水线一样。
+*   **流水线周期**：等于最长阶段的时间（木桶效应，最慢的阶段决定整体速度）。
+*   **流水线执行时间**：`T = (一条指令的各阶段时间之和) + (n-1) × 流水线周期`。其中n是指令数。
+    *   **举例**：5个阶段各2ns，100条指令。T = (5×2) + (100-1)×2 = 10 + 198 = 208ns。不用流水线则是100×10=1000ns。
+*   **流水线加速比**：`S = 不用流水线的时间 / 用流水线的时间`
+*   **流水线吞吐率**：`TP = 指令数 / 流水线总时间`
+
+---
+
+### 12. 多媒体基础（上午考1-2分）
+
+#### 🔑 图像格式
+*   **BMP**：无损，不压缩，文件大。
+*   **JPEG**：有损压缩，适合照片。
+*   **PNG**：无损压缩，支持透明。
+*   **GIF**：256色，支持动画。
+
+#### 🔑 音频计算
+*   **采样频率**：44.1kHz（CD音质）
+*   **量化位数**：16bit
+*   **声道数**：双声道=2
+*   **公式**：`文件大小 = 采样频率 × 量化位数 × 声道数 × 秒数 / 8`
+
+#### 🔑 视频编码
+*   **H.261/H.263**：视频会议。
+*   **MPEG-1**：VCD。
+*   **MPEG-2**：DVD。
+*   **MPEG-4**：网络视频。
+
+---
+
+### 13. 专业英语填空技巧（上午最后5题）
+
+> ⚠️ **上午最后5题是英语填空，每题1分，共5分！不能放弃！**
+
+#### 🔑 答题技巧
+1.  **先看选项**：4个选项中通常有2个明显不对，先排除。
+2.  **找固定搭配**：如 `responsible for`、`consist of`、`depend on`、`refer to`。
+3.  **看上下文**：前一句和后一句的逻辑关系（因果、转折、递进）。
+4.  **找重复词**：文章中其他地方可能出现过正确答案。
+5.  **语法排除**：主谓一致、时态一致、单复数一致。
+
+#### 🔑 高频词汇速记
+| 英文 | 中文 | 考法 |
+|------|------|------|
+| requirement | 需求 | 需求分析阶段 |
+| specification | 规格说明 | SRS文档 |
+| maintenance | 维护 | 软件维护 |
+| verification | 验证 | V&V验证确认 |
+| validation | 确认 | V&V验证确认 |
+| encapsulation | 封装 | OO三大特性 |
+| inheritance | 继承 | OO三大特性 |
+| polymorphism | 多态 | OO三大特性 |
+| coupling | 耦合 | 高内聚低耦合 |
+| cohesion | 内聚 | 高内聚低耦合 |
+| concurrency | 并发 | 并发控制 |
+| synchronization | 同步 | 进程同步 |
+| transaction | 事务 | ACID特性 |
+| normalization | 规范化 | 数据库范式 |
+| protocol | 协议 | 网络协议 |
+
+> 💡 **终极技巧**：英语填空题的答案通常在**同一段落的上下文中**能找到线索。实在不会就选最"专业"的那个词！
+
+---
+
+## 第四部分：考前3天冲刺清单
+
+### 📋 上午选择题必背清单（打勾自测）
+
+- [ ] 二叉树前中后序遍历规则
+- [ ] 排序算法时间复杂度（冒泡O(n²)、快排O(nlogn)）
+- [ ] 死锁四大条件（互斥、请求保持、不剥夺、环路等待）
+- [ ] 进程三态转换（就绪↔运行↔阻塞）
+- [ ] 页面置换算法（FIFO、LRU）
+- [ ] TCP/UDP区别（TCP可靠面向连接，UDP不可靠无连接）
+- [ ] OSI五层模型及各层协议
+- [ ] 私有IP范围（10/172.16-31/192.168）
+- [ ] ACID四特性
+- [ ] 三大范式（1NF不可再分、2NF消部分依赖、3NF消传递依赖）
+- [ ] ER图转关系模式（1:1/1:n/m:n）
+- [ ] 开发模型特点（瀑布/原型/增量/螺旋/敏捷）
+- [ ] UML五大关系（泛化>实现>组合>聚合>关联>依赖）
+- [ ] 设计模式分类（创建5+结构7+行为11）
+- [ ] SOLID原则（开闭原则是核心）
+- [ ] 海明码公式（2^r >= m+r+1）
+- [ ] Cache平均访问时间计算
+- [ ] 著作权自动产生、专利保护期限
+- [ ] PV操作模板（互斥mutex=1，同步S=0）
+- [ ] 局部性原理（时间局部性+空间局部性）
+- [ ] 缺页中断过程（缺页→调入→淘汰→执行）
+- [ ] 临界区概念（访问共享资源的代码段）
+- [ ] 模2除法（异或代替减法）
+- [ ] 流水线执行时间计算（各阶段之和+(n-1)×周期）
+- [ ] 内聚7级（偶然→逻辑→时间→过程→通信→顺序→功能）
+- [ ] 耦合7级（非直接→数据→标记→控制→外部→公共→内容）
+- [ ] CMMI五级（初管定量优）
+- [ ] DFD四大元素（外部实体/加工/数据流/数据存储）
+
+### 📋 下午题必背模板
+
+- [ ] DFD：父子图平衡原则、黑洞/奇迹现象
+- [ ] ER图：1:n把1的主键放n做外键、m:n建中间表
+- [ ] UML类图：名词填属性、动词填方法、+public/-private/#protected
+- [ ] 算法填空：二分查找while(low<=high)、冒泡j<n-1-i
+- [ ] PV操作：P申请V释放、互斥P夹在同步P中间
+
+    </script>
+
+    <script>
+        // localStorage安全封装
+        var _lsOK=false;
+        try{localStorage.setItem('_t','1');localStorage.removeItem('_t');_lsOK=true;}catch(e){_lsOK=false;}
+        function _lsGet(k){try{return _lsOK?localStorage.getItem(k):null;}catch(e){return null;}}
+        function _lsSet(k,v){try{if(_lsOK)localStorage.setItem(k,v);}catch(e){}}
+
+        document.addEventListener('DOMContentLoaded', function() {
+          try {
+            // Theme setup
+            var themeBtn = document.getElementById('theme-btn');
+            var htmlEl = document.documentElement;
+            var savedTheme = _lsGet('theme') || 'light';
+            htmlEl.setAttribute('data-theme', savedTheme);
+            themeBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+            themeBtn.addEventListener('click', function() {
+                var currentTheme = htmlEl.getAttribute('data-theme');
+                var newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                htmlEl.setAttribute('data-theme', newTheme);
+                _lsSet('theme', newTheme);
+                themeBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+            });
+
+            // Mobile menu
+            var menuBtn = document.getElementById('menu-btn');
+            var sidebar = document.getElementById('sidebar');
+            menuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                sidebar.classList.toggle('open');
+            });
+            document.addEventListener('click', function(e) {
+                if (window.innerWidth <= 900 && !sidebar.contains(e.target) && e.target !== menuBtn) {
+                    sidebar.classList.remove('open');
+                }
+            });
+
+            // Parse markdown
+            var rawMd = document.getElementById('raw-markdown').textContent;
+            var contentDiv = document.getElementById('markdown-content');
+            contentDiv.innerHTML = marked.parse(rawMd);
+
+            var tocDiv = document.getElementById('toc');
+
+            // ===== Tab切换 =====
+            var sections = [];
+            var currentSection = null;
+            var children = Array.prototype.slice.call(contentDiv.children);
+            children.forEach(function(el) {
+                if (el.tagName === 'H2' && el.textContent.indexOf('第') >= 0 && el.textContent.indexOf('部分') >= 0) {
+                    if (currentSection) sections.push(currentSection);
+                    currentSection = document.createElement('div');
+                    currentSection.className = 'content-section';
+                    currentSection.dataset.title = el.textContent;
+                    contentDiv.insertBefore(currentSection, el);
+                    currentSection.appendChild(el);
+                } else if (currentSection) {
+                    currentSection.appendChild(el);
+                } else {
+                    currentSection = document.createElement('div');
+                    currentSection.className = 'content-section active';
+                    currentSection.dataset.title = '前言';
+                    contentDiv.insertBefore(currentSection, el);
+                    currentSection.appendChild(el);
+                }
+            });
+            if (currentSection) sections.push(currentSection);
+
+            var sectionEls = contentDiv.querySelectorAll('.content-section');
+            sectionEls.forEach(function(sec) {
+                var title = sec.dataset.title || '';
+                if (title.indexOf('上午') >= 0 || title.indexOf('第一') >= 0) sec.dataset.tab = 'morning';
+                else if (title.indexOf('下午') >= 0 || title.indexOf('第二') >= 0) sec.dataset.tab = 'afternoon';
+                else if (title.indexOf('高频') >= 0 || title.indexOf('第三') >= 0) sec.dataset.tab = 'extra';
+                else if (title.indexOf('冲刺') >= 0 || title.indexOf('第四') >= 0 || title.indexOf('清单') >= 0) sec.dataset.tab = 'checklist';
+                else sec.dataset.tab = 'all';
+            });
+
+            function switchTab(tab) {
+                if (tab === 'all') {
+                    sectionEls.forEach(function(s) { s.classList.add('active'); });
+                } else {
+                    sectionEls.forEach(function(s) {
+                        if (s.dataset.tab === tab) s.classList.add('active');
+                        else s.classList.remove('active');
+                    });
+                }
+                tocDiv.innerHTML = '';
+                var visibleHeaders = [];
+                sectionEls.forEach(function(s) {
+                    if (s.classList.contains('active')) {
+                        s.querySelectorAll('h1,h2,h3,h4').forEach(function(h) { visibleHeaders.push(h); });
+                    }
+                });
+                visibleHeaders.forEach(function(h, idx) {
+                    var id = 'heading-' + idx;
+                    h.id = id;
+                    var a = document.createElement('a');
+                    a.href = '#' + id;
+                    a.textContent = h.textContent;
+                    a.className = 'toc-' + h.tagName.toLowerCase();
+                    a.addEventListener('click', function() {
+                        if (window.innerWidth <= 900) sidebar.classList.remove('open');
+                    });
+                    tocDiv.appendChild(a);
+                });
+                window.scrollTo(0, 0);
+            }
+
+            document.querySelectorAll('#topNav a').forEach(function(a) {
+                a.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    document.querySelectorAll('#topNav a').forEach(function(x) { x.classList.remove('active-nav'); });
+                    a.classList.add('active-nav');
+                    switchTab(a.dataset.tab);
+                });
+            });
+
+            // Highlight markers
+            var walker = document.createTreeWalker(contentDiv, NodeFilter.SHOW_TEXT, null, false);
+            var textNodes = [];
+            var node;
+            while (node = walker.nextNode()) { textNodes.push(node); }
+            textNodes.forEach(function(textNode) {
+                if (textNode.nodeValue.indexOf('🔺') >= 0 || textNode.nodeValue.indexOf('重点') >= 0) {
+                    var span = document.createElement('span');
+                    span.innerHTML = textNode.nodeValue
+                        .replace(/🔺/g, '<span class="highlight-icon">🔺</span>')
+                        .replace(/重点/g, '<span style="color:#ef4444;font-weight:bold;border-bottom:2px dashed #ef4444;">重点</span>');
+                    textNode.parentNode.replaceChild(span, textNode);
+                }
+            });
+
+            // 初始化
+            switchTab('all');
+            var headers = contentDiv.querySelectorAll('h1, h2, h3, h4');
+
+            // ===== Checkbox点击效果（替代CSS :has()） =====
+            contentDiv.querySelectorAll('input[type="checkbox"]').forEach(function(cb) {
+                cb.addEventListener('change', function() {
+                    if (cb.checked) cb.parentNode.classList.add('checked');
+                    else cb.parentNode.classList.remove('checked');
+                });
+            });
+
+            // ===== 折叠面板 =====
+            contentDiv.querySelectorAll('h2').forEach(function(h2) {
+                h2.addEventListener('click', function() { h2.classList.toggle('collapsed'); });
+            });
+
+            // ===== 搜索 =====
+            var searchBox = document.getElementById('searchBox');
+            var searchTimer;
+            searchBox.addEventListener('input', function(e) {
+                clearTimeout(searchTimer);
+                searchTimer = setTimeout(function() { doSearch(e.target.value); }, 200);
+            });
+
+            function doSearch(query) {
+                contentDiv.querySelectorAll('.search-highlight').forEach(function(el) {
+                    var parent = el.parentNode;
+                    parent.replaceChild(document.createTextNode(el.textContent), el);
+                    parent.normalize();
+                });
+                if (!query || query.trim() === '') {
+                    tocDiv.querySelectorAll('a').forEach(function(a) { a.style.display = ''; });
+                    return;
+                }
+                var q = query.trim().toLowerCase();
+                var walker2 = document.createTreeWalker(contentDiv, NodeFilter.SHOW_TEXT, null, false);
+                var matches = [];
+                var n;
+                while (n = walker2.nextNode()) {
+                    if (n.nodeValue.toLowerCase().indexOf(q) >= 0 && n.parentNode.tagName !== 'SCRIPT' && n.parentNode.tagName !== 'STYLE') {
+                        matches.push(n);
+                    }
+                }
+                matches.forEach(function(textNode) {
+                    var text = textNode.nodeValue;
+                    var lower = text.toLowerCase();
+                    var idx = lower.indexOf(q);
+                    if (idx >= 0) {
+                        var span = document.createElement('span');
+                        span.innerHTML = text.substring(0, idx) + '<span class="search-highlight">' + text.substring(idx, idx + q.length) + '</span>' + text.substring(idx + q.length);
+                        textNode.parentNode.replaceChild(span, textNode);
+                    }
+                });
+                tocDiv.querySelectorAll('a').forEach(function(a) {
+                    a.style.display = a.textContent.toLowerCase().indexOf(q) >= 0 ? '' : 'none';
+                });
+                var firstMatch = contentDiv.querySelector('.search-highlight');
+                if (firstMatch) firstMatch.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+
+            // ===== 阅读进度 =====
+            var readProgress = document.getElementById('readProgress');
+            var readBar = readProgress.querySelector('.bar-fill');
+            function updateProgress() {
+                var scrollH = document.documentElement.scrollHeight - window.innerHeight;
+                var pct = scrollH > 0 ? Math.round((window.scrollY / scrollH) * 100) : 100;
+                readProgress.firstChild.textContent = '📖 阅读进度: ' + pct + '%';
+                readBar.style.width = pct + '%';
+                _lsSet('readProgress', pct + '');
+            }
+
+            // ===== 浮动按钮 =====
+            var toTop = document.getElementById('totop');
+            var flashBtn = document.getElementById('flashBtn');
+            window.addEventListener('scroll', function() {
+                if (window.scrollY > 300) toTop.classList.add('visible');
+                else toTop.classList.remove('visible');
+                updateProgress();
+            });
+
+            // Active TOC
+            window.addEventListener('scroll', function() {
+                var current = '';
+                var offset = 100;
+                headers.forEach(function(h) {
+                    if (scrollY >= h.offsetTop - offset) current = h.getAttribute('id');
+                });
+                tocDiv.querySelectorAll('a').forEach(function(link) {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) link.classList.add('active');
+                });
+            });
+
+            // ===== 闪卡 =====
+            var FLASHCARDS = [
+                {cat:'数据结构',q:'二叉树前序遍历？',a:'根→左→右'},
+                {cat:'数据结构',q:'二叉树中序遍历？',a:'左→根→右'},
+                {cat:'数据结构',q:'二叉树后序遍历？',a:'左→右→根'},
+                {cat:'数据结构',q:'栈的特点？',a:'后进先出LIFO'},
+                {cat:'数据结构',q:'队列的特点？',a:'先进先出FIFO'},
+                {cat:'数据结构',q:'冒泡排序复杂度？',a:'O(n²)'},
+                {cat:'数据结构',q:'快速排序复杂度？',a:'O(nlogn)'},
+                {cat:'数据结构',q:'最小生成树算法？',a:'Prim(加点)、Kruskal(加边)'},
+                {cat:'数据结构',q:'最短路径算法？',a:'Dijkstra'},
+                {cat:'操作系统',q:'死锁四大条件？',a:'互斥、请求保持、不剥夺、环路等待'},
+                {cat:'操作系统',q:'进程三态？',a:'就绪、运行、阻塞'},
+                {cat:'操作系统',q:'阻塞解除后？',a:'就绪状态（不能直接运行）'},
+                {cat:'操作系统',q:'P操作做什么？',a:'S=S-1，申请资源，S<0则阻塞'},
+                {cat:'操作系统',q:'V操作做什么？',a:'S=S+1，释放资源，S<=0则唤醒'},
+                {cat:'操作系统',q:'互斥信号量初值？',a:'1'},
+                {cat:'操作系统',q:'同步信号量初值？',a:'0'},
+                {cat:'操作系统',q:'P(mutex)的位置？',a:'必须在P(同步)之后，否则死锁'},
+                {cat:'操作系统',q:'页面置换算法？',a:'FIFO、LRU'},
+                {cat:'操作系统',q:'局部性原理？',a:'时间局部性(刚访问的还会访问)+空间局部性(附近也会访问)'},
+                {cat:'操作系统',q:'缺页中断过程？',a:'缺页→中断→从硬盘调入→淘汰一页→继续执行'},
+                {cat:'操作系统',q:'临界区是什么？',a:'访问共享资源的那段代码'},
+                {cat:'网络',q:'TCP vs UDP？',a:'TCP可靠面向连接，UDP不可靠无连接'},
+                {cat:'网络',q:'TCP三次握手？',a:'建立连接'},
+                {cat:'网络',q:'TCP四次挥手？',a:'断开连接'},
+                {cat:'网络',q:'HTTP端口？',a:'80'},
+                {cat:'网络',q:'HTTPS端口？',a:'443'},
+                {cat:'网络',q:'私有IP范围？',a:'10.x / 172.16-31.x / 192.168.x'},
+                {cat:'数据库',q:'ACID四特性？',a:'原子性、一致性、隔离性、持久性'},
+                {cat:'数据库',q:'1NF要求？',a:'列不可再分'},
+                {cat:'数据库',q:'2NF消除什么？',a:'部分函数依赖'},
+                {cat:'数据库',q:'3NF消除什么？',a:'传递函数依赖'},
+                {cat:'数据库',q:'ER图1:n怎么转？',a:'1的主键放n做外键'},
+                {cat:'数据库',q:'ER图m:n怎么转？',a:'新建中间表，双方主键做联合主键'},
+                {cat:'软件工程',q:'瀑布模型适用？',a:'需求明确'},
+                {cat:'软件工程',q:'原型模型适用？',a:'需求不明确'},
+                {cat:'软件工程',q:'螺旋模型特点？',a:'强调风险分析'},
+                {cat:'软件工程',q:'模块设计原则？',a:'高内聚低耦合'},
+                {cat:'软件工程',q:'测试顺序？',a:'单元→集成→系统→验收'},
+                {cat:'软件工程',q:'内聚最高级？',a:'功能内聚'},
+                {cat:'软件工程',q:'耦合最低级？',a:'数据耦合（非直接耦合）'},
+                {cat:'软件工程',q:'CMMI五级？',a:'初始→已管理→已定义→量化管理→优化（初管定量优）'},
+                {cat:'UML',q:'五大关系排序？',a:'泛化>实现>组合>聚合>关联>依赖'},
+                {cat:'UML',q:'组合vs聚合？',a:'组合=共生死，聚合=可分离'},
+                {cat:'UML',q:'+表示？',a:'public'},
+                {cat:'UML',q:'-表示？',a:'private'},
+                {cat:'UML',q:'#表示？',a:'protected'},
+                {cat:'UML',q:'include含义？',a:'必定发生的步骤'},
+                {cat:'UML',q:'extend含义？',a:'可能发生的特殊情况'},
+                {cat:'UML',q:'DFD四大元素？',a:'外部实体(矩形)、加工(圆圈)、数据流(箭头)、数据存储(平行线)'},
+                {cat:'设计模式',q:'共多少种？',a:'23种(创建5+结构7+行为11)'},
+                {cat:'设计模式',q:'单例模式？',a:'确保只有一个实例'},
+                {cat:'设计模式',q:'观察者模式？',a:'状态变化通知所有观察者'},
+                {cat:'设计模式',q:'适配器模式？',a:'接口转换'},
+                {cat:'设计模式',q:'装饰器模式？',a:'动态添加行为'},
+                {cat:'设计原则',q:'开闭原则(OCP)？',a:'对扩展开放，对修改关闭（核心）'},
+                {cat:'设计原则',q:'单一职责(SRP)？',a:'一个类只干一件事'},
+                {cat:'设计原则',q:'里氏替换(LSP)？',a:'子类能替换父类'},
+                {cat:'组成原理',q:'海明码公式？',a:'2^r >= m+r+1'},
+                {cat:'组成原理',q:'Cache平均访问时间？',a:'T=h×Tc+(1-h)×Tm'},
+                {cat:'组成原理',q:'流水线执行时间？',a:'各阶段之和+(n-1)×周期'},
+                {cat:'组成原理',q:'模2除法？',a:'做除法不借位，用异或代替减法'},
+                {cat:'知识产权',q:'著作权何时产生？',a:'创作完成自动产生'},
+                {cat:'知识产权',q:'发明专利保护期？',a:'20年'},
+                {cat:'知识产权',q:'实用新型保护期？',a:'10年'},
+                {cat:'知识产权',q:'外观设计保护期？',a:'15年'},
+                {cat:'知识产权',q:'GB/T中T？',a:'推荐性标准'},
+                {cat:'算法填空',q:'二分查找循环条件？',a:'while(low<=high)'},
+                {cat:'算法填空',q:'二分查找求中点？',a:'mid=(low+high)/2'},
+                {cat:'算法填空',q:'冒泡排序内层边界？',a:'j<n-1-i'},
+                {cat:'英语填空',q:'verification vs validation？',a:'验证(做对产品) vs 确认(做对产品)'},
+                {cat:'英语填空',q:'coupling vs cohesion？',a:'耦合(模块间) vs 内聚(模块内)'},
+            ];
+
+            var fcIndex = 0;
+            var fcShuffled = [];
+            function shuffleCards() {
+                fcShuffled = FLASHCARDS.slice().sort(function() { return Math.random() - 0.5; });
+                fcIndex = 0;
+            }
+            shuffleCards();
+
+            var fcOverlay = document.getElementById('flashcardOverlay');
+            var fcQ = document.getElementById('fcQ');
+            var fcA = document.getElementById('fcA');
+            var fcCat = document.getElementById('fcCat');
+            var fcShow = document.getElementById('fcShow');
+            var fcNext = document.getElementById('fcNext');
+
+            function showCard() {
+                if (fcIndex >= fcShuffled.length) {
+                    fcQ.textContent = '🎉 全部复习完！';
+                    fcA.textContent = '共 ' + fcShuffled.length + ' 张卡片';
+                    fcA.classList.add('show');
+                    fcShow.style.display = 'none';
+                    fcNext.textContent = '重新开始';
+                    fcIndex = -1;
+                    return;
+                }
+                var card = fcShuffled[fcIndex];
+                fcCat.textContent = card.cat;
+                fcQ.textContent = card.q;
+                fcA.textContent = card.a;
+                fcA.classList.remove('show');
+                fcShow.style.display = '';
+                fcShow.textContent = '显示答案';
+                fcNext.textContent = '下一个';
+            }
+
+            flashBtn.addEventListener('click', function() {
+                fcOverlay.classList.add('show');
+                showCard();
+            });
+            document.getElementById('fcClose').addEventListener('click', function() {
+                fcOverlay.classList.remove('show');
+            });
+            fcOverlay.addEventListener('click', function(e) {
+                if (e.target === fcOverlay) fcOverlay.classList.remove('show');
+            });
+            fcShow.addEventListener('click', function() {
+                fcA.classList.add('show');
+                fcShow.style.display = 'none';
+            });
+            fcNext.addEventListener('click', function() {
+                if (fcIndex === -1) { shuffleCards(); showCard(); return; }
+                fcIndex++;
+                showCard();
+            });
+
+            // ===== 恢复阅读进度 =====
+            var savedProgress = _lsGet('readProgress');
+            if (savedProgress && parseInt(savedProgress) > 5) {
+                setTimeout(function() {
+                    var scrollH = document.documentElement.scrollHeight - window.innerHeight;
+                    window.scrollTo(0, scrollH * parseInt(savedProgress) / 100);
+                }, 300);
+            }
+
+            // ===== 键盘快捷键 =====
+            document.addEventListener('keydown', function(e) {
+                if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+                if (e.key === '/') { e.preventDefault(); searchBox.focus(); }
+                if (e.key === 'Escape') { fcOverlay.classList.remove('show'); }
+                if (e.key === 'f' || e.key === 'F') { flashBtn.click(); }
+            });
+
+          } catch(err) {
+            document.getElementById('markdown-content').innerHTML = '<p style="color:#e17055;padding:20px">⚠️ 脚本出错: '+err.message+'<br>请用Chrome浏览器打开</p>';
+          }
+        });
+    </script>
+</body>
+</html>

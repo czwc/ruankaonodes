@@ -1,0 +1,1252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师 · 代码题全攻略(设计模式+算法+C/Java下午题)</title>
+<style>
+:root{
+  --bg:#0f1419;--card:#1a2029;--card2:#222b36;--border:#2d3748;
+  --text:#e2e8f0;--text2:#a0aec0;--text3:#718096;
+  --primary:#4fd1c5;--primary2:#38b2ac;--accent:#fbbf24;--accent2:#f59e0b;
+  --danger:#fc8181;--success:#68d391;--info:#63b3ed;--purple:#b794f4;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.7;font-size:15px}
+.container{max-width:1400px;margin:0 auto;padding:20px}
+
+/* 顶部标题 */
+.header{background:linear-gradient(135deg,#1a2029 0%,#2d3748 100%);padding:30px 20px;border-radius:12px;margin-bottom:24px;border:1px solid var(--border);text-align:center}
+.header h1{font-size:28px;color:var(--primary);margin-bottom:8px}
+.header p{color:var(--text2);font-size:15px}
+.header .badges{margin-top:12px;display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.badge{background:var(--card2);color:var(--accent);padding:4px 12px;border-radius:12px;font-size:12px;border:1px solid var(--border)}
+.badge.green{color:var(--success)} .badge.blue{color:var(--info)} .badge.purple{color:var(--purple)}
+
+/* 侧边导航 */
+.layout{display:grid;grid-template-columns:260px 1fr;gap:20px}
+.sidebar{position:sticky;top:20px;align-self:start;max-height:calc(100vh - 40px);overflow-y:auto;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px}
+.sidebar h3{color:var(--accent);font-size:14px;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid var(--border)}
+.sidebar a{display:block;color:var(--text2);text-decoration:none;padding:5px 10px;border-radius:6px;font-size:13px;transition:all .2s}
+.sidebar a:hover{background:var(--card2);color:var(--primary)}
+.sidebar a.sub{padding-left:24px;font-size:12px;color:var(--text3)}
+.sidebar .group{margin-bottom:12px}
+
+/* 主内容 */
+.main{min-width:0}
+.section{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:24px;margin-bottom:20px;scroll-margin-top:20px}
+.section h2{color:var(--primary);font-size:22px;margin-bottom:12px;padding-bottom:10px;border-bottom:2px solid var(--primary)}
+.section h3{color:var(--accent);font-size:18px;margin:18px 0 10px;padding-left:10px;border-left:4px solid var(--accent)}
+.section h4{color:var(--info);font-size:16px;margin:14px 0 8px}
+.section p{margin:8px 0;color:var(--text)}
+.section ul,.section ol{margin:8px 0 8px 24px}
+.section li{margin:4px 0}
+
+/* 模式卡片 */
+.pattern-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:14px;margin:12px 0}
+.pattern-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:14px;transition:all .2s}
+.pattern-card:hover{border-color:var(--primary);transform:translateY(-2px);box-shadow:0 4px 12px rgba(79,209,197,.15)}
+.pattern-card .title{color:var(--accent);font-size:16px;font-weight:bold;margin-bottom:4px}
+.pattern-card .type{display:inline-block;font-size:11px;padding:2px 8px;border-radius:8px;margin-bottom:6px}
+.type-create{background:rgba(104,211,145,.15);color:var(--success)}
+.type-struct{background:rgba(99,179,237,.15);color:var(--info)}
+.type-behave{background:rgba(183,148,244,.15);color:var(--purple)}
+.pattern-card .one-line{color:var(--text);font-size:13px;margin:6px 0}
+.pattern-card .role{color:var(--text2);font-size:12px;margin:4px 0}
+.pattern-card .fill{background:rgba(251,191,36,.1);border-left:3px solid var(--accent);padding:6px 10px;margin:6px 0;font-size:12px;color:var(--accent);border-radius:0 6px 6px 0}
+.pattern-card .scene{color:var(--text3);font-size:12px;font-style:italic}
+
+/* 代码块 */
+pre{background:#0d1117;border:1px solid var(--border);border-radius:8px;padding:14px;margin:10px 0;font-family:"Fira Code",Consolas,"Courier New",monospace;font-size:13px;line-height:1.8;white-space:pre-wrap;word-break:break-word;overflow-wrap:anywhere;display:block}
+code{font-family:inherit}
+:not(pre)>code{background:var(--card2);color:var(--accent);padding:2px 6px;border-radius:4px;font-size:13px}
+pre code,pre .comment,pre .keyword,pre .string,pre .type,pre .number,pre .fn,pre .fill-blank{display:inline}
+.comment{color:#6a9955;white-space:pre-wrap}
+.keyword{color:#c586c0}
+.string{color:#ce9178}
+.type{color:#4ec9b0}
+.number{color:#b5cea8}
+.fn{color:#dcdcaa}
+.fill-blank{background:rgba(251,191,36,.25);color:var(--accent);padding:0 4px;border-radius:3px;border:1px dashed var(--accent);font-weight:bold;white-space:nowrap}
+
+/* 表格 */
+table{width:100%;border-collapse:collapse;margin:12px 0;font-size:13px}
+th,td{border:1px solid var(--border);padding:8px 10px;text-align:left}
+th{background:var(--card2);color:var(--accent);font-weight:bold}
+tr:nth-child(even){background:rgba(45,55,72,.3)}
+tr:hover{background:rgba(79,209,197,.05)}
+
+/* 提示框 */
+.tip{background:rgba(104,211,145,.08);border-left:4px solid var(--success);padding:10px 14px;margin:10px 0;border-radius:0 8px 8px 0;font-size:13px}
+.tip strong{color:var(--success)}
+.warn{background:rgba(252,129,129,.08);border-left:4px solid var(--danger);padding:10px 14px;margin:10px 0;border-radius:0 8px 8px 0;font-size:13px}
+.warn strong{color:var(--danger)}
+.note{background:rgba(99,179,237,.08);border-left:4px solid var(--info);padding:10px 14px;margin:10px 0;border-radius:0 8px 8px 0;font-size:13px}
+.note strong{color:var(--info)}
+.keypoint{background:rgba(251,191,36,.08);border-left:4px solid var(--accent);padding:10px 14px;margin:10px 0;border-radius:0 8px 8px 0;font-size:13px}
+.keypoint strong{color:var(--accent)}
+
+/* 按钮组 */
+.tab-group{display:flex;gap:8px;margin:10px 0;flex-wrap:wrap}
+.tab-btn{background:var(--card2);color:var(--text2);border:1px solid var(--border);padding:6px 14px;border-radius:8px;cursor:pointer;font-size:13px;transition:all .2s}
+.tab-btn:hover{color:var(--primary);border-color:var(--primary)}
+.tab-btn.active{background:var(--primary);color:var(--bg);border-color:var(--primary);font-weight:bold}
+
+/* 真题样式 */
+.exam-card{background:var(--card2);border:1px solid var(--border);border-radius:10px;padding:16px;margin:12px 0}
+.exam-card .exam-head{color:var(--accent);font-weight:bold;margin-bottom:8px;font-size:15px}
+.exam-card .exam-meta{font-size:12px;color:var(--text3);margin-bottom:8px}
+.exam-card .answer{background:rgba(104,211,145,.08);border:1px solid rgba(104,211,145,.3);border-radius:6px;padding:8px 12px;margin-top:8px;font-size:13px}
+.exam-card .answer strong{color:var(--success)}
+
+/* 响应式 */
+@media(max-width:900px){
+  .layout{grid-template-columns:1fr}
+  .sidebar{position:relative;top:0;max-height:none}
+  .pattern-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="container">
+
+<div class="header">
+  <h1>💻 软考软件设计师 · 代码题全攻略</h1>
+  <p>设计模式(23种) + 经典算法(6个) + C语言下午真题(8套) + Java下午真题(28套) + 填空套路总表</p>
+  <div class="badges">
+    <span class="badge">23 种设计模式</span>
+    <span class="badge green">6 个经典算法</span>
+    <span class="badge blue">8 套 C 真题</span>
+    <span class="badge purple">28 套 Java 真题</span>
+    <span class="badge">小白也能懂</span>
+  </div>
+</div>
+
+<div class="layout">
+
+<!-- 侧边导航 -->
+<nav class="sidebar">
+  <div class="group">
+    <h3>📚 入门必读</h3>
+    <a href="#intro">如何看懂代码题</a>
+    <a href="#syntax">Java/C++ 语法对照</a>
+    <a href="#roles">设计模式三大角色</a>
+  </div>
+  <div class="group">
+    <h3>🏭 创建型(5种)</h3>
+    <a href="#p-singleton" class="sub">单例</a>
+    <a href="#p-factory" class="sub">工厂方法</a>
+    <a href="#p-abstract" class="sub">抽象工厂</a>
+    <a href="#p-builder" class="sub">建造者</a>
+    <a href="#p-prototype" class="sub">原型</a>
+  </div>
+  <div class="group">
+    <h3>🏗 结构型(7种)</h3>
+    <a href="#p-adapter" class="sub">适配器</a>
+    <a href="#p-bridge" class="sub">桥接</a>
+    <a href="#p-composite" class="sub">组合</a>
+    <a href="#p-decorator" class="sub">装饰</a>
+    <a href="#p-facade" class="sub">外观</a>
+    <a href="#p-flyweight" class="sub">享元</a>
+    <a href="#p-proxy" class="sub">代理</a>
+  </div>
+  <div class="group">
+    <h3>🎯 行为型(11种)</h3>
+    <a href="#p-chain" class="sub">责任链</a>
+    <a href="#p-command" class="sub">命令</a>
+    <a href="#p-interpreter" class="sub">解释器</a>
+    <a href="#p-iterator" class="sub">迭代器</a>
+    <a href="#p-mediator" class="sub">中介者</a>
+    <a href="#p-memento" class="sub">备忘录</a>
+    <a href="#p-observer" class="sub">观察者</a>
+    <a href="#p-state" class="sub">状态</a>
+    <a href="#p-strategy" class="sub">策略</a>
+    <a href="#p-template" class="sub">模板方法</a>
+    <a href="#p-visitor" class="sub">访问者</a>
+  </div>
+  <div class="group">
+    <h3>⚙️ 经典算法</h3>
+    <a href="#a-knapsack01">0-1 背包(动规)</a>
+    <a href="#a-fractional">部分背包(贪心)</a>
+    <a href="#a-merge">归并排序(分治)</a>
+    <a href="#a-maxsub">最大子段和(分治)</a>
+    <a href="#a-nqueen">N 皇后(回溯)</a>
+  </div>
+  <div class="group">
+    <h3>📝 C 下午真题</h3>
+    <a href="#c-heap">堆排序</a>
+    <a href="#c-nqueen">N 皇后</a>
+    <a href="#c-edit">编辑距离</a>
+    <a href="#c-coin">假币问题</a>
+    <a href="#c-shell">希尔排序</a>
+    <a href="#c-merge">归并排序</a>
+  </div>
+  <div class="group">
+    <h3>☕ Java 下午真题</h3>
+    <a href="#j-strategy">策略模式</a>
+    <a href="#j-state">状态模式</a>
+    <a href="#j-builder">建造者模式</a>
+    <a href="#j-adapter">适配器模式</a>
+    <a href="#j-bridge">桥接模式</a>
+    <a href="#j-facade">外观模式</a>
+    <a href="#j-visitor">访问者模式</a>
+  </div>
+  <div class="group">
+    <h3>🧰 填空套路</h3>
+    <a href="#fill-all">填空套路总表</a>
+    <a href="#fill-trick">蒙分三招</a>
+    <a href="#compare">设计模式对比</a>
+  </div>
+</nav>
+
+<!-- 主内容 -->
+<main class="main">
+
+<!-- ========== 入门必读 ========== -->
+<section class="section" id="intro">
+<h2>📖 入门必读:怎么"看懂"一份代码题</h2>
+
+<p>软考下午题代码填空不是让你从零写代码,而是给你 90% 完整的代码,挖几个空让你填。只要掌握<strong>读代码的方法</strong>和<strong>填空的套路</strong>,就能拿到大部分分数。</p>
+
+<h3>一、看懂设计模式代码的"三步法"</h3>
+<div class="tip"><strong>第 1 步:找接口/抽象类</strong> —— 看哪个是 <code>abstract class</code> 或 <code>interface</code>,那是模式的"契约"。</div>
+<div class="tip"><strong>第 2 步:找具体实现类</strong> —— 看哪些类 <code>extends/implements</code> 了上面的接口,那是"具体实现"。</div>
+<div class="tip"><strong>第 3 步:找核心角色</strong> —— 每个模式都有一个干主要事情的类,找到它就懂了整个模式。</div>
+
+<h3>二、看懂 C 算法代码的"四看法"</h3>
+<ol>
+  <li><strong>看函数名</strong>:<code>Heapify</code> = 调堆,<code>MergeSort</code> = 归并排序,函数名直接告诉你它在干嘛。</li>
+  <li><strong>看参数</strong>:参数列表告诉你这个函数"需要什么输入"。</li>
+  <li><strong>看注释</strong>:真题代码里中文注释就是答案的翻译!</li>
+  <li><strong>看循环</strong>:单层 <code>for</code> 是 O(n),双层嵌套是 O(n²),<code>while + /2</code> 是 O(log n)。</li>
+</ol>
+</section>
+
+<!-- ========== 语法对照 ========== -->
+<section class="section" id="syntax">
+<h2>🔤 Java / C++ 语法对照表</h2>
+<p>设计模式源代码都是 Java,下午题 Java/C++ 都可能考。掌握下表语法差异,看两种代码都不慌。</p>
+
+<table>
+<tr><th>语法点</th><th>Java</th><th>C++</th></tr>
+<tr><td>抽象类</td><td><code>abstract class A { abstract void f(); }</code></td><td><code>class A { virtual void f() = 0; };</code>(纯虚函数)</td></tr>
+<tr><td>接口</td><td><code>interface I { void f(); }</code></td><td><code>class I { virtual void f() = 0; };</code>(和抽象类一样)</td></tr>
+<tr><td>继承</td><td><code>class B extends A</code></td><td><code>class B : public A</code></td></tr>
+<tr><td>实现接口</td><td><code>class B implements I</code></td><td><code>class B : public I</code></td></tr>
+<tr><td>重写</td><td><code>@Override</code> 注解(可省)</td><td><code>override</code> 关键字(可省)</td></tr>
+<tr><td>创建对象</td><td><code>A a = new A();</code>(引用)</td><td><code>A* a = new A();</code>(指针)或 <code>A a;</code>(栈)</td></tr>
+<tr><td>调用方法</td><td><code>a.f()</code></td><td><code>a->f()</code>(指针)或 <code>a.f()</code>(对象)</td></tr>
+<tr><td>内存管理</td><td>自动垃圾回收</td><td>手动 <code>delete</code> 或智能指针</td></tr>
+<tr><td>空指针</td><td><code>null</code></td><td><code>nullptr</code> 或 <code>NULL</code></td></tr>
+<tr><td>字符串</td><td><code>String</code>(对象)</td><td><code>string</code> 或 <code>char[]</code></td></tr>
+<tr><td>泛型/模板</td><td><code>List&lt;String&gt;</code></td><td><code>vector&lt;string&gt;</code></td></tr>
+</table>
+
+<div class="keypoint"><strong>记法</strong>:Java 用 <code>extends/implements</code>,<code>new</code> 出来是引用,调方法用 <code>.</code>;C++ 用 <code>: public</code> 继承,<code>virtual ... = 0</code> 是纯虚,<code>new</code> 出来是指针,调方法用 <code>-&gt;</code>。</div>
+
+<h3>Java 设计模式代码里高频出现的语法</h3>
+<table>
+<tr><th>语法</th><th>意思</th><th>类比</th></tr>
+<tr><td><code>abstract class</code></td><td>抽象类,不能直接 new,只能被继承</td><td>"图纸",不能直接用</td></tr>
+<tr><td><code>interface</code></td><td>接口,纯规范,只定义方法名不写实现</td><td>"合同",签字就得履行</td></tr>
+<tr><td><code>extends</code></td><td>继承父类</td><td>儿子继承老爸</td></tr>
+<tr><td><code>implements</code></td><td>实现接口</td><td>签合同履行</td></tr>
+<tr><td><code>@Override</code></td><td>标注重写父类方法</td><td>"我重新定义老爸的方法"</td></tr>
+<tr><td><code>new Xxx()</code></td><td>创建对象</td><td>"按图纸造实物"</td></tr>
+<tr><td><code>private</code></td><td>只有自己类内部能访问</td><td>私房钱</td></tr>
+<tr><td><code>protected</code></td><td>子类和同包能访问</td><td>家族财产</td></tr>
+<tr><td><code>static</code></td><td>不用 new 对象也能直接调</td><td>公共工具</td></tr>
+<tr><td><code>this</code></td><td>当前对象自己</td><td>"我"</td></tr>
+<tr><td><code>super</code></td><td>调用父类</td><td>"老爸"</td></tr>
+</table>
+</section>
+
+<!-- ========== 三大角色 ========== -->
+<section class="section" id="roles">
+<h2>🎭 设计模式的三大角色</h2>
+<p>几乎所有设计模式代码里都有这三类角色,找到它们就懂了代码结构:</p>
+
+<table>
+<tr><th>角色</th><th>作用</th><th>代码特征</th><th>例子</th></tr>
+<tr><td><strong>接口/抽象类</strong></td><td>定义"契约",声明方法名</td><td><code>interface</code> 或 <code>abstract class</code></td><td>工厂里的 <code>Product</code></td></tr>
+<tr><td><strong>具体实现类</strong></td><td>实现接口,干具体活</td><td><code>extends/implements</code></td><td><code>ProductA</code>、<code>ProductB</code></td></tr>
+<tr><td><strong>核心角色</strong></td><td>协调/管理/创建对象</td><td>持有接口引用,调接口方法</td><td>工厂 <code>Factory</code>、上下文 <code>Context</code></td></tr>
+</table>
+
+<div class="tip"><strong>读代码顺序</strong>:① 找接口 → ② 看有哪些实现类 → ③ 找核心角色怎么用它们。这个顺序固定,23 种模式都适用。</div>
+</section>
+
+<!-- ========== 创建型模式 ========== -->
+<section class="section" id="patterns-create">
+<h2>🏭 创建型模式(5 种):怎么创建对象</h2>
+<p class="one-line">口诀:<strong>单工抽建原</strong>(单例、工厂方法、抽象工厂、建造者、原型)</p>
+
+<div class="pattern-grid">
+
+<!-- 单例 -->
+<div class="pattern-card" id="p-singleton">
+<span class="type type-create">创建型</span>
+<div class="title">1. 单例模式 Singleton</div>
+<div class="one-line">一个类只能有一个实例,全局共享。</div>
+<div class="role"><strong>核心角色</strong>:Singleton 类自己(私有构造 + 静态 getInstance)</div>
+<div class="scene">场景:数据库连接池、配置管理器、日志器</div>
+<div class="fill"><strong>填空套路</strong>:① 私有构造 <code>private Singleton(){}</code>;② 静态实例 <code>private static Singleton instance</code>;③ 静态获取方法 <code>public static Singleton getInstance()</code>。</div>
+</div>
+
+<!-- 工厂方法 -->
+<div class="pattern-card" id="p-factory">
+<span class="type type-create">创建型</span>
+<div class="title">2. 工厂方法 Factory Method</div>
+<div class="one-line">定义接口创建对象,由子类决定实例化哪个类。</div>
+<div class="role"><strong>核心角色</strong>:Factory 接口 + 各具体工厂</div>
+<div class="scene">场景:日志系统(文件日志/数据库日志)</div>
+<div class="fill"><strong>填空套路</strong>:① 工厂方法里 <code>return new ProductA()</code>;② 调用方 <code>Factory f = new FactoryA(); Product p = f.createProduct();</code>。</div>
+</div>
+
+<!-- 抽象工厂 -->
+<div class="pattern-card" id="p-abstract">
+<span class="type type-create">创建型</span>
+<div class="title">3. 抽象工厂 Abstract Factory</div>
+<div class="one-line">创建一族相关或互相依赖的对象。</div>
+<div class="role"><strong>核心角色</strong>:Factory 接口(多个创建方法) + 各具体工厂</div>
+<div class="scene">场景:同时创 Windows 风格的按钮+文本框</div>
+<div class="fill"><strong>与工厂方法区别</strong>:工厂方法创<strong>一个</strong>产品,抽象工厂创<strong>一族</strong>产品(多个 create 方法)。</div>
+</div>
+
+<!-- 建造者 -->
+<div class="pattern-card" id="p-builder">
+<span class="type type-create">创建型</span>
+<div class="title">4. 建造者 Builder</div>
+<div class="one-line">把复杂对象的构造与表示分离,分步构建。</div>
+<div class="role"><strong>核心角色</strong>:Builder(抽象构建器) + Director(指挥者) + Product(产品)</div>
+<div class="scene">场景:构建复杂对象(汽车由很多部件组成、Pizza 配料)</div>
+<div class="fill"><strong>填空套路</strong>:① Director 调 <code>builder.buildParts()</code>;② Builder 里 <code>product.add(part)</code>;③ <code>builder.getResult()</code> 返回产品。</div>
+</div>
+
+<!-- 原型 -->
+<div class="pattern-card" id="p-prototype">
+<span class="type type-create">创建型</span>
+<div class="title">5. 原型 Prototype</div>
+<div class="one-line">通过复制已有实例创建新对象(深拷贝/浅拷贝)。</div>
+<div class="role"><strong>核心角色</strong>:Prototype 接口(Clone 方法) + ConcretePrototype</div>
+<div class="scene">场景:批量复制对象、避免重复初始化</div>
+<div class="fill"><strong>填空套路</strong>:① 接口 <code>Object Clone()</code>;② 实现里 <code>new Product(); obj.field = this.field; return obj;</code>。</div>
+</div>
+
+</div>
+</section>
+
+<!-- ========== 结构型模式 ========== -->
+<section class="section" id="patterns-struct">
+<h2>🏗 结构型模式(7 种):怎么组合类</h2>
+<p class="one-line">口诀:<strong>适桥组装外享代</strong>(适配器、桥接、组合、装饰、外观、享元、代理)</p>
+
+<div class="pattern-grid">
+
+<div class="pattern-card" id="p-adapter">
+<span class="type type-struct">结构型</span>
+<div class="title">6. 适配器 Adapter</div>
+<div class="one-line">让接口不兼容的类能合作,转换接口。</div>
+<div class="role"><strong>核心角色</strong>:Adapter(继承目标类 + 持有被适配者)</div>
+<div class="scene">场景:220V 转 5V、TypeC 转 USB、旧系统接入新系统</div>
+<div class="fill"><strong>填空套路</strong>:Adapter 里持有被适配者,重写目标方法时调 <code>adaptee.specificRequest()</code>。</div>
+</div>
+
+<div class="pattern-card" id="p-bridge">
+<span class="type type-struct">结构型</span>
+<div class="title">7. 桥接 Bridge</div>
+<div class="one-line">把抽象部分与实现部分分离,使它们独立变化。</div>
+<div class="role"><strong>核心角色</strong>:Abstraction(持有 Implementor 引用) + Implementor(实现接口)</div>
+<div class="scene">场景:不同品牌 × 不同功能,避免类爆炸</div>
+<div class="fill"><strong>填空套路</strong>:抽象类里 <code>protected Color color;</code>,方法里调 <code>color.OperationImp(...)</code>。</div>
+</div>
+
+<div class="pattern-card" id="p-composite">
+<span class="type type-struct">结构型</span>
+<div class="title">8. 组合 Composite</div>
+<div class="one-line">树形结构,部分-整体统一对待。</div>
+<div class="role"><strong>核心角色</strong>:Component(抽象构件) + Leaf(叶子) + Composite(容器)</div>
+<div class="scene">场景:文件系统(文件夹和文件)、菜单树</div>
+<div class="fill"><strong>填空套路</strong>:Composite 里 <code>List&lt;Component&gt; children</code>,<code>add/remove/getChildren</code>;Leaf 里这些方法返回 false/null。</div>
+</div>
+
+<div class="pattern-card" id="p-decorator">
+<span class="type type-struct">结构型</span>
+<div class="title">9. 装饰 Decorator</div>
+<div class="one-line">动态给对象加功能,比继承更灵活,层层叠加。</div>
+<div class="role"><strong>核心角色</strong>:Decorator(抽象装饰类,继承 Component + 持有 Component)</div>
+<div class="scene">场景:给咖啡加糖加奶、给人加职责</div>
+<div class="fill"><strong>填空套路</strong>:装饰类构造器接收被装饰对象 <code>this.person = person</code>,Operation 里先调 <code>person.Operation()</code> 再加新功能。</div>
+</div>
+
+<div class="pattern-card" id="p-facade">
+<span class="type type-struct">结构型</span>
+<div class="title">10. 外观 Facade</div>
+<div class="one-line">为子系统提供统一接口,简化调用。</div>
+<div class="role"><strong>核心角色</strong>:Facade(持有各子系统引用)</div>
+<div class="scene">场景:电脑一键开机、医院挂号→门诊→取药一条龙</div>
+<div class="fill"><strong>填空套路</strong>:Facade 里 <code>new SubSystem1(); new SubSystem2();</code>,统一方法里依次调各子系统。</div>
+</div>
+
+<div class="pattern-card" id="p-flyweight">
+<span class="type type-struct">结构型</span>
+<div class="title">11. 享元 Flyweight</div>
+<div class="one-line">共享细粒度对象,减少内存。</div>
+<div class="role"><strong>核心角色</strong>:FlyweightFactory(工厂 + 缓存 Map) + Flyweight(共享对象)</div>
+<div class="scene">场景:大量棋子(只有黑白)、字符串常量池</div>
+<div class="fill"><strong>填空套路</strong>:工厂里 <code>Map&lt;String, Shape&gt; map</code>,<code>if(!map.containsKey(key)) map.put(key, new Circle(key)); return map.get(key);</code></div>
+</div>
+
+<div class="pattern-card" id="p-proxy">
+<span class="type type-struct">结构型</span>
+<div class="title">12. 代理 Proxy</div>
+<div class="one-line">为其他对象提供代理以控制访问。</div>
+<div class="role"><strong>核心角色</strong>:Proxy(实现 Subject + 持有 RealSubject)</div>
+<div class="scene">场景:远程代理、虚拟代理(延迟创建)、保护代理(权限)</div>
+<div class="fill"><strong>填空套路</strong>:Proxy 里 <code>protected RealSubject realSubject</code>,重写方法时前后加额外逻辑,中间调 <code>realSubject.buy()</code>。</div>
+</div>
+
+</div>
+</section>
+
+<!-- ========== 行为型模式 ========== -->
+<section class="section" id="patterns-behave">
+<h2>🎯 行为型模式(11 种):类怎么交互</h2>
+<p class="one-line">口诀:<strong>责命解迭中备观状策模访</strong>(责任链、命令、解释器、迭代器、中介者、备忘录、观察者、状态、策略、模板方法、访问者)</p>
+
+<div class="pattern-grid">
+
+<div class="pattern-card" id="p-chain">
+<span class="type type-behave">行为型</span>
+<div class="title">13. 责任链 Chain of Responsibility</div>
+<div class="one-line">请求沿链传递,直到有人处理。</div>
+<div class="role"><strong>核心角色</strong>:Handler(抽象处理者 + 持有 next) + ConcreteHandler</div>
+<div class="scene">场景:OA 审批流(组长→经理→总监)、请假审批</div>
+<div class="fill"><strong>填空套路</strong>:<code>setNext(next)</code> 设链;处理时 <code>if(请求&lt;=阈值) 处理 else if(next!=null) next.HandlerRequest(请求)</code>。</div>
+</div>
+
+<div class="pattern-card" id="p-command">
+<span class="type type-behave">行为型</span>
+<div class="title">14. 命令 Command</div>
+<div class="one-line">把请求封装成对象,支持排队/记录/撤销。</div>
+<div class="role"><strong>核心角色</strong>:Command(接口) + Invoker(请求者) + Receiver(接收者)</div>
+<div class="scene">场景:遥控器按钮、菜单操作、撤销功能</div>
+<div class="fill"><strong>填空套路</strong>:Command 持有 Receiver,Execute 里调 <code>receiver.action()</code>;Invoker 持有 Command,call 里调 <code>command.Execute()</code>。</div>
+</div>
+
+<div class="pattern-card" id="p-interpreter">
+<span class="type type-behave">行为型</span>
+<div class="title">15. 解释器 Interpreter</div>
+<div class="one-line">定义一种语言,解释其句子(规则引擎)。</div>
+<div class="role"><strong>核心角色</strong>:Expression(接口 + Interpret 方法) + TerminalExpression + NonterminalExpression</div>
+<div class="scene">场景:规则引擎、正则解析、SQL 解析</div>
+<div class="fill"><strong>填空套路</strong>:终结符表达式查表 <code>set.contains(info)</code>;非终结符 <code>return left.Interpret(x) && right.Interpret(y)</code>。</div>
+</div>
+
+<div class="pattern-card" id="p-iterator">
+<span class="type type-behave">行为型</span>
+<div class="title">16. 迭代器 Iterator</div>
+<div class="one-line">顺序访问集合元素,不暴露内部结构。</div>
+<div class="role"><strong>核心角色</strong>:Iterator(hasNext/next) + Aggregate(集合,CreateIterator)</div>
+<div class="scene">场景:Java 的 <code>for each</code>、各种容器遍历</div>
+<div class="fill"><strong>填空套路</strong>:hasNext 判断 <code>index &lt; aggregate.getSize()</code>;next 里 <code>Object obj = aggregate.get(index); index++; return obj;</code>。</div>
+</div>
+
+<div class="pattern-card" id="p-mediator">
+<span class="type type-behave">行为型</span>
+<div class="title">17. 中介者 Mediator</div>
+<div class="one-line">用中介对象封装一组对象交互,降低耦合。</div>
+<div class="role"><strong>核心角色</strong>:Mediator(中介者接口) + Colleague(同事类,持有 Mediator)</div>
+<div class="scene">场景:聊天室(用户通过聊天室通信)、机场调度</div>
+<div class="fill"><strong>填空套路</strong>:Colleague 里 <code>mediator.sendMessage(msg, this)</code>;Mediator 里判断发送者,调另一方的 <code>Notify(msg)</code>。</div>
+</div>
+
+<div class="pattern-card" id="p-memento">
+<span class="type type-behave">行为型</span>
+<div class="title">18. 备忘录 Memento</div>
+<div class="one-line">保存对象状态,以便恢复(撤销功能)。</div>
+<div class="role"><strong>核心角色</strong>:Originator(原发器) + Memento(备忘录) + Caretaker(管理者)</div>
+<div class="scene">场景:游戏存档、文本编辑器撤销</div>
+<div class="fill"><strong>填空套路</strong>:Originator 的 <code>createMemento()</code> 返回 <code>new Memento(state)</code>;<code>setMemento(m)</code> 里 <code>state = m.getState()</code>;Caretaker 用 List 存。</div>
+</div>
+
+<div class="pattern-card" id="p-observer">
+<span class="type type-behave">行为型</span>
+<div class="title">19. 观察者 Observer ⭐高频</div>
+<div class="one-line">一对多依赖,一个对象状态变化,所有依赖者收到通知。</div>
+<div class="role"><strong>核心角色</strong>:Subject(主题,持有 List&lt;Observer&gt;) + Observer(观察者,update 方法)</div>
+<div class="scene">场景:微信公众号推送、事件监听、MVC</div>
+<div class="fill"><strong>填空套路</strong>:Attach 里 <code>list.add(o)</code>,Detach 里 <code>list.remove(o)</code>;Notify 里 <code>for(o : list) o.update()</code>;setState 里先改状态再调 Notify()。</div>
+</div>
+
+<div class="pattern-card" id="p-state">
+<span class="type type-behave">行为型</span>
+<div class="title">20. 状态 State ⭐高频</div>
+<div class="one-line">对象状态改变时行为也改变,把状态封装成类。</div>
+<div class="role"><strong>核心角色</strong>:Context(持有 State) + State(状态接口,Handle 方法)</div>
+<div class="scene">场景:订单状态(待付款→已发货→已签收)、自动售货机</div>
+<div class="fill"><strong>填空套路</strong>:Context 里 <code>state.Handle(this)</code>;状态实现里改完后调 <code>context.setState(new StateB())</code> 切换状态。</div>
+</div>
+
+<div class="pattern-card" id="p-strategy">
+<span class="type type-behave">行为型</span>
+<div class="title">21. 策略 Strategy ⭐高频</div>
+<div class="one-line">定义一系列算法,封装起来,可互换。</div>
+<div class="role"><strong>核心角色</strong>:Strategy(算法接口) + Context(持有 Strategy)</div>
+<div class="scene">场景:支付方式(微信/支付宝/银行卡)、排序算法切换</div>
+<div class="fill"><strong>填空套路</strong>:Context 构造器接收 Strategy <code>this.strategy = strategy</code>;方法里调 <code>strategy.operation(a,b)</code>。</div>
+</div>
+
+<div class="pattern-card" id="p-template">
+<span class="type type-behave">行为型</span>
+<div class="title">22. 模板方法 Template Method</div>
+<div class="one-line">父类定义算法骨架,子类实现具体步骤。</div>
+<div class="role"><strong>核心角色</strong>:AbstractClass(模板方法 + 抽象原语操作) + ConcreteClass</div>
+<div class="scene">场景:做饭流程(烧水→放食材→调味)、上课流程</div>
+<div class="fill"><strong>填空套路</strong>:父类 <code>TemplateMethod()</code> 里依次调 <code>PrimitiveOperation1(); PrimitiveOperation2();</code>;子类重写这两个方法。</div>
+</div>
+
+<div class="pattern-card" id="p-visitor">
+<span class="type type-behave">行为型</span>
+<div class="title">23. 访问者 Visitor</div>
+<div class="one-line">把操作从对象结构中分离出来,新增操作容易。</div>
+<div class="role"><strong>核心角色</strong>:Visitor(visitXxx 方法) + Element(Accept 方法) + ObjectStructure</div>
+<div class="scene">场景:统计学生/老师不同信息、编译器语法树遍历</div>
+<div class="fill"><strong>填空套路</strong>:Element 的 Accept 里 <code>visitor.visitStudent(this)</code>(双分派);Visitor 里各 visitXxx 方法访问不同元素。</div>
+</div>
+
+</div>
+</section>
+
+<!-- ========== 经典算法 ========== -->
+<section class="section" id="algorithms">
+<h2>⚙️ 经典算法(6 个)逐行讲解</h2>
+
+<h3 id="a-knapsack01">📦 1. 0-1 背包问题(动态规划)</h3>
+<p><strong>一句话</strong>:N 个物品,每个有重量和价值,背包容量 W,每件物品<strong>要么选要么不选</strong>,求最大价值。</p>
+<div class="keypoint"><strong>核心状态转移方程</strong>:<code>f[i][j] = max(f[i-1][j], f[i-1][j-w[i]] + v[i])</code><br>
+意思:第 i 件物品在容量 j 时的最大价值 = max(不选它, 选它)</div>
+
+<pre><span class="comment">// f[i][j] 表示前 i 件物品在容量 j 时的最大价值</span>
+<span class="keyword">for</span> (i = 1; i &lt;= N; i++) {           <span class="comment">// 遍历每件物品</span>
+    <span class="keyword">for</span> (j = 1; j &lt;= W; j++) {        <span class="comment">// 遍历每个容量</span>
+        f[i][j] = f[i-1][j];            <span class="comment">// 默认不选第 i 件</span>
+        <span class="keyword">if</span> (j &gt;= w[i]) {              <span class="comment">// 能装下第 i 件时</span>
+            <span class="comment">// 选或不选取较大值</span>
+            f[i][j] = <span class="fn">max</span>(f[i][j], f[i-1][j-w[i]] + v[i]);
+        }
+    }
+}
+<span class="comment">// 答案在 f[N][W]</span></pre>
+
+<div class="tip"><strong>填空套路</strong>:① 看到 <code>f[i][j] = max(...)</code> 就是状态转移;② 选物品的表达式永远是 <code>f[i-1][j-w[i]] + v[i]</code>;③ 不选就是 <code>f[i-1][j]</code>。</div>
+
+<hr>
+
+<h3 id="a-fractional">📦 2. 部分背包问题(贪心算法)</h3>
+<p><strong>一句话</strong>:和 0-1 背包的区别是<strong>物品可以切一部分</strong>,按"单位重量价值"从大到小排序,能装就全装,装不下就装一部分。</p>
+<div class="keypoint"><strong>贪心策略</strong>:按 <code>v[i]/w[i]</code>(单位价值)从大到小排序,依次取。</div>
+
+<pre><span class="comment">// 先按单位价值从大到小排序(用归并排序)</span>
+<span class="keyword">for</span> (i = 1; i &lt;= N; i++) {
+    <span class="keyword">if</span> (W_temp &gt;= w[i]) {         <span class="comment">// 背包还能装下整件</span>
+        answer[i] = 1.0;              <span class="comment">// 全装</span>
+        result += v[i];
+        W_temp -= w[i];
+    } <span class="keyword">else</span> {                       <span class="comment">// 装不下了</span>
+        <span class="keyword">break</span>;
+    }
+}
+<span class="keyword">if</span> (W_temp &gt; 0 && i &lt;= N) {       <span class="comment">// 还有剩余容量和物品</span>
+    answer[i] = (double)W_temp / w[i]; <span class="comment">// 装一部分</span>
+    result += W_temp * vw[i];         <span class="comment">// 按单位价值算</span>
+}</pre>
+
+<div class="warn"><strong>0-1 背包 vs 部分背包</strong>:0-1 背包用<strong>动态规划</strong>(不能切),部分背包用<strong>贪心</strong>(能切)。别搞混!</div>
+
+<hr>
+
+<h3 id="a-merge">📦 3. 归并排序(分治法)</h3>
+<p><strong>一句话</strong>:把数组对半分,分别排好再合并。分治三步:分→治→合。</p>
+
+<pre><span class="keyword">void</span> <span class="fn">MergeSort</span>(<span class="type">int</span> A[], <span class="type">int</span> p, <span class="type">int</span> r) {
+    <span class="type">int</span> q;
+    <span class="keyword">if</span> (p &lt; r) {                    <span class="comment">// 至少 2 个元素才分</span>
+        q = (p + r) / 2;             <span class="comment">// 找中点</span>
+        <span class="fn">MergeSort</span>(A, p, q);         <span class="comment">// 排左半</span>
+        <span class="fn">MergeSort</span>(A, q+1, r);       <span class="comment">// 排右半</span>
+        <span class="fn">Merge</span>(A, p, q, r);           <span class="comment">// 合并两半</span>
+    }
+}
+<span class="comment">// Merge:用两个临时数组 L[]、R[] 分别存左右半,设哨兵 INT_MAX</span>
+<span class="comment">// 然后双指针比较,小的放回 A[]</span></pre>
+
+<div class="tip"><strong>填空套路</strong>:① 递归终止条件 <code>p &lt; r</code>;② 中点 <code>q = (p+r)/2</code>;③ 两次递归调用 <code>MergeSort(A,p,q)</code> 和 <code>MergeSort(A,q+1,r)</code>;④ 合并 <code>Merge(A,p,q,r)</code>。</div>
+
+<hr>
+
+<h3 id="a-maxsub">📦 4. 最大子段和(分治法)</h3>
+<p><strong>一句话</strong>:数组中连续一段的最大和。分治:最大子段和要么在左半,要么在右半,要么横跨中间。</p>
+
+<pre><span class="keyword">int</span> <span class="fn">MaxSubSum</span>(<span class="type">int</span> *Array, <span class="type">int</span> left, <span class="type">int</span> right) {
+    <span class="keyword">if</span> (left == right) {            <span class="comment">// 只有一个元素</span>
+        <span class="keyword">return</span> Array[left] &gt; 0 ? Array[left] : 0;
+    }
+    <span class="type">int</span> center = (left + right) / 2;
+    <span class="type">int</span> leftSum = <span class="fn">MaxSubSum</span>(Array, left, center);     <span class="comment">// 左半最大</span>
+    <span class="type">int</span> rightSum = <span class="fn">MaxSubSum</span>(Array, center+1, right); <span class="comment">// 右半最大</span>
+    <span class="comment">// 横跨中间:从 center 往左扫,从 center+1 往右扫</span>
+    <span class="type">int</span> s1=0, lefts=0;
+    <span class="keyword">for</span> (i = center; i &gt;= left; i--) {
+        lefts += Array[i];
+        <span class="keyword">if</span> (lefts &gt; s1) s1 = lefts;     <span class="comment">// 左半最大后缀和</span>
+    }
+    <span class="type">int</span> s2=0, rights=0;
+    <span class="keyword">for</span> (i = center+1; i &lt;= right; i++) {
+        rights += Array[i];
+        <span class="keyword">if</span> (rights &gt; s2) s2 = rights;   <span class="comment">// 右半最大前缀和</span>
+    }
+    <span class="type">int</span> sum = s1 + s2;                <span class="comment">// 横跨中间的最大和</span>
+    <span class="keyword">return</span> <span class="fn">max</span>(sum, <span class="fn">max</span>(leftSum, rightSum)); <span class="comment">// 三者取最大</span>
+}</pre>
+
+<div class="keypoint"><strong>填空套路</strong>:① 递归终止 <code>left == right</code>;② 中点 <code>(left+right)/2</code>;③ 横跨和 = 左半最大后缀 + 右半最大前缀;④ 最终返回三者最大值。</div>
+
+<hr>
+
+<h3 id="a-nqueen">📦 5. N 皇后问题(回溯法)</h3>
+<p><strong>一句话</strong>:N×N 棋盘放 N 个皇后,任意两个不能同行同列同斜线。回溯:逐行放,放不下就回退。</p>
+
+<pre><span class="keyword">int</span> q[N+1];   <span class="comment">// q[j] = i 表示第 j 行的皇后在第 i 列</span>
+
+<span class="keyword">int</span> <span class="fn">check</span>(<span class="type">int</span> j) {  <span class="comment">// 检查第 j 行的皇后位置是否合法</span>
+    <span class="keyword">for</span> (<span class="type">int</span> i = 1; i &lt; j; i++) {
+        <span class="comment">// 同列 或 同斜线(行差 == 列差)</span>
+        <span class="keyword">if</span> (q[i] == q[j] || <span class="fn">abs</span>(i - j) == <span class="fn">abs</span>(q[i] - q[j]))
+            <span class="keyword">return</span> 0;
+    }
+    <span class="keyword">return</span> 1;
+}
+
+<span class="keyword">void</span> <span class="fn">queen</span>(<span class="type">int</span> j) {  <span class="comment">// 摆放第 j 行的皇后</span>
+    <span class="keyword">for</span> (<span class="type">int</span> i = 1; i &lt;= N; i++) {  <span class="comment">// 试每一列</span>
+        q[j] = i;
+        <span class="keyword">if</span> (<span class="fn">check</span>(j)) {             <span class="comment">// 位置合法</span>
+            <span class="keyword">if</span> (j == N) {           <span class="comment">// 最后一行也放好了,找到一组解</span>
+                <span class="fn">printf</span>(<span class="string">"方案:%d"</span>, ...);
+            } <span class="keyword">else</span> {
+                <span class="fn">queen</span>(j + 1);     <span class="comment">// 递归摆下一行</span>
+            }
+        }
+        <span class="comment">// 不合法就继续试下一列(自动回溯)</span>
+    }
+}</pre>
+
+<div class="tip"><strong>填空套路</strong>:① check 里判断 <code>q[i]==q[j] || abs(i-j)==abs(q[i]-q[j])</code>;② 递归调用 <code>queen(j+1)</code>;③ 终止条件 <code>j==N</code>。</div>
+</section>
+
+<!-- ========== C 语言下午真题 ========== -->
+<section class="section" id="c-exams">
+<h2>📝 C 语言下午真题精讲</h2>
+
+<h3 id="c-heap">① 堆排序(2022 下)⭐高频</h3>
+<div class="exam-card">
+<div class="exam-head">题目:调整大顶堆 Heapify + 堆排序 HeapSort</div>
+<div class="exam-meta">考点:堆排序、完全二叉树</div>
+<pre><span class="keyword">void</span> <span class="fn">Heapify</span>(<span class="type">int</span> R[], <span class="type">int</span> v, <span class="type">int</span> n) {
+    <span class="type">int</span> i = v, j = 2 * i;       <span class="comment">// j 是左孩子</span>
+    R[0] = R[i];                  <span class="comment">// 暂存根</span>
+    <span class="keyword">while</span> (j &lt;= n) {
+        <span class="keyword">if</span> (j &lt; n && R[j] &lt; R[j+1]) j++;  <span class="comment">// 选较大的孩子</span>
+        <span class="fill-blank">(1)</span>
+        <span class="comment">// if (R[0] &lt; R[j])</span>
+        {
+            R[i] = R[j];          <span class="comment">// 孩子上移</span>
+            i = j; j = 2 * i;     <span class="comment">// 继续往下</span>
+        } <span class="keyword">else</span> { j = n + 1; }  <span class="comment">// 退出</span>
+    }
+    R[i] = R[0];                  <span class="comment">// 根放最终位置</span>
+}
+
+<span class="keyword">void</span> <span class="fn">HeapSort</span>(<span class="type">int</span> R[], <span class="type">int</span> n) {
+    <span class="keyword">for</span> (i = n/2; i &gt;= 1; i--)
+        <span class="fill-blank">(2)</span>
+        <span class="comment">// Heapify(R, i, n);  建初始堆</span>
+    <span class="keyword">for</span> (i = n; <span class="fill-blank">(3)</span>; i--) {
+    <span class="comment">// i &gt; 1</span>
+        R[0]=R[i]; R[i]=R[1];
+        <span class="fill-blank">(4)</span>
+        <span class="comment">// R[1] = R[0];  交换堆顶和末尾</span>
+        <span class="fn">Heapify</span>(R, 1, i-1);    <span class="comment">// 重新调堆</span>
+    }
+}</pre>
+<div class="answer"><strong>答案</strong>:(1) <code>if (R[0] &lt; R[j])</code> (2) <code>Heapify(R, i, n)</code> (3) <code>i &gt; 1</code> (4) <code>R[1] = R[0]</code></div>
+</div>
+
+<div class="tip"><strong>堆排序记忆点</strong>:① 建堆从 n/2 开始往前;② 堆顶 R[1] 是最大值,和末尾交换;③ 每次缩小堆大小再调堆;④ 大顶堆:父节点 ≥ 孩子。</div>
+
+<hr>
+
+<h3 id="c-nqueen">② N 皇后(2019 上)⭐高频</h3>
+<div class="exam-card">
+<div class="exam-head">题目:N 皇后摆放,检查函数 + 递归摆放</div>
+<pre><span class="keyword">int</span> <span class="fn">Place</span>(<span class="type">int</span> j) {
+<span class="comment">// 检查第 j 行能否放皇后</span>
+    <span class="keyword">for</span> (i = 1; i &lt; j; i++) {
+        <span class="keyword">if</span> (<span class="fill-blank">(1)</span> || <span class="fn">abs</span>(queen[i]-queen[j]) == (j-i))
+        <span class="comment">// queen[i] == queen[j]  同列判断</span>
+            <span class="keyword">return</span> 0;
+    }
+    <span class="keyword">return</span> <span class="fill-blank">(2)</span>;
+    <span class="comment">// return 1;  合法返回1</span>
+}
+<span class="keyword">void</span> <span class="fn">Nqueen</span>(<span class="type">int</span> j) {
+    <span class="keyword">for</span> (i = 1; i &lt;= n; i++) {
+        queen[j] = i;
+        <span class="keyword">if</span> (<span class="fill-blank">(3)</span>) {
+        <span class="comment">// Place(j)  位置合法</span>
+            <span class="keyword">if</span> (j == n) <span class="fn">Show</span>();
+            <span class="keyword">else</span> <span class="fill-blank">(4)</span>;
+            <span class="comment">// Nqueen(j+1)  递归下一行</span>
+        }
+    }
+}</pre>
+<div class="answer"><strong>答案</strong>:(1) <code>queen[i] == queen[j]</code> (2) <code>1</code> (3) <code>Place(j)</code> (4) <code>Nqueen(j+1)</code></div>
+</div>
+
+<div class="keypoint"><strong>N 皇后万能填空</strong>:① 冲突判断永远 <code>同列 || 行差==列差</code>;② 合法返回 1,不合法返回 0;③ 递归永远 <code>Nqueen(j+1)</code>。</div>
+
+<hr>
+
+<h3 id="c-edit">③ 编辑距离(2021 下)</h3>
+<div class="exam-card">
+<div class="exam-head">题目:计算两字符串的编辑距离(动规)</div>
+<pre><span class="keyword">int</span> <span class="fn">editdistance</span>(<span class="type">char</span> *str1, <span class="type">int</span> len1, <span class="type">char</span> *str2, <span class="type">int</span> len2) {
+    <span class="keyword">for</span> (i = 0; i &lt;= len1; i++) d[i][0] = i;
+    <span class="comment">// 边界:空串变成长度i</span>
+    <span class="keyword">for</span> (j = 0; j &lt;= len2; j++) <span class="fill-blank">(1)</span>;
+    <span class="comment">// d[0][j] = j</span>
+    <span class="keyword">for</span> (i = 1; i &lt;= len1; i++) {
+        <span class="keyword">for</span> (j = 1; j &lt;= len2; j++) {
+            <span class="keyword">if</span> (<span class="fill-blank">(2)</span>) {
+            <span class="comment">// str1[i-1] == str2[j-1]  字符相等</span>
+                d[i][j] = d[i-1][j-1];
+                <span class="comment">// 不用改</span>
+            } <span class="keyword">else</span> {
+                <span class="type">int</span> temp = <span class="fn">min</span>(d[i-1][j]+1, d[i][j-1]+1);
+                d[i][j] = <span class="fn">min</span>(temp, <span class="fill-blank">(3)</span>);
+                <span class="comment">// d[i-1][j-1]+1  改一个字符</span>
+            }
+        }
+    }
+    <span class="keyword">return</span> <span class="fill-blank">(4)</span>;
+    <span class="comment">// d[len1][len2]</span>
+}</pre>
+<div class="answer"><strong>答案</strong>:(1) <code>d[0][j] = j</code> (2) <code>str1[i-1] == str2[j-1]</code> (3) <code>d[i-1][j-1]+1</code> (4) <code>d[len1][len2]</code></div>
+</div>
+
+<div class="tip"><strong>动规填空套路</strong>:① 先填边界(空串情况);② 字符相等 <code>d[i][j]=d[i-1][j-1]</code>;③ 不等取 <code>min(增/删/改)</code>;④ 答案在 <code>d[len1][len2]</code>。</div>
+
+<hr>
+
+<h3 id="c-coin">④ 假币问题(2017 上)</h3>
+<div class="exam-card">
+<div class="exam-head">题目:分治找假币(假币比真币轻)</div>
+<pre><span class="keyword">int</span> <span class="fn">getCounterfeitCoin</span>(<span class="type">int</span> coins[], <span class="type">int</span> first, <span class="type">int</span> last) {
+    <span class="keyword">if</span> (first == last - 1) {  <span class="comment">// 只剩两枚</span>
+        <span class="keyword">return</span> coins[first] &lt; coins[last] ? first : last;
+    }
+    <span class="keyword">if</span> ((last-first+1) % 2 == 0) {
+    <span class="comment">// 偶数枚</span>
+        <span class="keyword">for</span> (i = first; <span class="fill-blank">(1)</span>; i++) {
+        <span class="comment">// i &lt;= first+(last-first)/2</span>
+            firstSum += coins[i];
+        }
+        <span class="comment">// ... 称两半</span>
+        <span class="keyword">if</span> (<span class="fill-blank">(2)</span>) {
+        <span class="comment">// firstSum &lt; lastSum  前半轻</span>
+            <span class="keyword">return</span> <span class="fn">getCounterfeitCoin</span>(coins, first, first+(last-first)/2);
+        } <span class="keyword">else</span> { ... }
+    } <span class="keyword">else</span> {
+    <span class="comment">// 奇数枚,中间单独留</span>
+        <span class="comment">// ... 两半相等则假币是中间那枚</span>
+        <span class="keyword">return</span> <span class="fill-blank">(3)</span>;
+        <span class="comment">// first + (last-first)/2  返回中间位置</span>
+    }
+}</pre>
+<div class="answer"><strong>答案</strong>:(1) <code>i &lt;= first+(last-first)/2</code> (2) <code>firstSum &lt; lastSum</code> (3) <code>first + (last-first)/2</code></div>
+</div>
+
+<hr>
+
+<h3 id="c-shell">⑤ 希尔排序(2020 下)</h3>
+<div class="exam-card">
+<div class="exam-head">题目:希尔排序(分组插入排序)</div>
+<pre><span class="keyword">void</span> <span class="fn">shellsort</span>(<span class="type">int</span> data[], <span class="type">int</span> n) {
+    <span class="type">int</span> *delta, k = n, i = 0;
+    <span class="keyword">do</span> {
+        <span class="fill-blank">(1)</span>;
+        <span class="comment">// k = k / 2  缩小增量</span>
+        delta[i++] = k;
+    } <span class="keyword">while</span> (<span class="fill-blank">(2)</span>);
+    <span class="comment">// k &gt; 0</span>
+    <span class="comment">// 按增量分组,组内插入排序</span>
+    <span class="keyword">while</span> ((dk = delta[i]) &gt; 0) {
+        <span class="keyword">for</span> (k = delta[i]; k &lt; n; ++k)
+            <span class="keyword">if</span> (<span class="fill-blank">(3)</span>) {
+            <span class="comment">// data[k] &lt; data[k-dk]  需要插入</span>
+                t = data[k];
+                <span class="keyword">for</span> (j = k-dk; j &gt;= 0 && t &lt; data[j]; j -= dk)
+                    data[j+dk] = data[j];
+                <span class="fill-blank">(4)</span>;
+                <span class="comment">// data[j+dk] = t  放入正确位置</span>
+            }
+    }
+}</pre>
+<div class="answer"><strong>答案</strong>:(1) <code>k = k/2</code> (2) <code>k &gt; 0</code> (3) <code>data[k] &lt; data[k-dk]</code> (4) <code>data[j+dk] = t</code></div>
+</div>
+
+<hr>
+
+<h3 id="c-merge">⑥ 归并排序(2014 上)</h3>
+<div class="exam-card">
+<div class="exam-head">题目:归并排序的 Merge 和 MergeSort</div>
+<pre><span class="keyword">void</span> <span class="fn">merge</span>(<span class="type">int</span> arr[], <span class="type">int</span> p, <span class="type">int</span> q, <span class="type">int</span> r) {
+    <span class="comment">// ... 建 left[] 和 right[] 临时数组,末尾放 MAX 哨兵</span>
+    <span class="keyword">for</span> (k = p; <span class="fill-blank">(1)</span>; k++) {
+    <span class="comment">// k &lt;= r</span>
+        <span class="keyword">if</span> (left[i] &gt; right[j]) {
+            <span class="fill-blank">(2)</span>;
+            <span class="comment">// arr[k] = right[j]  小的放回</span>
+            j++;
+        } <span class="keyword">else</span> { arr[k] = left[i]; i++; }
+    }
+}
+<span class="keyword">void</span> <span class="fn">mergeSort</span>(<span class="type">int</span> arr[], <span class="type">int</span> begin, <span class="type">int</span> end) {
+    <span class="type">int</span> mid;
+    <span class="keyword">if</span> (<span class="fill-blank">(3)</span>) {
+    <span class="comment">// begin &lt; end</span>
+        mid = (begin + end) / 2;
+        <span class="fn">mergeSort</span>(arr, begin, mid);
+        <span class="fill-blank">(4)</span>;
+        <span class="comment">// mergeSort(arr, mid+1, end)</span>
+        <span class="fn">merge</span>(arr, begin, mid, end);
+    }
+}</pre>
+<div class="answer"><strong>答案</strong>:(1) <code>k &lt;= r</code> (2) <code>arr[k] = right[j]</code> (3) <code>begin &lt; end</code> (4) <code>mergeSort(arr, mid+1, end)</code></div>
+</div>
+</section>
+
+<!-- ========== Java 下午真题 ========== -->
+<section class="section" id="j-exams">
+<h2>☕ Java 下午真题精讲</h2>
+
+<h3 id="j-strategy">① 策略模式(2023 上 / 2019 上)⭐最高频</h3>
+<div class="exam-card">
+<div class="exam-head">2023 上:区间打印(策略模式)</div>
+<pre><span class="keyword">interface</span> <span class="type">PrintStrategy</span> {
+    <span class="keyword">public</span> <span class="fill-blank">(1)</span>;
+    <span class="comment">// void doPrint(Interval val);</span>
+}
+<span class="comment">// 三个实现类:PrintIntervalsComma/Dots/Line</span>
+<span class="keyword">class</span> <span class="type">Interval</span> {
+    <span class="keyword">public void</span> <span class="fn">printIntervals</span>(PrintStrategy ptr) {
+        <span class="fill-blank">(2)</span>;
+        <span class="comment">// ptr.doPrint(this);</span>
+    }
+}
+<span class="keyword">public static</span> PrintStrategy <span class="fn">getStrategy</span>(TYPE type) {
+    <span class="keyword">switch</span> (type) {
+        <span class="keyword">case</span> COMMA:
+            <span class="fill-blank">(3)</span>;
+            <span class="comment">// st = new PrintIntervalsComma();</span>
+        <span class="comment">// ...</span>
+    }
+}</pre>
+<div class="answer"><strong>答案</strong>:(1) <code>void doPrint(Interval val)</code> (2) <code>ptr.doPrint(this)</code> (3) <code>st = new PrintIntervalsComma()</code></div>
+</div>
+
+<div class="exam-card">
+<div class="exam-head">2019 上:汽车刹车(策略模式)</div>
+<pre><span class="keyword">interface</span> <span class="type">BrakeBehavior</span> {
+    <span class="keyword">public</span> <span class="fill-blank">(1)</span>;
+    <span class="comment">// void stop();</span>
+}
+<span class="keyword">abstract class</span> <span class="type">Car</span> {
+    <span class="keyword">protected</span> <span class="fill-blank">(2)</span> wheel;
+    <span class="comment">// BrakeBehavior</span>
+    <span class="keyword">public void</span> <span class="fn">brake</span>() {
+        <span class="fill-blank">(3)</span>;
+    }
+    <span class="comment">// wheel.stop();</span>
+}
+<span class="keyword">class</span> <span class="type">ShortWheelCar</span> <span class="keyword">extends</span> <span class="type">Car</span> {
+    <span class="keyword">public</span> <span class="fn">ShortWheelCar</span>(BrakeBehavior behavior) {
+        <span class="fill-blank">(4)</span>;
+        <span class="comment">// this.wheel = behavior;  或 super.wheel = behavior;</span>
+    }
+}
+<span class="comment">// 调用:car1.brake();</span>
+car1.<span class="fill-blank">(5)</span>;
+<span class="comment">// brake()</span></pre>
+<div class="answer"><strong>答案</strong>:(1) <code>void stop()</code> (2) <code>BrakeBehavior</code> (3) <code>wheel.stop()</code> (4) <code>this.wheel = behavior</code> (5) <code>brake()</code></div>
+</div>
+
+<div class="keypoint"><strong>策略模式万能填空</strong>:① 接口方法名照抄(看到 <code>doPrint</code> 就填 <code>doPrint</code>);② Context 持有 Strategy 引用 <code>private Strategy strategy</code>;③ 调用时 <code>strategy.方法名()</code>;④ 创建 <code>new XxxStrategy()</code>。</div>
+
+<hr>
+
+<h3 id="j-state">② 状态模式(2018 下)⭐高频</h3>
+<div class="exam-card">
+<div class="exam-head">题目:飞行会员积分(状态模式)</div>
+<pre><span class="keyword">abstract class</span> <span class="type">CState</span> {
+    <span class="keyword">public int</span> flyMiles;
+    <span class="keyword">public</span> <span class="fill-blank">(1)</span>;
+    <span class="comment">// double travel(int miles, CFrequentFlyer context);</span>
+}
+<span class="comment">// 各状态:CNoCustomer/CBasic/CGold/CSilver</span>
+<span class="keyword">class</span> <span class="type">CBasic</span> <span class="keyword">extends</span> <span class="type">CState</span> {  <span class="comment">// 普卡</span>
+    <span class="keyword">public double</span> <span class="fn">travel</span>(<span class="type">int</span> miles, <span class="type">CFrequentFlyer</span> context) {
+        <span class="keyword">if</span> (context.flyMiles &gt;= 25000 && context.flyMiles &lt; 50000)
+            <span class="fill-blank">(2)</span>;
+            <span class="comment">// context.setState(new CSilver());  升级银卡</span>
+        <span class="keyword">if</span> (context.flyMiles &gt;= 50000)
+            <span class="fill-blank">(3)</span>;
+            <span class="comment">// context.setState(new CGold());  升级金卡</span>
+        <span class="keyword">return</span> miles;
+    }
+}</pre>
+<div class="answer"><strong>答案</strong>:(1) <code>double travel(int miles, CFrequentFlyer context)</code> (2)(3) <code>context.setState(new CSilver())</code> / <code>context.setState(new CGold())</code></div>
+</div>
+
+<div class="tip"><strong>状态模式万能填空</strong>:① 抽象状态类定义抽象方法;② 各状态实现里处理逻辑;③ 状态切换永远是 <code>context.setState(new XxxState())</code>;④ Context 里调 <code>state.handle(this)</code>。</div>
+
+<hr>
+
+<h3 id="j-builder">③ 建造者模式(2017 上)⭐高频</h3>
+<div class="exam-card">
+<div class="exam-head">题目:做 Pizza(建造者模式)</div>
+<pre><span class="keyword">abstract class</span> <span class="type">PizzaBuilder</span> {
+    <span class="keyword">protected</span> Pizza pizza;
+    <span class="keyword">public</span> Pizza <span class="fn">getPizza</span>() { <span class="keyword">return</span> pizza; }
+    <span class="keyword">public void</span> <span class="fn">createNewPizza</span>() { pizza = <span class="keyword">new</span> Pizza(); }
+    <span class="keyword">public</span> <span class="fill-blank">(1)</span>;
+    <span class="comment">// void buildParts();  抽象方法</span>
+}
+<span class="keyword">class</span> <span class="type">Waiter</span> {  <span class="comment">// 指挥者 Director</span>
+    <span class="keyword">private</span> PizzaBuilder pizzaBuilder;
+    <span class="keyword">public void</span> <span class="fn">setPizzaBuilder</span>(PizzaBuilder pizzaBuilder) {
+        <span class="fill-blank">(2)</span>;
+        <span class="comment">// this.pizzaBuilder = pizzaBuilder;</span>
+    }
+    <span class="keyword">public void</span> <span class="fn">construct</span>() {
+        pizzaBuilder.createNewPizza();
+        <span class="fill-blank">(3)</span>;
+        <span class="comment">// pizzaBuilder.buildParts();</span>
+    }
+}
+<span class="comment">// 调用:</span>
+Waiter waiter = <span class="keyword">new</span> Waiter();
+PizzaBuilder hawaiian = <span class="keyword">new</span> HawaiianPizzaBuilder();
+<span class="fill-blank">(4)</span>;
+<span class="comment">// waiter.setPizzaBuilder(hawaiian);</span>
+<span class="fill-blank">(5)</span>;
+<span class="comment">// waiter.construct();</span></pre>
+<div class="answer"><strong>答案</strong>:(1) <code>abstract void buildParts()</code> (2) <code>this.pizzaBuilder = pizzaBuilder</code> (3) <code>pizzaBuilder.buildParts()</code> (4) <code>waiter.setPizzaBuilder(hawaiian)</code> (5) <code>waiter.construct()</code></div>
+</div>
+
+<hr>
+
+<h3 id="j-adapter">④ 适配器模式(2016 上)</h3>
+<div class="exam-card">
+<div class="exam-head">题目:中国地址适配荷兰地址(适配器模式)</div>
+<pre><span class="keyword">class</span> <span class="type">DutchAddressAdapter</span> <span class="keyword">extends</span> <span class="type">DutchAddress</span> {
+    <span class="keyword">private</span> <span class="fill-blank">(1)</span>;
+    <span class="comment">// Address address;  持有被适配者</span>
+    <span class="keyword">public</span> <span class="fn">DutchAddressAdapter</span>(Address addr) { address = addr; }
+    <span class="keyword">@Override</span> <span class="keyword">public void</span> <span class="fn">straat</span>() {
+        <span class="fill-blank">(2)</span>;
+        <span class="comment">// address.street();  转调</span>
+    }
+    <span class="keyword">@Override</span> <span class="keyword">public void</span> <span class="fn">postcode</span>() {
+        <span class="fill-blank">(3)</span>;
+        <span class="comment">// address.zip();</span>
+    }
+    <span class="comment">// ...</span>
+}
+<span class="comment">// 调用:</span>
+Address addr = <span class="keyword">new</span> Address();
+<span class="fill-blank">(5)</span>;
+<span class="comment">// DutchAddressAdapter addrAdapter = new DutchAddressAdapter(addr);</span></pre>
+<div class="answer"><strong>答案</strong>:(1) <code>Address address</code> (2) <code>address.street()</code> (3) <code>address.zip()</code> (5) <code>DutchAddressAdapter addrAdapter = new DutchAddressAdapter(addr)</code></div>
+</div>
+
+<div class="tip"><strong>适配器万能填空</strong>:① Adapter 持有被适配者引用 <code>private Adaptee adaptee</code>;② 重写目标方法时调 <code>adaptee.specificMethod()</code> 转调。</div>
+
+<hr>
+
+<h3 id="j-bridge">⑤ 桥接模式(2013 下)</h3>
+<div class="exam-card">
+<div class="exam-head">题目:绘图 V1/V2 × 形状(桥接模式)</div>
+<pre><span class="fill-blank">(1)</span> <span class="type">Drawing</span> {
+    <span class="comment">// interface</span>
+    <span class="fill-blank">(2)</span>;
+    <span class="comment">// void drawLine(double x1,...);</span>
+    <span class="fill-blank">(3)</span>;
+    <span class="comment">// void drawCircle(double x,double y,double r);</span>
+}
+<span class="keyword">class</span> <span class="type">V1Drawing</span> <span class="keyword">implements</span> <span class="type">Drawing</span> {
+    <span class="keyword">public void</span> <span class="fn">drawCircle</span>(...) {
+        <span class="fill-blank">(4)</span>;
+        <span class="comment">// DP1.draw_a_circle(x,y,r);</span>
+    }
+}
+<span class="keyword">abstract class</span> <span class="type">Shape</span> {
+    <span class="keyword">private</span> Drawing _dp;
+    <span class="fill-blank">(6)</span>;
+    <span class="comment">// Shape(Drawing dp) {...}  其实题目已有,这里看上下文</span>
+}</pre>
+<div class="answer"><strong>答案</strong>:(1) <code>interface</code> (2) <code>void drawLine(...)</code> (3) <code>void drawCircle(...)</code> (4) <code>DP1.draw_a_circle(x,y,r)</code></div>
+</div>
+
+<div class="tip"><strong>桥接模式万能填空</strong>:① 两个维度各有接口/抽象类;② 抽象类持有实现接口的引用 <code>private Implementor impl</code>;③ 方法里调 <code>impl.operation()</code>。</div>
+
+<hr>
+
+<h3 id="j-facade">⑥ 外观模式(2022 下)</h3>
+<div class="exam-card">
+<div class="exam-head">题目:医院就诊流程(外观模式)</div>
+<pre><span class="keyword">interface</span> <span class="type">Patient</span> {
+    <span class="fill-blank">(1)</span>;
+    <span class="comment">// public String getName();</span>
+}
+<span class="keyword">interface</span> <span class="type">Disposer</span> {
+    <span class="fill-blank">(2)</span>;
+    <span class="comment">// public void dispose(Patient patient);</span>
+}
+<span class="comment">// 三个实现:挂号 Registry、门诊 Doctor、取药 Pharmacy</span>
+<span class="keyword">class</span> <span class="type">Facade</span> {
+    <span class="keyword">private</span> Patient patient;
+    <span class="keyword">public</span> <span class="fn">Facade</span>(Patient patient) {
+        <span class="keyword">this</span>.patient = patient;
+    }
+    <span class="keyword">void</span> <span class="fn">dispose</span>() {
+        <span class="comment">// 依次调三个子系统</span>
+        registry.dispose(patient);
+        doctor.dispose(patient);
+        pharmacy.dispose(patient);
+    }
+}
+<span class="comment">// 调用:</span>
+Patient patient = <span class="fill-blank">(3)</span>;
+<span class="comment">// new ConcretePatient("zst");</span>
+<span class="fill-blank">(4)</span> f = <span class="fill-blank">(5)</span>;
+<span class="comment">// Facade / new Facade(patient)</span>
+<span class="fill-blank">(6)</span>;
+<span class="comment">// f.dispose();</span></pre>
+<div class="answer"><strong>答案</strong>:(1) <code>public String getName()</code> (2) <code>public void dispose(Patient patient)</code> (3) <code>new ConcretePatient("zst")</code> (4) <code>Facade</code> (5) <code>new Facade(patient)</code> (6) <code>f.dispose()</code></div>
+</div>
+
+<hr>
+
+<h3 id="j-visitor">⑦ 访问者模式(2015 上)</h3>
+<div class="exam-card">
+<div class="exam-head">题目:图书馆统计页数(访问者模式)</div>
+<pre><span class="keyword">interface</span> <span class="type">LibraryVisitor</span> {
+    <span class="fill-blank">(1)</span>;
+    <span class="comment">// void visit(Book p_book);</span>
+    <span class="fill-blank">(2)</span>;
+    <span class="comment">// void visit(Article p_article);</span>
+    <span class="keyword">void</span> <span class="fn">printSum</span>();
+}
+<span class="keyword">interface</span> <span class="type">LibraryItemInterface</span> {
+    <span class="fill-blank">(3)</span>;
+    <span class="comment">// void accept(LibraryVisitor visitor);</span>
+}
+<span class="keyword">class</span> <span class="type">Article</span> <span class="keyword">implements</span> <span class="type">LibraryItemInterface</span> {
+    <span class="keyword">public void</span> <span class="fn">accept</span>(LibraryVisitor visitor) {
+        <span class="fill-blank">(4)</span>;
+        <span class="comment">// visitor.visit(this);  双分派</span>
+    }
+}
+<span class="keyword">class</span> <span class="type">Book</span> <span class="keyword">implements</span> <span class="type">LibraryItemInterface</span> {
+    <span class="keyword">public void</span> <span class="fn">accept</span>(LibraryVisitor visitor) {
+        <span class="fill-blank">(5)</span>;
+        <span class="comment">// visitor.visit(this);</span>
+    }
+}</pre>
+<div class="answer"><strong>答案</strong>:(1) <code>void visit(Book p_book)</code> (2) <code>void visit(Article p_article)</code> (3) <code>void accept(LibraryVisitor visitor)</code> (4)(5) <code>visitor.visit(this)</code></div>
+</div>
+
+<div class="keypoint"><strong>访问者模式万能填空</strong>:① Visitor 接口对每种 Element 定义 <code>visitXxx(Xxx e)</code>;② Element 的 accept 里 <code>visitor.visitXxx(this)</code>(这是双分派的核心);③ ConcreteVisitor 里实现 visitXxx 做具体操作。</div>
+</section>
+
+<!-- ========== 填空套路总表 ========== -->
+<section class="section" id="fill-all">
+<h2>🧰 填空套路总表(万能模板)</h2>
+
+<h3>一、设计模式填空 7 大套路</h3>
+<table>
+<tr><th>空的位置</th><th>该填什么</th><th>例子</th></tr>
+<tr><td>接口/抽象类里声明方法</td><td>只写方法签名,不写实现</td><td><code>void doPrint(Interval val);</code></td></tr>
+<tr><td>实现类里重写方法</td><td>方法签名和接口一致,加实现</td><td><code>public void doPrint(Interval val) {...}</code></td></tr>
+<tr><td>工厂方法里返回对象</td><td><code>return new 子类名()</code></td><td><code>return new ProductA()</code></td></tr>
+<tr><td>调用方接收返回值</td><td><code>父类 变量 = 工厂.方法()</code></td><td><code>Product p = Factory.create("A")</code></td></tr>
+<tr><td>Context 持有策略/状态</td><td><code>private 策略类型 strategy</code></td><td><code>private Strategy strategy;</code></td></tr>
+<tr><td>调用接口方法</td><td><code>变量.方法名(参数)</code> 照抄接口</td><td><code>strategy.pay(amount)</code></td></tr>
+<tr><td>状态切换</td><td><code>context.setState(new XxxState())</code></td><td><code>context.setState(new StateB())</code></td></tr>
+</table>
+
+<h3>二、C 算法填空 6 大套路</h3>
+<table>
+<tr><th>题型</th><th>填空位置</th><th>套路</th></tr>
+<tr><td>排序算法</td><td>循环边界/交换语句</td><td>① 边界 <code>i &gt; 1</code> 或 <code>i &lt; n</code>;② 交换 <code>a=b; b=tmp;</code></td></tr>
+<tr><td>递归算法</td><td>终止条件/递归调用</td><td>① <code>if(终止) return ...</code>;② <code>递归(更小规模)</code></td></tr>
+<tr><td>动态规划</td><td>状态转移/边界</td><td>① 边界 <code>d[i][0]=i</code>;② 转移 <code>d[i][j]=max/min(...)</code></td></tr>
+<tr><td>分治算法</td><td>中点/合并</td><td>① <code>mid=(l+r)/2</code>;② 先递归左右,再合并</td></tr>
+<tr><td>回溯算法</td><td>合法性检查/递归下一层</td><td>① <code>check(j)</code> 判断;② <code>递归(j+1)</code></td></tr>
+<tr><td>查找算法</td><td>中点/边界更新</td><td>① <code>mid=(low+high)/2</code>;② <code>low=mid+1</code> 或 <code>high=mid-1</code></td></tr>
+</table>
+
+<div class="keypoint"><strong>万能口诀</strong>:<br>
+① 要对象就 <code>new 子类()</code><br>
+② 要调用就抄接口方法名<br>
+③ 返回类型看父类/接口<br>
+④ 重写签名要对齐<br>
+⑤ 算法看注释(中文注释=答案翻译)<br>
+⑥ 找上下文没用过的变量</div>
+</section>
+
+<!-- ========== 蒙分三招 ========== -->
+<section class="section" id="fill-trick">
+<h2>🎲 蒙分三招(实在不会时用)</h2>
+
+<h3>第 1 招:找上下文变量</h3>
+<p>题目代码里定义了 <code>int i, j, max;</code>,但下文 <code>max</code> 没用过 → 填空处大概率是 <code>max = ...</code>。</p>
+<div class="tip">代码里定义了但没用的变量、返回类型、参数,往往就是填空答案的线索。</div>
+
+<h3>第 2 招:死记三大模板</h3>
+<table>
+<tr><th>算法</th><th>必填代码</th></tr>
+<tr><td>二分查找</td><td><code>while (low &lt;= high)</code> 和 <code>mid = (low + high) / 2</code></td></tr>
+<tr><td>冒泡排序</td><td>外层 <code>for(i=0; i&lt;n-1; i++)</code>,内层 <code>j &lt; n-1-i</code></td></tr>
+<tr><td>链表反转</td><td><code>p-&gt;next = q</code> 改方向</td></tr>
+<tr><td>归并排序</td><td><code>MergeSort(A, p, q)</code> + <code>MergeSort(A, q+1, r)</code> + <code>Merge(A,p,q,r)</code></td></tr>
+<tr><td>堆排序</td><td><code>Heapify(R, i, n)</code> + 交换堆顶末尾</td></tr>
+</table>
+
+<h3>第 3 招:看中文注释猜</h3>
+<p>真题代码旁边的中文说明就是"答案翻译",把中文变量名翻成代码即可。</p>
+<div class="tip"><strong>例子</strong>:注释写"判断是否在同一列" → 填 <code>q[i] == q[j]</code>;注释写"返回较大值" → 填 <code>max(a, b)</code>。</div>
+
+<div class="warn"><strong>最后绝招</strong>:设计模式填空实在不会,就<strong>照抄接口/抽象类的方法签名</strong>!调用方填 <code>new XxxImpl()</code>,接口方法填 <code>void 方法名(参数)</code>,十有八九能拿分。</div>
+</section>
+
+<!-- ========== 设计模式对比 ========== -->
+<section class="section" id="compare">
+<h2>🔍 易混淆设计模式对比</h2>
+
+<h3>1. 策略 vs 状态(最高频易混)</h3>
+<table>
+<tr><th>对比</th><th>策略模式</th><th>状态模式</th></tr>
+<tr><td>触发者</td><td>客户端主动选算法</td><td>对象内部状态自动流转</td></tr>
+<tr><td>切换方式</td><td><code>context.setStrategy(new A())</code></td><td><code>context.setState(new B())</code></td></tr>
+<tr><td>场景</td><td>支付方式切换</td><td>订单状态流转</td></tr>
+<tr><td>代码结构</td><td>几乎一样(Context + 接口 + 实现)</td><td>几乎一样</td></tr>
+</table>
+<div class="tip"><strong>记法</strong>:策略是"你选",状态是"它自己变"。</div>
+
+<h3>2. 工厂方法 vs 抽象工厂</h3>
+<table>
+<tr><th>对比</th><th>工厂方法</th><th>抽象工厂</th></tr>
+<tr><td>创建产品数</td><td>1 个</td><td>一族(多个)</td></tr>
+<tr><td>接口方法</td><td>1 个 create 方法</td><td>多个 create 方法</td></tr>
+<tr><td>场景</td><td>日志系统(一种日志)</td><td>UI 主题(按钮+文本框+菜单)</td></tr>
+</table>
+
+<h3>3. 代理 vs 装饰 vs 适配器</h3>
+<table>
+<tr><th>对比</th><th>代理</th><th>装饰</th><th>适配器</th></tr>
+<tr><td>目的</td><td>控制访问</td><td>加功能</td><td>转接口</td></tr>
+<tr><td>接口</td><td>和目标相同</td><td>和被装饰者相同</td><td>转换成目标接口</td></tr>
+<tr><td>场景</td><td>远程代理、权限</td><td>给咖啡加糖</td><td>220V 转 5V</td></tr>
+</table>
+
+<h3>4. 组合 vs 装饰</h3>
+<table>
+<tr><th>对比</th><th>组合</th><th>装饰</th></tr>
+<tr><td>结构</td><td>树形(一对多)</td><td>链形(一对一)</td></tr>
+<tr><td>目的</td><td>统一对待部分和整体</td><td>动态加功能</td></tr>
+<tr><td>场景</td><td>文件系统</td><td>给对象加职责</td></tr>
+</table>
+
+<h3>5. 外观 vs 中介者</h3>
+<table>
+<tr><th>对比</th><th>外观</th><th>中介者</th></tr>
+<tr><td>方向</td><td>外部 → 子系统(单向)</td><td>同事之间双向交互</td></tr>
+<tr><td>目的</td><td>简化调用</td><td>解耦同事间交互</td></tr>
+<tr><td>场景</td><td>一键开机</td><td>聊天室</td></tr>
+</table>
+
+<div class="keypoint"><strong>一句话总结</strong>:<br>
+• 策略=客户端选,状态=自己变<br>
+• 工厂方法=造一个,抽象工厂=造一族<br>
+• 代理=控制,装饰=加料,适配器=转换<br>
+• 组合=树,装饰=链<br>
+• 外观=外对内,中介者=内对内</div>
+</section>
+
+<section class="section">
+<h2>📚 总结:代码题拿分策略</h2>
+
+<div class="keypoint">
+<p><strong>1. 上午选择题(代码相关,约 10 分)</strong></p>
+<ul>
+<li>设计模式分类(创建/结构/行为)必考 1 题</li>
+<li>设计模式场景识别("支付方式"→策略)必考 1 题</li>
+<li>C/Java 语法题(传值/传引用、重载/重写)1-2 题</li>
+</ul>
+</div>
+
+<div class="keypoint">
+<p><strong>2. 下午 Java 题(试题五/六,15 分)</strong></p>
+<ul>
+<li>识别模式 → 找接口 → 找实现类 → 找核心角色</li>
+<li>填空套路:new 子类、抄接口方法名、看上下文变量</li>
+<li>高频模式:策略、状态、建造者、适配器、桥接、外观、观察者、访问者</li>
+</ul>
+</div>
+
+<div class="keypoint">
+<p><strong>3. 下午 C 算法题(试题四,15 分)</strong></p>
+<ul>
+<li>看函数名和注释 → 判断算法类型</li>
+<li>填空套路:循环边界、递归调用、状态转移、交换语句</li>
+<li>高频算法:堆排序、归并排序、N 皇后、动态规划、分治</li>
+</ul>
+</div>
+
+<div class="tip">
+<p><strong>最后的话</strong>:</p>
+<p>代码题不是让你从零写代码,而是<strong>读懂 + 填空</strong>。掌握三大角色的识别、填空套路、蒙分三招,再加上 5 套真题练习,下午代码题拿 20+ 分完全没问题。</p>
+<p>记住:<strong>不会填就照抄接口方法签名,十有八九能拿分!</strong> 💪</p>
+</div>
+</section>
+
+</main>
+</div>
+</div>
+
+<script>
+// 平滑滚动
+document.querySelectorAll('.sidebar a').forEach(a=>{
+  a.addEventListener('click',e=>{
+    e.preventDefault();
+    const target=document.querySelector(a.getAttribute('href'));
+    if(target) target.scrollIntoView({behavior:'smooth',block:'start'});
+  });
+});
+</script>
+
+</body>
+</html>

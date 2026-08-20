@@ -1,0 +1,28 @@
+# IDE/project metadata
+.codebuddy/
+
+# Large documents and potentially copyrighted materials
+*.pdf
+
+# Existing third-party nested repository (kept locally, not published here)
+软考学习资料/software_designer/
+
+# Unrelated procurement workflow files
+采购申请审批流程可视化.html
+新建文本文档 (2).txt
+
+# Invalid web asset names: browsers treat # as a URL fragment
+*#*
+
+# OS/editor temporary files
+.DS_Store
+Thumbs.db
+desktop.ini
+*.tmp
+*.temp
+~$*
+
+# Local logs and caches
+*.log
+__pycache__/
+*.pyc

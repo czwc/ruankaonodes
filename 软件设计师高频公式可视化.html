@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软件设计师高频公式可视化</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  svg: { fontCache: 'global' }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+:root {
+  --bg: #0f172a;
+  --card-bg: #1e293b;
+  --card-hover: #334155;
+  --text: #e2e8f0;
+  --text-dim: #94a3b8;
+  --accent: #38bdf8;
+  --accent2: #818cf8;
+  --accent3: #f472b6;
+  --green: #4ade80;
+  --orange: #fb923c;
+  --red: #f87171;
+  --border: #334155;
+  --radius: 12px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+body {
+  font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+  overflow-x: hidden;
+}
+/* Header */
+.header {
+  position: sticky; top: 0; z-index: 100;
+  background: rgba(15,23,42,0.95);
+  backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--border);
+  padding: 14px 24px;
+  display: flex; align-items: center; gap: 16px;
+  flex-wrap: wrap;
+}
+.header h1 {
+  font-size: 1.3rem; white-space: nowrap;
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  background-clip: text;
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+.search-box {
+  flex: 1; min-width: 200px; max-width: 400px;
+  position: relative;
+}
+.search-box input {
+  width: 100%; padding: 8px 14px 8px 36px;
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: 8px; color: var(--text); font-size: 0.9rem;
+  outline: none; transition: border-color .2s;
+}
+.search-box input:focus { border-color: var(--accent); }
+.search-box::before {
+  content: '\1F50D'; position: absolute; left: 10px; top: 50%;
+  transform: translateY(-50%); font-size: 0.85rem;
+}
+.stats { font-size: 0.8rem; color: var(--text-dim); white-space: nowrap; }
+/* Layout */
+.layout { display: flex; min-height: calc(100vh - 60px); }
+.sidebar {
+  width: 220px; flex-shrink: 0; padding: 20px 12px;
+  border-right: 1px solid var(--border);
+  position: sticky; top: 60px; height: calc(100vh - 60px);
+  overflow-y: auto;
+}
+.sidebar h3 {
+  font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+  color: var(--text-dim); margin-bottom: 8px; padding-left: 8px;
+}
+.cat-btn {
+  display: flex; align-items: center; gap: 8px;
+  width: 100%; text-align: left; padding: 8px 12px;
+  background: transparent; border: none; color: var(--text);
+  font-size: 0.85rem; cursor: pointer; border-radius: 8px;
+  transition: background .15s; margin-bottom: 2px;
+}
+.cat-btn:hover { background: var(--card-bg); }
+.cat-btn.active { background: var(--card-hover); color: var(--accent); }
+.cat-btn .count {
+  margin-left: auto; font-size: 0.7rem; color: var(--text-dim);
+  background: var(--card-bg); padding: 1px 7px; border-radius: 10px;
+}
+.main { flex: 1; padding: 24px; max-width: 1100px; }
+/* Cards */
+.formula-card {
+  background: var(--card-bg); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 24px; margin-bottom: 20px;
+  transition: border-color .2s, box-shadow .2s;
+}
+.formula-card:hover { border-color: var(--accent); box-shadow: 0 4px 20px rgba(56,189,248,0.08); }
+.card-header { display: flex; align-items: center; gap: 10px; margin-bottom: 14px; flex-wrap: wrap; }
+.card-num {
+  background: linear-gradient(135deg, var(--accent), var(--accent2));
+  color: #0f172a; font-weight: 700; font-size: 0.8rem;
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0;
+}
+.card-title { font-size: 1.05rem; font-weight: 600; }
+.card-tags { display: flex; gap: 6px; margin-left: auto; flex-wrap: wrap; }
+.tag {
+  font-size: 0.7rem; padding: 2px 8px; border-radius: 10px;
+  font-weight: 500;
+}
+.tag-cat { background: rgba(56,189,248,0.15); color: var(--accent); }
+.tag-priority { background: rgba(74,222,128,0.15); color: var(--green); }
+.tag-priority.mid { background: rgba(251,146,60,0.15); color: var(--orange); }
+.section-label {
+  font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.5px; margin-bottom: 6px; margin-top: 14px;
+  display: flex; align-items: center; gap: 6px;
+}
+.label-meaning { color: var(--accent); }
+.label-formula { color: var(--accent2); }
+.label-vars { color: var(--accent3); }
+.label-example { color: var(--green); }
+.label-solution { color: var(--orange); }
+.label-mistakes { color: var(--red); }
+.section-content { margin-bottom: 8px; }
+.section-content p { font-size: 0.9rem; color: var(--text); }
+.section-content ul { list-style: none; padding-left: 0; }
+.section-content ul li {
+  font-size: 0.85rem; padding: 3px 0 3px 16px; position: relative;
+}
+.section-content ul li::before {
+  content: '\2022'; position: absolute; left: 0; color: var(--text-dim);
+}
+.formula-display {
+  background: rgba(15,23,42,0.6); border: 1px solid var(--border);
+  border-radius: 8px; padding: 14px 16px; margin: 8px 0;
+  overflow-x: auto; text-align: center;
+}
+.example-block {
+  background: rgba(15,23,42,0.6); border-left: 3px solid var(--green);
+  border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 8px 0;
+  white-space: pre-line;
+}
+.solution-block {
+  background: rgba(15,23,42,0.6); border-left: 3px solid var(--orange);
+  border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 8px 0;
+  white-space: pre-line;
+}
+.answer-line {
+  font-weight: 600; color: var(--green); margin-top: 6px;
+}
+.mistakes-block {
+  background: rgba(248,113,113,0.08); border-left: 3px solid var(--red);
+  border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 8px 0;
+}
+.mistakes-block ul li::before { color: var(--red); }
+table {
+  width: 100%; border-collapse: collapse; margin: 8px 0;
+  font-size: 0.82rem;
+}
+table th, table td {
+  border: 1px solid var(--border); padding: 6px 10px; text-align: center;
+}
+table th { background: var(--card-hover); color: var(--accent); font-weight: 600; }
+table td { color: var(--text); }
+/* Toggle */
+.toggle-btn {
+  background: var(--card-hover); border: 1px solid var(--border);
+  color: var(--text-dim); font-size: 0.75rem; padding: 4px 12px;
+  border-radius: 6px; cursor: pointer; transition: all .15s;
+}
+.toggle-btn:hover { color: var(--accent); border-color: var(--accent); }
+.toggle-btn.active { color: var(--accent); border-color: var(--accent); }
+.collapsible { overflow: hidden; transition: max-height .3s ease; }
+.collapsible.collapsed { max-height: 0; opacity: 0; }
+.collapsible.expanded { max-height: 2000px; opacity: 1; }
+/* Flashcard mode */
+.flashcard-mode .section-content,
+.flashcard-mode .answer-line { display: none; }
+.flashcard-mode .formula-card .toggle-btn { display: none; }
+.flashcard-mode .formula-card { cursor: pointer; }
+.flashcard-mode .formula-card.flipped .section-content,
+.flashcard-mode .formula-card.flipped .answer-line { display: block; }
+.formula-card:focus-visible,
+.cat-btn:focus-visible,
+.toggle-btn:focus-visible,
+.mobile-cat:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+}
+.learning-guide {
+  border-left: 4px solid var(--accent); background: var(--card-bg);
+  padding: 14px 18px; margin-bottom: 20px; border-radius: 0 8px 8px 0;
+}
+.learning-guide strong { color: var(--accent); }
+.learning-guide p { color: var(--text-dim); font-size: 0.88rem; }
+.when-block {
+  background: rgba(129,140,248,0.1); border-left: 3px solid var(--accent2);
+  border-radius: 0 8px 8px 0; padding: 10px 14px; margin: 8px 0;
+  font-size: 0.88rem;
+}
+.mobile-cat {
+  display: none; background: var(--card-bg); color: var(--text);
+  border: 1px solid var(--border); border-radius: 8px; padding: 8px;
+}
+/* Empty state */
+.empty-state {
+  text-align: center; padding: 60px 20px; color: var(--text-dim);
+}
+/* Scrollbar */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: var(--card-hover); }
+/* Responsive */
+@media (max-width: 768px) {
+  .sidebar { display: none; }
+  .mobile-cat { display: block; width: 100%; }
+  .main { padding: 16px; }
+  .header { padding: 10px 14px; }
+  .header h1 { font-size: 1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; transition: none !important; }
+}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>软件设计师高频公式</h1>
+  <div class="search-box">
+    <label for="searchInput" class="sr-only">搜索公式</label>
+    <input type="text" id="searchInput" placeholder="搜索公式名称或关键词...">
+  </div>
+  <select class="mobile-cat" id="mobileCat" aria-label="选择公式分类"></select>
+  <button class="toggle-btn" id="flashcardBtn" aria-pressed="false" title="进入后点击卡片显示答案">翻卡模式</button>
+  <span class="stats" id="stats" aria-live="polite"></span>
+</div>
+
+<div class="layout">
+  <nav class="sidebar" id="sidebar"></nav>
+  <main class="main" id="main"></main>
+</div>
+
+<script>
+// ===================== DATA =====================
+const CATEGORIES = [
+  { id: 'all', name: '全部', icon: '\u{1F4DA}' },
+  { id: 'data', name: '数据表示与校验', icon: '\u{1F522}' },
+  { id: 'hardware', name: '组成原理', icon: '\u{1F9E0}' },
+  { id: 'os', name: '操作系统', icon: '\u{2699}' },
+  { id: 'network', name: '计算机网络', icon: '\u{1F310}' },
+  { id: 'software', name: '软件工程', icon: '\u{1F4DD}' },
+  { id: 'algorithm', name: '数据结构与算法', icon: '\u{1F4CA}' },
+];
+
+const FORMULAS = [
+  // ---- 数据表示与校验 ----
+  {
+    id: 1, cat: 'data', priority: 'high',
+    title: '按权展开与进制转换',
+    meaning: '就像十进制里"百位上的3表示300"一样，任意进制数的每一位都代表"数字 × 该位的权值"，把所有位的值加起来就是总数。比如二进制 101 中，从右到左权值依次是 1、2、4，所以 101 = 4+0+1 = 5。',
+    formula: '\\[ (a_na_{n-1}\\cdots a_0.a_{-1}\\cdots)_r=\\sum_i a_i r^i \\]',
+    vars: [
+      'r：进制基数，如二进制 r=2',
+      'a_i：第 i 位数字',
+      '小数点左侧最低位权值为 r⁰，右侧为 r⁻¹'
+    ],
+    example: '将二进制数 (101101.01)₂ 转成十进制。',
+    solution: '\\[ 1\\times2^5+0\\times2^4+1\\times2^3+1\\times2^2+0\\times2^1+1\\times2^0+0\\times2^{-1}+1\\times2^{-2} \\] \\[ =32+8+4+1+0.25=45.25 \\]',
+    answer: '(45.25)₁₀',
+    mistakes: [
+      '二进制小数位权依次是 2⁻¹, 2⁻², 2⁻³，不是负数',
+      '十六进制中的 A～F 分别表示 10～15',
+      '二进制转八进制每 3 位一组；转十六进制每 4 位一组'
+    ]
+  },
+  {
+    id: 2, cat: 'data', priority: 'high',
+    title: '原码、反码、补码表示范围',
+    meaning: '计算机用固定的二进制位（比如8位）来存数字，最左边一位是符号位（0表示正数，1表示负数）。补码是计算机存负数的方式，好处是加减法可以用同一套电路处理，而且0只有一种表示（不像原码有+0和-0）。',
+    formula: '\\[ n\\text{ 位补码：}-2^{n-1}\\sim 2^{n-1}-1 \\] \\[ n\\text{ 位原码/反码：}-(2^{n-1}-1)\\sim 2^{n-1}-1 \\] \\[ n\\text{ 位无符号数：}0\\sim 2^n-1 \\]',
+    vars: [
+      'n：二进制位数（含符号位）',
+      '负数补码求法：绝对值二进制 → 按位取反 → 加 1'
+    ],
+    example: '8 位补码能表示的整数范围？-18 的 8 位补码是什么？',
+    solution: '范围：\\[ -2^7\\sim 2^7-1=-128\\sim127 \\]\n\n求 -18：\n1. +18 的 8 位二进制为 00010010\n2. 按位取反得 11101101\n3. 加 1 得 11101110',
+    answer: '范围 -128～127；-18 的补码为 11101110',
+    mistakes: [
+      '补码负数一侧多一个值：8 位有 -128 但没有 +128',
+      '必须先确定字长，同一负数在 8 位和 16 位下补码不同',
+      '原码和反码有 +0 和 -0；补码只有一个零'
+    ]
+  },
+  {
+    id: 3, cat: 'data', priority: 'mid',
+    title: '浮点数表示',
+    meaning: '就像科学计数法把数字写成 1.23×10⁴ 一样，浮点数把数写成 2的阶码次方 × 尾数。阶码决定"能表示多大或多小的数"（范围），尾数决定"能精确到小数点后几位"（精度）。',
+    formula: '\\[ N=2^E\\times F \\] \\[ \\text{规格化：}\\frac{1}{2}\\le|F|<1 \\]',
+    vars: [
+      'E：阶码，决定表示范围',
+      'F：尾数，决定精度',
+      '浮点加减步骤：对阶 → 尾数运算 → 规格化 → 舍入 → 判断溢出'
+    ],
+    example: 'N₁=2⁵×0.1011₂，N₂=2³×0.1100₂，相加前如何对阶？',
+    solution: '小阶向大阶对齐，将 N₂ 阶码增加 2，尾数右移 2 位：\\[ N_2=2^5\\times0.001100_2 \\] 然后相加：\\[ N_1+N_2=2^5\\times(0.101100+0.001100)_2=2^5\\times0.111000_2 \\]',
+    answer: '将 N₂ 对齐到阶码 5，结果为 2⁵×0.111₂',
+    mistakes: [
+      '小阶向大阶对齐，小阶数尾数右移，可能损失低位精度',
+      '规格化范围上界是开区间，不能写成 |F|≤1',
+      '不能把大阶数向小阶数对齐'
+    ]
+  },
+  {
+    id: 4, cat: 'data', priority: 'high',
+    title: '海明码校验位',
+    meaning: '海明码是一种能发现并纠正一位错误的编码。原理是：在数据中间插入几个"校验位"（额外的检查位），每个校验位负责检查特定位置。如果某一位出错，校验结果会告诉你错在哪。就像快递单上加了好几个验证码，任何一个码不对就能定位问题。',
+    formula: '\\[ 2^r\\ge m+r+1 \\] \\[ \\text{检 }t\\text{ 位错：}d_{min}\\ge t+1 \\] \\[ \\text{纠 }t\\text{ 位错：}d_{min}\\ge2t+1 \\]',
+    vars: [
+      'm：数据位数',
+      'r：校验位数',
+      '+1 表示"没有错误"也需要一种状态',
+      '普通可纠一位错的海明码最小码距为 3'
+    ],
+    example: '传送 16 位数据，至少需要多少个校验位才能纠正一位错误？',
+    solution: '逐个尝试：\n- r=4：2⁴=16 < 16+4+1=21，不满足\n- r=5：2⁵=32 ≥ 16+5+1=22，满足',
+    answer: '至少 5 位',
+    mistakes: [
+      '2^r 要覆盖数据位、校验位和无错状态',
+      '普通海明码码距是 3 不是 2（码距 2 只能检单错不能纠单错）',
+      '校验位放在编号为 1,2,4,8… 的位置'
+    ]
+  },
+  {
+    id: 5, cat: 'data', priority: 'mid',
+    title: 'CRC 循环冗余校验',
+    meaning: 'CRC 是一种查错方法。发送方和接收方约定一个"除数"（生成多项式），发送方用数据对它做一种特殊的除法（模2除法，就是异或运算，不借位不进位），把余数附在数据后面发出去。接收方用同样的方法除一次，余数为0说明数据没坏。就像身份证最后一位校验码的原理。',
+    formula: '\\[ \\text{补 }r\\text{ 个 0，模 2 除法求余数} \\]',
+    vars: [
+      'r = 生成多项式 G(x) 的最高次数',
+      '在原数据后补 r 个 0',
+      '余数即为 CRC 校验码，替换掉补的 0'
+    ],
+    example: '数据为 1101，生成多项式对应二进制为 1011，求 CRC 余数。',
+    solution: '1011 最高次数为 3，补 3 个 0：1101000\n\n模 2 除法：\n- 1101 XOR 1011 = 0110，落下一位 → 1100\n- 1100 XOR 1011 = 0111，落下一位 → 1110\n- 1110 XOR 1011 = 0101，落下一位 → 1010\n- 1010 XOR 1011 = 0001\n\n保留 3 位余数：001',
+    answer: 'CRC 余数为 001，发送码字为 1101001',
+    mistakes: [
+      '校验位数等于生成多项式的次数，不等于二进制串长度',
+      '每次运算使用异或，不使用普通十进制除法'
+    ]
+  },
+  // ---- 组成原理 ----
+  {
+    id: 6, cat: 'hardware', priority: 'high',
+    title: '存储容量与芯片组成',
+    meaning: '地址线就像门牌号的位数——n根地址线能编出2ⁿ个不同地址，也就是能访问2ⁿ个存储单元。用小芯片拼大存储器时，"字扩展"是增加存储单元数量（不够多就多拼几片），"位扩展"是增加每个单元的位数（不够宽就并排拼），两个倍数相乘就是总片数。',
+    formula: '\\[ \\text{容量}=\\text{存储单元数}\\times\\text{每单元位数} \\] \\[ \\text{芯片数}=\\lceil\\frac{目标字数}{芯片字数}\\rceil\\times\\lceil\\frac{目标字长}{芯片位数}\\rceil \\]',
+    vars: [
+      'n 根地址线 → 2ⁿ 个存储单元',
+      '字扩展：解决字数不足',
+      '位扩展：解决字长不足',
+      '地址范围容量 = 末地址 - 首地址 + 1'
+    ],
+    example: '用 16K×4 bit 芯片组成 64K×16 bit 存储器，需要多少片？',
+    solution: '字扩展：64K/16K = 4\n位扩展：16/4 = 4\n总芯片数：4 × 4 = 16',
+    answer: '16 片',
+    mistakes: [
+      '地址范围求容量一定要 末地址 - 首地址 + 1',
+      'B 是字节，b 是位，1B=8b',
+      '先看按字节、按字还是按位编址'
+    ]
+  },
+  {
+    id: 7, cat: 'hardware', priority: 'high',
+    title: 'Cache 平均访问时间',
+    meaning: 'Cache（高速缓存）是CPU和主存之间的"小仓库"，存着最近常用的数据。每次都先花 T_c 时间查 Cache；若未命中，再额外花 T_m 时间访问主存。因此最稳妥的做法是先画"命中"和"未命中"两条路径，再按概率求平均。',
+    formula: '\\[ T_{avg}=hT_c+(1-h)(T_c+T_m)=T_c+(1-h)T_m \\]',
+    vars: [
+      'h：Cache 命中率（0～1）',
+      'T_c：每次查询 Cache 的时间',
+      'T_m：未命中后额外访问主存的时间',
+      '若题目直接给"未命中路径总时间"T_miss，则用 hT_c+(1-h)T_miss'
+    ],
+    example: 'Cache 查询时间 10 ns，未命中后访问主存还需 100 ns，命中率 95%，求平均访问时间。',
+    solution: '命中路径：10 ns，概率 0.95。\n未命中路径：10+100=110 ns，概率 0.05。\\[ T_{avg}=0.95\\times10+0.05\\times110=15\\text{ ns} \\]',
+    answer: '15 ns',
+    mistakes: [
+      '95% 要写成 0.95',
+      '先判断主存时间是完整时间还是额外失效代价',
+      '直接映射冲突最多，全相联冲突最少但成本最高'
+    ]
+  },
+  {
+    id: 8, cat: 'hardware', priority: 'high',
+    title: '流水线执行时间与加速比',
+    meaning: '流水线就像工厂流水线——把一条指令的执行拆成几个阶段（比如取指、分析、执行），每个阶段同时处理不同的指令。就像洗衣机的"洗→烘→叠"三阶段，第一批在烘的时候第二批已经在洗了。流水线的速度取决于最慢的那个阶段。',
+    formula: '\\[ \\Delta t=\\max(t_1,t_2,\\ldots,t_k) \\] \\[ T_{pipe}=\\sum t_i+(n-1)\\Delta t \\] \\[ S=\\frac{T_{seq}}{T_{pipe}},\\quad TP=\\frac{n}{T_{pipe}} \\]',
+    vars: [
+      'Δt：流水周期 = 各段最大时间',
+      'n：指令条数',
+      'k：流水段数',
+      'T_seq = n × Σt_i（顺序执行时间）',
+      '最大吞吐率趋近 1/Δt'
+    ],
+    example: '取指2ns、分析3ns、执行4ns，执行10条指令，求流水时间、顺序时间和加速比。',
+    solution: '流水周期：\\[ \\Delta t=\\max(2,3,4)=4\\text{ ns} \\]\n流水时间：\\[ T_{pipe}=2+3+4+(10-1)\\times4=45\\text{ ns} \\]\n顺序时间：\\[ T_{seq}=10\\times(2+3+4)=90\\text{ ns} \\]\n加速比：\\[ S=90/45=2 \\]',
+    answer: '流水时间 45 ns，顺序时间 90 ns，加速比 2',
+    mistakes: [
+      '第一条指令要完整经过全部阶段，不能直接写 nΔt',
+      '1/Δt 是指令数很大时的最大吞吐率',
+      '段不等时严格公式与统一周期公式结果可能不同'
+    ]
+  },
+  {
+    id: 9, cat: 'hardware', priority: 'high',
+    title: 'CPU 执行时间与 MIPS',
+    meaning: 'CPU执行一个程序需要多久，取决于三件事：有多少条指令（指令条数）、每条指令平均要几个时钟周期（CPI）、CPU每秒能发出多少个时钟周期（主频）。MIPS就是"每秒能执行多少百万条指令"，数字越大CPU越快。',
+    formula: '\\[ \\text{CPU时间}=\\frac{\\text{指令条数}\\times CPI}{\\text{主频}} \\] \\[ MIPS=\\frac{\\text{主频}}{CPI\\times10^6} \\]',
+    vars: [
+      'CPI：每条指令平均需要多少个时钟周期',
+      '主频单位 Hz，GHz = 10⁹ Hz',
+      '时钟周期 = 1/主频',
+      'MIPS只适合比较指令集和工作负载相近的系统，不能单独代表真实性能'
+    ],
+    example: '某程序执行 2 亿条指令，CPI=1.5，主频 3 GHz，求 CPU 执行时间和 MIPS。',
+    solution: 'CPU 时间：\\[ T=\\frac{2\\times10^8\\times1.5}{3\\times10^9}=0.1\\text{ s} \\]\nMIPS：\\[ MIPS=\\frac{3\\times10^9}{1.5\\times10^6}=2000 \\]',
+    answer: 'CPU 时间 0.1 秒，2000 MIPS',
+    mistakes: [
+      'GHz 是 10⁹ Hz，MHz 是 10⁶ Hz',
+      '主频高不必然更快，还要看指令数和 CPI',
+      'MIPS 与 CPI 成反比'
+    ]
+  },
+  {
+    id: 10, cat: 'hardware', priority: 'mid',
+    title: '磁盘容量与访问时间',
+    meaning: '磁盘读写数据分三步：①磁头移动到正确的磁道（寻道，像电梯找楼层），②等磁盘转到正确的位置（旋转等待，像等传送带上的包裹转到面前），③读取数据（传输）。磁盘转速越快，等的时间越短。',
+    formula: '\\[ \\text{容量}=\\text{盘面数}\\times\\text{每面磁道数}\\times\\text{每磁道扇区数}\\times\\text{每扇区字节数} \\] \\[ \\text{访问时间}=\\text{寻道}+\\text{旋转等待}+\\text{传输} \\] \\[ \\text{平均旋转等待}=\\frac{30}{r}\\text{ s} \\]',
+    vars: [
+      'r：转速（rpm，每分钟转数）',
+      '一圈时间 = 60/r 秒',
+      '平均旋转等待 ≈ 半圈 = 30/r 秒'
+    ],
+    example: '磁盘转速 7200 rpm，平均寻道 5 ms，传输时间 0.1 ms，求平均访问时间。',
+    solution: '平均旋转等待：\\[ \\frac{30}{7200}=0.004167\\text{ s}=4.167\\text{ ms} \\]\n平均访问时间：\\[ 5+4.167+0.1=9.267\\text{ ms} \\]',
+    answer: '约 9.27 ms',
+    mistakes: [
+      'rpm 是每分钟转数，要换算成秒',
+      '平均旋转等待通常按半圈计算',
+      '盘片数不一定等于有效盘面数'
+    ]
+  },
+  {
+    id: 11, cat: 'hardware', priority: 'mid',
+    title: '总线带宽',
+    meaning: '总线是计算机各部件之间传数据的"高速公路"。总线宽度是公路有多宽（一次能传几bit），总线频率是每秒能跑几趟。两者相乘再除以8（bit转Byte）就是每秒能搬多少字节的数据。',
+    formula: '\\[ \\text{总线带宽}=\\frac{\\text{总线宽度(bit)}\\times\\text{总线频率(Hz)}}{8}\\quad(B/s) \\]',
+    vars: [
+      '总线宽度：bit 为单位',
+      '总线频率：Hz 或 MHz',
+      '除以 8 转为字节'
+    ],
+    example: '总线宽度 64 bit，总线频率 800 MHz，求总线带宽。',
+    solution: '\\[ \\frac{64\\times800\\times10^6}{8}=6.4\\times10^9\\text{ B/s}=6.4\\text{ GB/s} \\]',
+    answer: '6.4 GB/s',
+    mistakes: [
+      '总线宽度以 bit 为单位，结果要除以 8 转为字节',
+      'DDR 方式下有效频率翻倍'
+    ]
+  },
+  {
+    id: 12, cat: 'hardware', priority: 'mid',
+    title: '波特率与比特率',
+    meaning: '波特率是每秒传输多少个码元（一个码元可以理解为一个"信号符号"，不等同于变化次数）。比特率是每秒传输多少个二进制位。如果一个码元有4种可能状态，它就能表示2 bit，因为2²=4。',
+    formula: '\\[ \\text{比特率}=\\text{波特率}\\times\\log_2 N \\]',
+    vars: [
+      'N：每个码元可取的离散状态数',
+      'N=2 时比特率 = 波特率',
+      '曼彻斯特编码效率 50%'
+    ],
+    example: '波特率 1200 Baud，每个码元有 4 种状态，求比特率。',
+    solution: '\\[ 1200\\times\\log_2 4=1200\\times2=2400\\text{ bit/s} \\]',
+    answer: '2400 bit/s',
+    mistakes: [
+      '波特率不等于比特率，除非 N=2',
+      '曼彻斯特编码每个码元只表示 1 bit，效率 50%'
+    ]
+  },
+  // ---- 操作系统 ----
+  {
+    id: 13, cat: 'os', priority: 'high',
+    title: '进程调度指标',
+    meaning: '周转时间就是"从提交到完成总共等了多久"。带权周转时间衡量"等待是否值得"——如果服务时间很短却等了很久，带权周转就很大（不划算）。HRRN（高响应比）会优先调度"等了很久且服务时间不太长"的进程。',
+    formula: '\\[ \\text{周转时间}=\\text{完成时间}-\\text{到达时间} \\] \\[ \\text{带权周转时间}=\\frac{\\text{周转时间}}{\\text{服务时间}} \\] \\[ \\text{响应比}=\\frac{\\text{等待时间}+\\text{服务时间}}{\\text{服务时间}} \\]',
+    vars: [
+      '等待时间 = 周转时间 - 服务时间',
+      'HRRN 每完成一个进程后重新计算响应比',
+      'SJF：非抢占式选服务时间最短的'
+    ],
+    example: '三进程同时到达，服务时间 P1=6, P2=2, P3=4。非抢占式 SJF，求平均周转时间。',
+    solution: '按服务时间从短到长：P2 → P3 → P1<table><thead><tr><th scope="col">进程</th><th scope="col">完成时间</th><th scope="col">周转时间</th></tr></thead><tbody><tr><td>P2</td><td>2</td><td>2</td></tr><tr><td>P3</td><td>6</td><td>6</td></tr><tr><td>P1</td><td>12</td><td>12</td></tr></tbody></table>\\[ \\text{平均周转}=(2+6+12)/3\\approx6.67 \\]',
+    answer: '顺序 P2→P3→P1，平均周转时间约 6.67',
+    mistakes: [
+      '必须先确认是否抢占以及各进程到达时间',
+      '周转时间从到达开始计算，不是从首次获得 CPU 开始',
+      'HRRN 每完成一个进程后要重新计算响应比'
+    ]
+  },
+  {
+    id: 14, cat: 'os', priority: 'high',
+    title: '分页地址转换',
+    meaning: '内存被分成固定大小的"页"（比如每页1KB），程序也被同样分页。逻辑地址就像"第几页、第几行"，通过页表查到这一页实际放在内存的哪个物理块，再拼出真实地址。就像书的目录告诉你"第3章在第45页"。',
+    formula: '\\[ \\text{页号}=\\lfloor\\frac{A}{P}\\rfloor \\] \\[ \\text{页内偏移}=A\\bmod P \\] \\[ \\text{物理地址}=f\\times P+\\text{偏移} \\]',
+    vars: [
+      'P：页面大小（字节）',
+      'A：逻辑地址',
+      'f：页表查到的物理块号',
+      '页号一般从 0 开始'
+    ],
+    example: '页面大小 1 KB，逻辑地址 2500，页 2 装入物理块 7，求物理地址。',
+    solution: '1KB = 1024B\n\\[ \\text{页号}=\\lfloor2500/1024\\rfloor=2 \\]\n\\[ \\text{偏移}=2500-2\\times1024=452 \\]\n\\[ \\text{物理地址}=7\\times1024+452=7620 \\]',
+    answer: '7620',
+    mistakes: [
+      '页号一般从 0 开始',
+      '页大小必须先统一为字节',
+      '页号越界与缺页中断不是同一件事'
+    ]
+  },
+  {
+    id: 15, cat: 'os', priority: 'mid',
+    title: '页面置换算法',
+    meaning: '内存页框装满后需要淘汰页面。就像书架放满了要拿走一本书才能放新的。FIFO淘汰最早放进去的，LRU淘汰最久没翻过的，OPT淘汰未来最久不会用的（需要预知未来，实际无法实现，只用于理论比较）。',
+    formula: '\\[ \\text{缺页率}=\\frac{\\text{缺页次数}}{\\text{总访问次数}} \\]',
+    vars: [
+      'FIFO：先进先出，可能 Belady 异常',
+      'LRU：最近最久未使用',
+      'OPT：最佳置换（理论最优）',
+      '初始空页框装入也算缺页'
+    ],
+    example: '3 个空页框，访问序列 1,2,3,1,4,2，FIFO，缺页多少次？',
+    solution: '<table><thead><tr><th scope="col">访问</th><th scope="col">页框状态</th><th scope="col">缺页</th></tr></thead><tbody><tr><td>1</td><td>1</td><td>是</td></tr><tr><td>2</td><td>1,2</td><td>是</td></tr><tr><td>3</td><td>1,2,3</td><td>是</td></tr><tr><td>1</td><td>1,2,3</td><td>否</td></tr><tr><td>4</td><td>4,2,3</td><td>是（淘汰1）</td></tr><tr><td>2</td><td>4,2,3</td><td>否</td></tr></tbody></table>',
+    answer: '缺页 4 次',
+    mistakes: [
+      '初始空页框装入页面也算缺页',
+      'FIFO 命中页面时不改变其进入内存的先后顺序',
+      'FIFO 可能出现 Belady 异常；LRU、OPT 不会'
+    ]
+  },
+  {
+    id: 16, cat: 'os', priority: 'high',
+    title: '死锁资源数下限',
+    meaning: '死锁就是"大家都占着资源不放手，又都在等对方释放"的僵局。保证不死锁的最少资源数：假设最坏情况——每个进程都拿到了"差一个就够"的资源量，此时只要再多给1个，就有一个进程能跑完并释放资源，打破僵局。',
+    formula: '\\[ m_{min}=n(k-1)+1 \\]',
+    vars: [
+      'n：进程数',
+      'k：每个进程最大需求',
+      '该公式给出"保证不死锁"的资源下限'
+    ],
+    example: '5 个进程，每个最多需要 3 台同类设备，至少配置多少台才能保证不死锁？',
+    solution: '\\[ m_{min}=5\\times(3-1)+1=11 \\]',
+    answer: '11 台',
+    mistakes: [
+      '该公式是"保证不死锁"的资源下限，不是判断当前是否已死锁',
+      '仅适用于每个进程最大需求相同、资源同类的题设'
+    ]
+  },
+  {
+    id: 17, cat: 'os', priority: 'mid',
+    title: '位示图',
+    meaning: '位示图就像停车场的车位显示屏——每个二进制位对应一个磁盘块，0表示空闲（车位空着），1表示已用（车位停了车）。通过算块号对应的字号和位号，就能快速找到空闲块。',
+    formula: '\\[ \\text{字号}=\\lfloor\\frac{\\text{块号}}{w}\\rfloor+1 \\] \\[ \\text{位号}=\\text{块号}\\bmod w \\]',
+    vars: [
+      'w：每个字包含的二进制位数（通常 32）',
+      '字号从 1 开始、块号从 0 开始（以题目口径为准）'
+    ],
+    example: '位示图每字 32 位，物理块号 70，对应第几个字、第几位？位从 0 开始。',
+    solution: '\\[ \\text{字号}=\\lfloor70/32\\rfloor+1=3 \\]\n\\[ \\text{位号}=70\\bmod32=6 \\]',
+    answer: '第 3 个字的第 6 位',
+    mistakes: [
+      '先确认字号和位号从 0 还是从 1 开始'
+    ]
+  },
+  // ---- 网络 ----
+  {
+    id: 18, cat: 'network', priority: 'high',
+    title: '网络时延',
+    meaning: '发送时延是"把数据全部推上网络线缆"的时间（像把水灌进水管），传播时延是"一个比特从这端跑到那端"的时间（像水从管子一头流到另一头）。总时延还要加上路由器处理和排队等待的时间。',
+    formula: '\\[ \\text{发送时延}=\\frac{\\text{数据长度(bit)}}{\\text{发送速率(bit/s)}} \\] \\[ \\text{传播时延}=\\frac{\\text{链路距离}}{\\text{传播速度}} \\] \\[ \\text{总时延}=\\text{发送}+\\text{传播}+\\text{处理}+\\text{排队} \\]',
+    vars: [
+      '文件大小常用 B，传输速率常用 bit/s，必须乘 8',
+      'Mbps 通常按 10⁶ bit/s',
+      '多段存储转发链路每段都要重新计算发送时延'
+    ],
+    example: '100 Mbps 链路传输 10 MB 文件，忽略其他时延，需多长时间？按 1MB=10⁶B。',
+    solution: '\\[ 10\\text{ MB}=10\\times10^6\\times8=80\\times10^6\\text{ bit} \\]\n\\[ T=\\frac{80\\times10^6}{100\\times10^6}=0.8\\text{ s} \\]',
+    answer: '0.8 秒',
+    mistakes: [
+      '字节先乘 8 变为 bit',
+      'Mbps 通常采用十进制 10⁶',
+      '多段存储转发链路可能需要在每段重新计算发送时延'
+    ]
+  },
+  {
+    id: 19, cat: 'network', priority: 'high',
+    title: '子网划分',
+    meaning: 'IP地址有32位，斜杠后面的数字p表示前p位是网络号，剩下的32-p位是主机号。主机号全0是网络地址（代表整个网络），全1是广播地址（发给所有主机），这两个不能分配给具体机器，所以可用主机数要减2。',
+    formula: '\\[ h=32-p \\] \\[ \\text{地址总数}=2^h \\] \\[ \\text{可用主机数}=2^h-2 \\] \\[ \\text{网络地址}=\\text{IP AND 掩码} \\]',
+    vars: [
+      'p：前缀长度',
+      'h：主机位数',
+      '减去的是主机号全 0（网络地址）和全 1（广播地址）',
+      '子网步长 = 256 - 掩码中变化的字节值'
+    ],
+    example: '192.168.10.0/26 有多少地址、多少可用主机？广播地址是什么？',
+    solution: 'h = 32-26 = 6\n地址总数：2⁶ = 64\n可用主机：64-2 = 62\n范围 0～63，广播地址为 192.168.10.63',
+    answer: '64 个地址，62 个可用主机，广播 192.168.10.63',
+    mistakes: [
+      '减去的是主机号部分全 0 和全 1',
+      '/31、/32 有特殊用途，不机械套 2^h-2',
+      '子网步长 = 256 - 掩码中变化的那个字节值'
+    ]
+  },
+  {
+    id: 20, cat: 'network', priority: 'mid',
+    title: 'IP 地址分类',
+    meaning: 'IP地址按首字节范围分成几类，就像电话号码的区号。A类地址少但每个网络主机多（大型网络），C类地址多但每个网络主机少（小型网络）。看第一个数字就能判断类别。',
+    formula: '\\[ \\begin{array}{|c|c|c|c|} \\hline \\text{类} & \\text{首字节} & \\text{网络号} & \\text{主机号} \\\\ \\hline A & 1\\sim126 & 8 & 24 \\\\ B & 128\\sim191 & 16 & 16 \\\\ C & 192\\sim223 & 24 & 8 \\\\ \\hline \\end{array} \\]',
+    vars: [
+      'A 类网络数 2⁷-2=126（去掉全 0 和 127 环回）',
+      '主机号全 0 是网络地址，全 1 是广播地址',
+      'D 类 224-239 组播，E 类 240-255 保留'
+    ],
+    example: 'IP 地址 172.16.5.3 属于哪一类？该网络最多多少台主机？',
+    solution: '首字节 172 在 128～191，属于 B 类\nB 类主机号 16 位：2¹⁶-2 = 65534',
+    answer: 'B 类，最多 65534 台主机',
+    mistakes: [
+      'A 类网络数减 2 是因为全 0 和 127 保留',
+      '主机号全 0 和全 1 都要减去',
+      'D 类和 E 类不用于普通主机'
+    ]
+  },
+  {
+    id: 21, cat: 'network', priority: 'mid',
+    title: '奈奎斯特与香农公式',
+    meaning: '奈奎斯特公式回答"没有噪声干扰的理想条件下，信道每秒最多能传多少bit"。香农公式回答"有噪声的现实条件下，信道每秒最多能可靠传多少bit"。两个公式可以同时用，取较小值作为实际极限。',
+    formula: '\\[ R=2W\\log_2 N \\] \\[ C=W\\log_2(1+S/N) \\] \\[ SNR_{dB}=10\\log_{10}(S/N) \\]',
+    vars: [
+      'W：带宽（Hz）',
+      'N：每个码元可取的离散状态数',
+      'R/C：最大数据速率（bit/s）',
+      'S/N 是普通倍数，若给出 dB 要先转换'
+    ],
+    example: '无噪声信道带宽 3 kHz，每个码元 16 种状态，最大数据速率？',
+    solution: '\\[ R=2\\times3000\\times\\log_2 16=6000\\times4=24000\\text{ bit/s} \\]',
+    answer: '24 kbps',
+    mistakes: [
+      '奈奎斯特的 N 是码元状态数，不是数据位数',
+      '香农公式中的 S/N 是普通倍数，dB 要先转换',
+      '两个公式可以联合使用：取两者较小值'
+    ]
+  },
+  {
+    id: 22, cat: 'network', priority: 'mid',
+    title: 'CSMA/CD 最小帧长',
+    meaning: 'CSMA/CD是以太网的冲突检测协议。发送数据时如果两台机器同时发，信号会"撞车"（冲突）。为了保证能检测到冲突，发送方必须在发完之前就收到冲突信号，所以帧不能太短——最小帧长 = 2倍带宽 × 单程传播时间。',
+    formula: '\\[ L_{min}=2\\times R\\times\\frac{d}{v} \\]',
+    vars: [
+      'R：网络带宽（bit/s）',
+      'd：单程链路长度（m）',
+      'v：信号传播速度，约 2×10⁸ m/s',
+      '2 倍是因为冲突信号需要往返'
+    ],
+    example: '100 Mbps 以太网，最远 1000 m，传播速度 2×10⁸ m/s，求最小帧长。',
+    solution: '单程传播时延：\\[ t=\\frac{1000}{2\\times10^8}=5\\times10^{-6}\\text{ s} \\]\n最小帧长：\\[ L=2\\times100\\times10^6\\times5\\times10^{-6}=1000\\text{ bit}=125\\text{ B} \\]',
+    answer: '125 字节',
+    mistakes: [
+      '公式中的 2 倍是因为冲突信号需要往返',
+      '带宽单位是 bit/s，结果除以 8 才是字节',
+      '传统以太网最小帧长 64 字节（512 bit）'
+    ]
+  },
+  // ---- 软件工程 ----
+  {
+    id: 23, cat: 'software', priority: 'high',
+    title: 'McCabe 环路复杂度',
+    meaning: 'McCabe 环路复杂度表示控制流图中"线性独立路径"的数量，也就是基本路径测试通常至少要覆盖的独立路径数。它不等于程序所有可能执行路径的总数，因为循环可以产生无限多种执行次数。',
+    formula: '\\[ V(G)=E-N+2 \\] \\[ V(G)=\\text{判定节点数}+1 \\]',
+    vars: [
+      'E：控制流图的边数',
+      'N：控制流图的节点数',
+      '也可以数控制流图区域数（含外部区域）',
+      'V(G) = 线性独立路径数 = 最少基本路径测试数'
+    ],
+    example: '某控制流图有 12 条边、9 个节点，求环路复杂度。',
+    solution: '\\[ V(G)=12-9+2=5 \\]',
+    answer: '环路复杂度 5，至少 5 条基本路径',
+    mistakes: [
+      'E、N 是控制流图的边和节点，不是代码行数',
+      '多分支 switch 不能不加分析地直接套"判定节点数+1"'
+    ]
+  },
+  {
+    id: 24, cat: 'software', priority: 'high',
+    title: 'PERT 三点估算',
+    meaning: '当无法确定一个活动到底要多久时，给出三个估计：最乐观（一切顺利）、最可能（正常情况）、最悲观（各种意外）。加权平均得到期望时间，最可能时间的权重最大（4份），乐观和悲观各1份，共6份。',
+    formula: '\\[ t_e=\\frac{a+4m+b}{6} \\] \\[ \\sigma^2=\\left(\\frac{b-a}{6}\\right)^2 \\]',
+    vars: [
+      'a：最乐观时间',
+      'm：最可能时间（权重 4）',
+      'b：最悲观时间',
+      '独立活动组成路径时，路径期望和方差都相加',
+      '标准差 σ = (b-a)/6，方差要平方'
+    ],
+    example: '最乐观 2 天，最可能 5 天，最悲观 8 天，求期望和方差。',
+    solution: '\\[ t_e=\\frac{2+4\\times5+8}{6}=\\frac{30}{6}=5\\text{ 天} \\]\n\\[ \\sigma^2=\\left(\\frac{8-2}{6}\\right)^2=1 \\]',
+    answer: '期望 5 天，方差 1 天²',
+    mistakes: [
+      '中间的最可能时间权重是 4',
+      '方差要平方；标准差才是 (b-a)/6',
+      '路径方差相加的前提是各活动独立'
+    ]
+  },
+  {
+    id: 25, cat: 'software', priority: 'high',
+    title: '关键路径与时差',
+    meaning: '一个项目有多条并行的工作路径，其中耗时最长的那条叫"关键路径"——它决定了项目最快多久能完成。关键路径上的任何活动延期，整个项目就延期。非关键路径上的活动有一定缓冲时间（时差）。',
+    formula: '\\[ TF=LS-ES=LF-EF \\]',
+    vars: [
+      'ES/EF：最早开始/结束时间',
+      'LS/LF：最迟开始/结束时间',
+      '正向计算最早时刻取前驱最大值',
+      '反向计算最迟时刻取后继最小值',
+      '总时差为 0 的活动构成关键路径'
+    ],
+    example: '路径 A-B-D 工期 3+5+4=12 天，A-C-D 工期 3+2+4=9 天，求关键路径。',
+    solution: '项目必须等待所有路径完成，由最长路径控制总工期。\n关键路径 = A-B-D，最短工期 = 12 天\n非关键路径 A-C-D 有 3 天总时差',
+    answer: '关键路径 A-B-D，最短工期 12 天；在此简化网络中另一支路最多可延误 3 天',
+    mistakes: [
+      '路径长度差可帮助理解缓冲，但总时差严格来说是活动属性',
+      '"最短工期"由网络图中的最长路径决定',
+      '多条关键路径时，只缩短一条不一定缩短总工期',
+      '关键活动延误通常会直接影响总工期'
+    ]
+  },
+  {
+    id: 26, cat: 'software', priority: 'mid',
+    title: '系统可靠性与可用性',
+    meaning: '串联就像圣诞灯串——一个灯坏了整串都不亮，所以串联越多越不可靠。并联就像多条备用路线——只要有一条通着系统就能用，所以并联能提高可靠性。可用性还要考虑修复速度：修得越快，系统可用时间越长。',
+    formula: '\\[ R_s=\\prod_{i=1}^{n}R_i \\] \\[ R_p=1-\\prod_{i=1}^{n}(1-R_i) \\] \\[ A=\\frac{MTTF}{MTTF+MTTR} \\]',
+    vars: [
+      'R_i：各部件可靠度（0～1）',
+      '串并联乘积公式要求各部件故障相互独立',
+      'MTTF：平均无故障时间',
+      'MTTR：平均修复时间',
+      'A：可修复系统的稳态可用性近似值'
+    ],
+    example: '两个可靠度均为 0.9 的部件，求串联和并联可靠度。',
+    solution: '串联：\\[ R_s=0.9\\times0.9=0.81 \\]\n并联：\\[ R_p=1-(1-0.9)^2=1-0.01=0.99 \\]',
+    answer: '串联 0.81，并联 0.99',
+    mistakes: [
+      '并联可靠度不是简单相加，应先求"全部失败"的概率',
+      '串联部件越多可靠度越低；并联冗余可提高可靠度'
+    ]
+  },
+  {
+    id: 27, cat: 'software', priority: 'mid',
+    title: '沟通路径',
+    meaning: 'n个人的团队如果每两人之间都要直接沟通，沟通路径数是n(n-1)/2（排列组合C(n,2)）。人越多沟通成本爆炸式增长。主程序员制下所有人只跟主程序员沟通，路径数降到n-1。',
+    formula: '\\[ C=\\frac{n(n-1)}{2} \\] \\[ \\text{主程序员制：}C=n-1 \\]',
+    vars: [
+      'n：团队人数',
+      '主程序员制：一人居中，其余人只与此人沟通'
+    ],
+    example: '8 人团队每两人都可直接沟通，共多少条沟通路径？',
+    solution: '\\[ C=\\frac{8\\times7}{2}=28 \\]',
+    answer: '28 条',
+    mistakes: [
+      '主程序员制下沟通路径大幅减少',
+      '人数增加时沟通路径按平方级增长'
+    ]
+  },
+  {
+    id: 28, cat: 'software', priority: 'mid',
+    title: 'COCOMO 模型',
+    meaning: 'COCOMO用代码行数来估算需要多少人和多少时间。代码量越大，需要的人月越多（而且不是线性增长，是超线性的——大项目沟通成本更高）。不同复杂度的项目用不同的参数。',
+    formula: '\\[ E=a\\times(KLOC)^b \\] \\[ D=c\\times E^d \\]',
+    vars: [
+      'E：工作量（人月）',
+      'D：开发时间（月）',
+      'KLOC：千行代码数',
+      '组织型 a=2.4 b=1.05；半独立型 a=3.0 b=1.12；嵌入型 a=3.6 b=1.20',
+      'c=2.5，d 随类型变化（0.32～0.38）'
+    ],
+    example: '组织型项目 50 KLOC，求工作量和开发时间。',
+    solution: '\\[ E=2.4\\times50^{1.05}\\approx2.4\\times60.8\\approx145.9\\text{ 人月} \\]\n\\[ D=2.5\\times145.9^{0.38}\\approx16.6\\text{ 月} \\]',
+    answer: '约 145.9 人月，16.6 个月',
+    mistakes: [
+      'KLOC 是千行代码，不是行数',
+      '指数 b>1 意味着工作量随规模超线性增长',
+      '基本 COCOMO 精度有限，中级和详细 COCOMO 引入更多调整因子'
+    ]
+  },
+  // ---- 数据结构与算法 ----
+  {
+    id: 29, cat: 'algorithm', priority: 'high',
+    title: '算法复杂度增长顺序',
+    meaning: '复杂度描述"数据量翻倍时，算法耗时增长多快"。就像搬家：O(1)是无论多少东西都一趟搞定；O(log n)是二分查找--每猜一次排除一半；O(n)是把每个箱子都搬一次；O(n²)是每两个箱子都要互相比较一次。只看增长最快的那一项，忽略常数。',
+    formula: '\\[ O(1)<O(\\log n)<O(n)<O(n\\log n)<O(n^2)<O(2^n)<O(n!) \\]',
+    vars: [
+      '每次规模减半或变量翻倍 → O(log n)',
+      '单层循环 → O(n)',
+      '嵌套循环通常相乘',
+      '快速排序平均 O(n log n)，最坏 O(n²)'
+    ],
+    example: '以下代码时间复杂度？\nfor(i=1;i<n;i*=2) for(j=0;j<n;j++) count++;',
+    solution: '外层 i 每次乘 2，执行约 log₂n 次；内层每次 n 次。嵌套循环相乘：\\[ T(n)=n\\log_2 n \\]',
+    answer: 'O(n log n)',
+    mistakes: [
+      '顺序代码复杂度相加后取最高阶',
+      '快速排序最坏为 O(n²)，不能无条件写 O(n log n)',
+      '选择排序最好最坏都是 O(n²)'
+    ]
+  },
+  {
+    id: 30, cat: 'algorithm', priority: 'high',
+    title: '二叉树节点关系',
+    meaning: '一棵二叉树中，"末端节点"（叶子，没有孩子）永远比"有两个孩子的节点"多1个。原因：每个有2个孩子的节点贡献2个"孩子位"，其中1个用于延伸树干，剩下的才成为叶子。记住结论 n₀ = n₂ + 1 即可快速做题。',
+    formula: '\\[ n_0=n_2+1 \\] \\[ \\text{满二叉树节点数}=2^h-1 \\] \\[ \\text{第 }i\\text{ 层最多}2^{i-1} \\]',
+    vars: [
+      'n₀：叶子节点数（度为 0）',
+      'n₂：度为 2 的节点数',
+      'h：深度（根在第 1 层）',
+      '完全二叉树深度 = ⌊log₂n⌋+1'
+    ],
+    example: '某二叉树度为 2 的节点有 15 个，叶子节点有多少个？',
+    solution: '\\[ n_0=n_2+1=15+1=16 \\]',
+    answer: '16 个',
+    mistakes: [
+      '根节点位于第 1 层时，第 i 层最多为 2^(i-1)',
+      'n₀=n₂+1 与度为 1 的节点数量无关',
+      '完全二叉树深度 = ⌊log₂n⌋+1'
+    ]
+  },
+  {
+    id: 31, cat: 'algorithm', priority: 'mid',
+    title: '哈希表平均查找长度',
+    meaning: '哈希表像一排带编号的储物柜（用"关键字 mod 柜子数"算出该放哪个柜子）。如果目标柜子被占，就往后找下一个空柜（冲突处理）。ASL就是"平均找一个人要开几个柜子"--把每个关键字的比较次数加起来除以关键字总数。',
+    formula: '\\[ ASL=\\frac{\\sum_{i=1}^{n} c_i}{n} \\]',
+    vars: [
+      'c_i：查找第 i 个关键字所需的比较次数',
+      'n：表中关键字数',
+      '成功查找和失败查找的 ASL 计算对象不同'
+    ],
+    example: '线性探测法 H(k)=k mod 7，依次插入 8,15,22，求成功查找 ASL。',
+    solution: '8 mod 7=1，位置1，比较1次\n15 mod 7=1，冲突→位置2，比较2次\n22 mod 7=1，冲突→位置3，比较3次\n\\[ ASL=\\frac{1+2+3}{3}=2 \\]',
+    answer: 'ASL = 2',
+    mistakes: [
+      '成功查找和失败查找的 ASL 计算对象不同',
+      '开放定址法比较次数要包含最初散列位置'
+    ]
+  },
+];
+
+// ===================== RENDER =====================
+const main = document.getElementById('main');
+const sidebar = document.getElementById('sidebar');
+const searchInput = document.getElementById('searchInput');
+const statsEl = document.getElementById('stats');
+const flashcardBtn = document.getElementById('flashcardBtn');
+const mobileCat = document.getElementById('mobileCat');
+
+const WHEN_TO_USE = {
+  1: '看到“某进制转十进制、按权展开”时使用。',
+  2: '看到“n位补码、最大值、最小值、溢出”时使用。',
+  3: '看到“阶码、尾数、规格化、浮点加减”时使用。',
+  4: '看到“m位数据至少需要多少校验位、纠正一位错”时使用。',
+  5: '看到“生成多项式、CRC余数、模2除法”时使用。',
+  6: '看到“地址线、地址范围、用小芯片组成大存储器”时使用。',
+  7: '看到“Cache命中率、平均访问时间”时先画命中/未命中路径。',
+  8: '看到“连续执行n条指令、流水段时间、吞吐率、加速比”时使用。',
+  9: '看到“指令数、CPI、主频、执行时间、MIPS”时使用。',
+  10: '看到“rpm、寻道、旋转等待、磁盘容量”时使用。',
+  11: '看到“总线宽度、频率、每秒传输量”时使用。',
+  12: '看到“Baud、码元状态数、bit/s”时使用。',
+  13: '看到“到达时间、服务时间、完成时间、SJF或HRRN”时使用。',
+  14: '看到“页大小、逻辑地址、页表、物理块号”时使用。',
+  15: '看到“访问序列、页框数、FIFO/LRU/OPT、缺页次数”时列表模拟。',
+  16: '仅用于“同类资源、每进程最大需求相同、保证不死锁”的题。',
+  17: '看到“位示图、物理块号、第几字第几位”时使用。',
+  18: '看到“文件大小、链路速率、距离、传播速度”时使用。',
+  19: '看到“/前缀、子网掩码、主机数、广播地址”时使用。',
+  20: '看到“首字节、A/B/C类、每网主机数”时使用。',
+  21: '无噪声且给码元状态数用奈奎斯特；给信噪比用香农；都给则取较小值。',
+  22: '看到“CSMA/CD、传播距离、最小帧长”时使用理想化往返模型。',
+  23: '看到“控制流图、边数、节点数、判定节点、基本路径测试”时使用。',
+  24: '看到“最乐观、最可能、最悲观时间”时使用。',
+  25: '看到“网络图、最短工期、关键活动、总时差”时正推再逆推。',
+  26: '部件故障相互独立，串联是全部正常，并联是至少一个正常时使用。',
+  27: '看到“n人团队、两两沟通、沟通渠道数”时使用。',
+  28: '看到“KLOC、组织型/半独立型/嵌入型、工作量、人月”时使用。',
+  29: '看到代码循环或要求时间复杂度时，先数每层循环次数。',
+  30: '看到“叶子数、度为2节点数、满/完全二叉树深度”时使用。',
+  31: '看到“哈希函数、线性探测、成功ASL”时逐个统计比较次数。'
+};
+
+let currentCat = 'all';
+let currentSearch = '';
+let flashcardMode = false;
+
+function getCategoryName(catId) {
+  const c = CATEGORIES.find(c => c.id === catId);
+  return c ? c.name : '';
+}
+
+function renderSidebar() {
+  let html = '<h3>分类</h3>';
+  let mobileHtml = '';
+  CATEGORIES.forEach(c => {
+    const count = c.id === 'all' ? FORMULAS.length : FORMULAS.filter(f => f.cat === c.id).length;
+    const active = currentCat === c.id;
+    html += `<button class="cat-btn ${active?'active':''}" aria-pressed="${active}" onclick="selectCat('${c.id}')">${c.icon} ${c.name}<span class="count">${count}</span></button>`;
+    mobileHtml += `<option value="${c.id}" ${active?'selected':''}>${c.name}（${count}）</option>`;
+  });
+  sidebar.innerHTML = html;
+  mobileCat.innerHTML = mobileHtml;
+}
+
+function getFiltered() {
+  return FORMULAS.filter(f => {
+    const catOk = currentCat === 'all' || f.cat === currentCat;
+    if (!currentSearch) return catOk;
+    const s = currentSearch.toLowerCase();
+    const searchText = (f.title + ' ' + f.meaning + ' ' + f.vars.join(' ') + ' ' + f.example + ' ' + f.answer).toLowerCase();
+    return catOk && searchText.includes(s);
+  });
+}
+
+function renderCards() {
+  const list = getFiltered();
+  statsEl.textContent = `共 ${list.length} 个公式`;
+  if (list.length === 0) {
+    main.innerHTML = '<div class="empty-state">没有找到匹配的公式</div>';
+    return;
+  }
+  let html = `<section class="learning-guide" aria-label="学习方法"><strong>零基础三步法</strong><p>① 先读“含义”和“什么时候用”　② 遮住解析独立列式　③ 对照易错点检查单位和题目口径。首次学习建议先掌握带“必考”标签的卡片。</p><details><summary>常见术语先看这里</summary><p><b>bit / Byte：</b>1 Byte = 8 bit；文件大小常用 Byte，网络速率常用 bit/s。　<b>Hz：</b>每秒发生次数。　<b>取整：</b>⌊x⌋向下取整，⌈x⌉向上取整。　<b>mod：</b>求余数。　<b>log₂N：</b>2的多少次方等于N。　<b>概率：</b>95%代入公式时写0.95。</p></details></section>`;
+  list.forEach(f => {
+    const catName = getCategoryName(f.cat);
+    const priorityLabel = f.priority === 'high' ? '必考' : '常考';
+    const priorityClass = f.priority === 'high' ? '' : 'mid';
+    html += `<article class="formula-card" data-id="${f.id}" tabindex="0" aria-expanded="${!flashcardMode}" onclick="cardClick(${f.id})" onkeydown="cardKeydown(event, ${f.id})">`;
+    html += `<div class="card-header">`;
+    html += `<div class="card-num">${f.id}</div>`;
+    html += `<h2 class="card-title">${f.title}</h2>`;
+    html += `<div class="card-tags">`;
+    html += `<span class="tag tag-cat">${catName}</span>`;
+    html += `<span class="tag tag-priority ${priorityClass}">${priorityLabel}</span>`;
+    html += `</div></div>`;
+    // Meaning
+    html += `<div class="section-content"><div class="section-label label-meaning">含义</div><p>${f.meaning}</p></div>`;
+    html += `<div class="section-content"><div class="section-label label-formula">什么时候用</div><div class="when-block">${WHEN_TO_USE[f.id] || '看到题目给出公式中的关键变量并要求计算时使用。'}</div></div>`;
+    // Formula
+    html += `<div class="section-content"><div class="section-label label-formula">公式</div><div class="formula-display">${f.formula}</div></div>`;
+    // Variables
+    if (f.vars && f.vars.length > 0) {
+      html += `<div class="section-content"><div class="section-label label-vars">变量与要点</div><ul>`;
+      f.vars.forEach(v => { html += `<li>${v}</li>`; });
+      html += `</ul></div>`;
+    }
+    // Example
+    html += `<div class="section-content"><div class="section-label label-example">例题</div><div class="example-block">${f.example}</div></div>`;
+    // Solution
+    html += `<div class="section-content"><div class="section-label label-solution">解析</div><div class="solution-block">${f.solution}</div></div>`;
+    // Answer
+    html += `<div class="answer-line">答案：${f.answer}</div>`;
+    // Mistakes
+    if (f.mistakes && f.mistakes.length > 0) {
+      html += `<div class="section-content"><div class="section-label label-mistakes">易错点</div><div class="mistakes-block"><ul>`;
+      f.mistakes.forEach(m => { html += `<li>${m}</li>`; });
+      html += `</ul></div></div>`;
+    }
+    html += `</article>`;
+  });
+  main.innerHTML = html;
+  if (window.MathJax && window.MathJax.typesetPromise) {
+    window.MathJax.typesetPromise([main]);
+  }
+}
+
+function selectCat(catId) {
+  currentCat = catId;
+  renderSidebar();
+  renderCards();
+}
+
+searchInput.addEventListener('input', (e) => {
+  currentSearch = e.target.value;
+  renderCards();
+});
+
+mobileCat.addEventListener('change', (e) => selectCat(e.target.value));
+
+flashcardBtn.addEventListener('click', () => {
+  flashcardMode = !flashcardMode;
+  document.body.classList.toggle('flashcard-mode', flashcardMode);
+  flashcardBtn.classList.toggle('active', flashcardMode);
+  flashcardBtn.setAttribute('aria-pressed', String(flashcardMode));
+  flashcardBtn.textContent = flashcardMode ? '退出翻卡' : '翻卡模式';
+  renderCards();
+});
+
+function cardClick(id) {
+  if (!flashcardMode) return;
+  const card = document.querySelector('.formula-card[data-id="' + id + '"]');
+  if (card) {
+    const flipped = card.classList.toggle('flipped');
+    card.setAttribute('aria-expanded', String(flipped));
+  }
+}
+
+function cardKeydown(event, id) {
+  if (!flashcardMode || (event.key !== 'Enter' && event.key !== ' ')) return;
+  event.preventDefault();
+  cardClick(id);
+}
+
+// Init
+renderSidebar();
+renderCards();
+</script>
+</body>
+</html>
