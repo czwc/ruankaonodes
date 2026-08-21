@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="2026年8月21日至10月24日软件设计师每日一小时备考计划，适合基础遗忘的前端开发者。">
+<meta name="theme-color" content="#173f35">
+<title>软件设计师 65 天通关计划</title>
+<style>
+:root{--ink:#17211d;--muted:#65736d;--paper:#f4f1e9;--card:#fffdf8;--line:#d9d5ca;--green:#176b52;--deep:#173f35;--orange:#d76732;--gold:#b68a2e;--blue:#2f6583;--red:#a54438;--shadow:0 14px 40px rgba(33,48,42,.09)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:"Microsoft YaHei UI","PingFang SC",sans-serif;line-height:1.65}button,input,select{font:inherit}a{color:inherit}.skip{position:absolute;left:-9999px}.skip:focus{left:14px;top:14px;z-index:100;background:#fff;padding:8px 12px}
+.masthead{background:var(--deep);color:#fff;position:relative;overflow:hidden}.masthead:after{content:"65";position:absolute;right:-20px;top:-95px;font:900 330px/1 Georgia,serif;color:rgba(255,255,255,.045)}.mast-inner{max-width:1180px;margin:auto;padding:48px 24px 42px;position:relative;z-index:1}.issue{display:flex;justify-content:space-between;gap:20px;padding-bottom:14px;border-bottom:1px solid rgba(255,255,255,.25);font-size:12px;letter-spacing:.12em}.kicker{margin:28px 0 10px;color:#e8bb67;font-size:13px;font-weight:800;letter-spacing:.14em}.masthead h1{max-width:800px;margin:0;font:900 clamp(36px,6vw,72px)/1.04 Georgia,"Microsoft YaHei UI",serif;letter-spacing:-.035em}.lead{max-width:720px;margin:18px 0 0;color:#d7e3dd;font-size:17px}.hero-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;margin-top:30px;background:rgba(255,255,255,.2);border:1px solid rgba(255,255,255,.2)}.hero-stat{background:rgba(23,63,53,.88);padding:15px}.hero-stat b{display:block;color:#fff;font:800 24px Georgia,serif}.hero-stat span{font-size:11px;color:#bcd0c8}
+.toolbar{position:sticky;top:0;z-index:20;background:rgba(244,241,233,.95);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}.toolbar-inner{max-width:1180px;margin:auto;padding:10px 24px;display:flex;align-items:center;gap:10px}.progress-wrap{min-width:240px;display:flex;align-items:center;gap:10px}.progress-track{height:8px;flex:1;background:#dedbd2;border-radius:10px;overflow:hidden}.progress-track i{display:block;height:100%;width:0;background:var(--green);transition:width .3s}.progress-text{font-size:12px;font-weight:800;white-space:nowrap}.filter{margin-left:auto;display:flex;gap:8px}.filter select,.filter button{height:36px;border:1px solid var(--line);background:var(--card);border-radius:4px;padding:0 11px;color:var(--ink);cursor:pointer}.filter button.primary{background:var(--green);color:#fff;border-color:var(--green)}
+.layout{max-width:1180px;margin:auto;padding:32px 24px 80px;display:grid;grid-template-columns:255px minmax(0,1fr);gap:34px}.rail{position:sticky;top:76px;height:max-content}.rail-card{background:var(--card);border:1px solid var(--line);padding:18px}.rail-card+ .rail-card{margin-top:14px}.rail h2{font:800 15px Georgia,serif;margin:0 0 10px}.rail p,.rail li{font-size:12px;color:var(--muted)}.rail ol,.rail ul{padding-left:18px;margin:8px 0}.rail a{color:var(--green);font-weight:700;text-decoration:none}.principle{border-left:4px solid var(--orange)}
+.intro{display:grid;grid-template-columns:1.3fr .7fr;gap:20px;padding-bottom:28px;border-bottom:3px double var(--line)}.intro h2{font:900 30px/1.15 Georgia,"Microsoft YaHei UI",serif;margin:0 0 12px}.intro p{margin:0;color:var(--muted)}.score-box{background:#efe7d4;border:1px solid #d8c9a7;padding:18px}.score-box b{font-size:13px}.score-box strong{display:block;font:900 30px Georgia,serif;color:var(--orange)}
+.phase{padding-top:34px;scroll-margin-top:70px}.phase-head{display:flex;align-items:end;justify-content:space-between;gap:20px;margin-bottom:13px}.phase-no{color:var(--orange);font:900 12px Georgia,serif;letter-spacing:.12em}.phase h2{font:900 27px/1.2 Georgia,"Microsoft YaHei UI",serif;margin:3px 0}.phase-goal{font-size:12px;color:var(--muted);max-width:440px;text-align:right}.days{display:grid;gap:10px}.day{background:var(--card);border:1px solid var(--line);display:grid;grid-template-columns:108px minmax(0,1fr) 145px;transition:.18s}.day:hover{border-color:#9eaa9f;box-shadow:var(--shadow)}.day.done{opacity:.67;background:#edf3ef}.day.today{border:2px solid var(--orange)}.day-date{padding:16px;border-right:1px solid var(--line)}.day-date strong{display:block;font:900 22px Georgia,serif}.day-date span{font-size:11px;color:var(--muted)}.day-main{padding:15px 18px}.day-main h3{margin:0 0 6px;font-size:16px}.day-main p{margin:0;color:var(--muted);font-size:13px}.method{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.chip{font-size:11px;padding:2px 7px;border:1px solid var(--line);border-radius:20px;background:#f7f5ef}.chip.learn{color:var(--green)}.chip.practice{color:var(--orange)}.chip.review{color:var(--blue)}.day-action{border-left:1px solid var(--line);padding:15px;display:flex;flex-direction:column;justify-content:center;gap:8px}.check{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:800;cursor:pointer}.check input{width:18px;height:18px;accent-color:var(--green)}.resource{font-size:11px;color:var(--green);text-decoration:none;font-weight:700}.resource:hover{text-decoration:underline}.day.hidden{display:none}
+.rules{margin-top:36px;background:var(--deep);color:#fff;padding:26px;display:grid;grid-template-columns:repeat(3,1fr);gap:22px}.rule b{color:#e8bb67;font:800 12px Georgia,serif}.rule h3{font-size:16px;margin:4px 0}.rule p{font-size:12px;color:#cbdad4;margin:0}.footer{margin-top:32px;padding-top:18px;border-top:1px solid var(--line);font-size:12px;color:var(--muted);display:flex;justify-content:space-between}.danger{border:0;background:none;color:var(--red);cursor:pointer}
+@media(max-width:900px){.layout{grid-template-columns:1fr}.rail{position:static;display:grid;grid-template-columns:1fr 1fr;gap:12px}.rail-card+.rail-card{margin:0}.intro{grid-template-columns:1fr}.day{grid-template-columns:90px minmax(0,1fr)}.day-action{grid-column:1/-1;border-left:0;border-top:1px solid var(--line);flex-direction:row;justify-content:space-between}.rules{grid-template-columns:1fr}.phase-goal{text-align:left}.hero-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.mast-inner{padding:30px 16px}.issue span:last-child{display:none}.hero-grid{grid-template-columns:1fr 1fr}.toolbar-inner{padding:8px 12px;flex-wrap:wrap}.progress-wrap{width:100%}.filter{margin:0;width:100%}.filter select{flex:1}.layout{padding:22px 12px 60px}.rail{grid-template-columns:1fr}.phase-head{display:block}.day{grid-template-columns:74px minmax(0,1fr)}.day-date,.day-main{padding:12px}.day-date strong{font-size:18px}.day-action{padding:10px 12px}.resource{max-width:60%;text-align:right}.footer{display:block}.danger{margin-top:12px}}
+@media print{.toolbar,.rail,.day-action,.study-shell{display:none!important}.layout{display:block;padding:0}.mast-inner{padding:20px}.phase{break-inside:avoid}.day{break-inside:avoid}.day-main{padding:7px 12px}.masthead{background:#fff;color:#000}.lead,.hero-stat span{color:#333}.hero-stat{background:#fff;color:#000}.hero-stat b{color:#000}}
+@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#plan">跳到每日计划</a>
+<header class="masthead">
+  <div class="mast-inner">
+    <div class="issue"><span>SOFTWARE DESIGNER · 2026 AUTUMN</span><span>2026.08.21 — 2026.10.24</span></div>
+    <div class="kicker">每天 1 小时 · 基础遗忘的前端开发者版</div>
+    <h1>65 天，重建基础，训练到能过线</h1>
+    <p class="lead">这不是“看完所有资料”的计划，而是每天完成一个可验收的小任务：理解、做题、纠错、复述。目标是在有限的 65 小时里，把上午题和应用技术都训练到稳定合格。</p>
+    <div class="hero-grid">
+      <div class="hero-stat"><b>65 天</b><span>从现在到考前</span></div><div class="hero-stat"><b>65 小时</b><span>每天固定一小时</span></div><div class="hero-stat"><b>≥ 800 题</b><span>选择题与大题小问</span></div><div class="hero-stat"><b>2 × 50+</b><span>两部分模拟目标</span></div>
+    </div>
+  </div>
+</header>
+<nav class="toolbar" aria-label="计划工具">
+  <div class="toolbar-inner">
+    <div class="progress-wrap"><div class="progress-track"><i id="progressBar"></i></div><span class="progress-text" id="progressText">0 / 65</span></div>
+    <div class="filter"><select id="phaseFilter" aria-label="筛选阶段"><option value="all">全部阶段</option></select><button id="todayBtn" class="primary" type="button">定位今天</button><button id="unfinishedBtn" type="button">只看未完成</button></div>
+  </div>
+</nav>
+<div class="layout">
+<aside class="rail">
+  <section class="rail-card principle"><h2>每天固定动作</h2><ol><li>10 分钟：闭卷回忆昨天</li><li>25 分钟：理解今天专题</li><li>20 分钟：做对应真题</li><li>5 分钟：写一句错因</li></ol><p>大题日调整为 5 + 35 + 15 + 5 分钟。</p></section>
+  <section class="rail-card"><h2>资料入口</h2><ul><li><a href="1 图像笔记一/软件设计师讲义_可视化.html">详细讲义</a></li><li><a href="分类题库/分类题库_标准版_可视化.html">分类题库</a></li><li><a href="考前冲刺三件套/2_专项练习题集_可视化.html">专项练习</a></li><li><a href="软件设计师高频公式可视化.html">高频公式</a></li><li><a href="软考代码题全攻略_可视化.html">代码与设计模式</a></li></ul></section>
+  <section class="rail-card"><h2>掉队处理</h2><p>一天没学：第二天不要补双倍，只做当天任务。周日复盘时补“必做项”，低频扩展直接放弃。连续两天没学，就把第三天改为错题恢复日。</p></section>
+</aside>
+<main id="plan">
+<section class="intro"><div><h2>先过线，再追求完整</h2><p>前端经验会帮助你理解代码、对象、网络和设计模式，但不能替代操作系统、数据结构、数据库、软件工程和下午题训练。前四周重建高频基础，后三周专项突破，最后两周模拟与纠错。</p></div><div class="score-box"><b>考前验收标准</b><strong>连续两套 ≥ 50</strong><span>上午和应用技术都要单独达到，不用一次高分掩盖另一部分短板。</span></div></section>
+<div id="phaseRoot"></div>
+<section class="rules"><div class="rule"><b>RULE 01</b><h3>不抄大段笔记</h3><p>每天只记录“错因 + 正确结论 + 下次识别信号”，控制在三行内。</p></div><div class="rule"><b>RULE 02</b><h3>真题必须二刷</h3><p>错题隔 2 天不看答案重做；仍错才进入高频错题清单。</p></div><div class="rule"><b>RULE 03</b><h3>大题必须限时</h3><p>从第 5 周起，每道大题先计时作答，再看解析，不允许边看答案边做。</p></div></section>
+<footer class="footer"><span>完成状态保存在当前浏览器。打印页面可得到纸质日程。</span><button class="danger" id="resetBtn" type="button">清空本计划打卡</button></footer>
+</main>
+</div>
+<script>
+const R={detail:'1 图像笔记一/软件设计师讲义_可视化.html',bank:'分类题库/分类题库_标准版_可视化.html',drill:'考前冲刺三件套/2_专项练习题集_可视化.html',formula:'软件设计师高频公式可视化.html',code:'软考代码题全攻略_可视化.html',disk:'重点专题/磁盘调度算法_小白从零到会_可视化.html',frequency:'考前冲刺三件套/1_高频考点统计_可视化.html',sprint:'软考突击冲刺宝典_可视化.html',three:'考前冲刺三件套/3_考前3天速记单页_可视化.html',notes:'2 图像笔记二/软考-软件设计师-笔记_可视化.html'};
+const phases=[
+{id:'p0',no:'PHASE 00',title:'启动与摸底',goal:'建立基线，不因低分焦虑；确定两个月固定学习时段。'},
+{id:'p1',no:'PHASE 01',title:'计算机系统补基础',goal:'拿下进制、补码、校验码、流水线、Cache 和可靠性等高频计算。'},
+{id:'p2',no:'PHASE 02',title:'操作系统与数据结构',goal:'重建进程、存储、文件及树图查找排序，为算法题打底。'},
+{id:'p3',no:'PHASE 03',title:'语言、数据库与网络',goal:'发挥前端优势，把熟悉概念转化为稳定真题得分。'},
+{id:'p4',no:'PHASE 04',title:'软件工程、UML 与模式',goal:'攻克高频理论和下午题共同考点，形成对比辨析能力。'},
+{id:'p5',no:'PHASE 05',title:'下午题专项突破',goal:'按固定流程训练 DFD、数据库、UML、算法、程序与设计模式。'},
+{id:'p6',no:'PHASE 06',title:'整卷模拟与补洞',goal:'建立时间感，把错误从“不会”压缩到“少量计算与审题失误”。'},
+{id:'p7',no:'PHASE 07',title:'考前收口',goal:'只复习高频错题、公式和答题模板，保持稳定状态。'}
+];
+const days=[
+['2026-08-21','p0','建立基线与环境','先看题型和两部分要求；不查资料做 20 道混合选择题，记录正确数及“完全没见过”的模块。','10m考试结构｜35m摸底20题｜10m分类错因｜5m固定每天学习时间','frequency'],
+['2026-08-22','p0','认识应用技术六类题','浏览 DFD、数据库、UML、算法、程序语言、设计模式各一道题，只看问题结构，不求做对。','10m回忆题型｜35m浏览六类题｜10m写每类考什么｜5m排序最害怕题型','drill'],
+['2026-08-23','p0','建立错题规则与首周复盘','重做昨日最陌生的 5 个小问；建立三行错题格式：错因、正解、识别信号。','15m闭卷回忆｜25m重做｜15m整理首张错题卡｜5m检查下周时间','bank'],
+['2026-08-24','p1','CPU、寄存器与指令','理解运算器/控制器、PC、IR、PSW、指令周期；做 10 道选择题。','10m回忆｜25m讲义｜20m真题10道｜5m口述PC与IR区别','detail'],
+['2026-08-25','p1','进制转换与数据单位','练二/八/十/十六进制互转和存储单位；至少手算 8 题，不用计算器。','10m复习CPU｜20m方法｜25m计算8题｜5m记录最慢步骤','formula'],
+['2026-08-26','p1','原码、反码、补码、移码','理解位宽、负数补码与表示范围；完成 8 个编码转换。','10m进制快算｜25m讲义例题｜20m转换8题｜5m闭卷写范围','detail'],
+['2026-08-27','p1','浮点数与寻址方式','掌握阶码管范围、尾数管精度；区分立即、直接、间接、相对和变址寻址。','10m补码复述｜25m概念｜20m选择题10道｜5m画寻址速度顺序','detail'],
+['2026-08-28','p1','奇偶、海明码与 CRC','会用 2^k≥n+k+1 求校验位；理解三种校验各能做什么。','10m旧题重做｜25m原理｜20m计算与辨析8题｜5m写三者对比','formula'],
+['2026-08-29','p1','流水线计算','掌握周期、执行时间、吞吐率和加速比；完整手算 6 题。','5m公式默写｜25m例题｜25m限时6题｜5m检查单位','formula'],
+['2026-08-30','p1','Cache、存储器与可靠性','理解局部性和映射；会算串并联系统可靠性。完成本周 15 题混合测。','10m知识图｜20m讲义｜25m混合15题｜5m统计本周正确率','formula'],
+['2026-08-31','p2','进程、线程与状态转换','区分程序/进程/线程、运行/就绪/阻塞；画出状态转换并做 10 题。','10m周错题｜25m理解｜20m真题10道｜5m闭卷画三态图','detail'],
+['2026-09-01','p2','同步、互斥与 PV 操作','从生产者消费者理解 P 申请、V 释放；先判断约束，再排 P/V。','10m三态｜25m场景理解｜20m PV 题6问｜5m写判断流程','drill'],
+['2026-09-02','p2','死锁与资源分配','掌握死锁四条件、预防/避免/检测；会用 m≥n(k-1)+1。','10m PV重做｜25m概念｜20m计算8题｜5m默写四条件','detail'],
+['2026-09-03','p2','分页、页面置换与地址转换','掌握页号/页内地址，理解 FIFO、LRU、OPT；手算 4 个序列。','10m死锁回忆｜25m方法｜20m手算4题｜5m标记缺页步骤','detail'],
+['2026-09-04','p2','磁盘调度算法','比较 FCFS、SSTF、SCAN、CSCAN、LOOK；画磁道方向再计算。','10m分页题｜20m专题｜25m调度5题｜5m总结饥饿算法','disk'],
+['2026-09-05','p2','文件、索引与位示图','理解 FCB、目录、索引结点；掌握位示图字号和块号换算。','10m磁盘复述｜25m讲义｜20m计算8题｜5m写下标起点提醒','detail'],
+['2026-09-06','p2','线性表、栈和队列','比较顺序表/链表；会算循环队列长度；识别栈和队列应用。','10m OS混合5题｜25m理解｜20m数据结构10题｜5m口述选择原则','detail'],
+['2026-09-07','p2','树与二叉树','掌握 n0=n2+1、完全二叉树编号、三种遍历；做 8 题。','10m栈队列｜25m推导与遍历｜20m真题8道｜5m默写性质','detail'],
+['2026-09-08','p2','图、查找与排序','区分 DFS/BFS、最小生成树/最短路径；记住高频排序复杂度和稳定性。','10m树遍历｜25m框架｜20m选择题12道｜5m画排序对比表','detail'],
+['2026-09-09','p3','编译过程与表达式','区分词法、语法、语义；练中缀转后缀与后缀求值。','10m数据结构测5题｜25m讲义｜20m真题10道｜5m三句话辨析','detail'],
+['2026-09-10','p3','参数传递与程序控制','结合 JS/Java 理解值、引用值、作用域、递归出口；手算 5 段短代码。','10m编译回忆｜20m概念｜25m代码手算5段｜5m记录易混点','code'],
+['2026-09-11','p3','数据库三级模式与 ER 基础','理解外模式/模式/内模式及两级映像；识别实体、属性、联系。','10m程序题｜25m讲义｜20m选择题10道｜5m画三级模式','detail'],
+['2026-09-12','p3','函数依赖、码与范式','会找候选码，判断部分依赖和传递依赖；完成 6 道范式题。','10m数据库结构｜25m方法｜20m范式6题｜5m复述1NF到3NF','detail'],
+['2026-09-13','p3','SQL、事务与并发','复习 SELECT/JOIN/GROUP BY；掌握 ACID、并发异常和封锁。','10m候选码｜20m概念｜25m SQL与事务10题｜5m写ACID','detail'],
+['2026-09-14','p3','网络分层与设备','掌握 OSI/TCP-IP、集线器/交换机/路由器和广播域冲突域。','10m数据库混合｜25m网络图｜20m真题10道｜5m按层默写设备','detail'],
+['2026-09-15','p3','TCP、UDP、端口与安全','理解握手/挥手、可靠传输；记高频端口，区分摘要、签名、证书。','10m分层｜25m概念｜20m网络12题｜5m口述HTTPS安全链','detail'],
+['2026-09-16','p3','IP、子网与 DHCP','掌握 IPv4、掩码、网络地址和主机数；完成 6 道子网计算。','5m公式｜25m例题｜25m子网6题｜5m检查全0全1地址','formula'],
+['2026-09-17','p4','软件生命周期与过程模型','比较瀑布、原型、增量、螺旋、喷泉和敏捷；用适用场景记忆。','10m网络错题｜25m对比表｜20m真题12道｜5m闭卷匹配场景','detail'],
+['2026-09-18','p4','内聚、耦合与设计原则','掌握内聚由低到高、耦合由高到低；理解高内聚低耦合。','10m过程模型｜25m理解｜20m辨析12题｜5m默写排序','detail'],
+['2026-09-19','p4','测试方法与覆盖','区分静态/动态、黑盒/白盒；手算语句、判定、条件和路径覆盖。','10m设计原则｜25m讲义｜20m覆盖题8道｜5m写覆盖强弱顺序','detail'],
+['2026-09-20','p4','项目管理与关键路径','会算沟通路径、最早/最晚时刻、松弛时间和关键路径。','5m公式默写｜25m例题｜25m PERT 4题｜5m检查单位与路径','formula'],
+['2026-09-21','p4','面向对象与 UML 关系','理解封装继承多态；辨别依赖、关联、聚合、组合、泛化、实现。','10m项目题｜25m关系图｜20m UML 10题｜5m闭卷画箭头','detail'],
+['2026-09-22','p4','UML 常见图与用例关系','区分类图、对象图、顺序图、活动图、状态图；掌握 include/extend。','10m关系复习｜25m讲义｜20m真题10道｜5m按用途归类','detail'],
+['2026-09-23','p4','设计模式总框架','按创建/结构/行为分类；先学意图和变化点，不背完整代码。','10m UML测5题｜25m模式地图｜20m识别题10道｜5m写三类目的','code'],
+['2026-09-24','p4','高频模式第一组','工厂方法、抽象工厂、建造者、原型、单例：比较创建对象的责任。','10m分类默写｜25m模式对比｜20m题目8道｜5m场景复述','code'],
+['2026-09-25','p4','高频模式第二组','适配器、桥接、组合、装饰、外观、代理：从结构变化点辨析。','10m创建型｜25m结构型｜20m识别8题｜5m适配器vs装饰','code'],
+['2026-09-26','p4','高频模式第三组','观察者、策略、状态、模板方法、命令、责任链：从行为协作辨析。','10m结构型｜25m行为型｜20m识别10题｜5m策略vs状态','code'],
+['2026-09-27','p4','第一轮综合验收','限时做 30 道混合选择题；按模块统计，不追总分，只找低于60%的模块。','5m准备｜40m混合30题｜10m统计模块｜5m选出三个补洞点','bank'],
+['2026-09-28','p5','DFD 方法建立','学外部实体、加工、数据存储、数据流及父子图平衡；拆解一道真题。','10m规则｜25m跟题分析｜20m补流小问｜5m写三步检查法','drill'],
+['2026-09-29','p5','DFD 第一次限时完整训练','不看答案做一道 DFD，控制 35 分钟；对照题干逐条订正。','5m模板｜35m限时｜15m订正｜5m记录漏流原因','drill'],
+['2026-09-30','p5','DFD 二刷与迁移','重做昨天错问，再换一道题只完成实体、存储和缺失流定位。','10m闭卷重做｜25m新题半套｜20m对照解析｜5m总结识别词','drill'],
+['2026-10-01','p5','数据库大题方法建立','训练题干名词找实体、动词找联系；掌握 1:1、1:n、m:n 转关系。','10m范式回忆｜25m拆题｜20m转换练习｜5m写主外键规则','drill'],
+['2026-10-02','p5','数据库第一次限时完整训练','完整完成一道数据库设计题，重点写全关系模式、主键和外键。','5m模板｜35m限时｜15m订正｜5m检查属性来源','drill'],
+['2026-10-03','p5','UML 大题方法建立','从题干名词找类、动词找方法；根据拥有/整体部分等词判断关系。','10m关系箭头｜25m拆题｜20m填空小问｜5m整理题干信号','drill'],
+['2026-10-04','p5','UML 第一次限时完整训练','完整做一道 UML 题；订正时必须指出每个答案对应题干哪句话。','5m模板｜35m限时｜15m证据订正｜5m统计失分类型','drill'],
+['2026-10-05','p5','算法题：读懂状态','用小样例跟踪变量，识别递归、动态规划、贪心、回溯；做半道题。','10m复杂度｜20m算法识别｜25m手算半题｜5m写变量含义','code'],
+['2026-10-06','p5','算法第一次限时训练','做一道算法填空；先写每个空的作用，再填语句，最后分析复杂度。','5m流程｜35m限时｜15m订正｜5m标注边界错误','drill'],
+['2026-10-07','p5','程序设计语言题训练','跟踪对象、参数、循环与分支；做一套 Java 或 C++ 题，优先熟悉语言。','5m参数传递｜35m限时｜15m手算订正｜5m写状态变化','code'],
+['2026-10-08','p5','设计模式题：识别角色','从 Client、Context、Factory、Observer 等角色和变化点判断模式。','10m模式口述｜25m拆解类图｜20m填空小问｜5m写识别证据','code'],
+['2026-10-09','p5','设计模式第一次限时训练','完整做一道设计模式题；错误必须归因到意图、角色、关系或语法。','5m模板｜35m限时｜15m分类订正｜5m加入模式对比表','drill'],
+['2026-10-10','p5','下午题组合训练 A','限时完成 DFD 与数据库各半题，训练切换题型和规范表达。','5m计划｜40m两类半题｜10m订正｜5m检查答题格式','drill'],
+['2026-10-11','p5','下午题组合训练 B','限时完成 UML、算法或模式各半题；确定考试时优先作答顺序。','5m计划｜40m组合题｜10m订正｜5m写个人答题顺序','drill'],
+['2026-10-12','p6','上午模拟卷 1A','限时完成一套上午题前半部分；不会的题 90 秒后标记跳过。','5m准备｜45m限时作答｜10m只统计不深究','bank'],
+['2026-10-13','p6','上午模拟卷 1B 与复盘','完成后半部分，合并成绩；只复习错题对应的最小知识点。','40m限时｜15m分类错因｜5m确定三个补洞专题','bank'],
+['2026-10-14','p6','补洞日：最低分模块 1','针对模拟最低分模块读 20 分钟，做 15 道同类题，目标正确率 70%。','10m错题重做｜20m专题｜25m同类15题｜5m统计','detail'],
+['2026-10-15','p6','补洞日：最低分模块 2','处理第二薄弱模块；禁止扩展阅读，只解决模拟暴露的问题。','10m昨日二刷｜20m最小知识点｜25m同类15题｜5m结论','bank'],
+['2026-10-16','p6','应用技术模拟 1A','按个人顺序完成前半套大题，严格计时，不边做边查。','5m分配时间｜50m限时｜5m记录未完成位置','drill'],
+['2026-10-17','p6','应用技术模拟 1B 与复盘','完成剩余部分并按采分点评分；找“知道但没写规范”的失分。','35m完成｜20m评分订正｜5m更新答题模板','drill'],
+['2026-10-18','p6','错题二刷与公式清单','不看答案重做本周所有典型错题；整理一页公式和一页下午题模板。','25m上午错题｜20m下午错问｜10m公式｜5m模板','formula'],
+['2026-10-19','p6','上午模拟卷 2','一次完成整套，执行先易后难；目标达到 50 分以上。','5m准备｜50m限时｜5m记分和标记题','bank'],
+['2026-10-20','p6','上午模拟 2 精准订正','按概念、公式、审题、计算四类复盘；只重学重复出错点。','20m重做错题｜25m查讲义｜10m同类5题｜5m结论','notes'],
+['2026-10-21','p6','应用技术模拟卷 2','按正式节奏做整套或按实际考试时长比例压缩；目标 50 分以上。','5m安排｜50m限时｜5m记录各题完成度','drill'],
+['2026-10-22','p7','最后一次大题订正','逐题对照采分点，修正术语、关系方向、主外键和复杂度表达。','20m错题重做｜25m解析｜10m口述模板｜5m停止扩展','sprint'],
+['2026-10-23','p7','考前一页纸复习','只看公式、端口、排序、覆盖、UML 箭头、模式对比和自己的高频错题。','15m公式｜15m概念对比｜15m大题模板｜15m错题结论','three'],
+['2026-10-24','p7','考试日：稳定输出','不做新题。快速看个人一页纸，准备证件与用品；答题先易后难，留时间检查。','15m轻复习｜10m答题顺序｜10m物品检查｜其余时间休息','three']
+];
+const KEY='ruankao_65day_plan_2026_v1';
+function getDone(){try{return new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch{return new Set()}}
+let done=getDone(),onlyUnfinished=false;
+const weekdays=['周日','周一','周二','周三','周四','周五','周六'];
+function dateLabel(s){const d=new Date(s+'T12:00:00');return {md:`${d.getMonth()+1}/${d.getDate()}`,week:weekdays[d.getDay()]}}
+function render(){const root=document.getElementById('phaseRoot');root.innerHTML=phases.map((p,idx)=>{const items=days.filter(d=>d[1]===p.id);return `<section class="phase" id="${p.id}" data-phase="${p.id}"><div class="phase-head"><div><span class="phase-no">${p.no}</span><h2>${p.title}</h2></div><div class="phase-goal">${p.goal}</div></div><div class="days">${items.map(dayCard).join('')}</div></section>`}).join('');bind();update()}
+function dayCard(d){const [date,phase,title,desc,steps,res]=d,l=dateLabel(date),isDone=done.has(date),dayIndex=days.findIndex(x=>x[0]===date)+1,safeTitle=title.replace(/[\\/:*?"<>|]/g,'-').replace(/\s+/g,'-'),courseHref=`每日学习课程/课程/day-${String(dayIndex).padStart(2,'0')}-${safeTitle}.html`;return `<article class="day${isDone?' done':''}" data-date="${date}" data-phase="${phase}"><div class="day-date"><strong>${l.md}</strong><span>${l.week}</span></div><div class="day-main"><h3>${title}</h3><p>${desc}</p><div class="method">${steps.split('｜').map((x,i)=>`<span class="chip ${i===0?'review':i===1?'learn':'practice'}">${x}</span>`).join('')}</div></div><div class="day-action"><label class="check"><input type="checkbox" ${isDone?'checked':''}> 今日完成</label><a class="resource" href="${courseHref}">打开今日完整课程 →</a><a class="resource" href="${R[res]}">查阅原始资料 →</a></div></article>`}
+function bind(){document.querySelectorAll('.day input').forEach(input=>input.addEventListener('change',e=>{const card=e.target.closest('.day'),date=card.dataset.date;e.target.checked?done.add(date):done.delete(date);try{localStorage.setItem(KEY,JSON.stringify([...done]))}catch(_){}card.classList.toggle('done',e.target.checked);update()}))}
+function update(){const n=done.size,pct=Math.round(n/days.length*100);document.getElementById('progressBar').style.width=pct+'%';document.getElementById('progressText').textContent=`${n} / ${days.length} · ${pct}%`;applyFilter()}
+function applyFilter(){const phase=document.getElementById('phaseFilter').value;document.querySelectorAll('.day').forEach(card=>card.classList.toggle('hidden',(phase!=='all'&&card.dataset.phase!==phase)||(onlyUnfinished&&done.has(card.dataset.date))));document.querySelectorAll('.phase').forEach(sec=>sec.hidden=!sec.querySelector('.day:not(.hidden)'))}
+const select=document.getElementById('phaseFilter');phases.forEach(p=>select.add(new Option(p.title,p.id)));select.addEventListener('change',applyFilter);
+document.getElementById('unfinishedBtn').addEventListener('click',e=>{onlyUnfinished=!onlyUnfinished;e.target.textContent=onlyUnfinished?'显示全部':'只看未完成';e.target.classList.toggle('primary',onlyUnfinished);applyFilter()});
+document.getElementById('todayBtn').addEventListener('click',()=>{const local=new Date(),iso=`${local.getFullYear()}-${String(local.getMonth()+1).padStart(2,'0')}-${String(local.getDate()).padStart(2,'0')}`;let card=document.querySelector(`[data-date="${iso}"]`);if(!card){const firstUnfinished=days.find(d=>!done.has(d[0]));card=firstUnfinished&&document.querySelector(`[data-date="${firstUnfinished[0]}"]`)}if(card){select.value='all';onlyUnfinished=false;document.getElementById('unfinishedBtn').textContent='只看未完成';applyFilter();card.classList.add('today');card.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>card.classList.remove('today'),3000)}});
+document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('确认清空 65 天计划的全部打卡记录？')){done.clear();localStorage.removeItem(KEY);render()}});
+render();
+const now=new Date(),today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`,todayCard=document.querySelector(`[data-date="${today}"]`);if(todayCard)todayCard.classList.add('today');
+</script>
+<script src="system-shell.js"></script>
+</body>
+</html>

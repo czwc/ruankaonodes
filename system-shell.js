@@ -2,6 +2,8 @@
   'use strict';
 
   const MODULES = [
+    ['plan65', '65 天每日学习计划', '软件设计师65天学习计划.html'],
+    ['dailycourse', '65 天每日完整课程', '每日学习课程/index.html'],
     ['core', '必考考点全攻略', '软考必考考点_可视化.html'],
     ['detail', '软件设计师详细讲义', '1 图像笔记一/软件设计师讲义_可视化.html'],
     ['tricolor', '三色笔记阅读器', '三色笔记阅读器.html'],
