@@ -132,20 +132,21 @@ const days=[
 ['2026-10-23','p7','考前一页纸复习','只看公式、端口、排序、覆盖、UML 箭头、模式对比和自己的高频错题。','15m公式｜15m概念对比｜15m大题模板｜15m错题结论','three'],
 ['2026-10-24','p7','考试日：稳定输出','不做新题。快速看个人一页纸，准备证件与用品；答题先易后难，留时间检查。','15m轻复习｜10m答题顺序｜10m物品检查｜其余时间休息','three']
 ];
-const KEY='ruankao_65day_plan_2026_v1';
-function getDone(){try{return new Set(JSON.parse(localStorage.getItem(KEY)||'[]'))}catch{return new Set()}}
+const KEY='ruankao_course_progress_v2';
+function getProgress(){try{const data=JSON.parse(localStorage.getItem(KEY)||'{}');return data&&data.lessons?data:{version:2,lessons:{}}}catch{return{version:2,lessons:{}}}}
+function getDone(){const progress=getProgress();return new Set(Object.entries(progress.lessons).filter(([,state])=>state&&state.completedAt).map(([date])=>date))}
 let done=getDone(),onlyUnfinished=false;
 const weekdays=['周日','周一','周二','周三','周四','周五','周六'];
 function dateLabel(s){const d=new Date(s+'T12:00:00');return {md:`${d.getMonth()+1}/${d.getDate()}`,week:weekdays[d.getDay()]}}
 function render(){const root=document.getElementById('phaseRoot');root.innerHTML=phases.map((p,idx)=>{const items=days.filter(d=>d[1]===p.id);return `<section class="phase" id="${p.id}" data-phase="${p.id}"><div class="phase-head"><div><span class="phase-no">${p.no}</span><h2>${p.title}</h2></div><div class="phase-goal">${p.goal}</div></div><div class="days">${items.map(dayCard).join('')}</div></section>`}).join('');bind();update()}
 function dayCard(d){const [date,phase,title,desc,steps,res]=d,l=dateLabel(date),isDone=done.has(date),dayIndex=days.findIndex(x=>x[0]===date)+1,safeTitle=title.replace(/[\\/:*?"<>|]/g,'-').replace(/\s+/g,'-'),courseHref=`每日学习课程/课程/day-${String(dayIndex).padStart(2,'0')}-${safeTitle}.html`;return `<article class="day${isDone?' done':''}" data-date="${date}" data-phase="${phase}"><div class="day-date"><strong>${l.md}</strong><span>${l.week}</span></div><div class="day-main"><h3>${title}</h3><p>${desc}</p><div class="method">${steps.split('｜').map((x,i)=>`<span class="chip ${i===0?'review':i===1?'learn':'practice'}">${x}</span>`).join('')}</div></div><div class="day-action"><label class="check"><input type="checkbox" ${isDone?'checked':''}> 今日完成</label><a class="resource" href="${courseHref}">打开今日完整课程 →</a><a class="resource" href="${R[res]}">查阅原始资料 →</a></div></article>`}
-function bind(){document.querySelectorAll('.day input').forEach(input=>input.addEventListener('change',e=>{const card=e.target.closest('.day'),date=card.dataset.date;e.target.checked?done.add(date):done.delete(date);try{localStorage.setItem(KEY,JSON.stringify([...done]))}catch(_){}card.classList.toggle('done',e.target.checked);update()}))}
+function bind(){document.querySelectorAll('.day input').forEach(input=>{input.disabled=true;input.title='完成状态由每日课程通关结果自动同步';input.addEventListener('click',e=>e.preventDefault())})}
 function update(){const n=done.size,pct=Math.round(n/days.length*100);document.getElementById('progressBar').style.width=pct+'%';document.getElementById('progressText').textContent=`${n} / ${days.length} · ${pct}%`;applyFilter()}
 function applyFilter(){const phase=document.getElementById('phaseFilter').value;document.querySelectorAll('.day').forEach(card=>card.classList.toggle('hidden',(phase!=='all'&&card.dataset.phase!==phase)||(onlyUnfinished&&done.has(card.dataset.date))));document.querySelectorAll('.phase').forEach(sec=>sec.hidden=!sec.querySelector('.day:not(.hidden)'))}
 const select=document.getElementById('phaseFilter');phases.forEach(p=>select.add(new Option(p.title,p.id)));select.addEventListener('change',applyFilter);
 document.getElementById('unfinishedBtn').addEventListener('click',e=>{onlyUnfinished=!onlyUnfinished;e.target.textContent=onlyUnfinished?'显示全部':'只看未完成';e.target.classList.toggle('primary',onlyUnfinished);applyFilter()});
 document.getElementById('todayBtn').addEventListener('click',()=>{const local=new Date(),iso=`${local.getFullYear()}-${String(local.getMonth()+1).padStart(2,'0')}-${String(local.getDate()).padStart(2,'0')}`;let card=document.querySelector(`[data-date="${iso}"]`);if(!card){const firstUnfinished=days.find(d=>!done.has(d[0]));card=firstUnfinished&&document.querySelector(`[data-date="${firstUnfinished[0]}"]`)}if(card){select.value='all';onlyUnfinished=false;document.getElementById('unfinishedBtn').textContent='只看未完成';applyFilter();card.classList.add('today');card.scrollIntoView({behavior:'smooth',block:'center'});setTimeout(()=>card.classList.remove('today'),3000)}});
-document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('确认清空 65 天计划的全部打卡记录？')){done.clear();localStorage.removeItem(KEY);render()}});
+document.getElementById('resetBtn').addEventListener('click',()=>{if(confirm('确认清空全部课程成绩、错题、案例答案和通关记录？此操作不可恢复。')){done.clear();localStorage.removeItem(KEY);render()}});
 render();
 const now=new Date(),today=`${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')}`,todayCard=document.querySelector(`[data-date="${today}"]`);if(todayCard)todayCard.classList.add('today');
 </script>
