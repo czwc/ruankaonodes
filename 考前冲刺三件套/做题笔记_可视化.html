@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#3b82f6">
+<title>做题笔记 - 软考软件设计师</title>
+<style>
+:root{
+  --bg:#f1f5f9;--card:#ffffff;--card2:#f8fafc;--text:#1e293b;--muted:#64748b;
+  --accent:#3b82f6;--strong:#2563eb;--border:#e2e8f0;--block-bg:#eff6ff;
+  --kj-a:#eff6ff;--kj-b:#ecfdf5;
+}
+html[data-theme="dark"]{
+  --bg:#0f172a;--card:#1e293b;--card2:#172033;--text:#e2e8f0;--muted:#94a3b8;
+  --accent:#60a5fa;--strong:#fbbf24;--border:#334155;--block-bg:#1e3a5f;
+  --kj-a:#1e3a5f;--kj-b:#134e4a;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif;background:var(--bg);color:var(--text);line-height:1.75;font-size:16px;transition:background .3s,color .3s}
+sub,sup{font-size:.7em;line-height:0}
+
+/* ===== 顶栏 ===== */
+.topbar{position:sticky;top:0;z-index:100;display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 16px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border)}
+.bar-title{font-weight:800;font-size:17px}
+.bar-actions{display:flex;gap:8px}
+.bar-actions button{border:1px solid var(--border);background:var(--card);color:var(--text);padding:6px 12px;border-radius:999px;font-size:13px;cursor:pointer}
+
+/* ===== 芯片导航 ===== */
+.chips{position:sticky;top:53px;z-index:90;display:flex;gap:8px;overflow-x:auto;padding:10px 16px;background:color-mix(in srgb,var(--bg) 82%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--border);scrollbar-width:none}
+.chips::-webkit-scrollbar{display:none}
+.chips a{flex:0 0 auto;padding:7px 14px;border-radius:999px;background:var(--card);border:1px solid var(--border);color:var(--text);text-decoration:none;font-size:13.5px;white-space:nowrap;transition:all .2s}
+.chips a.active{background:var(--accent);border-color:var(--accent);color:#fff}
+
+main{max-width:860px;margin:0 auto;padding:18px 16px 90px}
+.hero{margin:6px 0 16px}
+.hero h1{margin:0;font-size:24px;color:var(--accent)}
+.hero p{margin:6px 0 0;color:var(--muted);font-size:13.5px}
+
+/* ===== 卡片与标题 ===== */
+.topic{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:18px;margin:18px 0;box-shadow:0 1px 3px rgba(15,23,42,.06)}
+.topic>h2{margin:0 0 12px;font-size:19px;color:var(--accent);line-height:1.4}
+.topic h3{font-size:16.5px;margin:22px 0 8px;color:var(--accent)}
+.topic h4{font-size:15px;margin:16px 0 6px}
+.topic p{margin:10px 0}
+.topic strong{color:var(--strong)}
+.topic ul,.topic ol{padding-left:22px;margin:8px 0}
+.topic li{margin:6px 0}
+.topic code{background:var(--block-bg);padding:2px 6px;border-radius:5px;font-size:14px;color:#dc2626}
+html[data-theme="dark"] .topic code{color:#f87171}
+.muted{color:var(--muted);font-size:13.5px}
+.tag{display:inline-block;vertical-align:2px;margin-left:8px;font-size:12px;color:var(--muted);font-weight:400}
+
+/* ===== 口诀汇总卡 ===== */
+.kj{background:linear-gradient(135deg,var(--kj-a),var(--kj-b));border:1px solid var(--border)}
+.kj-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(270px,1fr));gap:12px;margin-top:12px}
+.kj-card{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px}
+.kj-card h3{margin:0 0 8px;font-size:15px;color:var(--accent)}
+.kj-card ul{margin:0;padding-left:18px;font-size:14.5px}
+
+/* ===== 引用 / 口诀块 ===== */
+.quote{background:var(--block-bg);border-left:4px solid var(--accent);border-radius:0 10px 10px 0;padding:12px 16px;margin:12px 0}
+.quote p{margin:6px 0}
+.quote em{color:var(--strong);font-style:normal;font-weight:700}
+
+/* ===== 公式 ===== */
+.fbox{background:var(--block-bg);border:1px solid var(--border);border-radius:12px;padding:12px 14px;margin:12px 0;text-align:center;font-family:Georgia,"Times New Roman",serif;font-size:1.12rem;letter-spacing:.02em;overflow-x:auto}
+.fbox .frow{display:block;margin:4px 0}
+.fx{font-family:Georgia,"Times New Roman",serif;white-space:nowrap}
+.frac{display:inline-flex;flex-direction:column;text-align:center;vertical-align:-.6em;line-height:1.2;font-size:.85em;margin:0 3px}
+.frac>span{padding:0 5px}
+.frac>span+span{border-top:1.5px solid currentColor}
+
+/* ===== 表格 ===== */
+.tw{overflow-x:auto;margin:12px 0;border-radius:10px;border:1px solid var(--border)}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:420px}
+th{background:var(--accent);color:#fff;padding:9px 12px;text-align:left;white-space:nowrap}
+td{padding:8px 12px;border-top:1px solid var(--border);vertical-align:top}
+tr:nth-child(even) td{background:var(--card2)}
+
+/* ===== 真题折叠 ===== */
+details.q{border:1px solid var(--border);border-radius:12px;background:var(--card2);margin:12px 0;overflow:hidden}
+details.q summary{list-style:none;display:flex;align-items:flex-start;gap:8px;padding:12px 14px;cursor:pointer;font-weight:600;color:var(--text)}
+details.q summary::-webkit-details-marker{display:none}
+details.q summary .num{flex:0 0 auto;color:var(--accent)}
+details.q summary .arr{flex:0 0 auto;margin-left:auto;transition:transform .2s;color:var(--accent)}
+details.q[open] summary .arr{transform:rotate(90deg)}
+details.q .ans{padding:4px 16px 14px;border-top:1px dashed var(--border);font-size:15px}
+
+hr{border:none;border-top:2px dashed var(--border);margin:26px 0}
+
+/* ===== 回到顶部 ===== */
+#totop{position:fixed;right:18px;bottom:22px;width:46px;height:46px;border-radius:50%;border:none;background:var(--accent);color:#fff;font-size:20px;cursor:pointer;box-shadow:0 4px 14px rgba(0,0,0,.25);opacity:0;pointer-events:none;transition:opacity .25s;z-index:80}
+#totop.show{opacity:1;pointer-events:auto}
+</style>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="bar-title">📝 做题笔记</div>
+  <div class="bar-actions">
+    <button id="toggleAll">📖 展开全部答案</button>
+    <button id="themeBtn" title="切换深浅色">🌙</button>
+  </div>
+</header>
+
+<nav class="chips" id="chips">
+  <a href="#koujue">🎵 口诀汇总</a>
+  <a href="#sram">💾 存储器</a>
+  <a href="#page">📄 分页变换</a>
+  <a href="#cbt">🌳 完全二叉树</a>
+  <a href="#treeleaf">🌲 树叶子公式</a>
+  <a href="#graph">🕸️ 图论</a>
+  <a href="#nf">🗄️ 范式</a>
+</nav>
+
+<main>
+  <div class="hero">
+    <h1>📝 做题笔记</h1>
+    <p>软考软件设计师 · 移动版 ｜ 口诀速查 + 考点 + 真题自测 ｜ 深浅色自动记忆，完全离线可用</p>
+  </div>
+
+  <!-- ================= 口诀汇总 ================= -->
+  <section id="koujue" class="topic kj">
+    <h2>🎵 口诀汇总区 <span class="tag">考前最后一眼就看这里</span></h2>
+
+    <div class="kj-grid">
+      <div class="kj-card">
+        <h3>💾 计算机组成 · 存储器 SRAM/DRAM</h3>
+        <ul>
+          <li><strong>S 快贵不用刷，D 慢便宜要刷新，D 集成更高</strong></li>
+          <li>用途：SRAM 做 Cache，DRAM 做主存</li>
+        </ul>
+      </div>
+      <div class="kj-card">
+        <h3>📄 操作系统 · 分页地址变换</h3>
+        <ul>
+          <li><strong>整除得页号，取余留偏移；查表换帧号，拼出新地址</strong></li>
+          <li>偏移不变，页号换帧号：物理地址 = 帧号 × 页大小 + 偏移</li>
+        </ul>
+      </div>
+      <div class="kj-card">
+        <h3>🌳 数据结构 · 完全二叉树</h3>
+        <ul>
+          <li>叶子定，求总数：<strong>最多乘二，最少乘二减一</strong></li>
+          <li>总数定，求叶子：<strong>对半向上取整</strong></li>
+          <li>单孩结点<strong>要么 0，要么 1</strong></li>
+          <li>顺序存储：<strong>父 i，左 2i，右 2i+1；空结点也占位，下标不能跳</strong></li>
+        </ul>
+      </div>
+      <div class="kj-card">
+        <h3>🌲 数据结构 · 树的叶子数通用公式</h3>
+        <ul>
+          <li><strong>所有度数加起来 +1，减去非叶子结点总数 = 叶子数</strong></li>
+          <li>更快形式：叶子数 = 1 + Σ(度数-1)×该度数结点数（n₁ 不出现）</li>
+          <li>二叉树特例即 n₀ = n₂ + 1</li>
+        </ul>
+      </div>
+      <div class="kj-card">
+        <h3>🕸️ 数据结构 · 图</h3>
+        <ul>
+          <li>邻接矩阵<strong>对称 = 无向图</strong>，<strong>不对称 = 有向图</strong></li>
+          <li>拓扑排序前提：<strong>有向无环图（DAG）</strong>，至少一个入度 = 0 的点</li>
+          <li><strong>强连通</strong>：任意两点互相可达</li>
+          <li>图<strong>有环 = 没有拓扑序列</strong></li>
+        </ul>
+      </div>
+      <div class="kj-card">
+        <h3>🗄️ 数据库 · 范式判定</h3>
+        <ul>
+          <li><strong>1NF：单元格不拆分</strong></li>
+          <li><strong>2NF：字段不能只靠组合主键的一半推出；单主键天然 2NF</strong></li>
+          <li><strong>3NF：非主属性不能隔层推导（干掉传递依赖）</strong></li>
+          <li><strong>BCNF：所有决定方都必须是候选键，主属性也不能互相依赖</strong></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= SRAM/DRAM ================= -->
+  <section id="sram" class="topic">
+    <h2>💾 计算机组成 · SRAM vs DRAM</h2>
+    <h3>一句话口诀</h3>
+    <div class="quote"><p><em>S 快贵不用刷，D 慢便宜要刷新，D 集成更高</em></p></div>
+
+    <h3>📌 展开对照（口诀背后的考点）</h3>
+    <div class="tw">
+    <table>
+      <tr><th>对比项</th><th>SRAM（静态存储器）</th><th>DRAM（动态存储器）</th></tr>
+      <tr><td>存储原理</td><td>触发器</td><td>电容存电荷</td></tr>
+      <tr><td>速度</td><td>快</td><td>慢</td></tr>
+      <tr><td>价格</td><td>贵</td><td>便宜</td></tr>
+      <tr><td>是否刷新</td><td><strong>不需要</strong></td><td><strong>需要定时刷新</strong>（电容漏电）</td></tr>
+      <tr><td>集成度</td><td>低</td><td><strong>高</strong></td></tr>
+      <tr><td>主要用途</td><td><strong>Cache（高速缓存）</strong></td><td><strong>主存（内存条）</strong></td></tr>
+    </table>
+    </div>
+
+    <h3>🎯 典型真题自测</h3>
+    <details class="q">
+      <summary><span class="num">1.</span>Cache 一般由哪种存储器构成？<span class="arr">▶</span></summary>
+      <div class="ans"><p><strong>SRAM</strong>。快但贵，适合小容量高速场景 → Cache；主存容量大、要求便宜 → DRAM。</p></div>
+    </details>
+    <details class="q">
+      <summary><span class="num">2.</span>DRAM 需要刷新的原因是？<span class="arr">▶</span></summary>
+      <div class="ans"><p>DRAM 用<strong>电容</strong>存储电荷，电容会漏电，须<strong>定期刷新</strong>保持数据；SRAM 用触发器，只要不掉电就不丢失，无需刷新。</p></div>
+    </details>
+  </section>
+
+  <!-- ================= 分页 ================= -->
+  <section id="page" class="topic">
+    <h2>📄 操作系统 · 分页地址变换</h2>
+    <h3>口诀</h3>
+    <div class="quote"><p><em>整除得页号，取余留偏移；查表换帧号，拼出新地址</em></p></div>
+
+    <h3>📌 四步展开（对应口诀）</h3>
+    <ol>
+      <li><strong>整除得页号</strong>：页号 = 逻辑地址 ÷ 页大小（取商）</li>
+      <li><strong>取余留偏移</strong>：页内偏移 = 逻辑地址 mod 页大小（取余）</li>
+      <li><strong>查表换帧号</strong>：拿页号查页表 → 得物理帧号（也叫物理块号）</li>
+      <li><strong>拼出新地址</strong>：物理地址 = 帧号 × 页大小 + 页内偏移</li>
+    </ol>
+    <p>关键：<strong>偏移量原样照抄</strong>，变的只是页号 → 帧号</p>
+
+    <h3>⚡ 快解技巧（页大小是 2 的幂时免除法）</h3>
+    <ul>
+      <li>页大小 4KB = 2<sup>12</sup> → 逻辑地址<strong>二进制低 12 位 = 偏移</strong>，其余高位 = 页号</li>
+      <li>页大小 1KB = 2<sup>10</sup> → 低 10 位 = 偏移</li>
+      <li>页大小 2KB = 2<sup>11</sup> → 低 11 位 = 偏移</li>
+    </ul>
+
+    <h3>🎯 典型真题自测</h3>
+    <details class="q">
+      <summary><span class="num">1.</span>页大小 4KB，逻辑地址 8452，页号 2 对应物理块号 8，求物理地址。<span class="arr">▶</span></summary>
+      <div class="ans">
+        <p>页号 = 8452 ÷ 4096 = <strong>2</strong>（商），偏移 = 8452 − 2×4096 = <strong>260</strong></p>
+        <p>物理地址 = 8 × 4096 + 260 = <strong>33028</strong></p>
+      </div>
+    </details>
+    <details class="q">
+      <summary><span class="num">2.</span>页大小 1KB 的分页系统，逻辑地址 2053 的页号和页内偏移分别是？<span class="arr">▶</span></summary>
+      <div class="ans">
+        <p>2053 ÷ 1024 = 商 <strong>2</strong> 余 <strong>5</strong> → 页号 2，偏移 5</p>
+        <p>快解：1KB = 2<sup>10</sup>，2053 的二进制低 10 位即偏移</p>
+      </div>
+    </details>
+  </section>
+
+  <!-- ================= 完全二叉树 ================= -->
+  <section id="cbt" class="topic">
+    <h2>🌳 数据结构 · 完全二叉树 5 条必考公式 <span class="tag">考频 ⭐⭐⭐⭐⭐</span></h2>
+
+    <h3>基础符号定义</h3>
+    <ul>
+      <li><span class="fx">n<sub>0</sub></span>：叶子结点（度 = 0）</li>
+      <li><span class="fx">n<sub>1</sub></span>：度为 1 的结点（只有 1 个孩子）</li>
+      <li><span class="fx">n<sub>2</sub></span>：度为 2 的结点（左右孩子都有）</li>
+      <li><span class="fx">N</span>：整棵树<strong>总结点数</strong></li>
+    </ul>
+
+    <h3>公式 1｜二叉树通用恒等式（所有二叉树都成立）</h3>
+    <div class="fbox"><span class="frow">n<sub>0</sub> = n<sub>2</sub> + 1</span></div>
+    <ul>
+      <li>推导：n<sub>2</sub> = n<sub>0</sub> − 1</li>
+      <li>含义：叶子结点永远比度为 2 的结点<strong>多 1 个</strong></li>
+    </ul>
+
+    <h3>公式 2｜完全二叉树独有约束</h3>
+    <div class="fbox"><span class="frow">n<sub>1</sub> = 0 &nbsp;或&nbsp; n<sub>1</sub> = 1</span></div>
+    <ul>
+      <li>重点：完全二叉树<strong>最多只能有 1 个结点只有左孩子</strong>，不可能出现 2 个及以上 n<sub>1</sub></li>
+    </ul>
+
+    <h3>公式 3｜总结点公式</h3>
+    <div class="fbox">
+      <span class="frow">N = n<sub>0</sub> + n<sub>1</sub> + n<sub>2</sub></span>
+      <span class="frow">&nbsp;&nbsp;= n<sub>0</sub> + n<sub>1</sub> + (n<sub>0</sub> − 1)</span>
+      <span class="frow"><strong>N = 2n<sub>0</sub> − 1 + n<sub>1</sub></strong></span>
+    </div>
+    <h4>两种极端（选择题高频）</h4>
+    <ol>
+      <li><strong>已知叶子 n<sub>0</sub>，求最大结点数</strong>（取 n<sub>1</sub> = 1）：
+        <div class="fbox"><span class="frow">N<sub>max</sub> = 2n<sub>0</sub></span></div>
+        <p>例：n<sub>0</sub> = 124 → N<sub>max</sub> = <strong>248</strong></p>
+      </li>
+      <li><strong>已知叶子 n<sub>0</sub>，求最小结点数</strong>（取 n<sub>1</sub> = 0）：
+        <div class="fbox"><span class="frow">N<sub>min</sub> = 2n<sub>0</sub> − 1</span></div>
+        <p>例：n<sub>0</sub> = 124 → N<sub>min</sub> = <strong>247</strong></p>
+      </li>
+    </ol>
+
+    <h3>公式 4｜已知总结点 N，反推叶子 n<sub>0</sub></h3>
+    <div class="fbox"><span class="frow">n<sub>0</sub> = ⌈ <span class="frac"><span>N</span><span>2</span></span> ⌉（向上取整）</span></div>
+    <ul>
+      <li>N 为偶数：n<sub>0</sub> = N/2，此时 n<sub>1</sub> = 1</li>
+      <li>N 为奇数：n<sub>0</sub> = (N+1)/2，此时 n<sub>1</sub> = 0</li>
+    </ul>
+
+    <h3>公式 5｜顺序存储下标关系（从 1 开始编号）</h3>
+    <div class="quote"><p><em>父 i，左 2i，右 2i+1；空节点也要占位置，不能跳过下标</em></p></div>
+    <ul>
+      <li>父结点下标 = ⌊i/2⌋</li>
+      <li>判断有无孩子：<span class="fx">2i &gt; N</span> 时 i 是<strong>叶子</strong>（无左孩子）；<span class="fx">2i+1 &gt; N</span> 时<strong>只有左孩子</strong></li>
+      <li><strong>衍生结论</strong>：N 个结点中，<strong>最后一个非叶子（分支）结点编号 = ⌊N/2⌋</strong>，其后全是叶子</li>
+      <li>变体（从 0 开始编号，如 C 数组）：左 2i+1，右 2i+2，父 ⌊(i−1)/2⌋</li>
+    </ul>
+
+    <h3>✨ 速记口诀</h3>
+    <div class="quote">
+      <p>叶子定，求总数：<em>最多乘二，最少乘二减一</em></p>
+      <p>总数定，求叶子：<em>对半向上取整</em></p>
+      <p>完全二叉树，单孩结点<em>要么 0，要么 1</em></p>
+      <p>顺序存储：<em>父 i 左 2i 右 2i+1，空位不能跳</em></p>
+    </div>
+
+    <h3>🎯 典型真题自测</h3>
+    <details class="q">
+      <summary><span class="num">1.</span>某完全二叉树共有 700 个结点，则叶子结点数为多少？<span class="arr">▶</span></summary>
+      <div class="ans"><p>n<sub>0</sub> = ⌈700/2⌉ = <strong>350</strong>（N 为偶数，n<sub>1</sub> = 1）</p></div>
+    </details>
+    <details class="q">
+      <summary><span class="num">2.</span>一棵完全二叉树上有 701 个结点，则叶子结点数为多少？<span class="arr">▶</span></summary>
+      <div class="ans"><p>n<sub>0</sub> = ⌈701/2⌉ = <strong>351</strong>（N 为奇数，n<sub>1</sub> = 0）</p></div>
+    </details>
+    <details class="q">
+      <summary><span class="num">3.</span>700 个结点的完全二叉树按层序从 1 编号，编号为 100 的结点其左、右孩子编号分别是多少？<span class="arr">▶</span></summary>
+      <div class="ans"><p>左孩子 2×100 = <strong>200</strong>，右孩子 2×100+1 = <strong>201</strong>；因 201 ≤ 700，两个孩子都存在。</p></div>
+    </details>
+    <details class="q">
+      <summary><span class="num">4.</span>700 个结点的完全二叉树按层序从 1 编号，最后一个非叶子结点的编号是多少？<span class="arr">▶</span></summary>
+      <div class="ans"><p>⌊700/2⌋ = <strong>350</strong>，编号 351~700 全是叶子（共 350 个，与公式 4 呼应）。</p></div>
+    </details>
+  </section>
+
+  <!-- ================= 树叶子公式 ================= -->
+  <section id="treeleaf" class="topic">
+    <h2>🌲 数据结构 · 树的叶子数通用公式</h2>
+
+    <h3>速记公式（直接背）</h3>
+    <div class="fbox">
+      <span class="frow">n<sub>0</sub> = 1 + Σ i·n<sub>i</sub> − Σ n<sub>i</sub> &nbsp;<span class="muted" style="font-size:.75em;font-family:inherit">（i 取 1 ~ k，n<sub>i</sub> 为度为 i 的结点个数）</span></span>
+    </div>
+    <ul>
+      <li>展开即：n<sub>0</sub> = 1 + (1·n<sub>1</sub> + 2·n<sub>2</sub> + … + k·n<sub>k</sub>) − (n<sub>1</sub> + n<sub>2</sub> + … + n<sub>k</sub>)</li>
+      <li>口诀：<strong>所有度数加起来 +1，减去非叶子结点总数 = 叶子数</strong></li>
+    </ul>
+
+    <h3>📌 更简形式（做题更快）</h3>
+    <div class="fbox"><span class="frow">n<sub>0</sub> = 1 + Σ (i − 1)·n<sub>i</sub> &nbsp;<span class="muted" style="font-size:.75em;font-family:inherit">（i 取 2 ~ k）</span></span></div>
+    <ul>
+      <li>即：<strong>叶子数 = 1 + Σ(度数 − 1) × 该度数结点数</strong>，n<sub>1</sub> 根本不出现</li>
+      <li>二叉树特例：n<sub>0</sub> = 1 + n<sub>2</sub>，正是经典恒等式 n<sub>0</sub> = n<sub>2</sub> + 1 —— 本公式是它的<strong>推广</strong></li>
+    </ul>
+
+    <h3>🎯 典型真题自测</h3>
+    <details class="q">
+      <summary><span class="num">1.</span>树 T 的度为 4，度为 1、2、3、4 的结点个数分别为 4、2、1、1，则 T 中的叶子结点数为多少？<span class="arr">▶</span></summary>
+      <div class="ans">
+        <p>原式：n<sub>0</sub> = 1 + (1×4 + 2×2 + 3×1 + 4×1) − (4+2+1+1) = 1 + 15 − 8 = <strong>8</strong></p>
+        <p>快解：n<sub>0</sub> = 1 + 1×2 + 2×1 + 3×1 = <strong>8</strong></p>
+      </div>
+    </details>
+    <details class="q">
+      <summary><span class="num">2.</span>一棵度为 3 的树中，度为 3 的结点有 2 个，度为 2 的结点有 1 个（度为 1 的结点数未知），则叶子结点数为多少？<span class="arr">▶</span></summary>
+      <div class="ans"><p><strong>6</strong>。n<sub>1</sub> 不影响结果：n<sub>0</sub> = 1 + 1×1 + 2×2 = <strong>6</strong>。</p></div>
+    </details>
+  </section>
+
+  <!-- ================= 图论 ================= -->
+  <section id="graph" class="topic">
+    <h2>🕸️ 数据结构 · 图论基础速记</h2>
+
+    <h3>速记口诀</h3>
+    <ol>
+      <li>邻接矩阵<strong>对称 = 无向图</strong>；<strong>不对称 = 有向图</strong></li>
+      <li>拓扑排序存在的前提：<strong>有向无环图（DAG）</strong>，必须至少存在一个<strong>入度 = 0</strong> 的点</li>
+      <li><strong>强连通</strong>：任意 u 到 v、v 到 u 都有路</li>
+      <li>一旦图存在环：<strong>没有拓扑序列</strong></li>
+    </ol>
+
+    <h3>📌 关联结论（做题常用）</h3>
+    <ul>
+      <li>无向图：顶点 i 的<strong>度 = 邻接矩阵第 i 行（列）元素之和</strong>（矩阵对称，行列相同）</li>
+      <li>有向图：<strong>第 i 行之和 = 出度</strong>，<strong>第 i 列之和 = 入度</strong></li>
+      <li>n 个顶点的<strong>无向完全图</strong>：边数 = n(n−1)/2</li>
+      <li>n 个顶点的<strong>有向完全图</strong>：弧数 = n(n−1)</li>
+      <li>拓扑序列<strong>不唯一</strong>；做法：每步删去入度为 0 的点及其出边</li>
+    </ul>
+
+    <h3>🎯 典型真题自测</h3>
+    <details class="q">
+      <summary><span class="num">1.</span>若有向图的拓扑序列不存在，则该图一定？<span class="arr">▶</span></summary>
+      <div class="ans"><p><strong>存在环</strong>。拓扑排序仅对 DAG 成立；有环则环上各顶点入度永远 &gt; 0，无法删空。</p></div>
+    </details>
+    <details class="q">
+      <summary><span class="num">2.</span>37 个结点的有向完全图有多少条弧？<span class="arr">▶</span></summary>
+      <div class="ans"><p>n(n−1) = 37 × 36 = <strong>1332</strong> 条。</p></div>
+    </details>
+  </section>
+
+  <!-- ================= 范式 ================= -->
+  <section id="nf" class="topic">
+    <h2>🗄️ 数据库 · 范式判定 1NF / 2NF / 3NF / BCNF <span class="tag">考频 ⭐⭐⭐⭐⭐</span></h2>
+
+    <h3>基础名词先看懂</h3>
+    <ul>
+      <li><strong>主键</strong>：唯一标识一行的属性</li>
+      <li><strong>主属性</strong>：出现在候选键里的字段</li>
+      <li><strong>非主属性</strong>：不在候选键里的字段</li>
+      <li><strong>部分依赖</strong>：主键是组合键，<strong>只靠主键一部分</strong>就能推出某个字段</li>
+      <li><strong>传递依赖</strong>：A → B，B → C，且 B 不反过来推 A，则 C 传递依赖 A</li>
+    </ul>
+
+    <h3>四条范式判定规则（逐条往上套）</h3>
+
+    <h4>✅ 1NF（第一范式）</h4>
+    <p><strong>规则：列不可再分，单元格只能存单个值</strong></p>
+    <ul>
+      <li>禁止：一个格子写多个数据（比如地址 <code>福建,厦门</code> 放同一格）</li>
+      <li>只要是一张正常设计的二维表，基本都满足 1NF</li>
+    </ul>
+
+    <h4>✅ 2NF（第二范式）</h4>
+    <p><strong>前提：先满足 1NF ｜ 规则：消除「非主属性对主键的部分函数依赖」</strong></p>
+    <ol>
+      <li>主键<strong>是单个字段</strong>：天然满足 2NF</li>
+      <li>主键<strong>是组合键 (A,B)</strong>：若 (A,B) → C 且 A → C（C 只依赖 A）→ <strong>部分依赖，不满足 2NF</strong></li>
+    </ol>
+    <ul><li>2NF 只禁止【组合主键带来的局部依赖】，<strong>传递依赖依然允许</strong></li></ul>
+
+    <h4>✅ 3NF（第三范式）</h4>
+    <p><strong>前提：先满足 2NF ｜ 规则：消除「非主属性对主键的传递依赖」</strong></p>
+    <ul>
+      <li>不允许出现：主键 → X，X → 非主属性</li>
+      <li>做题实例：教师号 → 岗位，岗位 → 薪资。薪资是非主属性，传递依赖主键 → <strong>不满足 3NF，只到 2NF</strong></li>
+      <li>达不到 3NF 的后果：<strong>数据冗余、插入异常、删除异常、修改异常</strong></li>
+    </ul>
+
+    <h4>✅ BCNF（巴斯-科德范式，增强版 3NF）</h4>
+    <p><strong>前提：先满足 3NF ｜ 规则：消除「主属性之间的传递 / 部分依赖」</strong></p>
+    <ul>
+      <li>3NF 只管<strong>非主属性</strong>；BCNF 连<strong>主属性之间的依赖</strong>都要清理干净</li>
+      <li>软考小结论：<strong>BCNF 一定是 3NF；3NF 不一定是 BCNF</strong></li>
+    </ul>
+
+    <h3>🧾 极简判断口诀（做题直接背）</h3>
+    <ol>
+      <li><strong>1NF：单元格不拆分</strong></li>
+      <li><strong>2NF：组合主键，字段不能只靠主键一半推出；单主键天然 2NF</strong></li>
+      <li><strong>3NF：非主属性不能隔一层推导（干掉传递依赖）</strong></li>
+      <li><strong>BCNF：所有决定方都必须是候选键，主属性也不能互相依赖</strong></li>
+    </ol>
+
+    <h4>一句话快速区分</h4>
+    <ul>
+      <li>1NF：单元格干净</li>
+      <li>2NF：没有"沾一半主键就能确定的值"</li>
+      <li>3NF：<strong>没有二手数据（传递得来的值）</strong></li>
+      <li>BCNF：连主键内部都不能互相决定</li>
+    </ul>
+
+    <h3>🎯 典型真题自测</h3>
+    <details class="q">
+      <summary><span class="num">1.</span>关系模式 R(A, B, C)，函数依赖 F = {A→B, B→C}，则 R 最高属于第几范式？<span class="arr">▶</span></summary>
+      <div class="ans"><p><strong>2NF</strong>。单属性主键 A 天然满足 2NF；但 A→B→C，C 传递依赖 A → 不满足 3NF。</p></div>
+    </details>
+    <details class="q">
+      <summary><span class="num">2.</span>关系模式 R(A, B, C)，函数依赖 F = {AB→C, C→B}，则 R 最高属于？<span class="arr">▶</span></summary>
+      <div class="ans"><p><strong>3NF</strong>。候选键为 AB 和 AC，A、B、C 全是主属性（无非主属性）→ 满足 3NF；但 C→B 的决定方 C 不是候选键 → 不满足 BCNF。</p></div>
+    </details>
+  </section>
+</main>
+
+<button id="totop" title="回到顶部">↑</button>
+
+<script>
+// ===== 主题（记忆 + 跟随系统）=====
+var root = document.documentElement, themeBtn = document.getElementById('themeBtn');
+function setTheme(t){
+  root.setAttribute('data-theme', t);
+  themeBtn.textContent = t === 'dark' ? '☀️' : '🌙';
+  try{ localStorage.setItem('notes-theme', t); }catch(e){}
+}
+var saved = null;
+try{ saved = localStorage.getItem('notes-theme'); }catch(e){}
+setTheme(saved || (window.matchMedia && matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'));
+themeBtn.addEventListener('click', function(){
+  setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark');
+});
+
+// ===== 一键展开 / 收起全部答案 =====
+var toggleBtn = document.getElementById('toggleAll'), allOpen = false;
+toggleBtn.addEventListener('click', function(){
+  allOpen = !allOpen;
+  document.querySelectorAll('details.q').forEach(function(d){ d.open = allOpen; });
+  toggleBtn.textContent = allOpen ? '📕 收起全部答案' : '📖 展开全部答案';
+});
+
+// ===== 回到顶部 =====
+var totop = document.getElementById('totop');
+window.addEventListener('scroll', function(){
+  totop.classList.toggle('show', window.scrollY > 500);
+});
+totop.addEventListener('click', function(){ window.scrollTo({top:0, behavior:'smooth'}); });
+
+// ===== 芯片导航高亮 =====
+var chips = document.querySelectorAll('.chips a');
+var obs = new IntersectionObserver(function(entries){
+  entries.forEach(function(en){
+    if(en.isIntersecting){
+      chips.forEach(function(c){ c.classList.toggle('active', c.getAttribute('href') === '#' + en.target.id); });
+    }
+  });
+}, {rootMargin: '-20% 0px -70% 0px'});
+document.querySelectorAll('section[id]').forEach(function(s){ obs.observe(s); });
+</script>
+</body>
+</html>

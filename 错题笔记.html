@@ -159,6 +159,19 @@
     color:#1e40af; padding:8px 12px; border-radius:10px; margin:8px 0;
     font-weight:700; text-align:center; font-size:14px;
   }
+  .note-body details.q {
+    border:1px solid var(--border); border-radius:10px; background:var(--soft);
+    margin:8px 0; font-size:13.5px;
+  }
+  .note-body details.q summary {
+    cursor:pointer; padding:8px 12px; font-weight:700; color:var(--primary-dark);
+    list-style:none; display:flex; align-items:center; gap:8px;
+  }
+  .note-body details.q summary::-webkit-details-marker { display:none; }
+  .note-body details.q summary::before { content:"▸"; color:var(--primary); transition:transform .15s; }
+  .note-body details.q[open] summary::before { transform:rotate(90deg); }
+  .note-body details.q .ans { padding:2px 14px 10px; border-top:1px dashed var(--border); margin-top:2px; }
+  .note-body details.q .ans p { margin:8px 0 0; }
 
   @media (max-width:1080px) { .notes { grid-template-columns:1fr; } }
   @media (max-width:680px) {
@@ -506,6 +519,253 @@ const NOTES = [
 
       <div class="warn">⚠ 易错点：①<b>阶码用补码</b>算真值（负数要取反加 1），<b>尾数按原码</b>直接算；②阶符是阶码补码的<b>符号位</b>，要拼在一起看，不能只看它定正负就把阶码当正数。</div>
       <div class="tip">💡 口诀：<b>一拆四段，二拼阶补，三算尾原，四套公式</b>。</div>
+    `
+  },
+  {
+    id: 10,
+    category: "计算机组成",
+    title: "SRAM vs DRAM · 存储器对比",
+    tags: ["存储器", "必考", "对比题"],
+    date: "2026-08-31",
+    content: `
+      <h4>一句话口诀</h4>
+      <div class="formula">S 快贵不用刷，D 慢便宜要刷新，D 集成更高</div>
+
+      <h4>展开对照（口诀背后的考点）</h4>
+      <table>
+        <tr><th>对比项</th><th>SRAM（静态存储器）</th><th>DRAM（动态存储器）</th></tr>
+        <tr><td>存储原理</td><td>触发器</td><td>电容存电荷</td></tr>
+        <tr><td>速度</td><td>快</td><td>慢</td></tr>
+        <tr><td>价格</td><td>贵</td><td>便宜</td></tr>
+        <tr><td>是否刷新</td><td><b>不需要</b></td><td><span class="key">需要定时刷新</span>（电容漏电）</td></tr>
+        <tr><td>集成度</td><td>低</td><td><b>高</b></td></tr>
+        <tr><td>主要用途</td><td><span class="key">Cache（高速缓存）</span></td><td><span class="key">主存（内存条）</span></td></tr>
+      </table>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. Cache 一般由哪种存储器构成？</summary>
+        <div class="ans"><p><b>SRAM</b>。快但贵，适合小容量高速场景 → Cache；主存容量大、要求便宜 → DRAM。</p></div>
+      </details>
+      <details class="q"><summary>2. DRAM 需要刷新的原因是？</summary>
+        <div class="ans"><p>DRAM 用<b>电容</b>存储电荷，电容会漏电，须<b>定期刷新</b>保持数据；SRAM 用触发器，只要不掉电就不丢失，无需刷新。</p></div>
+      </details>
+
+      <div class="tip">💡 记忆：S = "贵快静"（触发器，不刷新），D = "廉慢动"（电容，要刷新）。</div>
+    `
+  },
+  {
+    id: 11,
+    category: "操作系统",
+    title: "分页地址变换 · 四步口诀与快解",
+    tags: ["分页", "计算题", "必考"],
+    date: "2026-08-31",
+    content: `
+      <h4>口诀</h4>
+      <div class="formula">整除得页号，取余留偏移；查表换帧号，拼出新地址</div>
+
+      <h4>四步展开（对应口诀）</h4>
+      <ol>
+        <li><b>整除得页号</b>：页号 = 逻辑地址 ÷ 页大小（取商）</li>
+        <li><b>取余留偏移</b>：页内偏移 = 逻辑地址 mod 页大小（取余）</li>
+        <li><b>查表换帧号</b>：拿页号查页表 → 得物理帧号（也叫物理块号）</li>
+        <li><b>拼出新地址</b>：物理地址 = 帧号 × 页大小 + 页内偏移</li>
+      </ol>
+      <p>关键：<span class="key">偏移量原样照抄</span>，变的只是页号 → 帧号。</p>
+
+      <h4>快解技巧（页大小是 2 的幂时免除法）</h4>
+      <ul>
+        <li>页大小 4KB = 2<sup>12</sup> → 逻辑地址<b>二进制低 12 位 = 偏移</b>，其余高位 = 页号</li>
+        <li>页大小 1KB = 2<sup>10</sup> → 低 10 位 = 偏移</li>
+        <li>页大小 2KB = 2<sup>11</sup> → 低 11 位 = 偏移</li>
+      </ul>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 页大小 4KB，逻辑地址 8452，页号 2 对应物理块号 8，求物理地址。</summary>
+        <div class="ans">
+          <p>页号 = 8452 ÷ 4096 = <b>2</b>（商），偏移 = 8452 − 2×4096 = <b>260</b></p>
+          <p>物理地址 = 8 × 4096 + 260 = <b>33028</b></p>
+        </div>
+      </details>
+      <details class="q"><summary>2. 页大小 1KB 的分页系统，逻辑地址 2053 的页号和页内偏移分别是？</summary>
+        <div class="ans">
+          <p>2053 ÷ 1024 = 商 <b>2</b> 余 <b>5</b> → 页号 2，偏移 5</p>
+          <p>快解：1KB = 2<sup>10</sup>，2053 的二进制低 10 位即偏移</p>
+        </div>
+      </details>
+
+      <div class="warn">⚠ 易错点：偏移<b>永远不变</b>，别把偏移也乘页大小；是帧号换算后才乘页大小。</div>
+    `
+  },
+  {
+    id: 12,
+    category: "数据结构与算法",
+    title: "完全二叉树 · 5 条必考公式",
+    tags: ["完全二叉树", "计算题", "必考"],
+    date: "2026-08-31",
+    content: `
+      <h4>符号定义</h4>
+      <ul>
+        <li><b>n₀</b>：叶子结点（度 = 0）；<b>n₁</b>：度为 1 的结点；<b>n₂</b>：度为 2 的结点；<b>N</b>：总结点数</li>
+      </ul>
+
+      <h4>公式 1｜二叉树通用恒等式</h4>
+      <div class="formula">n₀ = n₂ + 1</div>
+      <ul><li>叶子结点永远比度为 2 的结点<b>多 1 个</b></li></ul>
+
+      <h4>公式 2｜完全二叉树独有约束</h4>
+      <div class="formula">n₁ = 0 或 n₁ = 1</div>
+      <ul><li>完全二叉树<b>最多只能有 1 个结点只有左孩子</b>，不可能有 2 个及以上 n₁</li></ul>
+
+      <h4>公式 3｜总结点公式</h4>
+      <div class="formula">N = n₀ + n₁ + n₂ = 2n₀ − 1 + n₁</div>
+      <ul>
+        <li>已知叶子求<b>最大</b>结点数（取 n₁ = 1）：<span class="key">N = 2n₀</span>（例：n₀ = 124 → 248）</li>
+        <li>已知叶子求<b>最小</b>结点数（取 n₁ = 0）：<span class="key">N = 2n₀ − 1</span>（例：n₀ = 124 → 247）</li>
+      </ul>
+
+      <h4>公式 4｜已知 N 反推叶子</h4>
+      <div class="formula">n₀ = ⌈N / 2⌉（向上取整）</div>
+      <ul>
+        <li>N 为偶数：n₀ = N/2，此时 n₁ = 1</li>
+        <li>N 为奇数：n₀ = (N+1)/2，此时 n₁ = 0</li>
+      </ul>
+
+      <h4>公式 5｜顺序存储下标（从 1 开始编号）</h4>
+      <div class="formula">父 i，左 2i，右 2i+1</div>
+      <ul>
+        <li>父结点下标 = ⌊i/2⌋</li>
+        <li>2i &gt; N 时 i 是<b>叶子</b>（无左孩子）；2i+1 &gt; N 时<b>只有左孩子</b></li>
+        <li>衍生结论：<b>最后一个非叶子（分支）结点编号 = ⌊N/2⌋</b>，其后全是叶子</li>
+        <li>从 0 开始编号变体（如 C 数组）：左 2i+1，右 2i+2，父 ⌊(i−1)/2⌋</li>
+      </ul>
+
+      <div class="tip">💡 速记口诀：叶子定求总数——<b>最多乘二，最少乘二减一</b>；总数定求叶子——<b>对半向上取整</b>；单孩结点<b>要么 0 要么 1</b>；顺序存储<b>空位不能跳</b>。</div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 某完全二叉树共有 700 个结点，则叶子结点数为？</summary>
+        <div class="ans"><p>n₀ = ⌈700/2⌉ = <b>350</b>（N 为偶数，n₁ = 1）</p></div>
+      </details>
+      <details class="q"><summary>2. 一棵完全二叉树上有 701 个结点，则叶子结点数为？</summary>
+        <div class="ans"><p>n₀ = ⌈701/2⌉ = <b>351</b>（N 为奇数，n₁ = 0）</p></div>
+      </details>
+      <details class="q"><summary>3. 700 个结点的完全二叉树按层序从 1 编号，编号 100 的结点左右孩子编号是？</summary>
+        <div class="ans"><p>左孩子 2×100 = <b>200</b>，右孩子 2×100+1 = <b>201</b>；因 201 ≤ 700，两个孩子都存在。</p></div>
+      </details>
+      <details class="q"><summary>4. 700 个结点的完全二叉树按层序从 1 编号，最后一个非叶子结点的编号是？</summary>
+        <div class="ans"><p>⌊700/2⌋ = <b>350</b>，编号 351~700 全是叶子（共 350 个，与公式 4 呼应）。</p></div>
+      </details>
+
+      <div class="warn">⚠ 易错点：顺序存储中<b>空结点也占位</b>，下标不能跳；先看清从 0 还是 1 开始编号再套公式。</div>
+    `
+  },
+  {
+    id: 13,
+    category: "数据结构与算法",
+    title: "树的叶子数通用公式（含快解）",
+    tags: ["树", "计算题", "必背"],
+    date: "2026-08-31",
+    content: `
+      <h4>速记公式（直接背）</h4>
+      <div class="formula">n₀ = 1 + Σ(度数 × 该度数结点数) − Σ(非叶子结点总数)</div>
+      <ul><li>口诀：<b>所有度数加起来 +1，减去非叶子结点总数 = 叶子数</b></li></ul>
+
+      <h4>更简形式（做题更快）</h4>
+      <div class="formula">n₀ = 1 + Σ(度数 − 1) × 该度数结点数（n₁ 不出现）</div>
+      <ul>
+        <li>即叶子数 = 1 + 1×n₂ + 2×n₃ + 3×n₄ + …，<b>度为 1 的结点根本不影响结果</b></li>
+        <li>二叉树特例：n₀ = 1 + n₂，正是经典恒等式 <b>n₀ = n₂ + 1</b>——本公式是它的推广</li>
+      </ul>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 树 T 的度为 4，度为 1、2、3、4 的结点个数分别为 4、2、1、1，则叶子结点数为？</summary>
+        <div class="ans">
+          <p>原式：n₀ = 1 + (1×4 + 2×2 + 3×1 + 4×1) − (4+2+1+1) = 1 + 15 − 8 = <b>8</b></p>
+          <p>快解：n₀ = 1 + 1×2 + 2×1 + 3×1 = <b>8</b></p>
+        </div>
+      </details>
+      <details class="q"><summary>2. 一棵度为 3 的树中，度为 3 的结点有 2 个，度为 2 的结点有 1 个（n₁ 未知），则叶子结点数为？</summary>
+        <div class="ans"><p><b>6</b>。n₁ 不影响结果：n₀ = 1 + 1×1 + 2×2 = <b>6</b>。</p></div>
+      </details>
+
+      <div class="warn">⚠ 易错点：题目<b>故意不给 n₁</b> 不是缺条件——n₁ 在简式里根本不出现，直接算即可。</div>
+    `
+  },
+  {
+    id: 14,
+    category: "数据结构与算法",
+    title: "图论基础速记 · 拓扑排序与邻接矩阵",
+    tags: ["图", "必考", "选择题"],
+    date: "2026-08-31",
+    content: `
+      <h4>速记口诀</h4>
+      <ol>
+        <li>邻接矩阵<b>对称 = 无向图</b>；<b>不对称 = 有向图</b></li>
+        <li>拓扑排序存在的前提：<span class="key">有向无环图（DAG）</span>，必须至少存在一个<b>入度 = 0</b> 的点</li>
+        <li><b>强连通</b>：任意 u 到 v、v 到 u 都有路</li>
+        <li>一旦图存在环：<b>没有拓扑序列</b></li>
+      </ol>
+
+      <h4>关联结论（做题常用）</h4>
+      <ul>
+        <li>无向图：顶点 i 的<b>度 = 邻接矩阵第 i 行（列）元素之和</b>（矩阵对称，行列相同）</li>
+        <li>有向图：<b>第 i 行之和 = 出度</b>，<b>第 i 列之和 = 入度</b></li>
+        <li>n 个顶点的<b>无向完全图</b>：边数 = n(n−1)/2</li>
+        <li>n 个顶点的<b>有向完全图</b>：弧数 = n(n−1)</li>
+        <li>拓扑序列<b>不唯一</b>；做法：每步删去入度为 0 的点及其出边</li>
+      </ul>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 若有向图的拓扑序列不存在，则该图一定？</summary>
+        <div class="ans"><p><b>存在环</b>。拓扑排序仅对 DAG 成立；有环则环上各顶点入度永远 &gt; 0，无法删空。</p></div>
+      </details>
+      <details class="q"><summary>2. 37 个结点的有向完全图有多少条弧？</summary>
+        <div class="ans"><p>n(n−1) = 37 × 36 = <b>1332</b> 条。</p></div>
+      </details>
+
+      <div class="tip">💡 口诀：<b>有环没拓扑，拓扑必 DAG</b>；完全图边数——无向减半 n(n−1)/2，有向全量 n(n−1)。</div>
+    `
+  },
+  {
+    id: 15,
+    category: "数据库",
+    title: "范式判定 · 1NF / 2NF / 3NF / BCNF",
+    tags: ["范式", "必考", "判定题"],
+    date: "2026-08-31",
+    content: `
+      <h4>基础名词先看懂</h4>
+      <ul>
+        <li><b>主键</b>：唯一标识一行的属性；<b>主属性</b>：出现在候选键里的字段；<b>非主属性</b>：不在候选键里的字段</li>
+        <li><b>部分依赖</b>：主键是组合键，<b>只靠主键一部分</b>就能推出某个字段</li>
+        <li><b>传递依赖</b>：A → B，B → C，且 B 不反过来推 A，则 C 传递依赖 A</li>
+      </ul>
+
+      <h4>四条判定规则（逐条往上套）</h4>
+      <table>
+        <tr><th>范式</th><th>规则</th><th>判定要点</th></tr>
+        <tr><td><b>1NF</b></td><td>列不可再分，单元格只能存单个值</td><td>正常设计的二维表基本都满足</td></tr>
+        <tr><td><b>2NF</b></td><td>消除非主属性对主键的<b>部分函数依赖</b></td><td><span class="key">单主键天然 2NF</span>；只有组合主键才可能违反；传递依赖仍允许</td></tr>
+        <tr><td><b>3NF</b></td><td>消除非主属性对主键的<b>传递依赖</b></td><td>不允许主键 → X → 非主属性；否则<b>冗余、插入/删除/修改异常</b></td></tr>
+        <tr><td><b>BCNF</b></td><td>所有决定方都必须是候选键</td><td>连<b>主属性之间</b>的依赖都要清理；<span class="key">BCNF 一定是 3NF，反之不然</span></td></tr>
+      </table>
+
+      <h4>极简判断口诀（做题直接背）</h4>
+      <ol>
+        <li><b>1NF：单元格不拆分</b></li>
+        <li><b>2NF：字段不能只靠主键一半推出；单主键天然 2NF</b></li>
+        <li><b>3NF：非主属性不能隔层推导（干掉传递依赖）</b></li>
+        <li><b>BCNF：所有决定方都必须是候选键，主属性也不能互相依赖</b></li>
+      </ol>
+      <p>一句话区分：1NF 单元格干净｜2NF 没有"沾一半主键就能确定的值"｜3NF <b>没有二手数据（传递得来的值）</b>｜BCNF 连主键内部都不能互相决定。</p>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. R(A, B, C)，函数依赖 F = {A→B, B→C}，则 R 最高属于第几范式？</summary>
+        <div class="ans"><p><b>2NF</b>。单属性主键 A 天然满足 2NF；但 A→B→C，C 传递依赖 A → 不满足 3NF。</p></div>
+      </details>
+      <details class="q"><summary>2. R(A, B, C)，函数依赖 F = {AB→C, C→B}，则 R 最高属于？</summary>
+        <div class="ans"><p><b>3NF</b>。候选键为 AB 和 AC，A、B、C 全是主属性（无非主属性）→ 满足 3NF；但 C→B 的决定方 C 不是候选键 → 不满足 BCNF。</p></div>
+      </details>
+
+      <div class="warn">⚠ 易错点：2NF 只禁止【组合主键带来的部分依赖】，<b>传递依赖依然允许</b>——别把 2NF 和 3NF 的考点弄混。</div>
     `
   }
 ];
