@@ -1,0 +1,622 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>软件设计师 · 学习笔记</title>
+<style>
+  :root {
+    --primary:#2563eb; --primary-dark:#1d4ed8; --bg:#eef3fb; --card:#fff;
+    --text:#0f172a; --muted:#64748b; --border:#dbe3ef; --soft:#f8fafc;
+    --ok:#16a34a; --danger:#dc2626; --warning:#f59e0b; --purple:#7c3aed;
+  }
+  * { box-sizing:border-box; }
+  body {
+    margin:0; font-family:"Microsoft YaHei UI","Segoe UI",Arial,sans-serif;
+    background:
+      radial-gradient(circle at top left, rgba(37,99,235,.18), transparent 34%),
+      radial-gradient(circle at top right, rgba(124,58,237,.12), transparent 40%),
+      linear-gradient(180deg,#f8fbff 0%, var(--bg) 100%);
+    color:var(--text); min-height:100vh;
+  }
+  .wrap { max-width:1280px; margin:0 auto; padding:24px 28px 60px; }
+
+  header {
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:16px;
+    margin-bottom:20px; padding:22px 26px; border:1px solid rgba(219,227,239,.85); border-radius:22px;
+    background:rgba(255,255,255,.82); backdrop-filter:blur(10px);
+    box-shadow:0 14px 40px rgba(15,23,42,.08);
+  }
+  h1 { font-size:26px; margin:0 0 6px; letter-spacing:.2px; }
+  .sub { color:var(--muted); font-size:14px; }
+
+  .progress-panel {
+    min-width:300px; flex:0 0 auto;
+    background:linear-gradient(135deg,#eff6ff,#f5f3ff);
+    border:1px solid #dbe3ef; border-radius:16px; padding:14px 18px;
+  }
+  .progress-panel .nums { display:flex; gap:22px; margin-bottom:10px; }
+  .progress-panel .num b { font-size:22px; color:var(--primary-dark); }
+  .progress-panel .num span { display:block; font-size:12px; color:var(--muted); margin-top:2px; }
+  .progress-bar { height:8px; border-radius:99px; background:#dbe3ef; overflow:hidden; }
+  .progress-bar > div { height:100%; border-radius:99px; background:linear-gradient(90deg,var(--primary),#38bdf8); transition:width .4s ease; }
+
+  .toolbar {
+    display:flex; gap:12px; flex-wrap:wrap; align-items:center;
+    margin-bottom:18px; padding:14px 16px;
+    background:rgba(255,255,255,.9); border:1px solid var(--border);
+    border-radius:18px; box-shadow:0 10px 26px rgba(15,23,42,.06);
+    position:sticky; top:0; z-index:20;
+  }
+  #search {
+    flex:1 1 260px; min-height:46px; border:1px solid var(--border); border-radius:13px;
+    padding:10px 14px; font-size:15px; outline:none; background:#fff;
+    transition:border-color .15s, box-shadow .15s;
+  }
+  #search:focus { border-color:var(--primary); box-shadow:0 0 0 4px rgba(37,99,235,.13); }
+  .filter-btn {
+    border:1px solid var(--border); background:#fff; border-radius:13px;
+    padding:10px 16px; font-size:14px; font-weight:700; cursor:pointer; color:var(--text);
+    transition:all .15s;
+  }
+  .filter-btn:hover { border-color:var(--primary); color:var(--primary); }
+  .filter-btn.active { background:var(--primary); border-color:var(--primary); color:#fff; }
+
+  .cats { display:flex; gap:10px; flex-wrap:wrap; margin-bottom:18px; }
+  .cat-btn {
+    border:1px solid var(--border); background:rgba(255,255,255,.9); border-radius:999px;
+    padding:8px 18px; font-size:14px; font-weight:700; cursor:pointer; color:var(--muted);
+    transition:all .15s;
+  }
+  .cat-btn:hover { border-color:var(--primary); color:var(--primary); transform:translateY(-1px); }
+  .cat-btn.active { background:linear-gradient(135deg,var(--primary),#38bdf8); border-color:transparent; color:#fff; box-shadow:0 6px 16px rgba(37,99,235,.28); }
+  .cat-btn .count { opacity:.75; font-weight:600; font-size:12px; margin-left:4px; }
+
+  .notes { display:grid; grid-template-columns:repeat(auto-fill, minmax(480px, 1fr)); gap:16px; }
+  .note {
+    background:rgba(255,255,255,.96); border:1px solid var(--border); border-radius:20px;
+    box-shadow:0 10px 30px rgba(15,23,42,.07); overflow:hidden;
+    display:flex; flex-direction:column; transition:transform .15s, box-shadow .15s;
+    border-left:5px solid var(--primary);
+  }
+  .note:hover { transform:translateY(-2px); box-shadow:0 16px 40px rgba(15,23,42,.12); }
+  .note.mastered { border-left-color:var(--ok); }
+  .note.starred { box-shadow:0 10px 30px rgba(245,158,11,.18); border-color:#fcd34d; }
+
+  .note-head { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; padding:16px 18px 0; }
+  .note-title { font-size:17px; font-weight:800; margin:0; line-height:1.4; }
+  .note-meta { display:flex; gap:8px; flex-wrap:wrap; padding:10px 18px 0; align-items:center; }
+  .badge {
+    font-size:12px; font-weight:700; padding:3px 10px; border-radius:999px;
+    background:#eff6ff; color:#1d4ed8; border:1px solid #bfdbfe;
+  }
+  .badge.tag { background:#f5f3ff; color:#6d28d9; border-color:#ddd6fe; }
+  .badge.date { background:var(--soft); color:var(--muted); border-color:var(--border); }
+  .badge.star { background:#fffbeb; color:#b45309; border-color:#fcd34d; }
+
+  .note-body {
+    padding:12px 18px 4px; font-size:14.5px; line-height:1.75; color:#1e293b;
+    max-height:210px; overflow:hidden; position:relative;
+  }
+  .note-body.expanded { max-height:none; }
+  .note-body:not(.expanded)::after {
+    content:""; position:absolute; left:0; right:0; bottom:0; height:56px;
+    background:linear-gradient(180deg, transparent, rgba(255,255,255,.97));
+    pointer-events:none;
+  }
+
+  .note-foot {
+    display:flex; gap:10px; padding:12px 18px 16px; margin-top:auto; flex-wrap:wrap;
+  }
+  .mini-btn {
+    border:1px solid var(--border); background:#fff; border-radius:10px;
+    padding:7px 14px; font-size:13px; font-weight:700; cursor:pointer; color:var(--text);
+    transition:all .15s;
+  }
+  .mini-btn:hover { border-color:var(--primary); color:var(--primary); }
+  .mini-btn.toggle { color:var(--primary-dark); background:#eff6ff; border-color:#bfdbfe; }
+  .mini-btn.master-btn.on { background:var(--ok); border-color:var(--ok); color:#fff; }
+  .mini-btn.star-btn.on { background:var(--warning); border-color:var(--warning); color:#fff; }
+
+  .empty {
+    grid-column:1/-1; text-align:center; color:var(--muted); padding:70px 20px;
+    background:rgba(255,255,255,.8); border:1px dashed var(--border); border-radius:20px;
+  }
+  .empty b { display:block; font-size:17px; color:var(--text); margin-bottom:8px; }
+
+  /* ── 笔记内容排版 ── */
+  .note-body h4 { margin:14px 0 6px; font-size:15px; color:var(--primary-dark); }
+  .note-body p { margin:6px 0; }
+  .note-body ul, .note-body ol { margin:6px 0; padding-left:22px; }
+  .note-body li { margin:3px 0; }
+  .note-body table { border-collapse:collapse; width:100%; margin:10px 0; font-size:13.5px; background:#fff; }
+  .note-body th, .note-body td { border:1px solid var(--border); padding:7px 10px; text-align:left; vertical-align:top; }
+  .note-body th { background:#eff6ff; color:#1e40af; font-weight:700; }
+  .note-body tr:nth-child(even) td { background:#f8fafc; }
+  .note-body code {
+    background:#eef2ff; color:#3730a3; border-radius:6px; padding:1px 7px;
+    font-family:Consolas,"Courier New",monospace; font-size:13px;
+  }
+  .note-body pre {
+    background:#0b1220; color:#d7e7ff; border-radius:12px; padding:14px 16px;
+    overflow:auto; font-family:Consolas,"Courier New",monospace; font-size:13px; line-height:1.6;
+  }
+  .note-body pre code { background:none; color:inherit; padding:0; }
+  .note-body .key {
+    background:linear-gradient(180deg, transparent 62%, #fde68a 62%);
+    font-weight:700; padding:0 2px;
+  }
+  .note-body .warn {
+    background:#fffbeb; border:1px solid #fcd34d; border-radius:10px;
+    padding:8px 12px; color:#92400e; font-size:13.5px; margin:8px 0;
+  }
+  .note-body .tip {
+    background:#ecfdf5; border:1px solid #a7f3d0; border-radius:10px;
+    padding:8px 12px; color:#065f46; font-size:13.5px; margin:8px 0;
+  }
+  .note-body .formula {
+    background:linear-gradient(135deg,#eff6ff,#ecfeff); border:1px solid #bfdbfe;
+    color:#1e40af; padding:8px 12px; border-radius:10px; margin:8px 0;
+    font-weight:700; text-align:center; font-size:14px;
+  }
+
+  @media (max-width:1080px) { .notes { grid-template-columns:1fr; } }
+  @media (max-width:680px) {
+    .wrap { padding:14px; }
+    header { flex-direction:column; align-items:stretch; }
+    .progress-panel { min-width:0; }
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div>
+      <h1>软件设计师 · 学习笔记</h1>
+      <div class="sub">知识总结 · 分类复习 · 掌握度追踪</div>
+    </div>
+    <div class="progress-panel">
+      <div class="nums">
+        <div class="num"><b id="statTotal">0</b><span>知识点</span></div>
+        <div class="num"><b id="statMastered">0</b><span>已掌握</span></div>
+        <div class="num"><b id="statStarred">0</b><span>重点</span></div>
+      </div>
+      <div class="progress-bar"><div id="progressFill" style="width:0%"></div></div>
+    </div>
+  </header>
+
+  <div class="toolbar">
+    <input id="search" type="text" placeholder="搜索知识点标题、内容、标签…" />
+    <button class="filter-btn active" data-filter="all" onclick="setFilter('all', this)">全部</button>
+    <button class="filter-btn" data-filter="unmastered" onclick="setFilter('unmastered', this)">未掌握</button>
+    <button class="filter-btn" data-filter="starred" onclick="setFilter('starred', this)">★ 重点</button>
+  </div>
+
+  <div class="cats" id="cats"></div>
+
+  <div class="notes" id="notes"></div>
+</div>
+
+<script>
+/* ═══════════════════════════════════════════════════════════════════
+   知识点数据（由 AI 总结后添加）
+   category 取值（软考大纲）：
+   计算机组成 / 操作系统 / 数据库 / 计算机网络 / 软件工程 /
+   数据结构与算法 / 程序设计语言 / 数学与经济 / 知识产权 / 专业英语
+   content 支持 HTML：h4/p/ul/table/code/pre/.key/.warn/.tip/.formula
+   ═══════════════════════════════════════════════════════════════════ */
+const NOTES = [
+  {
+    id: 1,
+    category: "计算机组成",
+    title: "CRC 循环冗余校验码 · 编码规则",
+    tags: ["校验码", "必考", "易混淆"],
+    date: "2026-08-31",
+    content: `
+      <h4>编码格式</h4>
+      <div class="formula">CRC 码 = 【k 位原始数据】 + 【r 位校验码（全部追加在末尾）】</div>
+      <ul>
+        <li>原始 <b>k 位数据</b>放在<b>前面</b>，保持原样不变</li>
+        <li>计算得到的 <b>r 位校验码</b>拼接在数据<b>末尾</b></li>
+      </ul>
+
+      <h4>计算步骤（模 2 除法）</h4>
+      <ol>
+        <li>确定生成多项式，其<b>最高次幂 = r</b>（校验位位数）</li>
+        <li>在 k 位数据末尾<b>补 r 个 0</b></li>
+        <li>用补 0 后的数<b>模 2 除</b>（按位异或，不借位）生成多项式</li>
+        <li>得到的 <b>r 位余数</b>就是校验码，<b>替换掉</b>刚才补的 0</li>
+      </ol>
+
+      <h4>CRC vs 海明码（高频对比）</h4>
+      <table>
+        <tr><th>对比项</th><th>CRC</th><th>海明码</th></tr>
+        <tr><td>校验位位置</td><td><span class="key">全部追加在末尾</span></td><td><span class="key">穿插在数据位之间</span>（放在 2ⁿ 位：第1、2、4、8…位）</td></tr>
+        <tr><td>数据位位置</td><td>在前，连续完整</td><td>被校验位隔开</td></tr>
+        <tr><td>核心运算</td><td>模 2 除法（异或）</td><td>分组偶校验</td></tr>
+        <tr><td>能力</td><td>检错（不能纠错定位）</td><td>检错 + <b>纠 1 位错</b></td></tr>
+      </table>
+
+      <div class="warn">⚠ 易错点：题目说"校验位穿插分布在数据位之间"的是<b>海明码</b>，不是 CRC！CRC 的数据永远在前面、校验码永远在最后。</div>
+      <div class="tip">💡 记忆口诀：CRC = <b>尾</b>巴加校验（数据尾随校验）；海明 = <b>插</b>花式分布（2ⁿ 位插校验）。</div>
+    `
+  },
+  {
+    id: 2,
+    category: "计算机组成",
+    title: "中断 vs 异常 · 核心区分规则",
+    tags: ["中断", "必考", "易混淆"],
+    date: "2026-08-31",
+    content: `
+      <h4>核心区分规则</h4>
+      <div class="formula">看信号来源：<b>CPU 外部</b> → 中断（异步）｜<b>CPU 内部执行指令</b> → 异常（同步）</div>
+
+      <table>
+        <tr><th>对比项</th><th>中断（外部）</th><th>异常（内部）</th></tr>
+        <tr><td>来源</td><td><span class="key">CPU 外面的设备信号</span></td><td><span class="key">CPU 执行指令自己产生</span></td></tr>
+        <tr><td>同步/异步</td><td>异步事件（与指令流无关）</td><td>同步事件（由某条指令触发）</td></tr>
+        <tr><td>典型例子</td><td>DMA 传送结束、键盘、硬盘、网卡等<b>外设</b>发出的信号</td><td>除 0 溢出、缺页、非法指令、断点（陷阱 trap）</td></tr>
+      </table>
+
+      <h4>判断技巧</h4>
+      <ul>
+        <li>看到 <b>DMA、键盘、硬盘、网卡、打印机、时钟</b> 这类<b>外设</b>词 → 中断</li>
+        <li>看到 <b>溢出、缺页、非法/特权指令、断点、地址越界</b> 这类<b>指令执行出错/陷阱</b> → 异常</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点："<b>缺页</b>"是 CPU 执行访存指令时产生的，属于<b>异常</b>，不是中断！很多人想当然把它归为中断。</div>
+      <div class="tip">💡 记忆口诀：<b>外</b>部找中断（外部设备），<b>内</b>部找异常（内部出错）。缺页、除0 都是"执行指令惹的祸" → 异常。</div>
+    `
+  },
+  {
+    id: 3,
+    category: "计算机组成",
+    title: "中断的两种叫法与分类（含电源故障归属）",
+    tags: ["中断", "易混淆", "分类"],
+    date: "2026-08-31",
+    content: `
+      <h4>两种教材叫法（本质相同，范围不同）</h4>
+      <table>
+        <tr><th>叫法版本</th><th>外部类</th><th>内部类</th></tr>
+        <tr><td>叫法 1：<b>中断 vs 异常</b></td><td>中断：外部硬件产生（DMA 结束、键盘、定时器）</td><td>异常：CPU 内部指令出错（除 0、非法指令）</td></tr>
+        <tr><td>叫法 2：<b>硬件中断 vs 软件中断</b></td><td>硬件中断：外设触发（键盘按键、定时器溢出、DMA 完成）</td><td>软件中断（<b>也叫异常</b>）：程序执行出错触发（除零、缺页）</td></tr>
+      </table>
+
+      <h4>电源故障的归属（高频坑）</h4>
+      <ul>
+        <li>电源故障属于<span class="key">机器故障类</span>中断</li>
+        <li><b>不属于</b>软件中断，也不是普通外设中断</li>
+      </ul>
+
+      <h4>中断的完整分类（按经典教材）</h4>
+      <table>
+        <tr><th>类别</th><th>含义</th><th>例子</th></tr>
+        <tr><td>外中断（硬件中断）</td><td>CPU 外部设备引起</td><td>键盘、定时器、DMA 完成、打印机</td></tr>
+        <tr><td>内中断（软件中断/异常）</td><td>指令执行出错或陷阱</td><td>除 0、缺页、非法指令、断点</td></tr>
+        <tr><td>机器故障类</td><td>硬件本身故障</td><td><b>电源故障</b>、内存校验错</td></tr>
+      </table>
+
+      <div class="warn">⚠ 易错点：题目问"电源故障属于哪类中断"——选<b>机器故障类</b>！它既不是软件中断，也不算普通外设中断。</div>
+      <div class="tip">💡 记忆口诀：叫法不同心相同——"外设叫硬中，出错叫软中（异常），<b>断电是机器故障</b>"。</div>
+    `
+  },
+  {
+    id: 4,
+    category: "计算机组成",
+    title: "浮点数运算全套 · 加减乘除速记",
+    tags: ["浮点数", "必考", "计算题"],
+    date: "2026-08-31",
+    content: `
+      <h4>一、浮点加减法（零对尾规）</h4>
+      <div class="formula">判零 → 对阶 → 尾数加减 → 规格化 + 舍入 + 判溢出</div>
+      <ul>
+        <li>① 判零：有 0 直接出结果，省去计算</li>
+        <li>② 对阶：<span class="key">小阶向大阶对齐，尾数右移</span>（阶小的尾数右移 1 位，阶码 +1，直到相等）</li>
+        <li>③ 尾数加（减）运算</li>
+        <li>④ 规格化 + 舍入 + 判溢出</li>
+      </ul>
+      <p>为什么小阶向大阶对齐？→ 尾数<b>右移损失低位精度</b>；若大向小对齐，尾数左移会丢失高位有效数字，错误更严重。</p>
+
+      <h4>二、浮点乘法（零加乘规）</h4>
+      <ol>
+        <li>判 0</li>
+        <li><span class="key">阶码相加</span></li>
+        <li><span class="key">尾数相乘</span></li>
+        <li>规格化、舍入、判溢出</li>
+      </ol>
+
+      <h4>三、浮点除法（零减除规）</h4>
+      <ol>
+        <li>判 0</li>
+        <li><span class="key">阶码相减</span></li>
+        <li><span class="key">尾数相除</span></li>
+        <li>规格化、舍入、判溢出</li>
+      </ol>
+
+      <h4>加减 vs 乘除对比</h4>
+      <table>
+        <tr><th>运算</th><th>阶码操作</th><th>尾数操作</th><th>是否对阶</th></tr>
+        <tr><td>加减</td><td>先<b>对阶</b>（小→大）</td><td>尾数加减</td><td>✅ 必须对阶</td></tr>
+        <tr><td>乘法</td><td>阶码<b>相加</b></td><td>尾数相乘</td><td>❌ 不用对阶</td></tr>
+        <tr><td>除法</td><td>阶码<b>相减</b></td><td>尾数相除</td><td>❌ 不用对阶</td></tr>
+      </table>
+
+      <div class="warn">⚠ 易错点：对阶永远是"小阶向大阶"、尾数右移；<b>只有加减法才需要对阶</b>，乘除直接算阶码。</div>
+      <div class="tip">💡 极简 4 字速记：加减 = <b>零对尾规</b>（要对阶！小追大）｜乘法 = <b>零加乘规</b>｜除法 = <b>零减除规</b>。一句话：<b>加减要对阶，乘除不用对阶；乘阶加，除阶减。</b></div>
+    `
+  },
+  {
+    id: 5,
+    category: "计算机组成",
+    title: "浮点数表示范围 · 极值公式速记",
+    tags: ["浮点数", "计算题", "必背"],
+    date: "2026-08-31",
+    content: `
+      <h4>三条速记规则</h4>
+      <ol>
+        <li>阶码值占 <b>k 位</b> → 最大阶码值 = <code>2<sup>k</sup> - 1</code></li>
+        <li>尾数用补码表示：<b>负极限可以到 <code>-1</code></b>，正极限是 <code>1 - 2<sup>-n</sup></code>（补码负数范围比原码多一个）</li>
+        <li>浮点极值公式（k = 阶码数值位，m = 尾数位）：</li>
+      </ol>
+
+      <div class="formula">
+        最小值（负极限）= -2<sup>2<sup>k</sup>-1</sup><br>
+        最大值（正极限）= (1 - 2<sup>-m</sup>) × 2<sup>2<sup>k</sup>-1</sup>
+      </div>
+
+      <h4>套用示例</h4>
+      <p>设阶码数值位 k=3，尾数 m=4（补码）：</p>
+      <ul>
+        <li>最大阶 = 2³ - 1 = <b>7</b></li>
+        <li>最小数 = -2⁷ = <b>-128</b>（尾数负极限 -1 × 2⁷）</li>
+        <li>最大数 = (1 - 2⁻⁴) × 2⁷ = 0.9375 × 128 = <b>120</b></li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：负极限直接是 <code>-2<sup>2<sup>k</sup>-1</sup></code>（尾数取到 -1），不要再乘 (1-2<sup>-m</sup>)；只有正极限才乘尾数正极限。两边的指数都是最大阶 <code>2<sup>k</sup>-1</code>。</div>
+      <div class="tip">💡 口诀：<b>阶值几位算阶顶（2ᵏ-1），补码尾数负到 -1</b>。</div>
+    `
+  },
+  {
+    id: 6,
+    category: "计算机组成",
+    title: "原码 / 反码 / 补码 · 表示个数与范围",
+    tags: ["定点数", "必背", "易混淆"],
+    date: "2026-08-31",
+    content: `
+      <h4>核心口诀</h4>
+      <div class="formula">补码用尽全部组合，总数 = 2<sup>n</sup>；原、反少一（2<sup>n</sup>-1）</div>
+
+      <h4>原因：0 的编码</h4>
+      <table>
+        <tr><th>编码</th><th>0 的表示</th><th>n 位可表示的数</th><th>n 位表示范围</th></tr>
+        <tr><td>原码</td><td><span class="key">两个 0</span>（+0、-0）</td><td>2<sup>n</sup> - 1 个</td><td>-(2<sup>n-1</sup>-1) ~ +(2<sup>n-1</sup>-1)</td></tr>
+        <tr><td>反码</td><td><span class="key">两个 0</span>（+0、-0）</td><td>2<sup>n</sup> - 1 个</td><td>-(2<sup>n-1</sup>-1) ~ +(2<sup>n-1</sup>-1)</td></tr>
+        <tr><td>补码</td><td><b>唯一的 0</b></td><td><span class="key">2<sup>n</sup> 个</span></td><td>-2<sup>n-1</sup> ~ +(2<sup>n-1</sup>-1)</td></tr>
+      </table>
+
+      <h4>关键推论</h4>
+      <ul>
+        <li>补码省下的那个组合（1000…0）用来表示 <span class="key">-2<sup>n-1</sup></span> → 所以补码<b>负数比正数多一个</b></li>
+        <li>这就是浮点数尾数用补码时"负极限能取到 <b>-1</b>"的原因（见浮点极值公式）</li>
+        <li>8 位补码范围：<b>-128 ~ +127</b>（不是 -127 ~ 127）</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：n 位补码最小值是 <code>-2<sup>n-1</sup></code>，没有对应的正数！如 8 位补码 -128 取反加 1 会溢出。</div>
+      <div class="tip">💡 记忆：原、反"零占两坑"少一个数；补码"零只占一坑"，多出的坑给 <code>-2<sup>n-1</sup></code>。</div>
+    `
+  },
+  {
+    id: 7,
+    category: "计算机组成",
+    title: "CPU 寄存器 · 经典题干对应答案",
+    tags: ["CPU结构", "必考", "选择题"],
+    date: "2026-08-31",
+    content: `
+      <h4>题干 → 寄存器 对照表</h4>
+      <table>
+        <tr><th>题目这样问…</th><th>答案</th><th>全称</th></tr>
+        <tr><td>保存<b>下一条指令地址</b></td><td><span class="key">PC</span></td><td>程序计数器</td></tr>
+        <tr><td>保存<b>当前正在执行的指令</b></td><td><span class="key">IR</span></td><td>指令寄存器</td></tr>
+        <tr><td>ALU 运算<b>临时存放数据/结果</b></td><td><span class="key">AC</span></td><td>累加寄存器</td></tr>
+        <tr><td><b>溢出、进位</b>等判断标志</td><td><span class="key">PSW</span></td><td>程序状态字寄存器</td></tr>
+        <tr><td>访问内存时<b>保存内存地址</b></td><td><span class="key">MAR</span></td><td>内存地址寄存器</td></tr>
+        <tr><td>CPU 与主存<b>交换数据的缓冲</b></td><td><span class="key">MDR</span></td><td>内存数据寄存器</td></tr>
+      </table>
+
+      <h4>易混点辨析</h4>
+      <ul>
+        <li><b>PC 存地址，IR 存指令本身</b>——"下一条在哪"问 PC，"这条是什么"问 IR</li>
+        <li><b>MAR 存地址，MDR 存数据</b>——A = Address（找房），D = Data（搬粮）</li>
+        <li>PC 具有自动加 1 功能（指向下一条指令）</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：MAR 和 MDR 位于 CPU 与主存之间，属于 CPU（不是主存的一部分）；AR/DR 是它们的旧称。</div>
+      <div class="tip">💡 韵律口诀：<br>
+      PC 程序计数器<b>指路</b>，IR 指令寄存器<b>存令</b>；<br>
+      AC 累加寄存器<b>算数</b>，PSW 状态字寄存器<b>判行</b>；<br>
+      MAR 地址寄存器<b>找房</b>，MDR 数据寄存器<b>搬粮</b>。</div>
+    `
+  },
+  {
+    id: 8,
+    category: "计算机组成",
+    title: "三大校验方式对比 · 检错与纠错能力",
+    tags: ["校验码", "必考", "对比题"],
+    date: "2026-08-31",
+    content: `
+      <h4>能力对比总表</h4>
+      <table>
+        <tr><th>校验方式</th><th>检错能力</th><th>纠错能力</th><th>核心特点</th></tr>
+        <tr><td><b>奇偶校验</b></td><td>仅<b>奇数个</b>位错可检出；偶数个位错查不出</td><td>❌ 完全不能</td><td>只增加 <b>1 位</b>校验位，成本最低</td></tr>
+        <tr><td><b>CRC 循环冗余</b></td><td>很强（可检出多位错）</td><td>❌ 不能纠错</td><td>发送方生成余数，接收方核对；常用于<b>磁盘、网络传输</b></td></tr>
+        <tr><td><b>海明校验</b></td><td>✅ 检错</td><td>✅ <span class="key">可纠 1 位错</span>；部分情况检出 2 位错</td><td>插入多个校验位，<b>开销最大</b></td></tr>
+      </table>
+
+      <h4>做题 3 条铁律（选择题秒杀）</h4>
+      <ol>
+        <li>只要题目说【1 位奇偶校验】：一定不能纠错！<b>偶数个比特出错无法检测</b></li>
+        <li>CRC 检错能力强，但依然<b>不能自动改错</b>，出错只能<b>重新发送</b>数据</li>
+        <li>海明码：三者中<b>唯一具备纠错能力</b>的校验码（纠 1 位错）</li>
+      </ol>
+
+      <h4>题干快速匹配答案</h4>
+      <table>
+        <tr><th>题目这样描述…</th><th>答案</th></tr>
+        <tr><td>只能发现<b>奇数个</b>错误，无法纠正</td><td>奇偶校验</td></tr>
+        <tr><td>网络 / 硬盘传输，检错强，出错<b>重传</b></td><td>CRC 循环冗余校验</td></tr>
+        <tr><td>既能查出错误，还能<b>自动改正 1 位</b>数据错误</td><td>海明校验</td></tr>
+      </table>
+
+      <div class="warn">⚠ 易错点：CRC 和海明都"检错强"，区别在纠错——只有<b>海明能纠错（1位）</b>；奇偶校验连偶数位错都发现不了。</div>
+      <div class="tip">💡 考前快速默读：<br>
+      <b>奇偶</b>：只检单错，不能改<br>
+      <b>CRC</b>：擅长查错，只能重发<br>
+      <b>海明</b>：查出还能自动修一位</div>
+    `
+  },
+  {
+    id: 9,
+    category: "计算机组成",
+    title: "浮点机器码求真值 · 小白做题步骤",
+    tags: ["浮点数", "计算题", "必考"],
+    date: "2026-08-31",
+    content: `
+      <h4>四步口诀</h4>
+      <ol>
+        <li>按题目给的长度切开四段：<span class="key">阶符 ｜ 阶码 ｜ 数符 ｜ 尾数</span></li>
+        <li><b>阶符 + 阶码</b>拼成完整补码，算出<b>指数真值</b></li>
+        <li><b>尾数</b>单独拿出来（连同数符）<b>按原码</b>算出小数</li>
+        <li>套公式：</li>
+      </ol>
+      <div class="formula">数值 = 尾数 × 2<sup>阶的真值</sup></div>
+
+      <h4>基础功：负数补码求真值（固定公式）</h4>
+      <div class="formula">补码 → 按位取反 → +1 → 算出正数绝对值 → 前面加负号</div>
+      <p>示例：<code>1011</code>（补码）→ 取反 <code>0100</code> → +1 <code>0101</code> = 5 → 真值 = <b>-5</b></p>
+      <div class="tip">💡 快捷判断：符号位是 0 → 正数，补码=真值直接算；符号位是 1 → 负数，才需要"取反+1"求绝对值。</div>
+
+      <h4>套用示例</h4>
+      <p>设格式：阶符 1 位｜阶码 3 位（补码）｜数符 1 位｜尾数 7 位，机器码 <code>1011 0 1010000</code>：</p>
+      <pre><code>1 011 │ 0 │ 1010000
+└─┬──┘   │    └─ 尾数（按原码）= 0.1010000₂ = 0.625
+ 阶符+阶码  └─ 数符 = 0（正）
+ = 1011₂（4位补码）
+ → 真值 = -5</code></pre>
+      <div class="formula">结果 = 0.625 × 2⁻⁵ = 0.01953125</div>
+
+      <div class="warn">⚠ 易错点：①<b>阶码用补码</b>算真值（负数要取反加 1），<b>尾数按原码</b>直接算；②阶符是阶码补码的<b>符号位</b>，要拼在一起看，不能只看它定正负就把阶码当正数。</div>
+      <div class="tip">💡 口诀：<b>一拆四段，二拼阶补，三算尾原，四套公式</b>。</div>
+    `
+  }
+];
+/* ═══════════════════════════════════════════════════════════════════ */
+
+const $ = id => document.getElementById(id);
+const LS_KEY = 'rkgc_study_progress_v1';
+let progress = {};   // { id: { mastered: bool, starred: bool } }
+let curFilter = 'all';
+let curCat = '全部';
+
+try { progress = JSON.parse(localStorage.getItem(LS_KEY) || '{}'); } catch(e) { progress = {}; }
+function saveProgress() { localStorage.setItem(LS_KEY, JSON.stringify(progress)); }
+function pstate(id) {
+  if (!progress[id]) progress[id] = { mastered:false, starred:false };
+  return progress[id];
+}
+
+function esc(s) {
+  return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+
+function renderCats() {
+  const counts = {};
+  NOTES.forEach(n => counts[n.category] = (counts[n.category] || 0) + 1);
+  const cats = ['全部', ...Object.keys(counts)];
+  $('cats').innerHTML = cats.map(c => {
+    const cnt = c === '全部' ? NOTES.length : counts[c];
+    const active = c === curCat ? ' active' : '';
+    return `<button class="cat-btn${active}" onclick="setCat('${esc(c)}')">${esc(c)}<span class="count">${cnt}</span></button>`;
+  }).join('');
+}
+
+function noteVisible(n) {
+  const st = pstate(n.id);
+  if (curCat !== '全部' && n.category !== curCat) return false;
+  if (curFilter === 'unmastered' && st.mastered) return false;
+  if (curFilter === 'starred' && !st.starred) return false;
+  const q = $('search').value.trim().toLowerCase();
+  if (q) {
+    const hay = (n.title + ' ' + n.tags.join(' ') + ' ' + n.category + ' ' + n.content.replace(/<[^>]+>/g, ' ')).toLowerCase();
+    if (!hay.includes(q)) return false;
+  }
+  return true;
+}
+
+function renderNotes() {
+  const list = NOTES.filter(noteVisible);
+  if (!list.length) {
+    $('notes').innerHTML = '<div class="empty"><b>没有匹配的知识点</b>换个关键词或筛选条件试试</div>';
+    return;
+  }
+  $('notes').innerHTML = list.map(n => {
+    const st = pstate(n.id);
+    const cls = (st.mastered ? ' mastered' : '') + (st.starred ? ' starred' : '');
+    const tags = n.tags.map(t => `<span class="badge tag">${esc(t)}</span>`).join('');
+    return `
+    <article class="note${cls}">
+      <div class="note-head">
+        <h3 class="note-title">${esc(n.title)}</h3>
+        <button class="mini-btn star-btn${st.starred ? ' on' : ''}" onclick="toggleStar(${n.id})" title="标记重点">★</button>
+      </div>
+      <div class="note-meta">
+        <span class="badge">${esc(n.category)}</span>${tags}
+        <span class="badge date">${esc(n.date)}</span>
+        ${st.mastered ? '<span class="badge" style="background:#ecfdf5;color:#047857;border-color:#a7f3d0">✓ 已掌握</span>' : ''}
+      </div>
+      <div class="note-body" id="body-${n.id}">${n.content}</div>
+      <div class="note-foot">
+        <button class="mini-btn toggle" onclick="toggleBody(${n.id}, this)">展开全文</button>
+        <button class="mini-btn master-btn${st.mastered ? ' on' : ''}" onclick="toggleMastered(${n.id})">${st.mastered ? '✓ 已掌握' : '标记掌握'}</button>
+      </div>
+    </article>`;
+  }).join('');
+}
+
+function renderStats() {
+  const total = NOTES.length;
+  const mastered = NOTES.filter(n => pstate(n.id).mastered).length;
+  const starred = NOTES.filter(n => pstate(n.id).starred).length;
+  $('statTotal').textContent = total;
+  $('statMastered').textContent = mastered;
+  $('statStarred').textContent = starred;
+  $('progressFill').style.width = total ? (mastered / total * 100).toFixed(1) + '%' : '0%';
+}
+
+function renderAll() { renderCats(); renderNotes(); renderStats(); }
+
+function setFilter(f, btn) {
+  curFilter = f;
+  document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  renderNotes();
+}
+function setCat(c) { curCat = c; renderCats(); renderNotes(); }
+function toggleBody(id, btn) {
+  const body = $('body-' + id);
+  body.classList.toggle('expanded');
+  btn.textContent = body.classList.contains('expanded') ? '收起' : '展开全文';
+}
+function toggleMastered(id) {
+  pstate(id).mastered = !pstate(id).mastered;
+  saveProgress(); renderNotes(); renderStats();
+}
+function toggleStar(id) {
+  pstate(id).starred = !pstate(id).starred;
+  saveProgress(); renderNotes(); renderStats();
+}
+
+$('search').addEventListener('input', renderNotes);
+renderAll();
+</script>
+</body>
+</html>
