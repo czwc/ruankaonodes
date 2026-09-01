@@ -773,6 +773,589 @@ const NOTES = [
 
       <div class="warn">⚠ 易错点：2NF 只禁止【组合主键带来的部分依赖】，<b>传递依赖依然允许</b>——别把 2NF 和 3NF 的考点弄混。</div>
     `
+  },
+  {
+    id: 16,
+    category: "计算机网络",
+    title: "重大漏洞与病毒事件速记（填空背诵）",
+    tags: ["网络安全", "必背", "填空题"],
+    date: "2026-09-01",
+    content: `
+      <h4>六大漏洞/病毒事件对照表</h4>
+      <table>
+        <tr><th>名称</th><th>漏洞组件/协议</th><th>端口</th><th>说明</th></tr>
+        <tr><td><b>WannaCry</b></td><td><span class="key">SMB 协议</span></td><td><span class="key">445</span></td><td>勒索病毒，利用永恒之蓝漏洞席卷全球</td></tr>
+        <tr><td><b>EternalBlue 永恒之蓝</b></td><td>Windows 文件共享漏洞（SMB）</td><td><span class="key">445</span></td><td>漏洞利用工具，WannaCry 的"武器"</td></tr>
+        <tr><td><b>Petya</b></td><td>SMB</td><td><span class="key">139 / 445</span></td><td>勒索病毒，破坏磁盘数据</td></tr>
+        <tr><td><b>Heartbleed 心脏滴血</b></td><td><span class="key">OpenSSL</span> 组件</td><td><span class="key">443</span>（HTTPS）</td><td>加密库漏洞，可窃取内存敏感数据</td></tr>
+        <tr><td><b>Log4Shell</b></td><td><span class="key">Java</span> 的 Log4j2 日志组件</td><td>—</td><td>远程代码执行（RCE）漏洞</td></tr>
+        <tr><td><b>Shellshock 破壳</b></td><td>Linux <span class="key">Bash</span></td><td>—</td><td>命令注入漏洞</td></tr>
+      </table>
+
+      <h4>防御措施（简答常考）</h4>
+      <ul>
+        <li>防御永恒之蓝/WannaCry：<span class="key">关闭 445 端口 + 及时安装系统补丁</span></li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：心脏滴血漏洞出在 <b>OpenSSL 组件</b>（不是 HTTPS 协议本身）；WannaCry 与 Petya 都是<b>勒索病毒</b>且都打 SMB 端口。</div>
+      <div class="tip">💡 秒杀短句：永恒之蓝 → SMB 445｜心脏滴血 → OpenSSL HTTPS(443)｜Log4j → Java 日志包｜破壳 → Linux Bash。</div>
+    `
+  },
+  {
+    id: 17,
+    category: "计算机网络",
+    title: "常用协议与端口号对照（必考）",
+    tags: ["端口", "必考", "选择题"],
+    date: "2026-09-01",
+    content: `
+      <h4>协议-端口对照表（必背）</h4>
+      <table>
+        <tr><th>协议</th><th>端口</th><th>用途</th><th>安全性</th></tr>
+        <tr><td><b>SMB</b></td><td><span class="key">139 / 445</span></td><td>Windows 文件共享</td><td>易被勒索病毒利用</td></tr>
+        <tr><td><b>SSH</b></td><td><span class="key">22</span></td><td>加密远程登录</td><td>✅ 安全</td></tr>
+        <tr><td><b>Telnet</b></td><td><span class="key">23</span></td><td>明文远程登录</td><td>❌ 不安全</td></tr>
+        <tr><td><b>HTTP</b></td><td><span class="key">80</span></td><td>明文网页</td><td>❌ 明文</td></tr>
+        <tr><td><b>HTTPS</b></td><td><span class="key">443</span></td><td>加密网页</td><td>✅ 安全</td></tr>
+        <tr><td><b>FTP</b></td><td><span class="key">21</span></td><td>明文文件传输</td><td>❌ 明文</td></tr>
+        <tr><td><b>SFTP</b></td><td><span class="key">22</span></td><td>安全文件传输</td><td>✅ 走 SSH 通道</td></tr>
+        <tr><td><b>DNS</b></td><td><span class="key">53</span></td><td>域名解析</td><td>—</td></tr>
+        <tr><td><b>RDP</b></td><td><span class="key">3389</span></td><td>Windows 远程桌面</td><td>常被暴力破解</td></tr>
+      </table>
+
+      <h4>易混组合辨析</h4>
+      <ul>
+        <li><b>SSH 与 SFTP 同用 22</b>：SFTP 借 SSH 隧道传文件</li>
+        <li><b>Telnet(23) vs SSH(22)</b>：一个明文一个加密，端口号只差 1</li>
+        <li><b>FTP(21) vs SFTP(22)</b>：FTP 明文；SFTP 走的是 SSH，不是"FTP 加密版"</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：远程桌面 RDP 是 <b>3389</b>（不是 3388）；SFTP 基于 <b>SSH(22)</b> 而非 FTP(21)。</div>
+      <div class="tip">💡 端口口诀：<b>SSH 22 安全壳，Telnet 23 明文裸；HTTP 80 明文跑，HTTPS 443 加密好；FTP 21 传文件，SFTP 跟 SSH 22 走；DNS 53 解析名，RDP 3389 桌面控。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 以下协议中，采用明文传输、安全性最差的是？</summary>
+        <div class="ans"><p><b>Telnet（23）</b>。明文远程登录；同理 FTP(21)、HTTP(80) 也是明文。加密替代：SSH(22)、HTTPS(443)。</p></div>
+      </details>
+      <details class="q"><summary>2. HTTPS 与 DNS 默认使用的端口号分别是？</summary>
+        <div class="ans"><p>HTTPS = <b>443</b>，DNS = <b>53</b>。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 18,
+    category: "计算机网络",
+    title: "恶意代码分类 · 蠕虫/病毒/木马/勒索/僵尸网络",
+    tags: ["恶意代码", "必考", "易混淆"],
+    date: "2026-09-01",
+    content: `
+      <h4>五类恶意代码对照表</h4>
+      <table>
+        <tr><th>类型</th><th>核心特征</th><th>传播方式</th><th>代表</th></tr>
+        <tr><td><b>蠕虫 Worm</b></td><td><span class="key">独立程序，自动扫描网络自我复制</span>，不需要宿主</td><td>自动传播（网络）</td><td>冲击波、震荡波</td></tr>
+        <tr><td><b>病毒 Virus</b></td><td><span class="key">依附宿主文件</span></td><td>人为拷贝传播</td><td>CIH</td></tr>
+        <tr><td><b>木马 Trojan</b></td><td>伪装正常软件，<span class="key">开后门窃取信息</span>；<b>不能自我复制</b></td><td>诱骗下载运行</td><td>灰鸽子</td></tr>
+        <tr><td><b>勒索病毒</b></td><td><span class="key">加密文件，索要赎金</span></td><td>漏洞 + 蠕虫式传播</td><td>WannaCry、Petya</td></tr>
+        <tr><td><b>僵尸网络 Botnet</b></td><td>批量控制<span class="key">肉鸡</span>主机</td><td>集中发起 <b>DDoS</b> 攻击</td><td>—</td></tr>
+      </table>
+
+      <h4>判断题秒杀点</h4>
+      <ul>
+        <li>能<b>自我复制</b>：蠕虫（自动）、病毒（借宿主）→ <b>木马不能！</b></li>
+        <li><b>独立 vs 依附</b>：蠕虫是独立程序；病毒必须依附宿主文件</li>
+        <li>勒索病毒 = 加密 + 要钱；僵尸网络 = 肉鸡 + DDoS</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：高频判断题——"木马可以自我复制"是<b>错误</b>的！木马靠伪装诱骗用户主动运行。</div>
+      <div class="tip">💡 口诀：<b>蠕虫独立自己跑，病毒依附宿主咬；木马伪装开后门，不能复制要记牢；勒索加密索赎金，僵尸肉鸡 DDoS 搞。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 木马与病毒最主要的区别是？</summary>
+        <div class="ans"><p>木马<b>不能自我复制</b>，靠伪装诱骗用户运行；病毒可感染宿主文件自我复制。</p></div>
+      </details>
+      <details class="q"><summary>2. 无需宿主程序、可自动在网络中传播的恶意代码是？</summary>
+        <div class="ans"><p><b>蠕虫</b>。独立程序 + 自动扫描网络自我复制。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 19,
+    category: "计算机网络",
+    title: "哈希（摘要）算法 · MD5 / SHA 速记",
+    tags: ["哈希", "必背", "概念题"],
+    date: "2026-09-01",
+    content: `
+      <h4>三大哈希算法对照表</h4>
+      <table>
+        <tr><th>算法</th><th>摘要长度</th><th>安全性</th></tr>
+        <tr><td><b>MD5</b></td><td><span class="key">128 位</span></td><td>❌ 不安全，已淘汰（碰撞可构造）</td></tr>
+        <tr><td><b>SHA-1</b></td><td><span class="key">160 位</span></td><td>❌ 不安全（碰撞已被攻破）</td></tr>
+        <tr><td><b>SHA-256</b></td><td><span class="key">256 位</span></td><td>✅ 安全性更高（SHA-2 家族）</td></tr>
+      </table>
+
+      <h4>哈希函数三大特点（概念题必背）</h4>
+      <ul>
+        <li><b>单向不可逆</b>：由摘要推不回原文</li>
+        <li><b>原文变摘要变</b>（雪崩效应）：哪怕改 1 个字符，摘要也大变</li>
+        <li><b>定长输出</b>：无论原文多长，摘要长度固定</li>
+      </ul>
+
+      <h4>典型用途</h4>
+      <ul>
+        <li><b>完整性校验</b>：比对文件摘要，判断是否被篡改</li>
+        <li><b>口令存储</b>：系统只存密码的摘要，不存明文</li>
+        <li><b>数字签名</b>：先对原文取摘要，再对摘要签名（提高效率）</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：哈希（摘要）<b>不是加密</b>！加密可逆（有密钥能还原），哈希<b>不可逆</b>；哈希用于校验完整性，不用于保密还原。</div>
+      <div class="tip">💡 口诀：<b>越长越安全，MD5 已经不安全</b>；单向不可逆，改一变全变，输出定长不变。</div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. MD5 算法产生的消息摘要长度是？</summary>
+        <div class="ans"><p><b>128 位</b>。SHA-1 是 160 位，SHA-256 是 256 位。</p></div>
+      </details>
+      <details class="q"><summary>2. 关于哈希（摘要）算法，以下说法错误的是？</summary>
+        <div class="ans"><p>"可根据摘要还原出原文"——<b>错误</b>。哈希单向不可逆；正确说法：定长输出、原文微小变化导致摘要大变（雪崩效应）。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 20,
+    category: "数据结构与算法",
+    title: "递归式求复杂度 · 主定理保姆级用法",
+    tags: ["主定理", "必考", "难点"],
+    date: "2026-09-01",
+    content: `
+      <h4>主定理是干嘛的？</h4>
+      <p>给一个递归式 <b>T(n) = a·T(n/b) + f(n)</b>，不用展开递归树，三步直接判断时间复杂度。</p>
+      <ul>
+        <li><b>a</b> = 每次分成几个子问题（T 前面的<b>系数</b>）</li>
+        <li><b>b</b> = 每个子问题规模缩到原来的几分之一（<b>分母</b>）</li>
+        <li><b>f(n)</b> = 每次递归之外的合并/额外工作量</li>
+      </ul>
+
+      <h4>三步用法（保姆级）</h4>
+      <ol>
+        <li><b>认人</b>：从公式里找出 a、b、f(n)</li>
+        <li><b>算临界值</b>：c = log<sub>b</sub>a，得到"递归方的量级" n<sup>c</sup>。<br>常用值：<code>log<sub>2</sub>2 = 1</code>、<code>log<sub>2</sub>4 = 2</code>、<code>log<sub>2</sub>1 = 0</code></li>
+        <li><b>比大小</b>（f(n) 与 n<sup>c</sup> 谁大听谁的）：
+          <ul>
+            <li>f(n) <b>小于</b> n<sup>c</sup> → 答案 = <b>n<sup>c</sup></b>（递归主导）</li>
+            <li>f(n) <b>等于</b> n<sup>c</sup> → 答案 = <b>n<sup>c</sup>·log n</b>（打平乘 log）</li>
+            <li>f(n) <b>大于</b> n<sup>c</sup> → 答案 = <b>f(n)</b>（合并主导）</li>
+          </ul>
+        </li>
+      </ol>
+      <div class="formula">f 小取 n<sup>c</sup>，f 大取 f(n)，打平乘 log n</div>
+
+      <h4>三个示范（照着走一遍就会）</h4>
+      <table>
+        <tr><th>递归式</th><th>拆出 a、b、f</th><th>临界值</th><th>比较</th><th>答案</th></tr>
+        <tr><td>T(n)=2T(n/2)+n</td><td>a=2, b=2, f=n</td><td>log<sub>2</sub>2=1 → n</td><td>n = n（打平）</td><td><b>n·log n</b></td></tr>
+        <tr><td>T(n)=4T(n/2)+n</td><td>a=4, b=2, f=n</td><td>log<sub>2</sub>4=2 → n<sup>2</sup></td><td>n &lt; n<sup>2</sup>（f 小）</td><td><b>n<sup>2</sup></b></td></tr>
+        <tr><td>T(n)=T(n/2)+1</td><td>a=1, b=2, f=1</td><td>log<sub>2</sub>1=0 → 1</td><td>1 = 1（打平）</td><td><b>log n</b></td></tr>
+      </table>
+
+      <h4>为什么"打平乘 log"？（理解版，看懂就不用死背）</h4>
+      <p>把递归想成一棵树：每层分成 a 份、每份缩成 1/b，树高共 <b>log<sub>b</sub>n</b> 层。</p>
+      <ul>
+        <li><b>打平时</b>（f=n 且 n<sup>c</sup>=n）：<b>每一层</b>的合并工作量都约等于 n，共 log n 层 → 总量 n·log n</li>
+        <li><b>f 小时</b>：越往下每层工作量越小，大头是最底层的叶子（共 n<sup>c</sup> 个）→ n<sup>c</sup></li>
+        <li><b>f 大时</b>：第一层合并就是 f(n)，后面各层更小 → f(n)</li>
+      </ul>
+
+      <h4>九大高频递归式秒查表（背这张）</h4>
+      <table>
+        <tr><th>递归式</th><th>临界值</th><th>判定</th><th>渐近紧界 Θ</th></tr>
+        <tr><td>T(n)=2T(n/2)+n</td><td>n</td><td>打平</td><td><span class="key">n log n</span></td></tr>
+        <tr><td>T(n)=2T(n/2)+n log n</td><td>n</td><td>f 带 log（打平加强版）</td><td><span class="key">n log<sup>2</sup>n</span></td></tr>
+        <tr><td>T(n)=2T(n/2)+1</td><td>n</td><td>f 小</td><td><span class="key">n</span></td></tr>
+        <tr><td>T(n)=2T(n/2)+n<sup>2</sup></td><td>n</td><td>f 大</td><td><span class="key">n<sup>2</sup></span></td></tr>
+        <tr><td>T(n)=4T(n/2)+n</td><td>n<sup>2</sup></td><td>f 小</td><td><span class="key">n<sup>2</sup></span></td></tr>
+        <tr><td>T(n)=4T(n/2)+n<sup>2</sup></td><td>n<sup>2</sup></td><td>打平</td><td><span class="key">n<sup>2</sup> log n</span></td></tr>
+        <tr><td>T(n)=4T(n/2)+n<sup>3</sup></td><td>n<sup>2</sup></td><td>f 大</td><td><span class="key">n<sup>3</sup></span></td></tr>
+        <tr><td>T(n)=T(n/2)+1</td><td>1</td><td>打平</td><td><span class="key">log n</span></td></tr>
+        <tr><td>T(n)=T(n/2)+n</td><td>1</td><td>f 大</td><td><span class="key">n</span></td></tr>
+      </table>
+
+      <h4>经典算法对应（选择题秒杀）</h4>
+      <ul>
+        <li>T(n)=T(n/2)+1 → <b>二分查找</b> → O(log n)</li>
+        <li>T(n)=2T(n/2)+n → <b>归并排序 / 快排平均情况</b> → O(n log n)</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：①别把 a、b 弄反——a 是 T 前面的<b>系数</b>（分几份），b 是<b>分母</b>（缩几倍）；②log<sub>2</sub>4 = <b>2</b> 不是 4；③ f(n)=n·log n 与 n<sup>c</sup>=n 只差一个 log 因子，属于"打平家族"→ log 次数 +1（n log<sup>2</sup>n），<b>不是</b> f 大！</div>
+      <div class="tip">💡 口诀：<b>先算 log<sub>b</sub>a 得 n<sup>c</sup>；f 小取 n<sup>c</sup>，f 大取 f，打平乘 log；f 已带 log 就再乘一个。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 二分查找的递归式为 T(n)=T(n/2)+1，其时间复杂度为？</summary>
+        <div class="ans"><p>a=1, b=2 → n<sup>c</sup> = n<sup>0</sup> = 1；f(n)=1 与 1 打平 → <b>Θ(log n)</b>。</p></div>
+      </details>
+      <details class="q"><summary>2. T(n)=4T(n/2)+n<sup>2</sup> 的渐近紧界是？</summary>
+        <div class="ans"><p>a=4, b=2 → n<sup>c</sup> = n<sup>2</sup>；f(n)=n<sup>2</sup> 与之打平 → <b>Θ(n<sup>2</sup> log n)</b>。</p></div>
+      </details>
+      <details class="q"><summary>3. 归并排序的递归式为 T(n)=2T(n/2)+n，其时间复杂度为？</summary>
+        <div class="ans"><p>n<sup>c</sup> = n，f(n)=n 打平 → <b>Θ(n log n)</b>。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 21,
+    category: "数据库",
+    title: "事务隔离级别 · 四级递进与三类并发问题",
+    tags: ["事务", "必考", "易混淆"],
+    date: "2026-09-01",
+    content: `
+      <h4>先搞懂三个并发问题（前提）</h4>
+      <table>
+        <tr><th>问题</th><th>场景</th><th>本质</th></tr>
+        <tr><td><b>脏读</b></td><td>读到了别人<b>未提交</b>的数据，对方一回滚，你读的就是错的</td><td>读了未提交</td></tr>
+        <tr><td><b>不可重复读</b></td><td>同一事务内两次读<b>同一行</b>，结果不一样（别人改了并提交）</td><td>针对<b>改</b>（UPDATE）</td></tr>
+        <tr><td><b>幻读</b></td><td>同一事务内两次<b>按同一条件查询</b>，行数变多/变少（别人插入或删除并提交）</td><td>针对<b>增删</b>（INSERT/DELETE）</td></tr>
+      </table>
+
+      <h4>四个隔离级别（安全从低 → 高，性能反过来）</h4>
+      <table>
+        <tr><th>隔离级别</th><th>中文</th><th>脏读</th><th>不可重复读</th><th>幻读</th></tr>
+        <tr><td><b>READ UNCOMMITTED</b></td><td>读未提交</td><td>❌ 可能</td><td>❌ 可能</td><td>❌ 可能</td></tr>
+        <tr><td><b>READ COMMITTED</b></td><td>读已提交</td><td>✅ 防住</td><td>❌ 可能</td><td>❌ 可能</td></tr>
+        <tr><td><b>REPEATABLE READ</b></td><td>可重复读</td><td>✅ 防住</td><td>✅ 防住</td><td>❌ 可能</td></tr>
+        <tr><td><b>SERIALIZABLE</b></td><td>串行化</td><td>✅ 防住</td><td>✅ 防住</td><td>✅ 防住</td></tr>
+      </table>
+      <ul>
+        <li><b>READ UNCOMMITTED</b>：最低级，三个问题全允许（裸奔）</li>
+        <li><b>READ COMMITTED</b>：解决<b>脏读</b>，还存在不可重复读、幻读</li>
+        <li><b>REPEATABLE READ</b>：解决脏读 + 不可重复读，还会出现幻读（<span class="key">MySQL 默认级别</span>）</li>
+        <li><b>SERIALIZABLE</b>：<span class="key">安全最高</span>，全部问题都禁止，事务串行执行，<b>性能最差</b></li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：①<b>不可重复读 vs 幻读</b>——前者是别人<b>改</b>了某行（同一行两次读值不一样），后者是别人<b>增/删</b>了行（同一条件两次查行数不一样）；②MySQL 默认是 <b>REPEATABLE READ</b>（不是 READ COMMITTED）；③Oracle / SQL Server 默认是 READ COMMITTED。</div>
+      <div class="tip">💡 口诀：<b>未提交全中招，读已防脏读，可重复防改读，串行全防最安全；安全越高，性能越差。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. MySQL 数据库默认的事务隔离级别是？</summary>
+        <div class="ans"><p><b>REPEATABLE READ（可重复读）</b>。解决了脏读和不可重复读，仍可能出现幻读。</p></div>
+      </details>
+      <details class="q"><summary>2. 事务 T1 两次执行同一查询，第二次发现多了一行（期间 T2 插入并提交），这种现象是？</summary>
+        <div class="ans"><p><b>幻读</b>。针对<b>行数变化</b>（INSERT/DELETE）；若是同一行的<b>值</b>变了，才是不可重复读。</p></div>
+      </details>
+      <details class="q"><summary>3. 哪个隔离级别能同时防止脏读、不可重复读和幻读？</summary>
+        <div class="ans"><p><b>SERIALIZABLE（串行化）</b>。安全性最高，但事务串行执行、性能最差。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 22,
+    category: "操作系统",
+    title: "I/O 软件设计目标 · 设备独立性",
+    tags: ["设备管理", "必考", "概念题"],
+    date: "2026-09-01",
+    content: `
+      <h4>口诀拆解（三个目标）</h4>
+      <ul>
+        <li><b>屏蔽硬件细节</b>：用户不必知道设备的具体电气/机械特性</li>
+        <li><b>提供逻辑接口</b>：用户用<b>逻辑设备名</b>（如"打印机"）申请设备，而非物理设备名（如 LPT1）</li>
+        <li><b>实现设备独立</b>（设备无关性）：程序不绑定具体物理设备，换设备不用改程序</li>
+      </ul>
+
+      <h4>I/O 软件层次结构（自上而下）</h4>
+      <table>
+        <tr><th>层次</th><th>职责</th></tr>
+        <tr><td>用户级 I/O 软件</td><td>用户程序 / 库函数</td></tr>
+        <tr><td><b>设备独立性软件</b></td><td><span class="key">逻辑设备名 → 物理设备名映射</span>、设备保护、缓冲管理、设备分配</td></tr>
+        <tr><td><b>设备驱动程序</b></td><td>把逻辑命令翻译成具体硬件操作</td></tr>
+        <tr><td><b>中断处理程序</b></td><td>处理 I/O 完成中断</td></tr>
+        <tr><td>硬件</td><td>设备控制器 / 物理设备</td></tr>
+      </table>
+
+      <div class="warn">⚠ 易错点：①"逻辑设备名映射为物理设备名"发生在<b>设备独立性软件层</b>（不是驱动层）；②设备独立性 = 用户程序使用<b>逻辑设备</b>，好处是更换物理设备<b>不用修改程序</b>。</div>
+      <div class="tip">💡 口诀：<b>I/O 软件：屏蔽硬件细节，提供逻辑接口，实现设备独立。</b>层次从上到下：用户 → 独立性 → 驱动 → 中断 → 硬件。</div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 引入设备独立性（设备无关性）带来的主要好处是？</summary>
+        <div class="ans"><p>用户程序使用<b>逻辑设备名</b>，更换物理设备时<b>无需修改程序</b>，设备分配更灵活。</p></div>
+      </details>
+      <details class="q"><summary>2. 将逻辑设备名映射为物理设备名的工作，在 I/O 软件的哪一层完成？</summary>
+        <div class="ans"><p><b>设备独立性软件层</b>。设备驱动程序只负责把逻辑命令翻译成硬件操作。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 23,
+    category: "数据结构与算法",
+    title: "三大 O(n log n) 排序 · 归并/堆/快排对比",
+    tags: ["排序", "必考", "对比题"],
+    date: "2026-09-01",
+    content: `
+      <h4>三剑客对比表</h4>
+      <table>
+        <tr><th>排序</th><th>时间（平均）</th><th>最坏</th><th>稳定？</th><th>额外空间</th></tr>
+        <tr><td><b>归并排序</b></td><td>n log n</td><td>n log n</td><td>✅ 稳定</td><td><span class="key">O(n)</span></td></tr>
+        <tr><td><b>堆排序</b></td><td>n log n</td><td>n log n</td><td>❌ 不稳定</td><td><span class="key">O(1)</span></td></tr>
+        <tr><td><b>快速排序</b></td><td>n log n</td><td><span class="key">O(n²)</span>（基本有序时）</td><td>❌ 不稳定</td><td><span class="key">O(log n)</span>（递归栈，平均）</td></tr>
+      </table>
+
+      <h4>记忆要点</h4>
+      <ul>
+        <li><b>归并</b>：稳定但要 O(n) 辅助数组（拿空间换稳定）</li>
+        <li><b>堆</b>：空间最省 O(1)，但不稳定</li>
+        <li><b>快排</b>：平均最快（常数因子小），但<b>基本有序时退化到 O(n²)</b>；空间是递归栈，平均 O(log n)、最坏 O(n)</li>
+      </ul>
+
+      <h4>稳定性全家族（顺带记住）</h4>
+      <ul>
+        <li>❌ 不稳定四兄弟：<b>快、选（选择）、堆、希（希尔）</b></li>
+        <li>✅ 稳定：冒泡、插入、归并、基数</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：①快排<b>最坏</b> O(n²)（原序列基本有序 + 固定选首元素为基准），平均才是 O(n log n)；②快排的 O(log n) 空间是<b>平均</b>递归深度，最坏 O(n)；③归并是三者中<b>唯一稳定</b>的。</div>
+      <div class="tip">💡 口诀：<b>归并稳定费空间，堆排省地不稳当，快排最快怕有序；不稳定家族——快选堆希。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 以下排序算法中，平均时间复杂度为 O(n log n) 且稳定的是？</summary>
+        <div class="ans"><p><b>归并排序</b>。快排和堆排都不稳定。</p></div>
+      </details>
+      <details class="q"><summary>2. 对基本有序的数据排序，快排的时间复杂度会退化为？</summary>
+        <div class="ans"><p><b>O(n²)</b>。每次划分极不均衡（一边 0 个、一边 n−1 个），要递归 n 层。</p></div>
+      </details>
+      <details class="q"><summary>3. 哪种排序算法的辅助空间为 O(1)？</summary>
+        <div class="ans"><p><b>堆排序</b>。归并要 O(n)，快排平均 O(log n)（递归栈）。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 24,
+    category: "软件工程",
+    title: "CMMI 等级 · 连续式 6 级与阶段式 5 级",
+    tags: ["CMMI", "必考", "易混淆"],
+    date: "2026-09-01",
+    content: `
+      <h4>连续式 · 6 个能力等级（CL0~CL5，评单个过程域）</h4>
+      <table>
+        <tr><th>等级</th><th>名称</th><th>白话含义</th></tr>
+        <tr><td><b>CL0</b></td><td>不完整级</td><td>过程<b>没做完</b> / 根本没做</td></tr>
+        <tr><td><b>CL1</b></td><td>已执行的（Performed）</td><td>过程<b>真正跑起来</b>：把输入工件加工成输出工件，完成本过程域目标</td></tr>
+        <tr><td><b>CL2</b></td><td>已管理的（Managed）</td><td><b>管着做</b>：对工作产品管控、度量，监控进度和质量</td></tr>
+        <tr><td><b>CL3</b></td><td>已定义的（Defined）</td><td><b>按标准做</b>：使用组织的标准化过程执行</td></tr>
+        <tr><td><b>CL4</b></td><td>定量管理的（Quantitatively Managed）</td><td><b>用数据管</b>：量化数据管控绩效</td></tr>
+        <tr><td><b>CL5</b></td><td>优化的（Optimizing）</td><td><b>用数据改</b>：基于量化数据持续改进</td></tr>
+      </table>
+
+      <h4>阶段式 · 5 个成熟度等级（ML1~ML5，评组织整体）</h4>
+      <table>
+        <tr><th>等级</th><th>名称</th><th>白话含义</th></tr>
+        <tr><td><b>ML1</b></td><td>初始级（Initial）</td><td>无序混乱，成功靠个人英雄</td></tr>
+        <tr><td><b>ML2</b></td><td>已管理级</td><td>项目级管理（可重复）</td></tr>
+        <tr><td><b>ML3</b></td><td>已定义级</td><td>组织级标准过程</td></tr>
+        <tr><td><b>ML4</b></td><td>定量管理级</td><td>量化管理</td></tr>
+        <tr><td><b>ML5</b></td><td>优化级</td><td>持续优化</td></tr>
+      </table>
+
+      <h4>两种表示法对比（考试爱挖的坑）</h4>
+      <table>
+        <tr><th>对比项</th><th>阶段式</th><th>连续式</th></tr>
+        <tr><td>评级对象</td><td>组织<b>整体</b>成熟度</td><td><b>单个过程域</b>的能力</td></tr>
+        <tr><td>级数</td><td><span class="key">5 级（ML1~ML5）</span></td><td><span class="key">6 级（CL0~CL5）</span></td></tr>
+        <tr><td>1 级名称</td><td>初始级（Initial）</td><td><b>已执行（Performed）</b></td></tr>
+        <tr><td>2~5 级名称</td><td colspan="2">基本相同：已管理 → 已定义 → 定量管理 → 优化</td></tr>
+      </table>
+
+      <div class="warn">⚠ 易错点：①连续式是 <b>6 级</b>（多了 CL0 不完整级），阶段式是 <b>5 级</b>，别记混；②1 级名称两版不同——阶段式叫<b>初始级</b>，连续式叫<b>已执行</b>；③题干见"过程域的能力等级"选连续式（CL），见"组织成熟度"选阶段式（ML）。</div>
+      <div class="tip">💡 递进口诀：<b>0 没做 → 1 做了 → 2 管着做 → 3 按标准做 → 4 用数据管 → 5 用数据改。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. CMMI 连续式表示法共有几个能力等级？</summary>
+        <div class="ans"><p><b>6 个（CL0~CL5）</b>。阶段式是 5 个成熟度等级（ML1~ML5）。</p></div>
+      </details>
+      <details class="q"><summary>2. 某组织使用自己定义的标准化过程执行项目，这对应连续式的哪一级？</summary>
+        <div class="ans"><p><b>CL3 已定义的</b>。"使用组织标准化过程"是 CL3 的标志词。</p></div>
+      </details>
+      <details class="q"><summary>3. CMMI 阶段式中，ML1 的名称是？</summary>
+        <div class="ans"><p><b>初始级（Initial）</b>。注意连续式 CL1 才叫"已执行（Performed）"。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 25,
+    category: "数据结构与算法",
+    title: "排序与初始状态 · 谁怕有序谁爱有序",
+    tags: ["排序", "必考", "易混淆"],
+    date: "2026-09-01",
+    content: `
+      <h4>口诀拆解</h4>
+      <ul>
+        <li><b>基本有序选插入</b>：插入排序遇到基本有序序列，每个元素只需和前一个比 1 次 → 最好 <b>O(n)</b></li>
+        <li><b>有序别选快排</b>：基本有序时快排每趟划分一边为空 → 退化最坏 <b>O(n²)</b></li>
+      </ul>
+
+      <h4>谁爱有序、谁怕有序、谁无所谓</h4>
+      <table>
+        <tr><th>态度</th><th>排序</th><th>说明</th></tr>
+        <tr><td>😍 爱有序（有序更快）</td><td><b>插入、冒泡</b></td><td>基本有序时最好 <span class="key">O(n)</span>；逆序时最坏 O(n²)</td></tr>
+        <tr><td>😱 怕有序（有序更慢）</td><td><b>快排</b></td><td>基本有序 / 基本逆序时退化最坏 <span class="key">O(n²)</span>；平均 O(n log n)</td></tr>
+        <tr><td>😌 无所谓（好坏一样）</td><td><b>选择、归并、堆</b></td><td>选择恒 O(n²)；归并、堆恒 O(n log n)——<b>与初始状态无关</b></td></tr>
+      </table>
+
+      <div class="warn">⚠ 易错点：①<b>选择排序</b>最好最坏都是 O(n²)，比较次数与初始状态<b>无关</b>（每趟该扫的都得扫）；②"时间复杂度与初始序列无关"常考多选——<b>选择、归并、堆</b>；③快排最坏出现在<b>基本有序或基本逆序</b>，不只"有序"一种。</div>
+      <div class="tip">💡 口诀：<b>基本有序选插入，最优时间 O(n)；有序别选快排，快排怕有序；冒泡也爱有序，选择归并堆无所谓。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 对基本有序的序列排序，最合适的算法是？</summary>
+        <div class="ans"><p><b>插入排序</b>。基本有序时每次只比 1 次，接近 O(n)；此时候选快排反而最坏 O(n²)。</p></div>
+      </details>
+      <details class="q"><summary>2. 以下排序中，时间复杂度与序列初始状态无关的是？</summary>
+        <div class="ans"><p><b>选择、归并、堆</b>。冒泡、插入、快排都受初始状态影响（最好 O(n) 或退化 O(n²)）。</p></div>
+      </details>
+      <details class="q"><summary>3. 快速排序在什么情况下退化为 O(n²)？</summary>
+        <div class="ans"><p><b>序列基本有序（或基本逆序）</b>时，每趟划分极不均衡，递归深度达到 n。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 26,
+    category: "操作系统",
+    title: "死锁临界公式 + 信号量负值含义",
+    tags: ["死锁", "信号量", "必考", "计算题"],
+    date: "2026-09-01",
+    content: `
+      <h4>口诀 1：死锁临界公式</h4>
+      <div class="formula">n 个进程，每个最多需要 i 个资源：<br>n×(i−1) ≥ 资源总数 R → 达到死锁临界（最坏情况必死锁）<br>保证不死锁的最少资源数 = n×(i−1) + 1</div>
+      <ul>
+        <li><b>原理</b>：最坏情况是每个进程都拿到了 i−1 个（都差 1 个），谁也做不完 → 死锁</li>
+        <li><b>多给 1 个</b>：任意一个进程凑够 i 个，跑完<b>释放全部</b>资源 → 大家都得救</li>
+        <li>"至少多少资源保证不死锁"= n×(i−1)+1，软考高频计算题</li>
+      </ul>
+
+      <h4>口诀 2：信号量取值的含义</h4>
+      <table>
+        <tr><th>信号量 S</th><th>含义</th></tr>
+        <tr><td><b>S &gt; 0</b></td><td>S = <b>可用资源数</b></td></tr>
+        <tr><td><b>S = 0</b></td><td>资源刚好用完，<b>无进程等待</b></td></tr>
+        <tr><td><b>S &lt; 0</b></td><td><span class="key">可用 = 0，|S| = 等待队列中的进程数</span></td></tr>
+      </table>
+      <ul>
+        <li><b>P 操作</b>（wait）：S = S−1；若 S &lt; 0，进程<b>阻塞</b>入等待队列</li>
+        <li><b>V 操作</b>（signal）：S = S+1；若 S ≤ 0，<b>唤醒</b>一个等待进程</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：①公式别记反——判断"会不会死锁"用 <b>R ≤ n×(i−1)</b>（可能死锁）；"保证不死锁至少多少资源"答 <b>n×(i−1)+1</b>；②S&lt;0 时别答"可用资源为负"——可用恒为 <b>0</b>，负号只用来数排队人数。</div>
+      <div class="tip">💡 口诀：<b>死锁临界 n 乘 i 减 1，加 1 保证不死锁；信号量为负，可用归零，绝对值数排队人。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 某系统有 9 个进程，每个进程最多需要 4 个资源，系统至少需要多少个资源才能保证不发生死锁？</summary>
+        <div class="ans"><p>n×(i−1)+1 = 9×3+1 = <b>28 个</b>。最坏时每进程占 3 个共 27 个，多出 1 个即可救全局。</p></div>
+      </details>
+      <details class="q"><summary>2. 信号量 S 的当前值为 −3，其含义是？</summary>
+        <div class="ans"><p>可用资源 = <b>0</b>，等待队列中有 <b>3 个进程</b>。</p></div>
+      </details>
+      <details class="q"><summary>3. 3 个进程共享 12 个资源，每个进程最多需要几个资源时可能发生死锁？</summary>
+        <div class="ans"><p>n×(i−1) ≥ 12 → 3(i−1) ≥ 12 → <b>i ≥ 5</b>。i=5 时最坏各占 4 个共 12 个，全部差 1 → 死锁。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 27,
+    category: "软件工程",
+    title: "体系结构风格 · 仓库 vs 管道-过滤器",
+    tags: ["架构风格", "必考", "对比题"],
+    date: "2026-09-01",
+    content: `
+      <h4>仓库风格（数据中心风格）</h4>
+      <div class="formula">仓库风格 = 中心数据库 + 多个独立处理构件（都围着中心数据转）</div>
+      <ul>
+        <li><b>数据库系统子类</b>：普通业务系统（事务驱动），如 DBMS</li>
+        <li><b>黑板系统子类</b>：AI、信号处理、语音识别、专家系统</li>
+        <li>黑板系统三大件：<b>知识源 + 黑板（共享数据）+ 控制</b></li>
+      </ul>
+
+      <h4>两种风格对比</h4>
+      <table>
+        <tr><th>对比项</th><th>仓库风格</th><th>管道-过滤器风格</th></tr>
+        <tr><td>数据方式</td><td><span class="key">共享中心数据</span>（大家都读写同一份）</td><td><span class="key">数据在管道中流</span>（过滤器之间不共享）</td></tr>
+        <tr><td>耦合度</td><td>高（都连着中心数据）</td><td>低（各自独立）</td></tr>
+        <tr><td>测试</td><td>难</td><td>简单（单测过滤器即可）</td></tr>
+        <tr><td>典型应用</td><td><b>数据库系统、黑板系统、超文本系统</b>（标准三例子）</td><td>编译器流水线、Unix 管道</td></tr>
+      </table>
+
+      <h4>风格家族速查（顺带记）</h4>
+      <ul>
+        <li><b>数据流风格</b>：批处理、管道-过滤器</li>
+        <li><b>调用/返回风格</b>：主程序-子程序、面向对象、层次结构</li>
+        <li><b>独立构件风格</b>：进程通信、事件驱动（隐式调用）</li>
+        <li><b>虚拟机风格</b>：解释器、规则系统</li>
+        <li><b>仓库（数据中心）风格</b>：数据库系统、黑板系统</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点（真题坑）：仓库风格的<b>标准三例子</b>是——<b>数据库系统、黑板系统、超文本系统</b>（出自经典体系结构分类）。<b>编译器</b>（连同其符号表）在标准答案里归<b>管道-过滤器</b>风格；当选项同时出现"超文本系统"和"编译器符号表"时，仓库风格选<b>超文本系统</b>！另：黑板系统三组成（<b>知识源、黑板、控制</b>）常考填空。</div>
+      <div class="tip">💡 口诀：<b>仓库三宝：数据库、黑板、超文本；编译器认管道过滤器。</b>仓库数据共享 → 耦合高，测试难；管道过滤器不共享 → 独立，易测试。</div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 语音识别、信号处理等系统最适合采用哪种体系结构风格？</summary>
+        <div class="ans"><p><b>黑板系统</b>（仓库/数据中心风格的子类）。中心黑板共享数据 + 多个知识源独立处理。</p></div>
+      </details>
+      <details class="q"><summary>2. 管道-过滤器风格的主要优点是？</summary>
+        <div class="ans"><p>过滤器<b>独立、无共享数据</b>，支持流水线/并行处理，<b>易于测试和维护</b>。</p></div>
+      </details>
+      <details class="q"><summary>3. 黑板系统由哪三部分组成？</summary>
+        <div class="ans"><p><b>知识源、黑板（共享数据结构）、控制</b>部件。</p></div>
+      </details>
+      <details class="q"><summary>4. 以下属于仓库（数据中心）风格典型应用的是？A.超文本系统　B.编译器符号表　C.批处理系统　D.主程序-子程序</summary>
+        <div class="ans"><p><b>A 超文本系统</b>。仓库标准三例子：数据库、黑板、<b>超文本</b>；编译器归管道-过滤器，批处理归数据流风格，主程序-子程序归调用/返回风格。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 28,
+    category: "程序设计语言",
+    title: "参数传递 · 传值调用 vs 传址调用",
+    tags: ["参数传递", "必考", "代码题"],
+    date: "2026-09-01",
+    content: `
+      <h4>口诀拆解</h4>
+      <ul>
+        <li><b>传值</b>：实参把<b>值的副本</b>给形参——<b>啥值都能传</b>（常量、变量、表达式都行）</li>
+        <li><b>传址</b>：实参把<b>地址</b>给形参——<b>必须有地址</b>（常量、表达式没有地址，不能传）</li>
+      </ul>
+
+      <h4>对比表</h4>
+      <table>
+        <tr><th>对比项</th><th>传值调用</th><th>传址调用</th></tr>
+        <tr><td>传递内容</td><td>值的<b>副本</b></td><td><b>地址</b></td></tr>
+        <tr><td>形参修改实参？</td><td>❌ 不影响（改的是副本）</td><td>✅ 直接改实参的存储单元</td></tr>
+        <tr><td>实参形式</td><td><span class="key">常量、变量、表达式都行</span></td><td><span class="key">必须"有地址"：变量取地址 &amp;x、数组名、指针</span></td></tr>
+      </table>
+
+      <h4>经典陷阱：swap 函数</h4>
+      <pre><code>// 传值：改副本，交换失败
+void swap(int x, int y) {
+    int t = x; x = y; y = t;   // 实参 a、b 不变！
+}
+
+// 传址：改地址指向的单元，交换成功
+void swap(int *x, int *y) {
+    int t = *x; *x = *y; *y = t;  // 实参真正交换 ✓
+}</code></pre>
+
+      <h4>混合参数速算（真题常见形态）</h4>
+      <pre><code>void f(int x, int *y) { x = x + 1; *y = *y + 1; }
+int a = 1, b = 1;
+f(a, &amp;b);                    // a 传值，b 传址
+printf("%d %d", a, b);        // 输出 1 2</code></pre>
+      <ul>
+        <li>a 传<b>值</b> → 形参 x 改了也<b>不回传</b>，a 还是 1</li>
+        <li>b 传<b>址</b> → *y 直接修改 b 的内存，b 变 2</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：①传址调用的实参<b>不能是常量和表达式</b>（它们没有地址）；②看到函数体内改形参，先问"传的什么"——<b>传值白改，传址真改</b>。</div>
+      <div class="tip">💡 口诀：<b>传值传值，实参给形参，啥值都能传；传址传址，实参给地址，必须有地址。</b>做题版：传值白改，传址真改。</div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 传址调用时，以下不能作为实参的是？</summary>
+        <div class="ans"><p><b>常量、表达式</b>（如 5、a+b）——它们没有地址；变量、数组名、指针都可以传址。</p></div>
+      </details>
+      <details class="q"><summary>2. 函数 f(int x, int *y) 内执行 x++; (*y)++; 实参 a=1 传值、b=1 传址，调用后 a、b 分别是？</summary>
+        <div class="ans"><p>a = <b>1</b>（传值不改实参），b = <b>2</b>（传址直接修改）。</p></div>
+      </details>
+    `
   }
 ];
 /* ═══════════════════════════════════════════════════════════════════ */
