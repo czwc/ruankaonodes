@@ -1356,6 +1356,318 @@ printf("%d %d", a, b);        // 输出 1 2</code></pre>
         <div class="ans"><p>a = <b>1</b>（传值不改实参），b = <b>2</b>（传址直接修改）。</p></div>
       </details>
     `
+  },
+  {
+    id: 29,
+    category: "程序设计语言",
+    title: "Python 机器学习库分工 · 一句话速背",
+    tags: ["Python库", "机器学习", "必背"],
+    date: "2026-09-03",
+    content: `
+      <h4>一句话速背（直接记这张）</h4>
+      <div class="formula">
+        深度学习 → TensorFlow / PyTorch / Keras<br>
+        传统机器学习 → Scikit-learn<br>
+        数值表格 → NumPy + Pandas<br>
+        画图专用 → Matplotlib、Seaborn（<b>不能训练模型！</b>）
+      </div>
+
+      <h4>各库分工表</h4>
+      <table>
+        <tr><th>库</th><th>定位</th><th>记法</th></tr>
+        <tr><td><b>TensorFlow</b></td><td><span class="key">深度学习框架</span>（Google）</td><td>Tensor（张量）+ Flow（流）→ 张量流动 → 神经网络</td></tr>
+        <tr><td><b>PyTorch</b></td><td><span class="key">深度学习框架</span>（Facebook）</td><td>Python + Torch（火炬）→ 深度学习</td></tr>
+        <tr><td><b>Keras</b></td><td><span class="key">深度学习高级封装</span>，写法最简单</td><td>套在 TensorFlow 外面的"傻瓜相机"</td></tr>
+        <tr><td><b>Scikit-learn</b></td><td><span class="key">传统机器学习</span>：回归、分类、聚类、决策树、SVM</td><td>sk-learn = 传统 ML 百宝箱，<b>不含深度学习</b></td></tr>
+        <tr><td><b>NumPy</b></td><td><span class="key">数值计算</span>：多维数组、矩阵运算</td><td>Numerical Python → 算数</td></tr>
+        <tr><td><b>Pandas</b></td><td><span class="key">表格数据处理</span>：DataFrame 读写、清洗</td><td>表格数据管家</td></tr>
+        <tr><td><b>Matplotlib</b></td><td><span class="key">基础画图库</span>：折线、柱状、散点</td><td>plot = 画图，只画不学</td></tr>
+        <tr><td><b>Seaborn</b></td><td><span class="key">统计图表美化</span>，基于 Matplotlib</td><td>Matplotlib 的"美颜版"，只画不学</td></tr>
+      </table>
+
+      <h4>容易漏考的"编外"库（一并背掉）</h4>
+      <table>
+        <tr><th>库/工具</th><th>定位</th><th>记法</th></tr>
+        <tr><td><b>SciPy</b></td><td><span class="key">科学计算</span>：优化、积分、统计、信号处理</td><td>NumPy 的"升级包"，建在 NumPy 之上</td></tr>
+        <tr><td><b>Theano</b></td><td><span class="key">深度学习鼻祖框架</span>（蒙特利尔大学，已停更）</td><td>TF/PyTorch 的"前辈"</td></tr>
+        <tr><td><b>Caffe / MXNet</b></td><td><span class="key">深度学习框架</span>（Caffe 偏图像、MXNet 亚马逊出品）</td><td>深度学习家族成员，见到也归 DL</td></tr>
+        <tr><td><b>OpenCV</b></td><td><span class="key">计算机视觉</span>：图像读写、滤波、人脸检测</td><td>CV = Computer Vision，管图像不管训练网络</td></tr>
+        <tr><td><b>NLTK</b></td><td><span class="key">自然语言处理（NLP）</span>：分词、词性标注、语料库</td><td>Natural Language ToolKit</td></tr>
+        <tr><td><b>Jupyter Notebook</b></td><td><span class="key">交互式开发环境</span>：写代码 + 运行 + 笔记一体</td><td>数据科学家的"草稿本"，不是库</td></tr>
+        <tr><td><b>Anaconda</b></td><td><span class="key">Python 发行版</span>：自带科学计算全家桶 + 环境管理</td><td>装一次全都有，管环境不管算法</td></tr>
+      </table>
+
+      <h4>判断技巧</h4>
+      <ul>
+        <li>题目出现<b>神经网络、深度学习、CNN/RNN</b> → 选 TensorFlow / PyTorch / Keras（Theano、Caffe、MXNet 也算）</li>
+        <li>题目出现<b>分类、聚类、回归、决策树</b>（无神经网络）→ Scikit-learn</li>
+        <li>题目问<b>数据处理/矩阵运算/表格分析</b> → NumPy / Pandas（科学计算再想 SciPy）</li>
+        <li>题目问<b>可视化、绘制图表</b> → Matplotlib / Seaborn</li>
+        <li>题目问<b>图像处理/人脸识别预处理</b> → OpenCV；<b>分词/文本处理</b> → NLTK</li>
+        <li>题目问<b>开发环境/一键安装全家桶</b> → Jupyter Notebook / Anaconda</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：①Matplotlib、Seaborn 是<b>纯画图库，不能训练任何模型</b>，选项里"用 Seaborn 训练分类模型"必错；②Scikit-learn 只管<b>传统机器学习</b>，做不了深度学习；③Keras 不是独立流派，它是 TensorFlow 的高级接口；④OpenCV 管图像<b>预处理</b>，训练神经网络仍要 TF/PyTorch；⑤Anaconda、Jupyter 是<b>工具/环境</b>，不是算法库，答"训练模型用 Anaconda"必错。</div>
+      <div class="tip">💡 口诀：<b>深度三剑 TF/PyTorch/Keras，传统一箱 Sklearn；NumPy 算数 Pandas 理表，SciPy 科学计算加个油；Matplotlib、Seaborn 只画图，OpenCV 看图 NLTK 读文，训练模型它不行。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 以下哪个库不能用于训练机器学习模型？A.Scikit-learn B.PyTorch C.Seaborn D.TensorFlow</summary>
+        <div class="ans"><p><b>C Seaborn</b>。它是统计可视化库，只能画图；其余三个分别是传统 ML、深度学习框架。</p></div>
+      </details>
+      <details class="q"><summary>2. 想对 CSV 表格数据做清洗和统计分析，最合适的库组合是？</summary>
+        <div class="ans"><p><b>Pandas</b>（读表、清洗、统计）；若涉及矩阵/数值计算再配合 <b>NumPy</b>。</p></div>
+      </details>
+      <details class="q"><summary>3. 构建卷积神经网络（CNN）做图像识别，应选用哪个库？</summary>
+        <div class="ans"><p><b>TensorFlow / PyTorch / Keras</b> 均可（深度学习框架）；Scikit-learn 不支持深度神经网络，OpenCV 只做图像预处理不做网络训练。</p></div>
+      </details>
+      <details class="q"><summary>4. 一键获得 Python + NumPy/Pandas/Scikit-learn 等科学计算全家桶，并支持多环境管理，应安装？</summary>
+        <div class="ans"><p><b>Anaconda</b>。它是发行版/环境管理工具；Jupyter Notebook 是交互式开发环境，二者都不是训练模型的算法库。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 30,
+    category: "数据库",
+    title: "三级模式 · 两级映像（独立性必考）",
+    tags: ["三级模式", "必考", "概念题"],
+    date: "2026-09-03",
+    content: `
+      <h4>三层模式对照（从用户到磁盘）</h4>
+      <table>
+        <tr><th>层级</th><th>名称</th><th>对应数据库里的东西</th><th>面向谁</th></tr>
+        <tr><td>最外层</td><td><span class="key">外模式</span>（子模式/用户视图）</td><td><b>视图 VIEW</b></td><td>应用程序 / 用户</td></tr>
+        <tr><td>中间层</td><td><span class="key">概念模式</span>（模式/逻辑模式）</td><td><b>基本表</b>（全体数据的逻辑结构）</td><td>DBA / 全体用户</td></tr>
+        <tr><td>最内层</td><td><span class="key">内模式</span>（存储模式/物理模式）</td><td><b>存储文件</b>（怎么存在磁盘上）</td><td>存储管理</td></tr>
+      </table>
+
+      <h4>两级映像 → 两种数据独立性（必考对应）</h4>
+      <div class="formula">外模式 ↔ 模式映像 → <b>逻辑独立性</b>｜模式 ↔ 内模式映像 → <b>物理独立性</b></div>
+      <table>
+        <tr><th>映像</th><th>当什么变了不用改程序</th><th>独立性</th></tr>
+        <tr><td><b>外模式/模式映像</b></td><td>表的<b>逻辑结构</b>变了（加字段、拆表），视图/应用不用改</td><td><span class="key">逻辑数据独立性</span></td></tr>
+        <tr><td><b>模式/内模式映像</b></td><td><b>存储方式</b>变了（换硬盘、改存储结构），逻辑结构不用改</td><td><span class="key">物理数据独立性</span></td></tr>
+      </table>
+
+      <h4>判断技巧</h4>
+      <ul>
+        <li>题目问"视图/用户看到的表" → <b>外模式</b>；问"全体数据的全局逻辑结构" → <b>概念模式</b>；问"存储结构/物理文件" → <b>内模式</b></li>
+        <li>区分独立性：变的若是<b>存储/文件层面</b>（物理）→ 模式/内模式映像；变的若是<b>表结构/逻辑层面</b> → 外模式/模式映像</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：①一个数据库只有一个概念模式和内模式，但<b>外模式可以有多个</b>（多个用户视图）；②别把两种映像和独立性配错——<b>外-概映像管逻辑，概-内映像管物理</b>；③视图属于外模式。</div>
+      <div class="tip">💡 口诀：<b>外视图、中基本表、内存储文件；外-概管逻辑变，概-内管物理搬。</b>独立性 = 改了下层，上层不用动。</div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 数据库系统中，视图（VIEW）属于哪一级模式？</summary>
+        <div class="ans"><p><b>外模式</b>（用户视图）。基本表对应概念模式，存储文件对应内模式。</p></div>
+      </details>
+      <details class="q"><summary>2. 当数据库的存储结构改变时，通过修改哪种映像能保证逻辑结构不变？</summary>
+        <div class="ans"><p><b>模式/内模式映像</b> → 体现<b>物理数据独立性</b>。</p></div>
+      </details>
+      <details class="q"><summary>3. "应用程序与数据的逻辑结构相互独立"由什么保证？</summary>
+        <div class="ans"><p><b>外模式/模式映像</b> → 逻辑数据独立性。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 31,
+    category: "数据库",
+    title: "关系代数 · 五大运算与 SQL 对应",
+    tags: ["关系代数", "必考", "选择题"],
+    date: "2026-09-03",
+    content: `
+      <h4>五大运算速查（每年必考 1~2 分）</h4>
+      <table>
+        <tr><th>符号</th><th>名称</th><th>作用</th><th>记法</th></tr>
+        <tr><td><b>σ</b>（sigma）</td><td>选择</td><td><span class="key">挑行</span>（筛选满足条件的记录）</td><td>σ<sub>条件</sub>(R)，行过滤</td></tr>
+        <tr><td><b>π</b>（pi）</td><td>投影</td><td><span class="key">挑列</span>（取指定属性列）</td><td>π<sub>列名</sub>(R)，列过滤</td></tr>
+        <tr><td><b>⋈</b></td><td>自然连接</td><td>按<b>同名列相等</b>拼接两表，去掉重复列</td><td>两个 R 合体</td></tr>
+        <tr><td><b>×</b></td><td>笛卡尔积</td><td>两表所有行两两组合</td><td>全配对</td></tr>
+        <tr><td><b>∪ ∩ −</b></td><td>并/交/差</td><td>集合运算（要求两表结构相同）</td><td>数学集合那套</td></tr>
+      </table>
+
+      <h4>关系代数 ↔ SQL 对照（真题套路）</h4>
+      <table>
+        <tr><th>SQL 写法</th><th>对应关系代数</th></tr>
+        <tr><td>SELECT sno, name FROM ...</td><td><b>π</b>（投影，挑列）</td></tr>
+        <tr><td>WHERE age &gt; 20</td><td><b>σ</b>（选择，挑行）</td></tr>
+        <tr><td>FROM A, B / JOIN</td><td><b>×</b> 笛卡尔积 / <b>⋈</b> 连接</td></tr>
+      </table>
+      <p>执行顺序：<b>FROM（连接/积）→ WHERE（σ）→ SELECT（π）</b>，即"先拼表、再筛行、最后挑列"。</p>
+
+      <h4>选择题秒杀技巧</h4>
+      <ul>
+        <li>表达式里 <b>σ 写在 ⋈ 之前</b> = 先筛选再连接（优化后效率更高，等价变换题最爱）</li>
+        <li>π 的下标是<b>列</b>，σ 的下标是<b>条件</b>——看下标内容就能分辨</li>
+        <li>自然连接 ⋈ = 笛卡尔积 + 按同名列相等筛选 + 去掉重复列</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：①σ 是行、π 是列，<b>别写反</b>；②笛卡尔积行数 = m×n，列数 = 两表列数<b>之和</b>；③投影运算可能<b>去掉重复行</b>。</div>
+      <div class="tip">💡 口诀：<b>西格玛挑行，派挑列，连接按同名列；先连后选再投影（FROM → WHERE → SELECT）。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. SELECT name FROM Student WHERE age>20 等价的关系代数是？</summary>
+        <div class="ans"><p><b>π<sub>name</sub>(σ<sub>age&gt;20</sub>(Student))</b>。先 σ 挑行，再 π 挑列。</p></div>
+      </details>
+      <details class="q"><summary>2. 关系 R 有 3 行 4 列，S 有 4 行 5 列，R×S 的行数和列数是？</summary>
+        <div class="ans"><p>行 = 3×4 = <b>12</b>，列 = 4+5 = <b>9</b>。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 32,
+    category: "数据库",
+    title: "SQL 语言三大分类 · DDL / DML / DCL",
+    tags: ["SQL", "必背", "分类题"],
+    date: "2026-09-03",
+    content: `
+      <h4>三大分类速记</h4>
+      <div class="formula">DDL 管结构（建库建表）｜DML 管数据（增删改查）｜DCL 管权限（授权回收）</div>
+      <table>
+        <tr><th>分类</th><th>全称</th><th>命令</th><th>一句话</th></tr>
+        <tr><td><b>DDL</b></td><td>数据定义语言</td><td><span class="key">CREATE / ALTER / DROP</span></td><td>搭房子：建库、建表、建视图、改结构</td></tr>
+        <tr><td><b>DML</b></td><td>数据操纵语言</td><td><span class="key">INSERT / UPDATE / DELETE / SELECT</span></td><td>住房子：对表里的数据增删改查</td></tr>
+        <tr><td><b>DCL</b></td><td>数据控制语言</td><td><span class="key">GRANT / REVOKE</span></td><td>发钥匙：授权、收回权限</td></tr>
+      </table>
+
+      <h4>SQL 必背语法骨架（下午大题模板）</h4>
+      <pre><code>-- 建表（DDL）：主键 + 外键约束是下午题必写
+CREATE TABLE SC(
+  sno CHAR(8),
+  cno CHAR(6),
+  grade INT,
+  PRIMARY KEY (sno, cno),                    -- 组合主键
+  FOREIGN KEY (sno) REFERENCES Student(sno)  -- 外键
+);
+
+-- 查询骨架（DML）：下午题第 2~3 题核心
+SELECT 列, 聚合函数
+FROM 表1, 表2
+WHERE 表1.外键 = 表2.主键        -- 多表连接条件
+  AND 行过滤条件
+GROUP BY 分组列
+HAVING 组过滤条件;               -- 带聚合函数的条件只能用 HAVING
+
+-- 权限（DCL）
+GRANT SELECT ON 表 TO 用户 WITH GRANT OPTION;  -- 允许转授
+REVOKE SELECT ON 表 FROM 用户;                 -- 收回</code></pre>
+
+      <h4>WHERE vs HAVING（高频易混）</h4>
+      <ul>
+        <li><b>WHERE</b>：过滤<b>原始行</b>，<b>不能用聚合函数</b></li>
+        <li><b>HAVING</b>：过滤<b>分组后的结果</b>，可以带聚合函数（如 HAVING AVG(grade)&gt;80）</li>
+        <li>执行顺序：<b>WHERE → GROUP BY → HAVING</b></li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：①SELECT 考试归 <b>DML</b>（操纵数据）；②TRUNCATE 清空表属于 <b>DDL</b> 不是 DML；③WHERE 里写 AVG() 直接错——聚合条件必须放 <b>HAVING</b>；④GRANT 带 <b>WITH GRANT OPTION</b> 才允许把权限再转授给别人。</div>
+      <div class="tip">💡 口诀：<b>DDL 定义建表忙，DML 增删改查上，DCL 授权管门房；行条件 WHERE，组条件 HAVING。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. DROP、GRANT、UPDATE 分别属于哪类 SQL 语言？</summary>
+        <div class="ans"><p>DROP → <b>DDL</b>，GRANT → <b>DCL</b>，UPDATE → <b>DML</b>。</p></div>
+      </details>
+      <details class="q"><summary>2. 查询平均成绩大于 80 的学生学号，聚合条件应写在哪个子句？</summary>
+        <div class="ans"><p><b>HAVING</b>。聚合函数条件不能放 WHERE；顺序：WHERE 筛行 → GROUP BY 分组 → HAVING 筛组。</p></div>
+      </details>
+      <details class="q"><summary>3. 授权用户 A 查询权限并允许 A 转授给他人，语句怎么写？</summary>
+        <div class="ans"><p>GRANT SELECT ON 表 TO A <b>WITH GRANT OPTION</b>。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 33,
+    category: "数据库",
+    title: "备份方式对比 · 冷/热备份 与 完全/差量/增量",
+    tags: ["备份恢复", "必考", "对比题"],
+    date: "2026-09-03",
+    content: `
+      <h4>冷备份 vs 热备份（按"停不停机"分）</h4>
+      <table>
+        <tr><th>对比项</th><th>冷备份（离线备份）</th><th>热备份（在线备份）</th></tr>
+        <tr><td>数据库状态</td><td><span class="key">关闭数据库后备份</span></td><td>数据库<b>运行中</b>备份</td></tr>
+        <tr><td>用户影响</td><td>期间用户不可用</td><td><b>不影响</b>业务运行</td></tr>
+        <tr><td>实现难度</td><td>简单可靠，恢复快</td><td>需归档日志配合，实现复杂</td></tr>
+      </table>
+
+      <h4>三种数据备份策略（按"备多少"分）</h4>
+      <table>
+        <tr><th>策略</th><th>备份内容</th><th>恢复方式</th><th>特点</th></tr>
+        <tr><td><b>完全备份</b></td><td>全部数据</td><td>只需最近一次完全备份</td><td>最慢、最占空间、最安全</td></tr>
+        <tr><td><b>增量备份</b></td><td>上次备份（<b>任意类型</b>）之后变化的数据</td><td>完全备份 + <span class="key">所有增量依次恢复</span></td><td>备份最快，恢复最麻烦，坏一个全完</td></tr>
+        <tr><td><b>差量备份</b></td><td>上次<b>完全备份</b>之后变化的数据</td><td>完全备份 + <span class="key">最后一个差量</span></td><td>介于两者之间，恢复只需 2 份</td></tr>
+      </table>
+
+      <h4>判断技巧</h4>
+      <ul>
+        <li>问"停机/关闭数据库才能做" → <b>冷备份</b></li>
+        <li>问"恢复时只需要两份数据（完全+一份）" → <b>差量备份</b></li>
+        <li>问"恢复时需要一串增量依次叠加" → <b>增量备份</b>；坏了中间任何一份，后面全部作废</li>
+      </ul>
+
+      <div class="warn">⚠ 易错点：①增量以"上次备份"为基准（可能是完全/差量/增量），差量以"上次<b>完全</b>备份"为基准——这是两者的本质区别；②差量 = 差异，只备份与最近一次完全备份的差异部分。</div>
+      <div class="tip">💡 口诀：<b>冷关机、热在线；完全备全量，增量接着上次备，差量认死完全备；增量恢复排长队，差量恢复一份配。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 周日做完全备份，周一至周六每天做增量备份，周六数据损坏，如何恢复？</summary>
+        <div class="ans"><p>恢复<b>周日完全备份 + 周一至周六全部增量</b>，按时间顺序依次叠加，缺一不可。</p></div>
+      </details>
+      <details class="q"><summary>2. 若把上题的增量备份改成差量备份，如何恢复？</summary>
+        <div class="ans"><p>只需<b>周日完全备份 + 周六最后一个差量备份</b>（差量已包含周一至周六相对周日的所有变化）。</p></div>
+      </details>
+      <details class="q"><summary>3. 不关闭数据库、不影响业务运行的备份方式是？</summary>
+        <div class="ans"><p><b>热备份</b>（在线备份）；冷备份需关闭数据库。</p></div>
+      </details>
+    `
+  },
+  {
+    id: 34,
+    category: "数据库",
+    title: "数据仓库与数据挖掘 · OLTP vs OLAP",
+    tags: ["数据仓库", "近年新宠", "概念题"],
+    date: "2026-09-03",
+    content: `
+      <h4>数据仓库四大特征（必背）</h4>
+      <div class="formula">面向主题的、集成的、<b>相对稳定（不可更新）</b>的、随时间变化的</div>
+      <ul>
+        <li><b>面向主题</b>：按分析主题（如"客户""销售"）组织数据，而非按业务流程</li>
+        <li><b>集成的</b>：把多个数据源的数据统一格式汇总进来</li>
+        <li><b>相对稳定</b>：只<b>增、查，不修改不删除</b>（不可更新）——最常考的一条</li>
+        <li><b>随时间变化</b>：数据带时间维度，反映历史变化趋势</li>
+      </ul>
+
+      <h4>OLTP vs OLAP 对比（高频选择题）</h4>
+      <table>
+        <tr><th>对比项</th><th>OLTP（联机事务处理）</th><th>OLAP（联机分析处理）</th></tr>
+        <tr><td>面向对象</td><td>操作人员 / 底层业务</td><td><span class="key">决策层 / 高层管理</span></td></tr>
+        <tr><td>功能</td><td>日常事务：增删改（记账、下单）</td><td>数据分析：汇总、多维分析、支持决策</td></tr>
+        <tr><td>数据</td><td>当前的、最新的明细数据</td><td><span class="key">历史的、 aggregated 汇总数据</span></td></tr>
+        <tr><td>数据库类型</td><td>传统关系数据库</td><td><b>数据仓库</b></td></tr>
+        <tr><td>典型问题</td><td>"今天这单谁买的"</td><td>"近三年各季度销量趋势"</td></tr>
+      </table>
+
+      <h4>数据挖掘四大任务（见到就归类）</h4>
+      <table>
+        <tr><th>任务</th><th>干啥</th><th>例子</th></tr>
+        <tr><td><b>分类</b></td><td>按已知标签归类（<b>有监督</b>）</td><td>判断客户是否流失（是/否）</td></tr>
+        <tr><td><b>聚类</b></td><td>无标签自动分组（<b>无监督</b>）</td><td>把客户按消费习惯分成几群</td></tr>
+        <tr><td><b>关联规则</b></td><td>找"一起出现"的规律</td><td>买啤酒的人常买尿布</td></tr>
+        <tr><td><b>预测/回归</b></td><td>预测连续数值</td><td>预测下月销售额</td></tr>
+      </table>
+
+      <div class="warn">⚠ 易错点：①数据仓库"相对稳定"指<b>不修改、不删除</b>，不是数据不变（会随时间增加）；②OLAP 用数据仓库，<b>OLTP 用普通数据库</b>，别配反；③分类有标签（监督）、聚类无标签（无监督）是经典辨析点。</div>
+      <div class="tip">💡 口诀：<b>仓库四性：主题、集成、稳定、随时间；OLTP 管日常事务，OLAP 助高层决策；分类有标签，聚类自动抱团。</b></div>
+
+      <h4>典型真题自测</h4>
+      <details class="q"><summary>1. 数据仓库最核心的特征（与普通数据库最大的区别）是？</summary>
+        <div class="ans"><p><b>相对稳定（不可更新）</b>——数据入库后基本不修改不删除，只做查询和汇总分析。</p></div>
+      </details>
+      <details class="q"><summary>2. 银行"分析近五年客户消费变化趋势以支持营销决策"属于 OLTP 还是 OLAP？</summary>
+        <div class="ans"><p><b>OLAP</b>。面向决策层、分析历史汇总数据、基于数据仓库；OLTP 处理日常事务操作。</p></div>
+      </details>
+      <details class="q"><summary>3. 将客户自动分成几个消费群组，事先没有类别标签，属于哪种数据挖掘任务？</summary>
+        <div class="ans"><p><b>聚类</b>（无监督）；若事先有"流失/不流失"标签再归类，则是分类。</p></div>
+      </details>
+    `
   }
 ];
 /* ═══════════════════════════════════════════════════════════════════ */
