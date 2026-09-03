@@ -117,9 +117,9 @@
   <div id="content"></div>
 
   <div class="pending" id="pending">
-    <b>📖 其余专题将逐个更新</b>
-    专题④《操作系统》正在路上——在对话里回复"下一个"即可生成下一篇精讲。<br>
-    每篇 = 白话讲解 + 真题演练（点开看逐步解答）+ 易错提醒，学完点"已吃透"打卡。
+    <b>🎉 8 大专题已全部更新完毕</b>
+    白话讲解 + 真题演练（点开看逐步解答）+ 易错提醒，逐个吃透后点"已吃透"打卡。<br>
+    全部学完后，配合《考前冲刺三件套》和错题笔记做最后一轮串联复习。
   </div>
 </div>
 
@@ -1130,11 +1130,976 @@ const TOPICS = [
   </ul>
   `
 },
-{ id: 4, title: "④ 操作系统", score: "上午 4~6 分", done: false },
-{ id: 5, title: "⑤ 数据库", score: "上午 4~6 分 + 下午 SQL 大题", done: false },
-{ id: 6, title: "⑥ 计算机组成", score: "上午 4~6 分", done: false },
-{ id: 7, title: "⑦ 程序设计语言", score: "上午 4~6 分", done: false },
-{ id: 8, title: "⑧ 法规产权 + 英语 + 杂项", score: "上午 ~8 分", done: false }
+{
+  id: 4, title: "④ 操作系统", score: "上午 4~6 分", done: true,
+  html: `
+  <h3>4.1 进程与线程 + 三态模型（概念地基）</h3>
+  <div class="explain">
+    <p><b>白话开场：</b>程序是躺在硬盘里的代码，<b>进程</b>是程序跑起来的一次"生命"——它是<b>资源分配的基本单位</b>。<b>线程</b>是进程里的一条干活流水线，是 <span class="key">CPU 调度的基本单位</span>。同一进程里的多个线程共享内存（省资源、切换快），但一个线程崩可能连累全家。</p>
+    <p><b>三态模型（必背转换图）：</b></p>
+    <pre><code>          ┌──时间片用完 / 被高优先级抢占──┐
+          ▼                              │
+      [ 就绪 ] ──── 被调度选中 ────▶ [ 运行 ]
+          ▲                              │
+          │ 等的东西来了(如IO完成)         │ 请求IO / 等资源
+          │                              ▼
+      [ 等待 ] ◀──────────────────── [ 运行 ]</code></pre>
+    <ul>
+      <li><b>就绪 → 运行</b>：被调度选中（万事俱备只欠 CPU）</li>
+      <li><b>运行 → 就绪</b>：时间片用完，或来了更高优先级进程（被"叫停换人"）</li>
+      <li><b>运行 → 等待</b>：主动要等东西（读文件、等输入）</li>
+      <li><b>等待 → 就绪</b>：等的东西到位了，但<b>不能直接变运行</b></li>
+    </ul>
+  </div>
+  <details class="ex"><summary>例题 1｜状态转换合法性判断（送分）</summary>
+    <div class="body">
+      <p class="q">判断下列转换是否可能：①等待 → 运行；②运行 → 等待；③就绪 → 等待；④等待 → 就绪。</p>
+      <div class="step"><b>①</b>✗——等待的进程必须先回<b>就绪</b>排队，不能一步跳到运行</div>
+      <div class="step"><b>②</b>✓——运行中请求 IO 主动挂起</div>
+      <div class="step"><b>③</b>✗——就绪态还没被运行，没有机会"发起"任何请求，不可能去等待</div>
+      <div class="step"><b>④</b>✓——IO 完成，回到就绪队列排队</div>
+      <p class="ansline">答案：✗ ✓ ✗ ✓（口诀：等待不能直接跑，就绪不能直接等）</p>
+    </div>
+  </details>
+  <details class="ex"><summary>例题 2｜进程与线程概念题</summary>
+    <div class="body">
+      <p class="q">判断：①线程是资源分配的基本单位；②同一进程的线程共享该进程的地址空间；③线程切换比进程切换开销小。</p>
+      <div class="step"><b>①</b>✗——<b>进程</b>才是资源分配的基本单位，线程只是<b>调度</b>的基本单位</div>
+      <div class="step"><b>②</b>✓——同进程线程共享内存、文件等资源，但每个线程有自己独立的栈和寄存器现场</div>
+      <div class="step"><b>③</b>✓——不用换地址空间，只换栈和寄存器，所以快</div>
+      <p class="ansline">答案：错 / 对 / 对</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①"资源分配基本单位"=进程、"调度基本单位"=线程，选项爱互换；②等待→就绪→运行是两步，等待→运行一步到位是错的；③引入线程后，进程只当"资源容器"。</div>
+
+  <h3>4.2 PV 操作与信号量（大头，几乎必考）</h3>
+  <div class="explain">
+    <p><b>信号量 S 就是一个计数器</b>，配两个原子操作：</p>
+    <div class="formula">P(S)：S = S − 1；若 S &lt; 0 → 进程阻塞排队<br>V(S)：S = S + 1；若 S ≤ 0 → 唤醒一个等待的进程</div>
+    <p><b>初值怎么定（考试就考这个）：</b></p>
+    <ul>
+      <li><b>互斥</b>（同一时刻只能一人用，如打印机）：初值 = <span class="key">1</span></li>
+      <li><b>同步</b>（n 个资源可用，如 n 个缓冲区）：初值 = <span class="key">n</span></li>
+    </ul>
+    <p><b>经典模板：生产者–消费者</b>（缓冲区容量 n，背下这套搭配）：</p>
+    <pre><code>信号量：empty = n（空格子数）、full = 0（产品数）、mutex = 1（互斥锁）
+
+生产者：                    消费者：
+P(empty)  // 有空格子吗？   P(full)   // 有产品吗？
+P(mutex)  // 上锁           P(mutex)  // 上锁
+放入产品                    取出产品
+V(mutex)  // 解锁           V(mutex)  // 解锁
+V(full)   // 产品+1         V(empty)  // 空格+1</code></pre>
+    <p><b>口诀：<span class="key">同步 P 在前、互斥 P 在后</span>。</b>先申请资源（P(empty)/P(full)）再上锁。顺序反了（先 P(mutex) 再 P(empty)）：缓冲区满时生产者拿着锁去等空格，消费者进不来取货 → 死锁。</p>
+  </div>
+  <details class="ex"><summary>例题 1｜信号量初值与当前值计算</summary>
+    <div class="body">
+      <p class="q">缓冲区容量为 30，生产者消费者共用。①empty、full、mutex 的初值分别是？②某时刻有 12 个产品，empty 的当前值是多少？</p>
+      <div class="step"><b>①</b>empty = 30（初始 30 个空格子）、full = 0（初始没产品）、mutex = 1（互斥）</div>
+      <div class="step"><b>②</b>12 个产品占了 12 个格子 → 剩 30 − 12 = <b>18</b> 个空格 → empty = 18</div>
+      <p class="ansline">答案：30 / 0 / 1；empty 当前值 = 18</p>
+    </div>
+  </details>
+  <details class="ex"><summary>例题 2｜P 操作顺序陷阱</summary>
+    <div class="body">
+      <p class="q">生产者把两个 P 写成：P(mutex) → P(empty)，当缓冲区已满时会发生什么？</p>
+      <div class="step"><b>推演</b>：缓冲区满 → empty = 0。生产者先 P(mutex) 拿到锁，再 P(empty) 阻塞——但它<b>手里还攥着锁</b>；消费者 P(full) 成功后要 P(mutex) 才能取货 → 被生产者锁死 → <b>死锁</b></div>
+      <p class="ansline">答案：死锁。必须先 P(empty)（申请资源）再 P(mutex)（上锁），即"同步在前、互斥在后"</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①V 操作<b>永远不会让进程阻塞</b>，只会唤醒；②mutex 的 P、V 必须成对出现在同一进程内，empty/full 可以跨进程配对；③"信号量 S 当前值 = −3"表示有 3 个进程在排队等待。</div>
+
+  <h3>4.3 死锁（公式计算 + 概念判断）</h3>
+  <div class="explain">
+    <p><b>死锁</b>：几个进程互相攥着对方要的资源，谁也不撒手，全体卡死。<b>四个必要条件</b>（缺一个都死不了锁）：</p>
+    <ul>
+      <li><b>互斥</b>：资源一次只能一人用</li>
+      <li><b>占有且等待</b>（请求保持）：攥着旧的还要新的</li>
+      <li><b>不可剥夺</b>：不能硬抢</li>
+      <li><b>环路等待</b>：你等我、我等你，绕成圈</li>
+    </ul>
+    <div class="formula">n 个进程，每个最多需要 k 个同类资源 → 系统<b>不死锁</b>最少需要资源数 = n × (k − 1) + 1</div>
+    <p><b>白话理解</b>：最坏情况是每个进程都拿到 k−1 个、就差 1 个——此时只要有 1 个多余资源，就能"点火"让某个进程跑完释放资源，全家得救。所以 n(k−1) 个是最危险的数量，再加 1 就安全。</p>
+    <p><b>处理策略四档：</b>死锁<b>预防</b>（提前破坏四个条件之一）→ 死锁<b>避免</b>（<b>银行家算法</b>：分配前算一算是否处于"安全状态"）→ 死锁<b>检测与解除</b>（先死锁再杀进程）→ 鸵鸟策略（假装没看见，Windows/Linux 实际这么干）。</p>
+  </div>
+  <details class="ex"><summary>例题 1｜最少资源数计算（公式直接套）</summary>
+    <div class="body">
+      <p class="q">系统有 3 个进程，每个进程最多需要 4 台打印机，系统至少配置几台打印机才能保证不发生死锁？</p>
+      <div class="step"><b>套公式</b>：n = 3，k = 4 → 3 × (4 − 1) + 1 = 3 × 3 + 1 = <b>10</b></div>
+      <div class="step"><b>验证</b>：若只有 9 台，最坏是每家分 3 台都差 1 台 → 全卡死；有 10 台时必有 1 家能凑齐 4 台跑完并释放</div>
+      <p class="ansline">答案：10 台</p>
+    </div>
+  </details>
+  <details class="ex"><summary>例题 2｜概念判断</summary>
+    <div class="body">
+      <p class="q">判断：①银行家算法属于死锁预防；②系统处于不安全状态就一定死锁；③破坏"互斥"条件对打印机可行。</p>
+      <div class="step"><b>①</b>✗——银行家算法是<b>死锁避免</b>（预防是静态破坏条件，避免是动态判断安全状态）</div>
+      <div class="step"><b>②</b>✗——不安全状态只是<b>可能</b>死锁，不是必然；但死锁一定是unsafe</div>
+      <div class="step"><b>③</b>✗——打印机的物理特性就是互斥的，破坏不了；能破坏的是"占有且等待"等条件（如一次性申请全部资源）</div>
+      <p class="ansline">答案：错 / 错 / 错</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①"必要条件"=死锁时一定同时成立，但四个都成立<b>不一定</b>真死锁；②银行家算法关键词是"避免"和"安全状态"，别选成"预防"；③反着出题："某系统有 11 台打印机、3 个进程各需 4 台"→ 11 ≥ 10 安全。④不安全 ⇏ 死锁，但死锁 ⇒ 不安全。</div>
+
+  <h3>4.4 页式存储与地址变换（计算题模板）</h3>
+  <div class="explain">
+    <p><b>白话开场：</b>内存被切成一样大的"格子"（页框），程序也切成同样大小的"页"，某一页可以放进任意一个页框——程序不用连续存放，彻底解决外部碎片。页与页框的对应关系记在<b>页表</b>里。</p>
+    <div class="formula">逻辑地址 = 页号 P + 页内偏移 W　　物理地址 = 块号 × 页大小 + W<br>页大小 4KB = 2¹² → 地址低 12 位是页内偏移，高位是页号</div>
+    <p><b>换算三步（照做不会错）：</b></p>
+    <ol>
+      <li>页号 = 逻辑地址 ÷ 页大小（取整）；偏移 = 逻辑地址 mod 页大小</li>
+      <li>拿页号查页表 → 得到物理块号</li>
+      <li>物理地址 = 块号 × 页大小 + 偏移</li>
+    </ol>
+    <p><b>快表 TLB：</b>页表放内存，取一个数据要"查页表 + 取数据"<b>两次访存</b>；快表是页表的 Cache，命中时一次访存搞定 → 提速。</p>
+  </div>
+  <details class="ex"><summary>例题 1｜逻辑地址 → 物理地址（手把手）</summary>
+    <div class="body">
+      <p class="q">页大小 1KB，某进程页表：页 0 → 块 5，页 1 → 块 10，页 2 → 块 3。逻辑地址 2500 对应的物理地址是多少？</p>
+      <div class="step"><b>第 1 步</b>：页大小 1KB = 1024 → 页号 = ⌊2500 / 1024⌋ = <b>2</b>，偏移 = 2500 mod 1024 = <b>452</b></div>
+      <div class="step"><b>第 2 步</b>：查页表，页 2 → 块 3</div>
+      <div class="step"><b>第 3 步</b>：物理地址 = 3 × 1024 + 452 = 3072 + 452 = <b>3524</b></div>
+      <p class="ansline">答案：3524</p>
+    </div>
+  </details>
+  <details class="ex"><summary>例题 2｜十六进制拆位 + 页内地址位数</summary>
+    <div class="body">
+      <p class="q">页大小 4KB，逻辑地址 2AB6H（十六进制），页内偏移是多少？页大小 8KB 时页内地址占几位二进制？</p>
+      <div class="step"><b>①</b>4KB = 4096 = 2¹² → 低 12 位（十六进制<b>低 3 位</b>）是偏移 → 2AB6H 的偏移 = <b>AB6H</b>（页号 = 2）</div>
+      <div class="step"><b>②</b>8KB = 8 × 1024 = 8192 = 2¹³ → 页内地址占 <b>13 位</b></div>
+      <p class="ansline">答案：AB6H；13 位</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①十六进制地址题先看页大小对应的位数（4KB=12 位=3 个十六进制位），低位抄下来就是偏移；②物理地址用<b>块号</b>乘页大小，别错用页号乘；③页式无外部碎片但有<b>内部碎片</b>（最后一页装不满），段式相反。</div>
+
+  <h3>4.5 页面置换算法（LRU/FIFO 模拟 + 缺页率）</h3>
+  <div class="explain">
+    <p>内存满了还想装新页，就得"腾地方"——挑一页换出去。考法：给一串页面访问序列，让你数缺页次数。</p>
+    <table>
+      <tr><th>算法</th><th>换谁走</th><th>要点</th></tr>
+      <tr><td><b>OPT 最佳</b></td><td>以后<b>最久不用的</b></td><td>理论最优但没法实现（要知道未来）</td></tr>
+      <tr><td><b>FIFO 先进先出</b></td><td>最早进来的</td><td>有 <span class="key">Belady 异常</span>：页框变多缺页反而可能变多</td></tr>
+      <tr><td><b>LRU 最近最久未用</b></td><td>最久没被访问的</td><td>看<b>过去</b>谁最久没动；性能接近 OPT，常考</td></tr>
+      <tr><td><b>CLOCK（NRU）</b></td><td>访问位为 0 的</td><td>环形扫描，近似 LRU，开销小</td></tr>
+    </table>
+    <div class="formula">缺页率 = 缺页次数 ÷ 访问总次数（每次<b>装入新页</b>都算缺页，包括刚开始的空框装入）</div>
+  </div>
+  <details class="ex"><summary>例题｜LRU 走一遍（数缺页）</summary>
+    <div class="body">
+      <p class="q">3 个页框（初始为空），访问序列：7、0、1、2、0、3、0、4。LRU 置换下缺页几次？缺页率？</p>
+      <div class="step"><b>①</b>7：缺页 → [7]　<b>②</b>0：缺页 → [7,0]　<b>③</b>1：缺页 → [7,0,1]</div>
+      <div class="step"><b>④</b>2：缺页，框满 → 最久没用的是 7 → 换 7 → [0,1,2]</div>
+      <div class="step"><b>⑤</b>0：命中（0 刚用过）→ 顺序变为 [1,2,0]　<b>⑥</b>3：缺页 → 最久未用是 1 → 换 1 → [2,0,3]</div>
+      <div class="step"><b>⑦</b>0：命中 → [2,3,0]　<b>⑧</b>4：缺页 → 最久未用是 2 → 换 2 → [3,0,4]</div>
+      <div class="step"><b>统计</b>：缺页 7 次、命中 1 次 → 缺页率 = 7/8 = <b>87.5%</b></div>
+      <p class="ansline">答案：缺页 7 次，缺页率 87.5%</p>
+      <div class="tip">💡 模拟技巧：LRU 每次访问后把该页"提到最前"；满框缺页时换"排最后"的那个。逐条写序列别心算。</div>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①初始为空时的装入<b>也算缺页</b>，别只数替换次数；②LRU 看"最后一次被访问的时间离现在最远"，FIFO 看"进来最早"——两者经常不同；③Belady 异常只属于 FIFO，是判断题的常客。</div>
+
+  <h3>4.6 文件管理（索引结点计算）</h3>
+  <div class="explain">
+    <p><b>文件物理结构三种：</b></p>
+    <ul>
+      <li><b>连续分配</b>：文件占连续盘块 → 支持<b>随机访问</b>、速度快，但难扩展、有外部碎片</li>
+      <li><b>链接分配</b>：盘块间用指针串联 → 免碎片、易扩展，但只能<b>顺序访问</b>（随机访问慢）</li>
+      <li><b>索引分配</b>：把所有块号集中登记在<b>索引块</b>里 → 既随机访问又易扩展，<b>Unix 采用</b></li>
+    </ul>
+    <p><b>索引结点计算题模板</b>（记住"一块能存几个块号"）：块大小 1KB、每个地址 4B → 一块能装 1024/4 = <b>256</b> 个块号。</p>
+    <div class="formula">10 个直接地址 + 1 个一级间接：文件最大 = 10 + 256 块<br>再加 1 个二级间接：+ 256 × 256 = 65536 块（一级间接块里的每个地址又指向一个装满块号的块）</div>
+  </div>
+  <details class="ex"><summary>例题｜索引结点：文件最大多大、访问要几次读盘</summary>
+    <div class="body">
+      <p class="q">Unix 文件系统：i 结点含 10 个直接地址、1 个一级间接、1 个二级间接。块 1KB，地址 4B。①文件最大占多少数据块？②访问二级间接下的某数据块，至少要读几次盘（不计 i 结点本身）？</p>
+      <div class="step"><b>①</b>一块存 1024/4 = 256 个地址 → 直接 10 + 一级 256 + 二级 256² = 10 + 256 + 65536 = <b>65802 块</b></div>
+      <div class="step"><b>②</b>二级间接路径：读"二级间接块"（1 次）→ 读"一级间接块"（1 次）→ 读数据块（1 次）= <b>3 次</b>；直接地址只要 1 次、一级间接 2 次</div>
+      <p class="ansline">答案：65802 块；3 次读盘</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①"一级/二级"数的是<b>间接层数</b>，读盘次数 = 层数 + 1（最后那次是数据块）；②题目说"不计读 i 结点"就别加；③FAT（文件分配表）属于<b>链接</b>分配的显式版本。</div>
+
+  <h3>4.7 作业与进程调度算法</h3>
+  <div class="explain">
+    <table>
+      <tr><th>算法</th><th>规则</th><th>特点</th></tr>
+      <tr><td><b>FCFS 先来先服务</b></td><td>排队，谁先来谁先跑</td><td>简单公平，但短作业被长作业"堵死"</td></tr>
+      <tr><td><b>SJF 短作业优先</b></td><td>谁运行时间短谁先</td><td><span class="key">平均等待时间最短</span>，但长作业可能饿死</td></tr>
+      <tr><td><b>优先级调度</b></td><td>按优先级</td><td>低优先级可能"饥饿"，可用老化解决</td></tr>
+      <tr><td><b>RR 时间片轮转</b></td><td>轮流跑一个时间片</td><td><b>响应快</b>，适合交互系统；时间片太大退化成 FCFS</td></tr>
+      <tr><td><b>高响应比 HRRN</b></td><td>响应比 = (等待 + 服务) ÷ 服务</td><td>等待越久响应比越高，兼顾长短作业</td></tr>
+    </table>
+    <p><b>周转时间</b> = 完成时间 − 到达时间；<b>带权周转时间</b> = 周转时间 ÷ 服务时间。</p>
+  </div>
+  <details class="ex"><summary>例题｜SJF 平均周转时间</summary>
+    <div class="body">
+      <p class="q">作业 A、B、C 同时到达，运行时间分别为 10、5、3 分钟，按 SJF 调度，平均周转时间是多少？</p>
+      <div class="step"><b>①排顺序</b>：短的先跑 → C(3) → B(5) → A(10)</div>
+      <div class="step"><b>②算完成时间</b>：C 第 3 分钟完成；B 第 3+5 = 8 分钟；A 第 8+10 = 18 分钟</div>
+      <div class="step"><b>③周转时间</b>（同时到达=完成时间）：3、8、18 → 平均 = (3+8+18)/3 = <b>29/3 ≈ 9.67 分钟</b></div>
+      <p class="ansline">答案：约 9.67 分钟（对比 FCFS 顺序 A→B→C 的平均 12 分钟，SJF 更优）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①"平均周转时间最短"的算法是 <b>SJF</b>；②RR 的时间片轮转<b>不适合</b>批处理系统（切换开销大）；③高响应比公式里"等待时间在分子"，等得越久越容易被选中。</div>
+
+  <h3>4.8 专题收尾 · 考前 60 秒速过</h3>
+  <ul>
+    <li><b>三态</b>：等待不能直接运行、就绪不能直接等待；进程=资源分配单位，线程=调度单位</li>
+    <li><b>PV</b>：互斥初值 1、同步初值 n；生产者消费者 empty=n/full=0/mutex=1；同步 P 在前互斥 P 在后</li>
+    <li><b>死锁</b>：四条件（互斥/占有等待/不可剥夺/环路）；不死锁最少资源 = n(k−1)+1；银行家算法=避免</li>
+    <li><b>页式</b>：物理地址 = 块号×页大小+偏移；4KB=12 位偏移；页式有内部碎片无外部碎片</li>
+    <li><b>置换</b>：LRU 换最久未用、FIFO 有 Belady 异常、OPT 理论最优；初始装入也算缺页</li>
+    <li><b>文件</b>：块 1KB 地址 4B → 一块 256 个地址；10 直接+一级+二级 = 10+256+256²；间接访问多读一层盘</li>
+    <li><b>调度</b>：SJF 平均周转最短、RR 响应快、响应比=(等待+服务)/服务</li>
+  </ul>
+  `
+},
+{
+  id: 5, title: "⑤ 数据库", score: "上午 4~6 分 + 下午 SQL 大题", done: true,
+  html: `
+  <h3>5.1 E-R 模型与关系模式转换（下午题地基）</h3>
+  <div class="explain">
+    <p><b>三个图形符号：</b>矩形 = <b>实体</b>（人、物、事）、椭圆 = <b>属性</b>（学号、姓名）、菱形 = <b>联系</b>（选修、属于）。</p>
+    <p><b>联系的三种类型（看几个对几个）：</b></p>
+    <div class="formula">1 : 1（一个对一个，如：班级 ↔ 班长）　1 : n（一个对多个，如：班级 ↔ 学生）　m : n（多对多，如：学生 ↔ 课程）</div>
+    <p><b>转关系模式（建表规则）——必考：</b></p>
+    <ul>
+      <li>每个<b>实体</b>单独建一张表（主键 = 实体自己的键）</li>
+      <li><b>1:1 联系</b>：并进任意一端表都行（把对方主键当外键）</li>
+      <li><b>1:n 联系</b>：并进 <b>n 端</b>的表（在 n 端加 1 端的主键当外键），如选课方向是学生→班级，班级号放学生表</li>
+      <li><span class="key">m:n 联系必须单独建表</span>：主键 = 两端主键的组合，再加联系自己的属性（如"选课"表 = 学号 + 课程号 + 成绩）</li>
+    </ul>
+  </div>
+  <details class="ex"><summary>例题｜学生-课程-选课建表</summary>
+    <div class="body">
+      <p class="q">学生（学号，姓名）、课程（课程号，课名），学生与课程之间是"选课"（m:n，含成绩属性）。要建几张表？分别是什么？</p>
+      <div class="step"><b>①</b>学生、课程各建一张 → 学生(学号, 姓名)、课程(课程号, 课名)</div>
+      <div class="step"><b>②</b>m:n 联系不能并进任何一端 → 单建"选课"表：<b>选课(学号, 课程号, 成绩)</b>，主键 = (学号, 课程号) 组合</div>
+      <p class="ansline">答案：3 张表。口诀：一对一随便并、一对多并多端、多对多必单建</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①m:n 联系并进实体表是<b>必错选项</b>；②联系本身有属性（成绩）时更要单建表；③主键判断：能<b>唯一</b>标识一行且不含多余属性（候选键可以有多个，选一个当主键）。</div>
+
+  <h3>5.2 关系代数（符号对号入座题）</h3>
+  <div class="explain">
+    <p>关系代数就是"用数学语言查表"，四个符号各管一件事：</p>
+    <table>
+      <tr><th>运算</th><th>符号</th><th>白话</th><th>结果</th></tr>
+      <tr><td><b>选择 σ</b></td><td>σ<sub>条件</sub>(R)</td><td><span class="key">挑行</span>（横向过滤）</td><td>满足条件的那些行</td></tr>
+      <tr><td><b>投影 π</b></td><td>π<sub>列名</sub>(R)</td><td><span class="key">挑列</span>（纵向抽取）</td><td>只留指定列</td></tr>
+      <tr><td><b>自然连接 ⋈</b></td><td>R ⋈ S</td><td><b>同名列相等</b>才拼起来</td><td>两张表按公共列拼接</td></tr>
+      <tr><td><b>除法 ÷</b></td><td>R ÷ S</td><td><span class="key">"全部包含"查询</span></td><td>R 中与 S 全部元素都相关的分量</td></tr>
+    </table>
+    <ul>
+      <li><b>自然连接易错点</b>：结果里<b>同名列只保留一列</b>；没有公共列时退化为笛卡尔积（行数 = R行数 × S行数）</li>
+      <li><b>除法标志词</b>：题目问"查询<b>选修了全部</b>课程的学生"、"被<b>所有</b>部门都雇用的员工" → 用 ÷</li>
+    </ul>
+  </div>
+  <details class="ex"><summary>例题｜自然连接手动算一遍</summary>
+    <div class="body">
+      <p class="q">R(A, B)：{(1,2), (3,4), (5,6)}；S(B, C)：{(2,7), (2,8), (4,9)}。求 R ⋈ S。</p>
+      <div class="step"><b>规则</b>：公共列是 B，B 值相等才拼接，结果只留一个 B 列</div>
+      <div class="step"><b>①</b>R 的 (1,2) ↔ S 中 B=2 的 (2,7)、(2,8) → 得 (1,2,7)、(1,2,8)</div>
+      <div class="step"><b>②</b>R 的 (3,4) ↔ S 中 B=4 的 (2,4？不对，是 (4,9)) → 得 (3,4,9)</div>
+      <div class="step"><b>③</b>R 的 (5,6)：S 中没有 B=6 → 拼不上，丢弃</div>
+      <p class="ansline">答案：{(1,2,7), (1,2,8), (3,4,9)}（共 3 行；R 中 B=6 那行没匹配上就消失）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①σ 是行、π 是列，符号别认反；②自然连接<b>去掉重复的同名列</b>，结果是 (A,B,C) 三列不是四列；③"选了全部课程"这种题选除法，选 σ 是错的。</div>
+
+  <h3>5.3 SQL 语句（下午大题 + 上午送分）</h3>
+  <div class="explain">
+    <p><b>SELECT 查询模板（背熟结构，下午题全靠它）：</b></p>
+    <pre><code>SELECT   列名1, 列名2          ← 要什么（投影）
+FROM     表1 JOIN 表2 ON 条件  ← 从哪来（连接）
+WHERE    行条件               ← 挑行（选择），不能用聚合函数
+GROUP BY 分组列               ← 按什么分组
+HAVING   组条件               ← 筛选"组"（可以用聚合函数！）
+ORDER BY 列 [ASC|DESC];       ← 排序（升/降序）</code></pre>
+    <ul>
+      <li><b>聚合函数</b>：COUNT（计数）、SUM（求和）、AVG（平均）、MAX、MIN</li>
+      <li><b>WHERE vs HAVING</b>：WHERE 管单行、不能带聚合函数；HAVING 管分组、<span class="key">能带聚合函数</span></li>
+      <li><b>模糊查询</b>：LIKE '%关键字%'（% 任意多字符，_ 单个字符）</li>
+      <li><b>判空</b>：IS NULL（不能写 = NULL）</li>
+    </ul>
+    <p><b>语句分类（判断题）：</b></p>
+    <table>
+      <tr><th>类别</th><th>关键词</th><th>白话</th></tr>
+      <tr><td><b>DDL 数据定义</b></td><td><span class="key">CREATE / ALTER / DROP</span></td><td>建表改表删表（改的是"结构"）</td></tr>
+      <tr><td><b>DML 数据操纵</b></td><td>INSERT / UPDATE / DELETE / SELECT</td><td>增删改查"数据"</td></tr>
+      <tr><td><b>DCL 数据控制</b></td><td>GRANT / REVOKE</td><td>授权收权</td></tr>
+    </table>
+  </div>
+  <details class="ex"><summary>例题 1｜写一条统计查询（下午题模板）</summary>
+    <div class="body">
+      <p class="q">学生表 Student(Sno, Sname)，选课表 SC(Sno, Cno, Grade)。查询平均分超过 80 分的学生学号和平均分。</p>
+      <div class="step"><b>①要什么</b>：学号 + 平均分 → SELECT Sno, AVG(Grade)</div>
+      <div class="step"><b>②从哪来</b>：只需 SC 表（不用连接）</div>
+      <div class="step"><b>③分组</b>：按学生分组 → GROUP BY Sno</div>
+      <div class="step"><b>④筛组</b>："平均分超 80"是对组的条件、带聚合 → HAVING AVG(Grade) &gt; 80</div>
+      <pre><code>SELECT Sno, AVG(Grade) FROM SC GROUP BY Sno HAVING AVG(Grade) &gt; 80;</code></pre>
+      <p class="ansline">答案：如上（重点：聚合条件必须写 HAVING 不能写 WHERE）</p>
+    </div>
+  </details>
+  <details class="ex"><summary>例题 2｜语句分类快答</summary>
+    <div class="body">
+      <p class="q">①DROP TABLE ②GRANT SELECT ③UPDATE ④ALTER TABLE，各属于哪类？</p>
+      <div class="step"><b>①</b>删表结构 → DDL　<b>②</b>授权 → DCL　<b>③</b>改数据 → DML　<b>④</b>改表结构 → DDL</div>
+      <p class="ansline">答案：DDL / DCL / DML / DDL（分辨口诀：动"结构"是 DDL，动"数据"是 DML，管"权限"是 DCL）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①HAVING 里放聚合、WHERE 里放聚合必错；②主键定义：PRIMARY KEY；外键：FOREIGN KEY…REFERENCES…（下午题填空高频）；③DISTINCT 去重复行；④建视图用 CREATE VIEW，查询视图和查表一样。</div>
+
+  <h3>5.4 范式与候选键（概念 + 计算都有）</h3>
+  <div class="explain">
+    <p><b>先会找候选键（解题第一步）：</b>把所有函数依赖画出来，<b>只在箭头左边出现、从不在右边出现过的属性</b>，一定在候选键里——拿它当起点，看能不能推出全部属性。</p>
+    <p><b>范式从松到紧（后一级包含前一级）：</b></p>
+    <table>
+      <tr><th>范式</th><th>要求</th><th>白话</th></tr>
+      <tr><td><b>1NF</b></td><td>列不可再分</td><td>每个格子只能放一个值（关系数据库最低要求）</td></tr>
+      <tr><td><b>2NF</b></td><td>消除<b>部分函数依赖</b></td><td>非主属性不能只依赖"主键的一半"（针对组合主键）</td></tr>
+      <tr><td><b>3NF</b></td><td>消除<b>传递依赖</b></td><td>非主属性之间不能"拐弯依赖"主键</td></tr>
+      <tr><td><b>BCNF</b></td><td>每个决定因素都包含候选键</td><td>更严的 3NF，消除了主属性的问题</td></tr>
+    </table>
+    <p><b>传递依赖经典例</b>：学生(学号 → 系名，系名 → 系主任)——系主任"拐了个弯"（学号→系→系主任）→ 不满足 3NF，拆成"学生表"和"系表"两步走。</p>
+    <p><b>为什么拆表（规范化目的）</b>：消除插入异常、删除异常、<b>数据冗余</b>和更新异常。</p>
+  </div>
+  <details class="ex"><summary>例题 1｜找候选键 + 判断范式</summary>
+    <div class="body">
+      <p class="q">R(学号, 课程号, 成绩, 学分)，依赖：课程号 → 学分，(学号, 课程号) → 成绩。①候选键是什么？②它最高满足第几范式？</p>
+      <div class="step"><b>①</b>"学号、课程号"只在箭头左边出现 → 候选键 = <b>(学号, 课程号)</b>，恰好能推出成绩和学分，齐了</div>
+      <div class="step"><b>②</b>学分只依赖课程号——课程号只是组合主键的"一半" → <b>部分函数依赖</b> → 只满足 1NF，不满足 2NF</div>
+      <div class="step"><b>③</b>分解：SC(学号, 课程号, 成绩) + C(课程号, 学分) → 都达到 2NF 及以上</div>
+      <p class="ansline">答案：候选键 (学号, 课程号)；最高 1NF（存在部分依赖）</p>
+    </div>
+  </details>
+  <details class="ex"><summary>例题 2｜传递依赖判断</summary>
+    <div class="body">
+      <p class="q">R(员工号, 部门, 部门电话)，员工号 → 部门，部门 → 部门电话。最高满足几范式？怎么改？</p>
+      <div class="step"><b>判断</b>：员工号 → 部门 → 部门电话，部门电话"拐弯"依赖主键 → 传递依赖 → 满足 2NF 但<b>不满足 3NF</b></div>
+      <div class="step"><b>改法</b>：拆成 员工(员工号, 部门) + 部门(部门, 部门电话)</div>
+      <p class="ansline">答案：2NF；拆掉传递依赖即达 3NF</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①部分依赖只在<b>组合主键</b>下出现（单属性主键天然满足 2NF）；②3NF 消除的是"非主属性通过另一个非主属性传递依赖主键"；③范式越高表越多、查表要连接——<b>不是越高越好</b>，要权衡。</div>
+
+  <h3>5.5 事务与并发控制（ACID + 三大读问题）</h3>
+  <div class="explain">
+    <p><b>事务 = 一组"要么全做、要么全不做"的操作</b>（如转账：扣款 + 入账必须同生共死）。</p>
+    <div class="formula">ACID：原子性 Atomicity（全做或全不做）｜一致性 Consistency（账目守恒）<br>隔离性 Isolation（互不干扰）｜持久性 Durability（提交了就永久生效）</div>
+    <p><b>并发不改锁会出的三类问题（场景判断题）：</b></p>
+    <table>
+      <tr><th>问题</th><th>场景</th><th>记忆点</th></tr>
+      <tr><td><b>丢失更新</b></td><td>A、B 同时改同一数据，<b>后写的覆盖先写的</b></td><td>两个"写"相撞</td></tr>
+      <tr><td><b>读脏数据</b></td><td>A 改了还没提交，B 读走；A 又<b>回滚</b>了 → B 读到的是废数据</td><td>读了"未提交"的数据</td></tr>
+      <tr><td><b>不可重复读</b></td><td>A 两次读同一数据，<b>中间被 B 改了</b> → 两次结果不一样</td><td>读了"被提交修改"的数据</td></tr>
+    </table>
+    <p><b>锁机制：</b></p>
+    <ul>
+      <li><b>S 锁（共享锁/读锁）</b>：上锁后<b>别人只能读不能写</b>（可以多人同时持有 S 锁）</li>
+      <li><b>X 锁（排他锁/写锁）</b>：上锁后<b>别人读写都不行</b>（独占）</li>
+      <li><b>两段锁协议</b>：先集中加锁、再集中解锁（加完锁才开始解锁，不能反悔）→ 保证<b>可串行化</b>，但<b>不能防止死锁</b></li>
+    </ul>
+  </div>
+  <details class="ex"><summary>例题｜场景判断问题类型 + 选锁</summary>
+    <div class="body">
+      <p class="q">①事务 T1 修改余额为 1000 未提交，T2 读到 1000，随后 T1 回滚为 500；②T1 读余额后，T2 把它改了并提交，T1 再读发现值变了。各是什么问题？③"T2 要读"应加什么锁？</p>
+      <div class="step"><b>①</b>读到的是<b>回滚掉的未提交数据</b> → 读脏数据</div>
+      <div class="step"><b>②</b>两次读结果不同（都是已提交数据）→ 不可重复读</div>
+      <div class="step"><b>③</b>只读 → 加 <b>S 锁</b>（共享锁）；若要改才加 X 锁</div>
+      <p class="ansline">答案：读脏数据 / 不可重复读 / S 锁</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①区分脏读和不可重复读的关键——脏读的数据<b>根本没提交</b>（作废了）；②两段锁保证"可串行化"但<b>不防死锁</b>（这是最爱考的反转）；③持久性靠日志 + 备份保障，隔离性靠锁。</div>
+
+  <h3>5.6 完整性约束与安全性</h3>
+  <div class="explain">
+    <p><b>三类完整性（对号入座）：</b></p>
+    <table>
+      <tr><th>约束</th><th>管什么</th><th>例子</th></tr>
+      <tr><td><b>实体完整性</b></td><td><span class="key">主键</span>非空且唯一</td><td>学号不能是 NULL</td></tr>
+      <tr><td><b>参照完整性</b></td><td><span class="key">外键</span>要么为空、要么在主表里存在</td><td>选课表里的学号必须是学生表已有的</td></tr>
+      <tr><td><b>用户自定义完整性</b></td><td>业务规则</td><td>CHECK (成绩 BETWEEN 0 AND 100)</td></tr>
+    </table>
+    <p><b>安全性手段（从外到内）：</b>用户标识鉴别（用户名密码）→ <b>存取控制 GRANT/REVOKE</b>（授权收权）→ 视图（把敏感列藏起来）→ 审计（记流水账）→ 数据加密。其中<b>视图</b>还负责"逻辑独立性 + 简化查询"。</p>
+  </div>
+  <details class="ex"><summary>例题｜约束与安全对号入座</summary>
+    <div class="body">
+      <p class="q">①"选课表的外键学号必须在学生表中存在"是什么约束？②"只允许用户 U 查询成绩表，不允许修改"该用什么？③"工资 &gt;= 0"呢？</p>
+      <div class="step"><b>①</b>外键约束 → <b>参照完整性</b></div>
+      <div class="step"><b>②</b>授权 → GRANT SELECT ON 成绩 TO U（收权用 REVOKE）</div>
+      <div class="step"><b>③</b>业务规则 → 用户自定义完整性（CHECK）</div>
+      <p class="ansline">答案：参照完整性 / GRANT 授权 / 用户自定义完整性</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①主键约束自动"非空 + 唯一"；②外键可以是 NULL（还没选课的学生记录）；③视图是<b>虚拟表</b>（不存数据），提供逻辑独立性。</div>
+
+  <h3>5.7 故障恢复与备份（概念题）</h3>
+  <div class="explain">
+    <ul>
+      <li><b>故障类型</b>：事务故障（某事务出错）→ 系统故障（断电，内存丢、硬盘在）→ 介质故障（磁盘坏了，最严重）</li>
+      <li><b>恢复两大法宝</b>：<b>数据备份（转储）</b> + <b>日志</b>。日志必须<b>先写日志、后写数据库</b>（WAL 原则）</li>
+      <li><b>检查点</b>：定期在日志里"存档记号"→ 故障后不用从头扫日志，从最近的检查点恢复，提速</li>
+      <li><b>备份三兄弟</b>：
+        <ul>
+          <li><b>完全备份</b>：全部拷一遍（恢复最快、备份最慢最大）</li>
+          <li><b>差分备份</b>：备份"<b>自上次完全备份以来</b>"变化的数据</li>
+          <li><b>增量备份</b>：备份"<b>自上次任意备份以来</b>"变化的数据</li>
+        </ul>
+      </li>
+    </ul>
+  </div>
+  <details class="ex"><summary>例题｜备份策略判断</summary>
+    <div class="body">
+      <p class="q">①周一完全备份，周二只备份周一以来变化的数据，这是哪种备份？②数据库断电重启后，用日志把"已提交未写入磁盘"的事务重做一遍，这叫什么操作？</p>
+      <div class="step"><b>①</b>基准是"上次完全备份" → <b>差分备份</b>（增量备份的基准是"上次任意备份"）</div>
+      <div class="step"><b>②</b>重做（REDO）——对已提交事务"重放"；撤销（UNDO）则是对未提交事务"擦除"</div>
+      <p class="ansline">答案：差分备份；REDO 重做</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①差分 vs 增量只看基准——"相对上次完全备份"=差分，"相对上次任意备份"=增量；②已提交 → REDO，未提交 → UNDO，方向别反；③介质故障最严重，恢复要靠备份 + 日志。</div>
+
+  <h3>5.8 专题收尾 · 考前 60 秒速过</h3>
+  <ul>
+    <li><b>E-R</b>：矩形实体、椭圆属性、菱形联系；m:n 联系必须单建表，1:n 并进 n 端</li>
+    <li><b>关系代数</b>：σ 挑行、π 挑列、⋈ 同名列相等拼接且去重、"全部包含"用 ÷</li>
+    <li><b>SQL</b>：聚合条件用 HAVING；CREATE/ALTER/DROP=DDL，INSERT/UPDATE/DELETE=DML，GRANT=DCL</li>
+    <li><b>范式</b>：先找候选键（只出现在左边的属性）；部分依赖挡 2NF、传递依赖挡 3NF</li>
+    <li><b>事务</b>：ACID；脏读=未提交、不可重复读=两次读不一致、丢失更新=写覆盖；两段锁不防死锁</li>
+    <li><b>完整性</b>：主键=实体、外键=参照、CHECK=用户自定义</li>
+    <li><b>备份</b>：先写日志后写库；已提交 REDO 未提交 UNDO；差分基准=上次完全、增量基准=上次任意</li>
+  </ul>
+  `
+},
+{
+  id: 6, title: "⑥ 计算机组成", score: "上午 4~6 分", done: true,
+  html: `
+  <h3>6.1 CPU 组成（寄存器对号入座题）</h3>
+  <div class="explain">
+    <p><b>CPU 两大部门 + 一个关键寄存器阵营：</b></p>
+    <table>
+      <tr><th>部门</th><th>成员</th><th>职责</th></tr>
+      <tr><td rowspan="4"><b>运算器</b><br>（干活）</td><td><b>ALU</b></td><td>算术逻辑运算的车间</td></tr>
+      <tr><td><b>ACC 累加器</b></td><td>暂存运算结果</td></tr>
+      <tr><td><b>PSW 状态寄存器</b></td><td>存标志位（进位、溢出、零标志）</td></tr>
+      <tr><td>DR 数据寄存器</td><td>暂存数据</td></tr>
+      <tr><td rowspan="4"><b>控制器</b><br>（指挥）</td><td><span class="key">PC 程序计数器</span></td><td>存<b>下一条</b>指令的地址（自动 +1）</td></tr>
+      <tr><td><span class="key">IR 指令寄存器</span></td><td>存<b>当前正在执行</b>的指令</td></tr>
+      <tr><td>ID 指令译码器</td><td>翻译指令是什么意思</td></tr>
+      <tr><td>MAR / MDR</td><td>内存地址寄存器 / 内存数据寄存器</td></tr>
+    </table>
+    <p><b>区分口诀：</b><span class="key">PC 存"下一家"地址，IR 存"手里"指令</span>。取指后 PC 自动指向下一条，支持转移指令时 PC 改填跳转地址。</p>
+  </div>
+  <details class="ex"><summary>例题｜寄存器作用判断</summary>
+    <div class="body">
+      <p class="q">①保存当前正在执行的指令的是？②保存下一条指令地址的是？③属于运算器的是：PC / ACC / IR？</p>
+      <div class="step"><b>①</b>IR（指令寄存器）——指令取回来先放这，交给译码器翻译</div>
+      <div class="step"><b>②</b>PC（程序计数器）</div>
+      <div class="step"><b>③</b><b>ACC</b> 属于运算器；PC、IR 都属于控制器</div>
+      <p class="ansline">答案：IR / PC / ACC</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①PC 和 IR 的功能是选择题最爱互换的坑；②PSW 里的"溢出标志"是判断运算是否溢出的依据；③程序计数器决定"程序执行顺序"。</div>
+
+  <h3>6.2 寻址方式（速度与范围的天平）</h3>
+  <div class="explain">
+    <p><b>寻址方式 = 去哪找操作数。</b>考法：给场景选方式，或问"哪种最快/范围最大"。</p>
+    <table>
+      <tr><th>方式</th><th>操作数在哪</th><th>特点</th></tr>
+      <tr><td><b>立即寻址</b></td><td>就在指令里</td><td><span class="key">最快</span>（不用再找），但数值受指令长度限制</td></tr>
+      <tr><td><b>直接寻址</b></td><td>地址在指令里</td><td>慢一点（要访存一次）</td></tr>
+      <tr><td><b>间接寻址</b></td><td>地址的地址在指令里</td><td><span class="key">最慢</span>（两次访存），但<b>扩大寻址范围</b></td></tr>
+      <tr><td><b>寄存器寻址</b></td><td>操作数在寄存器里</td><td>快（不访存）</td></tr>
+      <tr><td><b>寄存器间接寻址</b></td><td>寄存器里放的是地址</td><td>要访存一次取数</td></tr>
+      <tr><td><b>基址寻址</b></td><td>基址寄存器 + 偏移</td><td><b>面向操作系统</b>：程序重定位、多道程序</td></tr>
+      <tr><td><b>变址寻址</b></td><td>变址寄存器 + 偏移</td><td><b>面向用户</b>：数组循环遍历（改变址值扫数组）</td></tr>
+      <tr><td><b>相对寻址</b></td><td>PC + 偏移</td><td>转移指令常用，程序搬移后仍正确</td></tr>
+    </table>
+    <p><b>一句话分基址 vs 变址：</b><span class="key">基址给系统搬家用（基址不变程序动），变址给用户数数组（偏移不变变址动）</span>。</p>
+  </div>
+  <details class="ex"><summary>例题｜场景选寻址方式</summary>
+    <div class="body">
+      <p class="q">①指令中直接给出操作数本身；②遍历数组元素；③操作数地址的地址放在寄存器里。各是什么寻址？</p>
+      <div class="step"><b>①</b>操作数就在指令里 → <b>立即寻址</b>（速度最快）</div>
+      <div class="step"><b>②</b>数组地址规律递增 → <b>变址寻址</b>（基址/偏移不变，变址寄存器逐次 +1）</div>
+      <div class="step"><b>③</b>寄存器里存的是地址不是数据 → <b>寄存器间接寻址</b>（还要访存一次）</div>
+      <p class="ansline">答案：立即寻址 / 变址寻址 / 寄存器间接寻址</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①"扩大寻址范围"是间接寻址的招牌；②立即寻址最快、间接寻址最慢（速度天梯：立即 &gt; 寄存器 &gt; 直接 &gt; 间接）；③基址/变址别记反——基址寄存器由系统管理，变址寄存器面向用户。</div>
+
+  <h3>6.3 指令流水线（必考计算）</h3>
+  <div class="explain">
+    <p><b>白话开场：</b>流水线 = 工厂流水线——第一条指令还没做完，第二条就开始了。每条指令经过 k 段（取指、译码、执行……），每段耗时 Δt。</p>
+    <div class="formula">流水线执行 n 条指令总时间 = (k + n − 1) × Δt<br>吞吐率 TP = n / (k + n − 1)Δt　　加速比 S = kn / (k + n − 1)</div>
+    <p><b>公式由来（理解着背）：</b>第一条指令完整走 k 段用 kΔt；之后<b>每过一个 Δt 就"吐出"一条</b>指令，n−1 条再耗 (n−1)Δt → 共 (k+n−1)Δt。</p>
+    <p><b>流水线冲突三兄弟：</b><b>资源冲突</b>（抢同一个部件）、<b>数据冲突</b>（后一条要用前一条的结果，需暂停等待）、<b>控制冲突</b>（遇到转移指令，不知跳哪）。</p>
+  </div>
+  <details class="ex"><summary>例题 1｜流水线总时间（送分模板）</summary>
+    <div class="body">
+      <p class="q">指令分 5 段，每段 1ns，用流水线执行 10 条指令，总时间是多少？</p>
+      <div class="step"><b>套公式</b>：(k + n − 1) × Δt = (5 + 10 − 1) × 1 = <b>14ns</b></div>
+      <div class="step"><b>对比不流水</b>：10 × 5 × 1 = 50ns → 加速明显</div>
+      <p class="ansline">答案：14ns</p>
+    </div>
+  </details>
+  <details class="ex"><summary>例题 2｜吞吐率与加速比</summary>
+    <div class="body">
+      <p class="q">同上条件：吞吐率和加速比各是多少？n 很大时吞吐率趋近多少？</p>
+      <div class="step"><b>吞吐率</b>：TP = 10 / 14 ≈ 0.71 条/ns</div>
+      <div class="step"><b>加速比</b>：S = 5 × 10 / 14 ≈ 3.57</div>
+      <div class="step"><b>极限</b>：n → ∞ 时 TP → 1/Δt（每 Δt 吐一条），S → k（最多加速 k 倍）</div>
+      <p class="ansline">答案：0.71 条/ns；3.57；极限吞吐率 1/Δt、极限加速 k 倍</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①公式是 (k + n − 1) 不是 (k + n)；②加速比最多接近 k（段数），不可能无限加速；③遇到转移（跳转）指令最可能引发<b>控制冲突</b>。</div>
+
+  <h3>6.4 存储层次与 Cache（命中率计算必考）</h3>
+  <div class="explain">
+    <p><b>存储金字塔：</b>寄存器 → Cache → 内存 → 外存，从上到下<b>越往下越大越慢越便宜</b>。Cache 能加速全靠<b>局部性原理</b>：刚用过的东西（时间局部性）和它旁边的东西（空间局部性）马上还会被用到。</p>
+    <div class="formula">平均访问时间（同时访问方式）= h × t<sub>c</sub> + (1 − h) × t<sub>m</sub><br>h = 命中率，t<sub>c</sub> = Cache 访问时间，t<sub>m</sub> = 内存访问时间</div>
+    <p><b>映射方式（决定主存块放 Cache 哪）：</b></p>
+    <ul>
+      <li><b>直接映射</b>：每个主存块只能进固定一行 → 硬件简单，但<b>冲突率高</b></li>
+      <li><b>全相联</b>：想放哪行放哪行 → 最灵活、冲突最少，但<b>比较电路太贵</b></li>
+      <li><b>组相联</b>：先分组、组内随便放 → 前两者的折中，<b>实际最常用</b></li>
+    </ul>
+    <p><b>Cache 与主存的交换单位是"块（行）"</b>；Cache 内容是主存内容的副本，由硬件自动调度，<b>对程序员透明</b>。</p>
+  </div>
+  <details class="ex"><summary>例题｜平均访问时间</summary>
+    <div class="body">
+      <p class="q">Cache 存取周期 20ns，主存 200ns，命中率 90%。CPU 平均访问时间是多少？</p>
+      <div class="step"><b>套公式</b>：0.9 × 20 + (1 − 0.9) × 200 = 18 + 20 = <b>38ns</b></div>
+      <div class="step"><b>另一种出法</b>（先 Cache 后主存）：未命中时也先花一次 Cache 时间 → 0.9 × 20 + 0.1 × (20 + 200) = 18 + 22 = 40ns——看清题目用哪种</div>
+      <p class="ansline">答案：38ns（同时访问方式）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①两种平均访问时间公式（未命中是否再花 Cache 时间）按题意选；②Cache 对程序员/编译器<b>透明</b>；③"组相联"是冲突率与成本的折中，不是最灵活也不是最简单。</div>
+
+  <h3>6.5 磁盘存取时间（小计算）</h3>
+  <div class="explain">
+    <div class="formula">磁盘存取时间 = 寻道时间（磁头移到磁道）+ 旋转延迟（等目标扇区转到磁头下）+ 传输时间（读写数据）</div>
+    <p><b>旋转延迟的算法：</b>磁盘每转一圈 r 转/分 → 转一圈要 60/r 秒 → <span class="key">平均旋转延迟 = 半圈 = 60/(2r)</span> 秒。</p>
+    <p>磁盘还有<b>单缓冲/双缓冲</b>读取计算题（配合专题⑧的多媒体看），核心：双缓冲能边读边处理，总时间 ≈ 连续读盘时间 + 一块处理时间。</p>
+  </div>
+  <details class="ex"><summary>例题｜平均旋转延迟</summary>
+    <div class="body">
+      <p class="q">磁盘转速 6000 转/分，平均旋转延迟是多少毫秒？</p>
+      <div class="step"><b>①</b>6000 转/分 → 100 转/秒 → 转一圈 10ms</div>
+      <div class="step"><b>②</b>平均等半圈 → 10 / 2 = <b>5ms</b></div>
+      <p class="ansline">答案：5ms（再叠加寻道时间和传输时间才是总存取时间）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①平均旋转延迟是<b>半圈</b>，最大才是整圈；②寻道时间通常<b>远大于</b>旋转延迟，是磁盘慢的主因；③单位换算：转/分 ÷ 60 = 转/秒。</div>
+
+  <h3>6.6 校验码：奇偶、海明、CRC（计算题三连）</h3>
+  <div class="explain">
+    <table>
+      <tr><th>校验码</th><th>能力</th><th>原理</th></tr>
+      <tr><td><b>奇偶校验</b></td><td>只能<b>检 1 位错</b>，<b>不能纠错</b></td><td>让整个码字 1 的个数为奇（奇校验）/偶（偶校验）</td></tr>
+      <tr><td><b>海明码</b></td><td><span class="key">既能检错又能纠 1 位错</span></td><td>k 个校验位安插在 2 的幂次位置</td></tr>
+      <tr><td><b>CRC 循环冗余</b></td><td>检错强（不纠错）</td><td>模 2 除法（异或运算）求余数作校验位</td></tr>
+    </table>
+    <div class="formula">海明码位数关系：2<sup>k</sup> ≥ n + k + 1（n = 信息位数，k = 校验位数）<br>CRC：信息码左移 r 位（r = 生成多项式最高次幂），对生成多项式做<b>模 2 除法</b>，余数就是校验位</div>
+    <p><b>模 2 除法白话</b>：跟普通除法一样上商，但"借位减法"换成"<b>异或</b>"——上商规则：首位是 1 商 1，首位是 0 商 0，不借位。</p>
+  </div>
+  <details class="ex"><summary>例题 1｜海明码需要几位校验位</summary>
+    <div class="body">
+      <p class="q">信息位 4 位，用海明码校验至少需要几位？信息位 8 位呢？</p>
+      <div class="step"><b>①</b>试 k=3：2³ = 8 ≥ 4 + 3 + 1 = 8 ✓ → 需要 <b>3 位</b></div>
+      <div class="step"><b>②</b>试 k=4：2⁴ = 16 ≥ 8 + 4 + 1 = 13 ✓ → 需要 <b>4 位</b>（k=3 时 8 &lt; 12 不够）</div>
+      <p class="ansline">答案：4 位信息 → 3 位；8 位信息 → 4 位</p>
+    </div>
+  </details>
+  <details class="ex"><summary>例题 2｜CRC 求校验码（模 2 除法走一遍）</summary>
+    <div class="body">
+      <p class="q">信息码 1101，生成多项式 G(x) = x³ + x + 1（即 1011），求 CRC 校验码。</p>
+      <div class="step"><b>第 1 步</b>：G 有 4 位（最高次 3）→ 信息码左移 3 位：1101<b>000</b></div>
+      <div class="step"><b>第 2 步·模 2 除</b>：1101000 ÷ 1011（异或减法）：<br>1101000 ⊕ 1011000 = 0110000 → 110000 ⊕ 101100 = 011100 → 11100 ⊕ 10110 = 1010 → 1010 ⊕ 1011 = <b>001</b>（余数 3 位）</div>
+      <div class="step"><b>第 3 步</b>：余数 001 就是校验码 → 发送码 = 1101<b>001</b></div>
+      <p class="ansline">答案：校验码 001（自检：1101001 ÷ 1011 余数应为 0）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①CRC 左移位数 = 生成多项式<b>位数 − 1</b>（=最高次幂）；②模 2 除法用异或、不借位；③奇偶校验"检 1 位错"不含纠错，海明才能纠错；④余数位数不够要在前面<b>补 0</b> 到 r 位。</div>
+
+  <h3>6.7 数制与码制（补码范围年年见）</h3>
+  <div class="explain">
+    <p><b>进制转换一条路：</b>十进制 → 二进制"除 2 取余倒着读"；二进制 ↔ 十六进制"4 位一组"；小数部分"乘 2 取整顺着读"。</p>
+    <table>
+      <tr><th>码制</th><th>n 位表示范围</th><th>要点</th></tr>
+      <tr><td>原码</td><td>−(2ⁿ⁻¹−1) ~ 2ⁿ⁻¹−1</td><td>最高位符号位，0 有两种表示（±0）</td></tr>
+      <tr><td>反码</td><td>同原码</td><td>负数 = 原码除符号位按位取反</td></tr>
+      <tr><td><b>补码</b></td><td><span class="key">−2ⁿ⁻¹ ~ 2ⁿ⁻¹−1</span></td><td>0 唯一表示，<b>多表示一个最小负数</b>；加减统一用加法</td></tr>
+      <tr><td>移码</td><td>同补码</td><td>补码符号位取反，用于<b>浮点数阶码</b>（便于比较大小）</td></tr>
+    </table>
+    <p><b>必背：8 位补码范围 = −128 ~ +127</b>（−128 只有补码能表示，原码反码都表示不了）。</p>
+  </div>
+  <details class="ex"><summary>例题｜补码计算三连</summary>
+    <div class="body">
+      <p class="q">①16 位补码能表示的数值范围？②−1 的 8 位补码是多少？③[x]补 = 11101100，x 是多少？</p>
+      <div class="step"><b>①</b>−2¹⁵ ~ 2¹⁵−1 = <b>−32768 ~ +32767</b></div>
+      <div class="step"><b>②</b>1 = 00000001 → 取反 11111110 → 加 1 = <b>11111111</b>（−1 的补码是全 1）</div>
+      <div class="step"><b>③</b>符号位 1 = 负数：11101100 → 减 1 = 11101011 → 取反 = 00010100 = 20 → x = <b>−20</b></div>
+      <p class="ansline">答案：−32768~32767；11111111；−20</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①补码范围"<b>负多正一</b>"：−2ⁿ⁻¹ 能表示但 +2ⁿ⁻¹ 不行；②负数补码的还原步骤是"减 1 再取反"（或取反加 1，殊途同归）；③浮点数阶码用移码因为"可以直接比大小"，尾数常用补码/原码。</div>
+
+  <h3>6.8 可靠性计算（串并联公式）</h3>
+  <div class="explain">
+    <div class="formula">串联系统：R = R₁ × R₂ × … × Rₙ（一个坏全坏 → 越串越不可靠）<br>并联系统：R = 1 − (1 − R₁)(1 − R₂)…(1 − Rₙ)（全坏才坏 → 越并越可靠）</div>
+    <p><b>MTBF 平均无故障时间</b>：可靠性是概率，MTBF 是平均能撑多久，MTBF = 1/λ（λ 为失效率）——可靠性和 MTBF 是同一个指标的两种表达。</p>
+  </div>
+  <details class="ex"><summary>例题｜混合系统可靠性</summary>
+    <div class="body">
+      <p class="q">系统由两个部件组成：部件甲是单机可靠性 0.9；部件乙是两台 0.9 的机器并联。甲、乙串联构成系统，求系统可靠性。</p>
+      <div class="step"><b>①并联部分</b>：R乙 = 1 − (1 − 0.9)² = 1 − 0.01 = <b>0.99</b></div>
+      <div class="step"><b>②串联部分</b>：R = R甲 × R乙 = 0.9 × 0.99 = <b>0.891</b></div>
+      <p class="ansline">答案：0.891</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①并联用"1 − (1−R)ⁿ"，先把"坏的概率"算出来再 1 减它；②串联是连乘不是相加；③N 模冗余（表决制）考概念：3 模表决中 2 个以上一致才算对。</div>
+
+  <h3>6.9 专题收尾 · 考前 60 秒速过</h3>
+  <ul>
+    <li><b>CPU</b>：PC 存下一条指令地址、IR 存当前指令；ACC/ALU/PSW 属运算器</li>
+    <li><b>寻址</b>：立即最快、间接最慢且扩范围；基址面向系统（重定位）、变址面向用户（数组）</li>
+    <li><b>流水线</b>：总时间 (k+n−1)Δt；极限吞吐 1/Δt、极限加速 k 倍；转移指令 → 控制冲突</li>
+    <li><b>Cache</b>：平均访问 = h·tc + (1−h)·tm；组相联是折中；对程序员透明</li>
+    <li><b>磁盘</b>：寻道 + 旋转延迟（半圈 = 60/(2r)）+ 传输</li>
+    <li><b>校验</b>：奇偶只检不纠、海明检 + 纠 1 位（2ᵏ ≥ n+k+1）、CRC 模 2 除法取余</li>
+    <li><b>补码</b>：8 位 −128~127；负数范围比正数多一个；阶码用移码</li>
+    <li><b>可靠性</b>：串联连乘、并联 1−(1−R)ⁿ；混合系统先算并联再串联</li>
+  </ul>
+  `
+},
+{
+  id: 7, title: "⑦ 程序设计语言", score: "上午 4~6 分", done: true,
+  html: `
+  <h3>7.1 编译过程六阶段（流程排序题）</h3>
+  <div class="explain">
+    <p><b>把源代码翻译成机器代码要过六关（顺序必须背熟）：</b></p>
+    <div class="formula">词法分析 → 语法分析 → 语义分析 → 中间代码生成 → 代码优化 → 目标代码生成</div>
+    <table>
+      <tr><th>阶段</th><th>干什么</th><th>白话</th></tr>
+      <tr><td><b>词法分析</b></td><td>把字符流切成<b>单词（记号 token）</b></td><td>认字（依据<b>正规式/词法规则</b>）</td></tr>
+      <tr><td><b>语法分析</b></td><td>检查单词怎么组成<b>句子</b>，构建语法树</td><td>析句（依据<b>上下文无关文法</b>）</td></tr>
+      <tr><td><b>语义分析</b></td><td>查<b>类型</b>对不对、变量有没有声明</td><td>查意思（类型检查在这）</td></tr>
+      <tr><td>中间代码生成</td><td>翻译成四元式等中间形式</td><td>草稿</td></tr>
+      <tr><td>代码优化</td><td>删冗余、提效率</td><td>润色</td></tr>
+      <tr><td>目标代码生成</td><td>产出机器码/汇编</td><td>定稿</td></tr>
+    </table>
+    <p><b>两个贯穿始终的角色：</b><b>符号表管理</b>（登记变量、函数名）和<b>出错处理</b>。</p>
+  </div>
+  <details class="ex"><summary>例题 1｜错误在哪个阶段发现</summary>
+    <div class="body">
+      <p class="q">①把 if 写成了 iff；②表达式里 int 和字符串相加；③缺少右括号。分别在哪一阶段被发现？</p>
+      <div class="step"><b>①</b>iff 不是合法单词 → <b>词法分析</b>（认字阶段就卡住）</div>
+      <div class="step"><b>②</b>单词都对但"类型不匹配" → <b>语义分析</b></div>
+      <div class="step"><b>③</b>结构不完整（语法树搭不起来）→ <b>语法分析</b></div>
+      <p class="ansline">答案：词法 / 语义 / 语法</p>
+    </div>
+  </details>
+  <details class="ex"><summary>例题 2｜编译 vs 解释</summary>
+    <div class="body">
+      <p class="q">①生成目标程序后执行，运行快；②逐句翻译逐句执行，出错即停；③C、Python 分别属于哪种？</p>
+      <div class="step"><b>①</b><b>编译方式</b>（一次性翻译，程序跑得快、可脱离编译器）</div>
+      <div class="step"><b>②</b><b>解释方式</b>（边翻边执行，跨平台好、但慢）</div>
+      <div class="step"><b>③</b>C = 编译型；Python = 解释型；<b>Java 是混合</b>：编译成字节码 + JVM 解释/JIT 执行</div>
+      <p class="ansline">答案：编译 / 解释 / C 编译型、Python 解释型、Java 混合型</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①六阶段顺序题——语义分析在语法分析<b>之后</b>；②类型不匹配是<b>语义</b>错误不是语法错误；③编译不生成可执行代码（只翻译源程序），解释方式<b>不生成</b>目标程序。</div>
+
+  <h3>7.2 文法与语言（四种文法对号入座）</h3>
+  <div class="explain">
+    <p>文法描述"句子怎么合法地构造"。Chomsky 按限制从松到严分四型：</p>
+    <table>
+      <tr><th>型</th><th>名称</th><th>限制</th><th>对应</th></tr>
+      <tr><td>0 型</td><td>短语结构文法</td><td>左边至少含一个非终结符</td><td>图灵机</td></tr>
+      <tr><td>1 型</td><td>上下文有关文法</td><td>|左边| ≤ |右边|（不能越写越短）</td><td>—</td></tr>
+      <tr><td><b>2 型</b></td><td><b>上下文无关文法</b></td><td>左边必须是<b>单个非终结符</b></td><td><span class="key">语法分析</span>、程序设计语言</td></tr>
+      <tr><td><b>3 型</b></td><td><b>正规文法</b></td><td>右边最多一个非终结符且位置固定（A→aB 或 A→a）</td><td><span class="key">词法分析</span>、正规式</td></tr>
+    </table>
+    <p><b>概念速记：</b>终结符 = 最终出现在句子里的词（如标识符、运算符）；非终结符 = 中间占位符（如 &lt;表达式&gt;）；推导 = 从开始符号一路替换到句子。</p>
+  </div>
+  <details class="ex"><summary>例题｜判断文法类型</summary>
+    <div class="body">
+      <p class="q">判断下列文法类型：①G: S → aS | a；②G: A → Aa | b；③G: S → AB，A → a，B → b。</p>
+      <div class="step"><b>①</b>S → aS：左边单非终结符、右边"终结符开头+单非终结符" → <b>3 型（正规文法）</b></div>
+      <div class="step"><b>②</b>A → Aa：非终结符在<b>左</b>、终结符在右——若 3 型文法其它规则是 A→a…（右线性）就矛盾，且规则集一致时是 3 型（左线性）；若同时出现 A→aB 和 A→Ba 则只能算 <b>2 型</b></div>
+      <div class="step"><b>③</b>S → AB：左边单非终结符，但右边有<b>两个</b>非终结符 → 不是 3 型，是 <b>2 型（上下文无关）</b></div>
+      <p class="ansline">答案：3 型；2 型；2 型（判断顺序：先看 3 型的"右边最多一个非终结符"，不行再退 2 型）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①右边出现<b>两个</b>非终结符（如 S→AB）就不是 3 型；②2 型 = 上下文无关（语法分析用），3 型 = 正规文法（词法分析用），配对关系要记牢；③正规文法左线性、右线性<b>不能混用</b>。</div>
+
+  <h3>7.3 正规式与有限自动机</h3>
+  <div class="explain">
+    <p><b>正规式（正则表达式）是描述"词"的最强工具：</b></p>
+    <ul>
+      <li><b>|</b>：或（a|b = a 或 b）</li>
+      <li><b>*</b>：闭包，重复 <span class="key">0 次或多次</span></li>
+      <li><b>+</b>：重复 <b>1 次或多次</b>（a⁺ = aa*）</li>
+      <li>拼接：ab = 先 a 后 b</li>
+    </ul>
+    <p><b>有限自动机两兄弟：</b></p>
+    <ul>
+      <li><b>DFA 确定有限自动机</b>：每个状态遇到每个输入字符<b>只有一个</b>去向</li>
+      <li><b>NFA 非确定有限自动机</b>：可以去多个方向、可以 ε 转移（不读字符就跳）；<b>NFA 一定能转成等价的 DFA</b>，识别能力相同</li>
+    </ul>
+  </div>
+  <details class="ex"><summary>例题｜正规式匹配判断</summary>
+    <div class="body">
+      <p class="q">正规式 (a|b)*abb 能匹配下面哪些串？①abb ②aabb ③abab ④bab</p>
+      <div class="step"><b>读懂式子</b>：任意个 a/b 组成的串，<b>结尾必须是 abb</b></div>
+      <div class="step"><b>①</b>abb ✓（开头零个字符）　<b>②</b>aabb ✓（a+abb）</div>
+      <div class="step"><b>③</b>abab ✗ 结尾是 ab　<b>④</b>bab ✗ 结尾是 ab</div>
+      <p class="ansline">答案：①②（技巧：先看"*"管什么、再看串尾是否吻合固定后缀）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①* 包含"0 次"，(a|b)* 能匹配<b>空串</b>；②a* 和 a⁺ 的区别就是"能不能空"；③NFA 与 DFA <b>识别能力等价</b>（都能转），差别在"确定的程度"。</div>
+
+  <h3>7.4 参数传递：传值 vs 传址（年年考的代码题）</h3>
+  <div class="explain">
+    <table>
+      <tr><th>方式</th><th>传什么</th><th>函数内修改实参？</th></tr>
+      <tr><td><b>传值调用</b></td><td>把实参的<b>值拷贝</b>一份</td><td><span class="key">不影响外面</span>（改的是复印件）</td></tr>
+      <tr><td><b>传址（引用）调用</b></td><td>把实参的<b>地址</b>递进去</td><td><span class="key">直接影响外面</span>（改的是原件）</td></tr>
+    </table>
+  </div>
+  <details class="ex"><summary>例题｜传值与传址输出对比</summary>
+    <div class="body">
+      <p class="q">C 语言代码如下，输出是什么？</p>
+      <pre><code>void f(int x, int *y) { x = 100; *y = 200; }
+int main() {
+  int a = 1, b = 2;
+  f(a, &amp;b);
+  printf("%d,%d", a, b);   // 输出？
+}</code></pre>
+      <div class="step"><b>①</b>参数 x 是<b>传值</b>：a 的值 1 被拷贝进来，改成 100 只动复印件 → a 不变，仍是 <b>1</b></div>
+      <div class="step"><b>②</b>参数 y 是<b>传址</b>：拿到 b 的地址，*y = 200 改的是原件 → b 变 <b>200</b></div>
+      <p class="ansline">答案：输出 1,200（口诀：传值动不了原件，传址一步到原件）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①C 语言<b>只有传值</b>——传指针本质也是"把地址值拷贝过去"，效果等同传址；②数组名传参自动退化为指针，函数内修改数组元素影响原数组；③"传引用"（C++ 的 &amp;）是真·传址。</div>
+
+  <h3>7.5 程序语言分类与特点（概念送分）</h3>
+  <div class="explain">
+    <table>
+      <tr><th>分类角度</th><th>类别</th><th>代表 / 特点</th></tr>
+      <tr><td rowspan="4"><b>编程范式</b></td><td>命令式（过程式）</td><td>C、Pascal——一步步下指令</td></tr>
+      <tr><td><b>面向对象</b></td><td>Java、C++、Python——封装继承多态</td></tr>
+      <tr><td><b>函数式</b></td><td><span class="key">Lisp、Haskell</span>——函数是"一等公民"、递归重</td></tr>
+      <tr><td><b>逻辑式</b></td><td><span class="key">Prolog</span>——描述事实和规则，让机器推理</td></tr>
+      <tr><td rowspan="2"><b>类型系统</b></td><td>静态类型</td><td>编译时定类型：C、Java</td></tr>
+      <tr><td>动态类型</td><td>运行时定类型：Python、JS</td></tr>
+    </table>
+    <ul>
+      <li><b>脚本语言</b>（Python/JS/Shell）：解释执行、动态类型、简洁灵活，适合胶水活</li>
+      <li><b>面向对象三特征</b>：<b>封装</b>（藏内部）、<b>继承</b>（复用父类）、<b>多态</b>（同接口不同实现）</li>
+    </ul>
+  </div>
+  <details class="ex"><summary>例题｜语言对号入座</summary>
+    <div class="body">
+      <p class="q">①Prolog 属于什么范式语言？②"运行时才确定变量类型"指什么？③面向对象的三大特征？</p>
+      <div class="step"><b>①</b><b>逻辑（声明式）语言</b>——写规则让它自己推</div>
+      <div class="step"><b>②</b><b>动态类型</b>（静态 = 编译时确定）</div>
+      <div class="step"><b>③</b>封装、继承、多态</div>
+      <p class="ansline">答案：逻辑式；动态类型；封装/继承/多态</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①函数式代表 Lisp、逻辑式代表 Prolog，别互换；②"多态"是同一个接口、不同对象不同行为，不是"多继承"；③脚本语言 ≠ 一定动态类型（但通常都是）。</div>
+
+  <h3>7.6 专题收尾 · 考前 60 秒速过</h3>
+  <ul>
+    <li><b>编译六阶段</b>：词法 → 语法 → 语义 → 中间代码 → 优化 → 目标代码；符号表和出错处理贯穿</li>
+    <li><b>错误归属</b>：不认识的词 = 词法、结构残缺 = 语法、类型不符 = 语义</li>
+    <li><b>文法</b>：右边单非终结符 → 3 型（词法）；左边单非终结符 → 2 型（语法）</li>
+    <li><b>正规式</b>：* 含 0 次、+ 从 1 次；NFA ≡ DFA</li>
+    <li><b>传参</b>：传值动复印件、传址动原件；C 只有传值（指针是传地址值）</li>
+    <li><b>范式</b>：Lisp 函数式、Prolog 逻辑式；封装继承多态</li>
+  </ul>
+  `
+},
+{
+  id: 8, title: "⑧ 法规产权 + 英语 + 杂项", score: "上午 ~8 分", done: true,
+  html: `
+  <h3>8.1 知识产权：著作权（保护期是最大考点）</h3>
+  <div class="explain">
+    <p><b>著作权自动产生</b>——作品完成那一刻就有版权，<b>不需要登记</b>（登记只是加分证据）。</p>
+    <p><b>权利分两包：</b></p>
+    <table>
+      <tr><th>权利包</th><th>内容</th><th>保护期</th></tr>
+      <tr><td><b>人身权</b>（精神权利）</td><td><b>署名权、修改权、保护作品完整权</b></td><td><span class="key">无限期</span>（作者死了还在）</td></tr>
+      <tr><td rowspan="2"><b>财产权</b>（经济权利）</td><td>复制、发行、出租、信息网络传播等 + <b>发表权</b></td><td>自然人：作者<b>终生 + 死后 50 年</b>（12 月 31 日止）</td></tr>
+      <tr><td>单位作品 / 职务作品归单位时</td><td><b>首次发表起 50 年</b>（未发表则不保护）</td></tr>
+    </table>
+    <p><b>软件著作权保护期：</b>自然人同上（终生+50 年）；单位作品/职务作品 = <b>开发完成起 50 年</b>。</p>
+    <ul>
+      <li><b>职务作品</b>：一般著作权归<b>作者本人</b>，但单位有权优先使用；<b>主要利用单位物质技术条件</b>创作并由单位承担责任的（如软件、工程设计图），作者只有署名权，其他权利归单位</li>
+      <li><b>委托作品</b>：合同说了算；<b>没合同 → 著作权归受托方</b>（干活的人）</li>
+      <li><b>合理使用</b>：个人学习研究、适当引用——不用经过许可、不付报酬</li>
+    </ul>
+  </div>
+  <details class="ex"><summary>例题｜著作权高频判断五连</summary>
+    <div class="body">
+      <p class="q">①软件著作权需要登记后才产生？②署名权的保护期？③程序员甲利用公司设备开发的软件，著作权归谁？④委托开发没签合同，著作权归谁？⑤公民作品发表权保护期？</p>
+      <div class="step"><b>①</b>✗——<b>自开发完成自动产生</b>，登记非必要条件</div>
+      <div class="step"><b>②</b>署名权/修改权/保护作品完整权 = <b>无限期</b></div>
+      <div class="step"><b>③</b>利用单位物质技术条件开发、单位担责 → 著作权归<b>单位</b>（甲只有署名权）</div>
+      <div class="step"><b>④</b>无合同 → 归<b>受托方（开发方）</b></div>
+      <div class="step"><b>⑤</b>作者终生 + 死后 <b>50 年</b></div>
+      <p class="ansline">答案：错 / 无限期 / 单位 / 受托方 / 终生+50 年</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①发表权属于<b>人身权但有保护期</b>（跟着财产权 50 年走）——身份特殊记住即可；②"登记才享有著作权"是必错选项；③委托作品无合同归<b>受托方</b>，不是委托方。</div>
+
+  <h3>8.2 专利与商标（年限数字题）</h3>
+  <div class="explain">
+    <table>
+      <tr><th>权利</th><th>保护期（自<b>申请日</b>起）</th><th>要点</th></tr>
+      <tr><td><b>发明专利</b></td><td><span class="key">20 年</span></td><td>方法、产品都可；要实质审查</td></tr>
+      <tr><td><b>实用新型</b></td><td><span class="key">10 年</span></td><td>只保护产品<b>形状/构造</b>改进（"小发明"）</td></tr>
+      <tr><td><b>外观设计</b></td><td><span class="key">15 年</span>（2021 年新专利法）</td><td>保护"好看"的外形、图案、色彩</td></tr>
+      <tr><td><b>商标</b></td><td><span class="key">10 年</span>，<b>可无限续展</b></td><td>注册商标；续展每次 +10 年，没有次数限制</td></tr>
+      <tr><td>商业秘密</td><td><b>无期限</b></td><td>保密即受保护（泄密即失权）；软件源代码常用</td></tr>
+    </table>
+    <p><b>两个重要原则：</b></p>
+    <ul>
+      <li><b>先申请原则</b>：两个都想申请专利，<b>谁先申请给谁</b>（不看谁先发明）</li>
+      <li><b>新颖性</b>：申请前已公开（发表、销售过）的技术<b>不能</b>再申请专利；但著作权不同——<b>公开不影响享有著作权</b></li>
+    </ul>
+  </div>
+  <details class="ex"><summary>例题｜年限对号入座</summary>
+    <div class="body">
+      <p class="q">①发明专利保护期？②商标续展有次数限制吗？③甲乙同时研发出同一技术，乙先申请专利，甲能阻止吗？</p>
+      <div class="step"><b>①</b><b>20 年</b>（实用新型 10 年、外观设计 15 年）</div>
+      <div class="step"><b>②</b><b>没有</b>——每 10 年可续展，理论上永久拥有商标</div>
+      <div class="step"><b>③</b>不能——专利是<b>先申请制</b>，乙先申请归乙；甲若已公开使用反而更被动（丧失新颖性）</div>
+      <p class="ansline">答案：20 年 / 无限制 / 不能（先申请原则）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①三组数字必须死记：发明 20、实用新型 10、外观 15（外观 15 是新法，老题可能写 10 年，以 15 为准）；②保护期全部<b>从申请日起算</b>；③商标与专利不同——可无限续展。</div>
+
+  <h3>8.3 标准化基础（代号识别题）</h3>
+  <div class="explain">
+    <table>
+      <tr><th>层级</th><th>代号</th><th>例子</th></tr>
+      <tr><td>国际标准</td><td><b>ISO、IEC</b>（ITU 通信）</td><td>ISO 9001</td></tr>
+      <tr><td><b>国家标准</b></td><td><span class="key">GB</span>（强制性）、<span class="key">GB/T</span>（推荐性）、GB/Z（指导性）</td><td>GB 18030</td></tr>
+      <tr><td>行业标准</td><td>如 SJ（电子）、GA（公安）</td><td>SJ/T 11235</td></tr>
+      <tr><td>地方标准</td><td><b>DB + 省份代码</b></td><td>DB11/T（北京）</td></tr>
+      <tr><td>企业标准</td><td><b>Q</b> 开头</td><td>Q/xxx</td></tr>
+    </table>
+    <ul>
+      <li><b>强制性标准</b>必须执行；<b>推荐性标准</b>（/T）自愿采用，但一旦写入合同就有约束力</li>
+      <li><b>标准化的 four 号外</b>：简化、统一、系列化、通用化（了解即可）</li>
+    </ul>
+  </div>
+  <details class="ex"><summary>例题｜标准代号判断</summary>
+    <div class="body">
+      <p class="q">①GB/T 是什么性质的标准？②DB 开头的是什么标准？③ISO/IEC 属于什么级别？</p>
+      <div class="step"><b>①</b>国家<b>推荐性</b>标准（T = 推荐，自愿采用）</div>
+      <div class="step"><b>②</b><b>地方标准</b></div>
+      <div class="step"><b>③</b><b>国际标准</b></div>
+      <p class="ansline">答案：推荐性国家标准 / 地方标准 / 国际标准</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①"/T" = 推荐性，<b>不带 T 的 GB</b> 是强制性；②行业标准和地方标准别混（DB = 地方）；③推荐性标准写入合同后对签约方有约束力。</div>
+
+  <h3>8.4 多媒体基础（容量计算必考）</h3>
+  <div class="explain">
+    <p><b>声音数字化三步：</b>采样（每隔多久取一个点）→ 量化（把点变成数值）→ 编码。两个铁律：</p>
+    <div class="formula">奈奎斯特采样定理：采样频率 ≥ 2 × 信号最高频率<br>声音容量（字节）= 采样频率 × 量化位数 × 声道数 × 时间 / 8</div>
+    <p><b>图像容量：</b></p>
+    <div class="formula">图像容量（字节）= 水平像素 × 垂直像素 × 颜色深度 / 8<br>颜色深度：16 色 = 4 位，256 色 = 8 位，65536 色 = 16 位，真彩色 24 位</div>
+    <p><b>颜色空间（对号入座）：</b><b>RGB</b>（显示器、发光）、<b>CMYK</b>（印刷、反光）、<b>YUV</b>（电视，亮度与色度分离，兼容黑白电视）、<b>HSV</b>（直观调色）。</p>
+    <p><b>视频容量 ≈ 每帧图像容量 × 帧率 × 时间</b>（未压缩时）。</p>
+  </div>
+  <details class="ex"><summary>例题 1｜图像容量计算（模板题）</summary>
+    <div class="body">
+      <p class="q">一幅 640×480 的图像，用 16 色（4 位颜色深度）存储，需要多少 KB？</p>
+      <div class="step"><b>套公式</b>：640 × 480 × 4 / 8 = 640 × 480 / 2 = <b>153600 字节</b></div>
+      <div class="step"><b>换单位</b>：153600 ÷ 1024 = <b>150 KB</b></div>
+      <p class="ansline">答案：150 KB</p>
+    </div>
+  </details>
+  <details class="ex"><summary>例题 2｜采样定理判断</summary>
+    <div class="body">
+      <p class="q">语音信号最高频率为 4kHz，数字化时采样频率至少是多少？CD 音乐采样率 44.1kHz 基于什么？</p>
+      <div class="step"><b>①</b>≥ 2 × 4kHz = <b>8kHz</b>（电话语音正是 8kHz 采样）</div>
+      <div class="step"><b>②</b>44.1kHz &gt; 2 × 20kHz（人耳上限）→ 满足奈奎斯特定理，可完整还原人耳可听声音</div>
+      <p class="ansline">答案：8kHz；奈奎斯特采样定理（2 倍最高频率）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①容量公式最后<b>÷8 换字节</b>、再 ÷1024 换 KB，别忘；②16 色 ≠ 16 位！16 色 = 4 位（2⁴=16），256 色 = 8 位——"色数 = 2^位数"；③采样率不够会"失真"，是<b>频率混叠</b>不是噪声。</div>
+
+  <h3>8.5 数学与逻辑杂项（零碎但常出 2~3 分）</h3>
+  <div class="explain">
+    <p><b>逻辑运算（真值表别记错）：</b></p>
+    <table>
+      <tr><th>运算</th><th>符号</th><th>记忆</th></tr>
+      <tr><td>与 AND</td><td>∧、&&</td><td>全真才真</td></tr>
+      <tr><td>或 OR</td><td>∨、||</td><td>有真就真</td></tr>
+      <tr><td>非 NOT</td><td>¬、!</td><td>取反</td></tr>
+      <tr><td>异或 XOR</td><td>⊕</td><td><span class="key">不同为真</span></td></tr>
+    </table>
+    <p><b>重要等价式（推导题救命的）：</b></p>
+    <ul>
+      <li><b>德摩根定律</b>：¬(A ∧ B) = ¬A ∨ ¬B；¬(A ∨ B) = ¬A ∧ ¬B（"与"取反变"或"）</li>
+      <li><b>蕴含 A→B</b> 等价于 <span class="key">¬A ∨ B</span>；其逆否命题 ¬B→¬A 与它<b>等价</b>（A→B 的逆命题 B→A <b>不等价</b>！）</li>
+      <li>短路求值：C 语言中 <code>&amp;&amp;</code> 左边为假右边不算、<code>||</code> 左边为真右边不算——考"表达式副作用执行几次"</li>
+    </ul>
+    <p><b>排列组合速查：</b>排列 A(n,m) = n!/(n−m)!（有顺序）；组合 C(n,m) = n!/(m!(n−m)!)（无顺序）；n 个元素全排列 = n!。</p>
+  </div>
+  <details class="ex"><summary>例题｜逻辑等价与短路求值</summary>
+    <div class="body">
+      <p class="q">①¬(A∧B) 等价于什么？②"如果下雨则带伞"的逆否命题是？③C 代码 <code>if (i&gt;0 &amp;&amp; a[i]&gt;5)</code> 中 i=0 时 a[0] 会被访问吗？</p>
+      <div class="step"><b>①</b>德摩根：<b>¬A ∨ ¬B</b></div>
+      <div class="step"><b>②</b>"不带伞则没下雨"（¬B→¬A）；注意逆命题"带伞则下雨"<b>不等价</b></div>
+      <div class="step"><b>③</b><b>不会</b>——&amp;&amp; 短路：左边 i&gt;0 为假，右边直接跳过（这也是防数组越界的惯用写法）</div>
+      <p class="ansline">答案：¬A ∨ ¬B；¬B→¬A；不会（短路）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①逆否 ⇔ 原命题，逆命题/否命题<b>不等价</b>于原命题；②A→B 为真时，若 A 真 B 必真——"A 真 B 假"是唯一让蕴含为假的组合；③异或是"不同为 1"，与"同或"（相同为 1）相反。</div>
+
+  <h3>8.6 专业英语（术语背熟就能猜）</h3>
+  <div class="explain">
+    <p><b>上午卷最后 5 道英语题</b>：一篇短文挖 5 个空，四选一。<b>答题技巧：看空格前后的词性搭配 + 认高频术语</b>。下面是软件设计师真题最爱词（先背加粗的）：</p>
+    <table>
+      <tr><th>领域</th><th>高频术语</th></tr>
+      <tr><td>需求/设计</td><td><b>requirement</b> 需求、<b>specification</b> 规格、<b>architecture</b> 架构、<b>module</b> 模块、<b>interface</b> 接口</td></tr>
+      <tr><td>测试</td><td><b>test case</b> 测试用例、<b>coverage</b> 覆盖、<b>regression</b> 回归、debug 调试</td></tr>
+      <tr><td>数据库</td><td><b>schema</b> 模式、<b>query</b> 查询、transaction 事务、redundancy 冗余、<b>normalization</b> 规范化</td></tr>
+      <tr><td>网络/安全</td><td><b>protocol</b> 协议、<b>authentication</b> 认证、encryption 加密、vulnerability 漏洞、firewall 防火墙</td></tr>
+      <tr><td>开发过程</td><td><b>iteration</b> 迭代、<b>increment</b> 增量、<b>maintainability</b> 可维护性、<b>reuse</b> 复用、agile 敏捷</td></tr>
+      <tr><td>常用动词</td><td>specify 规定、validate 验证（做对了没）、verify 确认（做没做对）、deploy 部署、integrate 集成</td></tr>
+    </table>
+    <p><b>句法技巧：</b>空格前是冠词/形容词 → 填名词；空格前是情态动词/助动词 → 填动词原形或分词；名词从句常缺 <b>that / which</b>；条件句常缺 <b>if / when</b>。</p>
+  </div>
+  <details class="ex"><summary>例题｜英语填空示范</summary>
+    <div class="body">
+      <p class="q">"The goal of testing is to find as many defects as possible; debugging is the process of ___ the known defects."（A. removing B. removed C. remove D. removal）</p>
+      <div class="step"><b>语法定位</b>：空格在 "the process of ___" 中，of 是介词，后面可接<b>名词或动名词</b></div>
+      <div class="step"><b>语义定位</b>：debugging（调试）的目的是"修复"缺陷</div>
+      <div class="step"><b>排除</b>：B 是过去分词不通、C 是动词原形不通；D removal 虽是名词，但 "of removing" 更符合 process of + doing 结构</div>
+      <p class="ansline">答案：A. removing（修复缺陷）</p>
+    </div>
+  </details>
+  <div class="warn">⚠ 易错：①verify（确认符合需求）和 validate（验证是用户想要的）在考题里常互换考"质量"语境，不必较真语义、按选项词性排除更快；②英语题平均每题 1 分钟，不会就按词性猜，性价比最高的 5 分。</div>
+
+  <h3>8.7 专题收尾 · 考前 60 秒速过</h3>
+  <ul>
+    <li><b>著作权</b>：自动产生不用登记；署名/修改/完整权无限期；财产权 = 终生+50 年；委托无合同归受托方</li>
+    <li><b>专利</b>：发明 20、实用新型 10、外观 15，自申请日起；先申请原则；商标 10 年可无限续展</li>
+    <li><b>标准</b>：GB 强制、GB/T 推荐、DB 地方、Q 企业；ISO/IEC 国际</li>
+    <li><b>多媒体</b>：采样 ≥ 2×最高频率；图像容量 = 像素×深度/8；16 色=4 位、256 色=8 位</li>
+    <li><b>逻辑</b>：德摩根 ¬(A∧B)=¬A∨¬B；A→B ≡ ¬A∨B；逆否等价、逆命题不等价；&amp;&amp; 短路</li>
+    <li><b>英语</b>：背术语 + 看词性（of 后填名词/动名词、情态动词后填原形）</li>
+  </ul>
+  `
+}
 ];
 
 /* ════════════════════════════════════════════════════════════ */
