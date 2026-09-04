@@ -1,5 +1,7 @@
-# IDE/project metadata
-.codebuddy/
+# IDE/project metadata (keep skill & study progress tracked for multi-device sync)
+.codebuddy/*
+!.codebuddy/skills/
+!.codebuddy/ruankao-tutor/
 
 # Large documents and potentially copyrighted materials
 *.pdf
