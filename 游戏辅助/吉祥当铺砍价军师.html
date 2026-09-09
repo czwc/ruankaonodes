@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>吉祥当铺 · 砍价军师</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: linear-gradient(135deg, #1a1208 0%, #2d1f0e 50%, #1a1208 100%);
+    color: #f0e6d2;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  .container { max-width: 720px; margin: 0 auto; }
+  header {
+    text-align: center;
+    padding: 24px 0 8px;
+  }
+  header h1 {
+    font-size: 28px;
+    color: #e8b64c;
+    letter-spacing: 4px;
+    text-shadow: 0 2px 8px rgba(232,182,76,.35);
+  }
+  header p.sub { color: #a8926b; margin-top: 8px; font-size: 13px; }
+  .card {
+    background: rgba(255,255,255,.04);
+    border: 1px solid rgba(232,182,76,.25);
+    border-radius: 14px;
+    padding: 20px;
+    margin-top: 18px;
+  }
+  .card h2 {
+    font-size: 16px;
+    color: #e8b64c;
+    margin-bottom: 14px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .card h2::before { content: "◆"; font-size: 12px; }
+  .row { display: flex; gap: 14px; flex-wrap: wrap; }
+  .field { flex: 1; min-width: 180px; }
+  label { display: block; font-size: 13px; color: #c9b48c; margin-bottom: 6px; }
+  input[type=number] {
+    width: 100%;
+    padding: 10px 12px;
+    background: rgba(0,0,0,.35);
+    border: 1px solid rgba(232,182,76,.35);
+    border-radius: 8px;
+    color: #f0e6d2;
+    font-size: 18px;
+    outline: none;
+  }
+  input[type=number]:focus { border-color: #e8b64c; box-shadow: 0 0 0 2px rgba(232,182,76,.15); }
+  input[type=range] { width: 100%; accent-color: #e8b64c; }
+  .patience-val { font-size: 26px; font-weight: bold; color: #e8b64c; }
+  .patience-bar {
+    height: 10px; background: rgba(0,0,0,.4); border-radius: 5px;
+    margin-top: 8px; overflow: hidden;
+  }
+  .patience-fill { height: 100%; border-radius: 5px; transition: width .3s, background .3s; }
+  .result {
+    text-align: center;
+    padding: 18px;
+    border-radius: 12px;
+    margin-top: 6px;
+    background: rgba(0,0,0,.3);
+    border: 1px dashed rgba(232,182,76,.4);
+  }
+  .result .price { font-size: 40px; font-weight: bold; color: #7ee08a; text-shadow: 0 0 12px rgba(126,224,138,.3); }
+  .result .desc { margin-top: 8px; font-size: 14px; color: #c9b48c; line-height: 1.7; }
+  .tag { display: inline-block; padding: 2px 10px; border-radius: 20px; font-size: 12px; margin: 0 3px; }
+  .tag.safe { background: rgba(126,224,138,.15); color: #7ee08a; border: 1px solid rgba(126,224,138,.4); }
+  .tag.risk { background: rgba(232,120,76,.15); color: #f0a07a; border: 1px solid rgba(232,120,76,.4); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+  th, td { padding: 8px; text-align: center; border-bottom: 1px solid rgba(232,182,76,.15); }
+  th { color: #e8b64c; font-weight: normal; }
+  .btn {
+    padding: 9px 20px;
+    border: 1px solid rgba(232,182,76,.5);
+    background: rgba(232,182,76,.12);
+    color: #e8b64c;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background .2s;
+  }
+  .btn:hover { background: rgba(232,182,76,.25); }
+  .btn.danger { border-color: rgba(240,120,100,.5); color: #f0a07a; background: rgba(240,120,100,.08); }
+  .tip { font-size: 12px; color: #8f7d5c; line-height: 1.8; }
+  .tip b { color: #c9b48c; }
+  .hidden { display: none; }
+  footer { text-align: center; margin-top: 26px; font-size: 12px; color: #6b5c42; line-height: 1.8; }
+</style>
+</head>
+<body>
+<div class="container">
+  <header>
+    <h1>吉祥当铺 · 砍价军师</h1>
+    <p class="sub">看一眼屏幕 → 填 3 个数字 → 照着建议点 | 手动操作，零封号风险</p>
+  </header>
+
+  <div class="card">
+    <h2>第一步：输入当前局势</h2>
+    <div class="row">
+      <div class="field">
+        <label>顾客开价（他要卖多少）</label>
+        <input type="number" id="askPrice" placeholder="例如 10000" min="0">
+      </div>
+      <div class="field">
+        <label>你的估价（参考游戏提示/小报，不确定就填开价的 7 折）</label>
+        <input type="number" id="realValue" placeholder="例如 6500" min="0">
+      </div>
+    </div>
+    <div class="field" style="margin-top:14px">
+      <label>顾客当前耐心值：<span class="patience-val" id="patienceLabel">100</span></label>
+      <input type="range" id="patience" min="0" max="100" value="100" step="1">
+      <div class="patience-bar"><div class="patience-fill" id="patienceFill" style="width:100%;background:#7ee08a"></div></div>
+    </div>
+  </div>
+
+  <div class="card">
+    <h2>第二步：军师建议</h2>
+    <div class="result">
+      <div id="mainAdvice" class="price">--</div>
+      <div class="desc" id="adviceDesc">填好上面的数字，建议会立刻出现</div>
+    </div>
+    <p class="tip" style="margin-top:12px" id="stageTip"></p>
+  </div>
+
+  <div class="card">
+    <h2>第三步：买入之后怎么处理？</h2>
+    <div class="row">
+      <div class="field">
+        <label>你的买入价</label>
+        <input type="number" id="buyPrice" placeholder="成交价" min="0">
+      </div>
+      <div class="field">
+        <label>修理后预计卖价（没有就留空）</label>
+        <input type="number" id="sellPrice" placeholder="估算卖价" min="0">
+      </div>
+    </div>
+    <div style="margin-top:14px">
+      <span class="tag safe">🛠 修理：稳妥，必赚差价</span>
+      <span class="tag risk">🎨 仿造：利润更高，但有被识破风险（无野史的物件才能仿）</span>
+    </div>
+    <p class="tip" style="margin-top:10px" id="profitTip">
+      填入买入价和预计卖价，这里会显示预期利润。
+    </p>
+  </div>
+
+  <div class="card">
+    <h2>砍价记录（帮你看节奏）</h2>
+    <button class="btn" id="logBtn">记录本次出价</button>
+    <button class="btn danger" id="clearBtn" style="margin-left:8px">清空</button>
+    <table id="logTable" class="hidden">
+      <thead><tr><th>#</th><th>你的出价</th><th>当时耐心</th></tr></thead>
+      <tbody id="logBody"></tbody>
+    </table>
+    <p class="tip" style="margin-top:10px">核心心法：<b>耐心剩 30 左右是成交甜点</b>——价格已压到位，顾客也还没走。耐心掉到 25 以下还没成交，就按建议保底价收，别贪。</p>
+  </div>
+
+  <footer>
+    本工具只提供建议，所有游戏内操作由你手动完成。<br>
+    不自动化、不注入、不读屏——账号安全第一。
+  </footer>
+</div>
+
+<script>
+const $ = id => document.getElementById(id);
+const patience = $('patience');
+
+function fmt(n) { return n == null ? '--' : Math.round(n).toLocaleString('zh-CN'); }
+
+function updatePatience() {
+  const p = +patience.value;
+  $('patienceLabel').textContent = p;
+  const fill = $('patienceFill');
+  fill.style.width = p + '%';
+  fill.style.background = p > 60 ? '#7ee08a' : (p > 30 ? '#e8b64c' : '#f0784c');
+  advise();
+}
+
+function advise() {
+  const ask = +$('askPrice').value || 0;
+  const val = +$('realValue').value || 0;
+  const p = +patience.value;
+  const priceEl = $('mainAdvice'), descEl = $('adviceDesc'), tipEl = $('stageTip');
+
+  if (!ask || !val) {
+    priceEl.textContent = '--';
+    descEl.textContent = '填好上面的数字，建议会立刻出现';
+    tipEl.textContent = '';
+    return;
+  }
+
+  // 分段压价模型：耐心越少，出价越接近成交价
+  let ratio, desc, tip;
+  if (p > 70) {
+    ratio = 0.30; desc = '大胆试探底价'; tip = '<b>开局阶段</b>：顾客耐心充足，先报一个明显低的价试探。就算被拒绝也只掉少量耐心，这轮的目的就是摸底。';
+  } else if (p > 50) {
+    ratio = 0.45; desc = '继续压价'; tip = '<b>中盘阶段</b>：顾客开始在意了，但还走不了。报价往估价的一半靠，注意观察他是否接受。';
+  } else if (p > 35) {
+    ratio = 0.62; desc = '进入甜点区'; tip = '<b>甜点区边缘</b>：这是压价黄金期。报价约估价的 6 折，成交价大概率低于这个数，稳住别急。';
+  } else if (p > 25) {
+    ratio = 0.80; desc = '该收网了'; tip = '<b>甜点区</b>：攻略共识是耐心剩 30 左右成交最划算。报价约估价 8 折，他大概率接受，落袋为安。';
+  } else {
+    ratio = 0.92; desc = '保底成交，别贪了'; tip = '<b>危险区</b>：耐心低于 25，他随时走人。直接报到接近他心理价（约 9 折），确保成交，亏一点总比空手强。';
+  }
+
+  let bid = Math.round(val * ratio);
+  // 出价不应高于顾客开价的 95%（除非保底阶段也没意义出更高）
+  if (p > 25 && bid > ask * 0.95) bid = Math.round(ask * 0.95);
+  bid = Math.max(bid, 1);
+
+  priceEl.textContent = '出价 ' + fmt(bid);
+  descEl.innerHTML = desc + '（估价的 ' + Math.round(ratio * 100) + '%）' +
+    (p <= 25 ? ' <span class="tag risk">高危险</span>' : (p <= 35 ? ' <span class="tag safe">甜点区</span>' : ''));
+
+  if (val >= ask * 0.9) {
+    tipEl.innerHTML = tip + '<br>⚠️ 你的估价接近顾客开价，说明这件货砍价空间很小，<b>建议第一次就直接按开价 85%~90% 出</b>，快速成交拿稳定收益。';
+  } else {
+    tipEl.innerHTML = tip;
+  }
+  window._lastBid = bid;
+  window._lastP = p;
+}
+
+function calcProfit() {
+  const buy = +$('buyPrice').value || 0;
+  const sell = +$('sellPrice').value || 0;
+  const tip = $('profitTip');
+  if (!buy || !sell) {
+    tip.innerHTML = '填入买入价和预计卖价，这里会显示预期利润。';
+    return;
+  }
+  const profit = sell - buy;
+  const pct = (profit / buy * 100).toFixed(1);
+  tip.innerHTML = '预期利润：<b style="color:' + (profit >= 0 ? '#7ee08a' : '#f0a07a') + '">' +
+    fmt(profit) + '</b>（' + pct + '%）' +
+    (profit / buy >= 0.5 ? ' —— 超过五成利润，好价，稳稳走修理路线。' : ' —— 利润一般，若有人收货价更高可以考虑仿造博一把（风险自担）。');
+}
+
+// 记录
+let logs = [];
+$('logBtn').addEventListener('click', () => {
+  if (!window._lastBid) return;
+  logs.push({ bid: window._lastBid, p: window._lastP });
+  renderLogs();
+});
+$('clearBtn').addEventListener('click', () => { logs = []; renderLogs(); });
+function renderLogs() {
+  const table = $('logTable'), body = $('logBody');
+  if (!logs.length) { table.classList.add('hidden'); return; }
+  table.classList.remove('hidden');
+  body.innerHTML = logs.map((l, i) =>
+    '<tr><td>' + (i + 1) + '</td><td>' + fmt(l.bid) + '</td><td>' + l.p + '</td></tr>'
+  ).join('');
+}
+
+['askPrice', 'realValue', 'buyPrice', 'sellPrice'].forEach(id =>
+  $(id).addEventListener('input', () => { advise(); calcProfit(); }));
+patience.addEventListener('input', updatePatience);
+updatePatience();
+</script>
+</body>
+</html>
