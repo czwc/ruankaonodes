@@ -150,11 +150,29 @@ def parse_2024_answers(path):
         ans[cur] = "\n".join(cur_lines).strip()
     return ans
 
+OPT_SPLIT = re.compile(r"\s+(?=[B-G][、．.]\s*\S)")   # 在 B~G 选项标记前断行
+
+def split_opts(s):
+    return [p.strip() for p in OPT_SPLIT.split(s.strip()) if p.strip()]
+
 def md_blockquote(lines):
-    return "\n".join("> " + l.strip() if l.strip() else ">" for l in lines)
+    out_lines = []
+    for l in lines:
+        s = l.strip()
+        if not s:
+            out_lines.append(">")
+            continue
+        for p in split_opts(s):
+            out_lines.append("> " + p)
+    return "\n".join(out_lines)
 
 def md_details(ans_lines, note=""):
-    body = "<br>".join(l.strip() for l in ans_lines if l.strip())
+    parts = []
+    for l in ans_lines:
+        parts.extend(split_opts(l))
+    if note:
+        parts.append(note)
+    body = "<br>".join(p for p in parts if p)
     if note:
         body = (body + "<br>" if body else "") + f"<i>{note}</i>"
     return (f"<details><summary><b>👉 点击展开答案与解析</b></summary>\n\n"
