@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""把 6 套上午真题按模块分类整合为题库 md（子代理已完成题号→模块映射，本脚本负责切题落盘）"""
+"""把 6 套上午真题按模块分类整合为题库 md
+v3：每题引用卡片框 + <details> 折叠答案解析；修复块重复与答案区污染"""
 import re
 from pathlib import Path
 
@@ -11,7 +12,6 @@ MODULES = ["一、计算机组成与体系结构", "二、操作系统", "三、
            "八、面向对象与设计模式", "九、多媒体", "十、信息安全",
            "十一、知识产权与标准化", "十二、专业英语", "十三、其他"]
 
-# 各卷映射：模块序号 -> [(起始题号, 结束题号), ...]
 MAPS = {
     "2021.05": ("2021年05月软件设计师上午真题及答案解析.txt",
                 {0: [(1, 6)], 9: [(7, 11)], 10: [(12, 14)], 6: [(15, 19), (29, 36)],
@@ -40,13 +40,16 @@ MAPS = {
                  10: [(56, 58)], 12: [(59, 70)], 11: [(71, 75)]}),
 }
 
+ANSWER_MARKERS = {"2022.05": "答案：", "2023.05": "参考答案"}
+STOP_MARK = "答案解析"
+
 ADS = ["手机端题库", "内部资料", "禁止传播", "希赛网", "客服热线", "软考达人",
        "ruankaodaren", "富国", "淘宝", "QQ", "专业的在线教育平台", "微信搜索"]
 EXACT_AD = {"搜索", "考达", "微信搜索", "软考达人－高效提分的软考题库"}
 
 QSTART = re.compile(r"^[\(（]?(\d{1,2})[\)）]?(?:\s*[、．.，])?\s*\S")
 GROUP = re.compile(r"^(\d{1,2})\s*[-—–]\s*(\d{1,2})\s*题")
-INLINE = re.compile(r"[（(](\d{1,2})[）)](?!\d)|[（(](\d{1,2})$")   # 2024 卷：题号嵌在题干中/行尾无右括号
+INLINE = re.compile(r"[（(](\d{1,2})[）)](?!\d)|[（(](\d{1,2})$")
 
 def is_ad(line):
     s = line.strip()
@@ -61,101 +64,145 @@ def module_of(mapping, q):
                 return idx
     return None
 
-def parse_paper(path, tag, mapping, cut_at_answer=False, inline_qnum=False):
+def parse_paper(path, mapping, inline_qnum=False, ans_marker=None):
+    """返回 {q: (题干行列表, 答案行列表或None)}；块列表与 blocks 字典不再共享引用"""
     lines = Path(path).read_text(encoding="utf-8").split("\n")
-    blocks = {}   # qnum -> [lines]
+    blocks = {}
     order = []
     cur_q, cur_lines = None, None
+
+    def finalize():
+        nonlocal cur_q, cur_lines
+        if cur_q is not None and cur_q not in blocks:
+            blocks[cur_q] = cur_lines
+            order.append(cur_q)
+        cur_q, cur_lines = None, None
+
     for line in lines:
-        if is_ad(line):
+        if is_ad(line) or "=====" in line:
             continue
-        if "=====" in line:
-            continue
-        if cut_at_answer and "参考答案" in line:
-            cur_q, cur_lines = None, None
-            continue
+        if STOP_MARK in line and len(order) >= 40:   # 卷尾答案解析区，停止
+            finalize()
+            break
+        started = False
         if inline_qnum:
             m_i = INLINE.search(line)
             m_f = None if m_i else re.search(r"(\d{1,2})）\s*$", line)
             if m_i or m_f:
-                raw = m_i.group(1) or m_i.group(2) if m_i else m_f.group(1)
-                q = int(raw)
-                mod = module_of(mapping, q)
-                if mod is None or q in blocks:
-                    cur_q, cur_lines = None, None
-                    continue
-                cur_q, cur_lines = q, [line]
-                blocks[q] = cur_lines
-                order.append(q)
-                continue
-            if cur_q is not None:
-                cur_lines.append(line)
-            continue
-        m_q = QSTART.match(line)
-        m_g = GROUP.match(line)
-        if m_q or m_g:
-            q = int(m_g.group(1)) if m_g else int(m_q.group(1))
+                q = int((m_i.group(1) or m_i.group(2)) if m_i else m_f.group(1))
+                started = True
+        else:
+            m_g = GROUP.match(line)
+            m_q = None if m_g else QSTART.match(line)
+            if m_g or m_q:
+                q = int(m_g.group(1)) if m_g else int(m_q.group(1))
+                started = True
+        if started:
+            finalize()
             mod = module_of(mapping, q)
-            if mod is None:
-                cur_q, cur_lines = None, None   # 答案解析区的"伪题号"直接丢弃
+            if mod is None or q in blocks:      # 答案区伪题号 / 重复题号：丢弃后续行
                 continue
-            if cur_q is not None and cur_q in blocks:
-                blocks[cur_q].extend(cur_lines)
-            cur_q, cur_lines = q, [line]
-            if q not in blocks:
-                blocks[q] = cur_lines
-                order.append(q)
+            blocks[q] = [line]
+            order.append(q)
+            cur_q, cur_lines = q, blocks[q]
             continue
         if cur_q is not None:
             cur_lines.append(line)
-    if cur_q is not None and cur_q in blocks:
-        blocks[cur_q].extend(cur_lines)
+    finalize()
+
     result = {}
     for q in order:
-        body = "\n".join(l for l in blocks[q]).strip()
-        if body:
-            result[q] = body
+        body = [l for l in blocks[q] if l.strip()]
+        if not body:
+            continue
+        qtext, ans = body, None
+        if ans_marker:
+            for i, ln in enumerate(body):
+                if ans_marker in ln:
+                    qtext, ans = body[:i], body[i:]
+                    break
+        result[q] = (qtext, ans)
     return result
 
+def parse_2021_11_letters(path):
+    letters = {}
+    for line in Path(path).read_text(encoding="utf-8").split("\n"):
+        m = re.match(r"^(\d{1,2})\s*[．.]\s*([A-D])\s*$", line.strip())
+        if m:
+            letters[int(m.group(1))] = m.group(2)
+    return letters
+
+def parse_2024_answers(path):
+    ans = {}
+    cur, cur_lines = None, None
+    for line in Path(path).read_text(encoding="utf-8").split("\n"):
+        m = re.match(r"^[（(](\d{1,2})[）)]\s*答案\s*[:：]", line.strip())
+        if m:
+            if cur is not None:
+                ans[cur] = "\n".join(cur_lines).strip()
+            cur = int(m.group(1))
+            cur_lines = [line]
+        elif cur is not None:
+            if is_ad(line) or "=====" in line:
+                continue
+            cur_lines.append(line)
+    if cur is not None:
+        ans[cur] = "\n".join(cur_lines).strip()
+    return ans
+
+def md_blockquote(lines):
+    return "\n".join("> " + l.strip() if l.strip() else ">" for l in lines)
+
+def md_details(ans_lines, note=""):
+    body = "<br>".join(l.strip() for l in ans_lines if l.strip())
+    if note:
+        body = (body + "<br>" if body else "") + f"<i>{note}</i>"
+    return (f"<details><summary><b>👉 点击展开答案与解析</b></summary>\n\n"
+            f"<p>{body}</p>\n\n</details>")
+
 def main():
+    ans_2021_11 = parse_2021_11_letters(SRC / "2021年11月软件设计师上午真题+答案解析.txt")
+    ans_2024 = parse_2024_answers(SRC / "2024年上半年软件设计师 综合知识 答案解析.txt")
+
     banks = {i: [] for i in range(13)}
-    stats = {}
     total = 0
     for tag, (fname, mapping) in MAPS.items():
         inline = (tag == "2024.05")
-        qs = parse_paper(SRC / fname, tag, mapping, cut_at_answer=(tag == "2023.05"), inline_qnum=inline)
-        # 缺号诊断：映射范围内的题号哪些没有解析出块
-        expected = sorted({q for ranges in mapping.values() for a, b in ranges for q in range(a, b + 1)})
-        missing = [q for q in expected if q not in qs]
-        if missing:
-            print(f"{tag}: 缺块题号 {missing}")
-        year = tag.split(".")[0]
-        month = tag.split(".")[1]
-        stats[tag] = {}
+        ans_marker = ANSWER_MARKERS.get(tag)
+        qs = parse_paper(SRC / fname, mapping, inline_qnum=inline, ans_marker=ans_marker)
+        year, month = tag.split(".")[0], tag.split(".")[1]
         for mod in range(13):
-            got = []
             for q in sorted(qs):
-                if module_of(mapping, q) == mod:
-                    got.append((year, month, q, qs[q]))
-            banks[mod].extend(got)
-            stats[tag][mod] = len(got)
+                if module_of(mapping, q) != mod:
+                    continue
+                qtext, ans = qs[q]
+                details = None
+                if tag == "2022.05" and ans:
+                    details = md_details(ans)
+                elif tag == "2023.05" and ans:
+                    details = md_details(ans)
+                elif tag == "2024.05" and q in ans_2024:
+                    details = md_details(ans_2024[q].split("\n"))
+                elif tag == "2021.11" and q in ans_2021_11:
+                    details = md_details([f"答案：{ans_2021_11[q]}"],
+                                         "原卷解析为图片未提取；要听讲解把这题发我")
+                banks[mod].append((year, month, q, qtext, details))
         total += len(qs)
-        print(f"{tag}: 解析出 {len(qs)} 题")
+        print(f"{tag}: {len(qs)} 块")
 
-    out = ["# 上午真题分类题库（2021~2024，6 套卷按模块整合）",
+    out = ["# 上午真题分类题库（2021~2024，6 套卷按模块整合 · 答案折叠版）",
            "",
-           "> 来源：2021.05 / 2021.11 / 2022.05 / 2022.11 / 2023.05 / 2024.05 六套上午卷。",
-           "> 按模块重组，方便按专题刷题；题干选项为原文（OCR 卷可能有少量识别噪声，已标〔提取不清〕或保留原样）。",
-           "> 已知缺陷：2021.11 第 8 题原卷题干缺失；2022.05 原文件只有 1~34 题；2024 第 59~70 题两份源文件均无题干、第 20/74/75 题 OCR 题号丢失（这三题请对照原 PDF），第 17 题题号残缺已尽力恢复。",
-           "> 配套：知识点讲解见《上午题全知识点总复习_可视化.html》。", "",
-           "## 各模块题量分布", ""]
-    hdr = "| 模块 | " + " | ".join(MAPS.keys()) + " | 合计 |"
-    out.append(hdr)
-    out.append("|---|" + "---|" * (len(MAPS) + 1))
+           "> **用法**：先做题 → 点每题下方『👉 点击展开答案与解析』对答案。题干选项为原文。",
+           "> **答案覆盖**：2022.05 / 2023.05 / 2024 有完整答案+解析（折叠块）；2021.11 只有答案字母（解析为图片未提取）；**2021.05 / 2022.11 原卷未含解析**——不会的题直接发我，我定位知识点补讲。",
+           "> **已知缺陷**：2021.11 第 8 题原卷题干缺失；2022.05 原文件只有 1~34 题；2024 第 59~70 题源文件无题干、第 20/74/75 题 OCR 题号丢失、第 17 题题号残缺已恢复；OCR 卷可能有少量识别噪声。",
+           "> **配合**：知识点讲解见《上午题全知识点总复习_可视化.html》。", "",
+           "## 各模块题量分布（块数）", ""]
+    years = list(MAPS.keys())
+    out.append("| 模块 | " + " | ".join(years) + " | 合计 |")
+    out.append("|---|" + "---|" * (len(years) + 1))
     for mod in range(13):
-        row = [str(len([q for q in banks[mod] if q[0] == y and q[1] == m])) for y, m in
+        row = [str(len([b for b in banks[mod] if b[0] == y and b[1] == m])) for y, m in
                [(t.split(".")[0], t.split(".")[1]) for t in MAPS]]
-        name = MODULES[mod].split("、")[0] + "、" + MODULES[mod].split("、")[1] if "、" in MODULES[mod] else MODULES[mod]
         out.append(f"| {MODULES[mod]} | " + " | ".join(row) + f" | {len(banks[mod])} |")
     out.append("")
     for mod in range(13):
@@ -163,15 +210,18 @@ def main():
             continue
         out.append(f"# {MODULES[mod]}")
         out.append("")
-        for year, month, q, body in banks[mod]:
+        for year, month, q, qtext, details in banks[mod]:
             out.append(f"**【{year}.{month} · 第{q}题】**")
             out.append("")
-            out.append(body)
+            out.append(md_blockquote(qtext))
             out.append("")
+            if details:
+                out.append(details)
+                out.append("")
         out.append("---")
         out.append("")
     OUT.write_text("\n".join(out), encoding="utf-8")
-    print(f"TOTAL {total} 题 -> {OUT} ({len(OUT.read_text(encoding='utf-8'))} chars)")
+    print(f"TOTAL {total} 块 -> {OUT} ({len(OUT.read_text(encoding='utf-8'))} chars)")
 
 if __name__ == "__main__":
     main()
