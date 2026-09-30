@@ -42,6 +42,7 @@ MAPS = {
 
 ANSWER_MARKERS = {"2022.05": "答案：", "2023.05": "参考答案"}
 STOP_MARK = "答案解析"
+STARTS = {}   # 2021.05/2022.11/2024 为内嵌（N）题号格式，走 inline 解析即可自动跳过考前说明
 
 ADS = ["手机端题库", "内部资料", "禁止传播", "希赛网", "客服热线", "软考达人",
        "ruankaodaren", "富国", "淘宝", "QQ", "专业的在线教育平台", "微信搜索"]
@@ -64,12 +65,13 @@ def module_of(mapping, q):
                 return idx
     return None
 
-def parse_paper(path, mapping, inline_qnum=False, ans_marker=None):
+def parse_paper(path, mapping, inline_qnum=False, ans_marker=None, start_marker=None):
     """返回 {q: (题干行列表, 答案行列表或None)}；块列表与 blocks 字典不再共享引用"""
     lines = Path(path).read_text(encoding="utf-8").split("\n")
     blocks = {}
     order = []
     cur_q, cur_lines = None, None
+    began = start_marker is None
 
     def finalize():
         nonlocal cur_q, cur_lines
@@ -81,33 +83,50 @@ def parse_paper(path, mapping, inline_qnum=False, ans_marker=None):
     for line in lines:
         if is_ad(line) or "=====" in line:
             continue
+        if not began:
+            if start_marker in line:
+                began = True
+            continue
         if STOP_MARK in line and len(order) >= 40:   # 卷尾答案解析区，停止
             finalize()
             break
-        started = False
         if inline_qnum:
             m_i = INLINE.search(line)
             m_f = None if m_i else re.search(r"(\d{1,2})）\s*$", line)
             if m_i or m_f:
                 q = int((m_i.group(1) or m_i.group(2)) if m_i else m_f.group(1))
-                started = True
+                if q == cur_q:                      # 当前题的选项续行
+                    cur_lines.append(line)
+                    continue
+                mod = module_of(mapping, q)
+                if mod is None or q in blocks:      # 例题 88/89 / 对已关闭题号的引用：并入当前题文本
+                    if cur_q is not None:
+                        cur_lines.append(line)
+                    continue
+                finalize()
+                blocks[q] = [line]
+                order.append(q)
+                cur_q, cur_lines = q, blocks[q]
+                continue
+            if cur_q is not None:
+                cur_lines.append(line)
+            continue
         else:
             m_g = GROUP.match(line)
             m_q = None if m_g else QSTART.match(line)
             if m_g or m_q:
                 q = int(m_g.group(1)) if m_g else int(m_q.group(1))
-                started = True
-        if started:
-            finalize()
-            mod = module_of(mapping, q)
-            if mod is None or q in blocks:      # 答案区伪题号 / 重复题号：丢弃后续行
+                finalize()
+                mod = module_of(mapping, q)
+                if mod is None or q in blocks:      # 答案区伪题号 / 重复题号：丢弃后续行
+                    cur_q, cur_lines = None, None
+                    continue
+                blocks[q] = [line]
+                order.append(q)
+                cur_q, cur_lines = q, blocks[q]
                 continue
-            blocks[q] = [line]
-            order.append(q)
-            cur_q, cur_lines = q, blocks[q]
-            continue
-        if cur_q is not None:
-            cur_lines.append(line)
+            if cur_q is not None:
+                cur_lines.append(line)
     finalize()
 
     result = {}
@@ -173,8 +192,6 @@ def md_details(ans_lines, note=""):
     if note:
         parts.append(note)
     body = "<br>".join(p for p in parts if p)
-    if note:
-        body = (body + "<br>" if body else "") + f"<i>{note}</i>"
     return (f"<details><summary><b>👉 点击展开答案与解析</b></summary>\n\n"
             f"<p>{body}</p>\n\n</details>")
 
@@ -185,9 +202,10 @@ def main():
     banks = {i: [] for i in range(13)}
     total = 0
     for tag, (fname, mapping) in MAPS.items():
-        inline = (tag == "2024.05")
+        inline = tag in ("2021.05", "2022.11", "2024.05")
         ans_marker = ANSWER_MARKERS.get(tag)
-        qs = parse_paper(SRC / fname, mapping, inline_qnum=inline, ans_marker=ans_marker)
+        qs = parse_paper(SRC / fname, mapping, inline_qnum=inline, ans_marker=ans_marker,
+                         start_marker=STARTS.get(tag))
         year, month = tag.split(".")[0], tag.split(".")[1]
         for mod in range(13):
             for q in sorted(qs):
