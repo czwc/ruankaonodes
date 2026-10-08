@@ -1,11 +1,9 @@
-import os
-
-template = '''<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="zh-CN" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title}</title>
+    <title>2024年上半年·案例分析（空白试卷） - 真题阅读</title>
     <!-- Marked.js -->
     <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
     <!-- Prism.js -->
@@ -318,11 +316,11 @@ template = '''<!DOCTYPE html>
     <div class="content-wrapper">
         <div class="content">
             <div class="top-nav">
-                <a href="{nav_prefix}1%20图像笔记一/软件设计师讲义_可视化.html" class="{nav1_active}">📔 软件设计师讲义 (详细版)</a>
-                <a href="{nav_prefix}2%20图像笔记二/软考-软件设计师-笔记_可视化.html" class="{nav2_active}">📝 软件设计师笔记 (速查版)</a>
-                <a href="{nav_prefix}上午题全知识点总复习_可视化.html" class="{nav4_active}">🌅 上午题总复习</a>
-                <a href="{nav_prefix}下午题全题型总复习_可视化.html" class="{nav5_active}">🌆 下午题总复习</a>
-                <a href="{nav_prefix}软考突击冲刺宝典_可视化.html" class="{nav3_active}">🔥 考前冲刺宝典 (必看)</a>
+                <a href="../../1%20图像笔记一/软件设计师讲义_可视化.html" class="">📔 软件设计师讲义 (详细版)</a>
+                <a href="../../2%20图像笔记二/软考-软件设计师-笔记_可视化.html" class="">📝 软件设计师笔记 (速查版)</a>
+                <a href="../../上午题全知识点总复习_可视化.html" class="">🌅 上午题总复习</a>
+                <a href="../../下午题全题型总复习_可视化.html" class="">🌆 下午题总复习</a>
+                <a href="../../软考突击冲刺宝典_可视化.html" class="">🔥 考前冲刺宝典 (必看)</a>
             </div>
             <div id="markdown-content">
                 <p>正在渲染内容，请稍候...</p>
@@ -334,7 +332,202 @@ template = '''<!DOCTYPE html>
 
     <!-- Raw Markdown Data -->
     <script id="raw-markdown" type="text/markdown">
-{markdown_content}
+===== 第1页 =====
+软考达人
+ruankaodaren.com
+软考达人－高效提分的软考题库
+2024年上半年软件设计师案例分析
+第一批次案例分析（11.04下午）
+第一题：数据流图
+人工智能问答系统（类似chatGPT）的数据流图设计
+问题：
+1.补充外部实体
+2.补充数据存储
+3.补充缺失的数据流（起点终点）
+4.什么是数据流图设计的父类、子类平衡？如何保持？（子图的输入输出流同父类相应
+的输入输出流保持一致）
+第二题：数据库设计
+汽车维修公司对汽车的维修数据库设计
+问题：
+1.补充缺失的联系和联系类型
+信搜索：
+2.根据实体联系，补充关系模式的空缺
+3.给出关系模式的主键和外键
+4.如果客户为汽车购买了多张保险，涉及到维修赔偿费率的问题。加入“保险”，补充
+对应的关系及联系类型。
+第三题：UML建模
+类似淘宝的网上购物系统设计
+问题：
+1.补充用例名
+2.补充类名
+3.给出关系模式（0.**，1**）
+第四题：C语言算法
+最大子段和，给定n个整数（可能有负数）组成的序列a[1].a[2].a[n]，求该序列如
+a[i]+a[i+1]+.+a[j]的子段和的最大值。依次定义，所求最优值为：max{0.a[i]+a[i+1]+.+aj]}
+动态规划法O（n)
+1/6
+
+===== 第2页 =====
+软考达人
+ruankaodaren.com
+软考达人－高效提分的软考题库
+第五题：面向对象程序设计
+command命令模式。
+第二批次案例分析（11.05下午）
+第一题：数据流图
+学校的疫情防控系统（日报/返校审批系统）。实体有学生，教师，行政管理人员，系统
+管理员等。
+1）补充实体E1-E5
+2）补充存储名称3个表
+3）补充缺失的数据流图
+4）用结构化语言描述审批流程
+软考达
+第二题：数据库设计
+快递系统。给出了快递公司，快递员，客户，包裹（联系）的图要求补充。（参考如下
+2020年软考数据库系统工程师下午真题）
+某小区快递驿站代为收发各家快递公司的包裹，为规范包裹收发流程，提升效率，需
+要开发一个信息系统。请根据下述需求描述完成该系统的数据库设计。
+【需求描述】
+（1）记录快递公司和快递员的信息。快递公司信息包括：公司名称、地址和一个电话：
+快递员信息包括：姓名、手机号码和所属公司名称。一个快递公司可以有若干快递员，一个
+快递员只能属于家快递公司。
+（2）记录客户信息，客户信息包括：姓名、手机号码和客户等级。驿站对客户进行等级
+评定，等级高的客户在驿站投递包裹有相应的优惠。
+（3）记录包裹信息，便于快速查找和管理。包裹信息包括：包裹编号，包裹到达驿站时
+间、客户手机号码和快递员手机号码。快递驿站每个月根据收发的包裹数量，与各快递公司
+结算代收发的费用。
+软考题库－微信搜一搜
+Q软考达人
+2/6
+
+===== 第3页 =====
+软考达人
+ruankaodaren.com
+软考达人－高效提分的软考题库
+快递公司
+客户
+包裹
+快递员
+问题1（6分）
+1）根据需求阶段收集的信息，设计实体联系图。
+## 参考答案：如图：
+快递公司
+客户
+包裹
+软考达
+快递员
+问题2（4分）
+搜索
+补充下列逻辑结构设计中的（a）、（b）两处空缺，并描述完整性约束关系。
+【逻辑结构设计】
+根据概念模型设计阶段完成的实体联系图，得出如下关系模式（不完整）：
+快递公司（公司名称，地址，电话）
+快递员（姓名，快递员手机号码，（a））
+客户（姓名，客户手机号码，客户等级）
+包裹（编号，到达时间，（b），快递员手机号码）
+## 参考答案：（a）所属公司名称。外键：公司名称主键：快递员手机号
+（b）客户手机号码。外键：快递员手机号、客户手机号主键：编号，
+问题3（5分）
+和水电费缴费记录之间的“缴纳”联系，对图1-1进行补充。“水电费缴费记录”实体包
+括：编号、客户手机号码、缴费类型、金额和时间，请给出“水电费缴费记录”的关系模式，
+并说明其完整性约束。
+3/6
+
+===== 第4页 =====
+软考达人
+ruankaodaren.com
+软考达人－高效提分的软考题库
+## 参考答案：如图：
+快递公司
+客户
+管理
+包裹
+缴纳
+快递员
+水电费缴
+纳记录
+水电费缴费记录（编号，客户手机号码，缴费类型，金额，时间）
+主键：编号，外键：客户手机号
+第三题：UML建模
+度假村预定系统。图1是用例图，包括预定，支付（泛化为不同支付方式）：图2是类
+图，类名有客户，管理员，支付（继承为不同支付方式）。
+取消预约
+include
+预约申请
+预约管理
+include
+include
+U1
+U3
+顾客
+include
+酒店管理员
+U5
+U2
+include
+U4
+免费题库
+4/6
+
+===== 第5页 =====
+软考达人
+ruankaodaren.com
+软考达人－高效提分的软考题库
+酒店管理员
+客户
+1）补充U1-U5
+2）补充C1-C5
+3）说明关键字含义：包含（include）、扩展（extend）和泛化（generalization）
+第四题：C语言算法
+最大子段和（分治法）。数组有正负数，类似{23，15，16，-1，-5-3}，求和最大的最长
+子结构。（不过代码内容可能不一样）O（nlogn）
+第五题：面向对象程序设计
+command模式。
+Java题命令模式（与此代码类似不过也有些不同仅供参考）
+abstractclassCommand
+publicabstractvoidexecuteO;
+classConcreteCommandlextendsCommand
+privateReceiverreceiver,
+publicConcreteCommand10
+this.receiver=newConcreteReceiverlO;
+publicvoidsetReceiver(Receiverreceiver)
+this.receiver=receiver;
+publicvoidexecute(）
+if（receiver!=null)(
+receiver.doSomethingO;
+5/6
+
+===== 第6页 =====
+软考达人
+ruankaodaren.com
+软考达人－高效提分的软考题库
+abstract classReceiver
+public abstractvoid doSomething();
+classConcreteReceiverlextendsReceiver
+@Override
+publicvoiddoSomethingO
+System.out.println("ConcreteReceiverI do...");
+classInvoker!
+private Commandcommand;
+publicvoidsetCommand(Commandcommand)
+软考达
+this.command=command;
+publicvoid actionO
+this.command.execute();
+classTest
+微信搜索：
+public staticvoidmain(String args
+Invokerinvoker=newInvoker();
+Receiverreceiver=newConcreteReceiver();
+//这个位置真题循环的是List
+//List＜Invoker>invokerList=newArrayList＜>();
+//类似于invokerList.get（i）.actionO;
+Commandcommand=newConcreteCommand10;
+invoker.setCommand(command);
+invoker.action();
+C语言算法难度降低，题目跟随时代前沿，时间足够，历年真题仍然是重中之重。11.4
+号和11.5号下午案例分析最后两道大题雷同（不过代码不一样）。（5号比4号简单）
+6/6
     </script>
 
     <script>
@@ -452,57 +645,3 @@ template = '''<!DOCTYPE html>
     </script>
 </body>
 </html>
-'''
-
-def build_html(md_path, html_path, title, active_index, depth=1):
-    """depth: 页面相对仓库根的目录深度（0=根目录，1=子文件夹，2=二级子文件夹），导航前缀按深度加 ../"""
-    with open(md_path, 'r', encoding='utf-8') as f:
-        md_content = f.read()
-    
-    # Escape </script> to avoid breaking the HTML template
-    md_content = md_content.replace('</script>', '<\\/script>')
-    
-    nav1_active = 'active-nav' if active_index == 1 else ''
-    nav2_active = 'active-nav' if active_index == 2 else ''
-    nav3_active = 'active-nav' if active_index == 3 else ''
-    nav4_active = 'active-nav' if active_index == 4 else ''
-    nav5_active = 'active-nav' if active_index == 5 else ''
-    nav_prefix = '../' * depth
-    
-    html = template.replace('{title}', title)\
-                   .replace('{markdown_content}', md_content)\
-                   .replace('{nav1_active}', nav1_active)\
-                   .replace('{nav2_active}', nav2_active)\
-                   .replace('{nav3_active}', nav3_active)\
-                   .replace('{nav4_active}', nav4_active)\
-                   .replace('{nav5_active}', nav5_active)\
-                   .replace('{nav_prefix}', nav_prefix)
-                   
-    with open(html_path, 'w', encoding='utf-8') as f:
-        f.write(html)
-        
-    print(f"Successfully built {html_path}")
-
-build_html(
-    r'f:/软设笔记/1 图像笔记一/软件设计师讲义.md',
-    r'f:/软设笔记/1 图像笔记一/软件设计师讲义_可视化.html',
-    '软件设计师讲义 (详细版) - 学习平台',
-    1,
-    1
-)
-
-build_html(
-    r'f:/软设笔记/2 图像笔记二/软考-软件设计师-笔记.md',
-    r'f:/软设笔记/2 图像笔记二/软考-软件设计师-笔记_可视化.html',
-    '软件设计师笔记 (速查版) - 学习平台',
-    2,
-    1
-)
-
-build_html(
-    r'f:/软设笔记/软考突击冲刺宝典.md',
-    r'f:/软设笔记/软考突击冲刺宝典_可视化.html',
-    '软考突击冲刺宝典 - 考前必看',
-    3,
-    0
-)
