@@ -1,0 +1,880 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>下午题全题型总复习 - 五大题型套路与骨架</title>
+    <!-- Marked.js -->
+    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    <!-- Prism.js -->
+    <link href="https://cdn.jsdelivr.net/npm/prismjs@1.29.0/themes/prism-tomorrow.min.css" rel="stylesheet" />
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root[data-theme="light"] {
+            --bg-color: #ffffff;
+            --text-color: #334155;
+            --sidebar-bg: #f8fafc;
+            --border-color: #e2e8f0;
+            --accent-color: #3b82f6;
+            --heading-color: #0f172a;
+            --code-bg: #f1f5f9;
+            --quote-bg: #f8fafc;
+            --quote-border: #3b82f6;
+            --table-header: #f1f5f9;
+        }
+        :root[data-theme="dark"] {
+            --bg-color: #0f172a;
+            --text-color: #cbd5e1;
+            --sidebar-bg: #1e293b;
+            --border-color: #334155;
+            --accent-color: #60a5fa;
+            --heading-color: #f8fafc;
+            --code-bg: #1e293b;
+            --quote-bg: #1e293b;
+            --quote-border: #60a5fa;
+            --table-header: #1e293b;
+        }
+        
+        body {
+            margin: 0;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            display: flex;
+            transition: background-color 0.3s, color 0.3s;
+            line-height: 1.8;
+            font-size: 16px;
+        }
+        
+        /* Sidebar */
+        .sidebar {
+            width: 320px;
+            height: 100vh;
+            overflow-y: auto;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            position: fixed;
+            padding: 30px 20px;
+            box-sizing: border-box;
+            transition: background-color 0.3s, border-color 0.3s, transform 0.3s;
+            z-index: 50;
+        }
+        
+        .sidebar::-webkit-scrollbar { width: 6px; }
+        .sidebar::-webkit-scrollbar-thumb { background: #94a3b8; border-radius: 3px; }
+        
+        .sidebar h3 {
+            margin-top: 0;
+            color: var(--heading-color);
+            font-size: 1.2rem;
+            padding-bottom: 15px;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .theme-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: var(--text-color);
+            padding: 5px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .theme-toggle:hover { background: rgba(128,128,128,0.1); }
+        
+        .sidebar a {
+            display: block;
+            text-decoration: none;
+            color: var(--text-color);
+            margin-bottom: 8px;
+            font-size: 14px;
+            transition: color 0.2s, padding-left 0.2s;
+            opacity: 0.8;
+            line-height: 1.5;
+            padding: 4px 0;
+            border-radius: 4px;
+        }
+        .sidebar a:hover, .sidebar a.active {
+            color: var(--accent-color);
+            opacity: 1;
+            padding-left: 10px;
+            background: rgba(59, 130, 246, 0.05);
+        }
+        
+        .toc-h1 { font-weight: 600; margin-top: 15px; font-size: 15px !important; color: var(--heading-color) !important; }
+        .toc-h2 { margin-left: 15px; font-weight: 500; }
+        .toc-h3 { margin-left: 30px; font-size: 13px !important; }
+        .toc-h4 { margin-left: 45px; font-size: 13px !important; opacity: 0.7; }
+        
+        /* Content */
+        .content-wrapper {
+            margin-left: 320px;
+            width: calc(100% - 320px);
+            display: flex;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        
+        .content {
+            padding: 60px 50px;
+            max-width: 850px;
+            width: 100%;
+        }
+        
+        h1, h2, h3, h4, h5 {
+            color: var(--heading-color);
+            margin-top: 2em;
+            margin-bottom: 0.8em;
+            font-weight: 600;
+            line-height: 1.3;
+        }
+        
+        h1 { font-size: 2.5rem; border-bottom: 2px solid var(--accent-color); padding-bottom: 10px; margin-top: 0; display: inline-block; }
+        h2 { font-size: 1.8rem; border-bottom: 1px solid var(--border-color); padding-bottom: 8px; }
+        h3 { font-size: 1.4rem; }
+        
+        p { margin-bottom: 1.2em; }
+        
+        img {
+            max-width: 100%;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            margin: 25px auto;
+            display: block;
+        }
+        
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin: 25px 0;
+            font-size: 0.95rem;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 0 0 1px var(--border-color);
+        }
+        
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        th {
+            background-color: var(--table-header);
+            font-weight: 600;
+            color: var(--heading-color);
+        }
+        
+        blockquote {
+            border-left: 4px solid var(--quote-border);
+            margin: 25px 0;
+            padding: 15px 20px;
+            background-color: var(--quote-bg);
+            border-radius: 0 8px 8px 0;
+            font-style: italic;
+        }
+        
+        blockquote p { margin: 0; }
+        
+        pre {
+            border-radius: 8px !important;
+            margin: 20px 0 !important;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        
+        code {
+            font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+            background-color: var(--code-bg);
+            padding: 3px 6px;
+            border-radius: 4px;
+            font-size: 0.9em;
+            color: var(--accent-color);
+        }
+        pre code { background-color: transparent; padding: 0; color: inherit; font-size: 0.85em; }
+        
+        hr {
+            border: 0;
+            height: 1px;
+            background: var(--border-color);
+            margin: 40px 0;
+        }
+        
+        /* Highlight specific markdown features (bold, italics) */
+        strong { 
+            color: var(--heading-color); 
+            font-weight: 600; 
+            background: linear-gradient(transparent 50%, rgba(253, 224, 71, 0.6) 50%);
+            padding: 0 4px;
+            border-radius: 2px;
+        }
+        
+        :root[data-theme="dark"] strong {
+            background: linear-gradient(transparent 50%, rgba(234, 179, 8, 0.4) 50%);
+            color: #fef08a;
+        }
+
+        /* 重点符号高亮 */
+        .highlight-icon {
+            color: #ef4444;
+            font-weight: bold;
+            animation: pulse 2s infinite;
+            display: inline-block;
+        }
+        
+        @keyframes pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+        
+        /* Floating To Top */
+        #totop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--accent-color);
+            color: white;
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            opacity: 0;
+            transition: opacity 0.3s, transform 0.3s;
+            text-decoration: none;
+            font-size: 20px;
+            z-index: 100;
+        }
+        #totop:hover { transform: translateY(-3px); }
+        #totop.visible { opacity: 1; }
+        
+        /* Header nav */
+        .top-nav {
+            margin-bottom: 30px;
+            display: flex;
+            gap: 15px;
+        }
+        .top-nav a {
+            color: var(--text-color);
+            text-decoration: none;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: var(--sidebar-bg);
+            border: 1px solid var(--border-color);
+            font-size: 14px;
+            transition: all 0.2s;
+        }
+        .top-nav a:hover, .top-nav a.active-nav {
+            background: var(--accent-color);
+            color: white;
+            border-color: var(--accent-color);
+        }
+
+        @media (max-width: 900px) {
+            .sidebar { transform: translateX(-100%); }
+            .sidebar.open { transform: translateX(0); box-shadow: 4px 0 20px rgba(0,0,0,0.1); }
+            .content-wrapper { margin-left: 0; width: 100%; }
+            .content { padding: 80px 30px 40px; }
+            #menu-btn { display: flex; }
+        }
+        
+        #menu-btn {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 101;
+            background: var(--bg-color);
+            border: 1px solid var(--border-color);
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            color: var(--text-color);
+            align-items: center;
+            gap: 6px;
+            font-weight: 500;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+        }
+    </style>
+</head>
+<body>
+    <button id="menu-btn">☰ 目录</button>
+    
+    <div class="sidebar" id="sidebar">
+        <h3>目录 <button class="theme-toggle" id="theme-btn" title="切换主题">🌙</button></h3>
+        <div id="toc"></div>
+    </div>
+    
+    <div class="content-wrapper">
+        <div class="content">
+            <div class="top-nav">
+                <a href="../1%20图像笔记一/软件设计师讲义_可视化.html" class="">📔 软件设计师讲义 (详细版)</a>
+                <a href="../2%20图像笔记二/软考-软件设计师-笔记_可视化.html" class="">📝 软件设计师笔记 (速查版)</a>
+                <a href="../软考突击冲刺宝典_可视化.html" class="active-nav">🔥 考前冲刺宝典 (必看)</a>
+            </div>
+            <div id="markdown-content">
+                <p>正在渲染内容，请稍候...</p>
+            </div>
+        </div>
+    </div>
+    
+    <a href="#" id="totop">↑</a>
+
+    <!-- Raw Markdown Data -->
+    <script id="raw-markdown" type="text/markdown">
+# 下午题全题型总复习（截至 2026-10-08）
+
+> **覆盖**：试题一~六全部题型，每题型 = 考情 → 套路步骤 → 知识点卡 → 完整算例/代码骨架 → 口诀 → 失分点。
+> **配套**：逐题实战用《上午真题分类题库》同款提取文本（`2021-2024历年真题及解析\_提取文本\` 里有 6 套下午卷）；知识点细节查《上午题全知识点总复习》。
+
+---
+
+# 〇、全局战略与答题纪律（先读这节）
+
+## 及格数学
+
+| 项目 | 数字 |
+|---|---|
+| 总分 | 5 题 × 15 分 = 75 |
+| 及格线 | **45 分**（两科同过才通过） |
+| 建议时间 | 150 分钟 → 每题约 28 分钟，留 10 分钟检查 |
+
+**保分策略（数据支撑）**：
+
+| 题 | 题型 | 性质 | 目标 |
+|---|---|---|---|
+| 试题一 | DFD 数据流图 | 套路题 | **12+** |
+| 试题二 | 数据库设计 | 套路题 | **12+** |
+| 试题三 | UML 建模 | 套路题 | **10+** |
+| 试题四 | 算法填空 | 难题 | **保 6** |
+| 试题五/六 | Java（已选 Java） | 中等 | **保 8~10** |
+
+三道套路题合计 34~36 分，后两题捡 10 分 → **45 达标**。这就是"为什么先攻套路题"。
+
+## 五条答题纪律
+
+1. **先读问题再读题干**——问题会告诉你读题干时该抓什么；
+2. **填空不会也要写**——按空给分，写"最可能的变量名/最像的语法"不倒扣；
+3. **画图题用文字描述**——按"起点、终点、名称"三要素说清即可判分；
+4. **答题用模板句式**——本文件每种题型都给了"答题句式"，照着写就是得分点；
+5. **每题 28 分钟到点就走**——先把会做的小问分拿满，回头再补。
+
+---
+
+# 试题一 · DFD 数据流图（15 分，必答）
+
+## 考情
+
+形式：一段系统说明 + 顶层图/0 层图（有时缺几条流）+ 3~4 问。典型问题：①指出图中 E1~E4 外部实体名称；②补充 P1~P3 加工名称；③找出缺失的 X 条数据流（起点+终点）；④数据流图平衡/说明类小问。
+
+## 知识点卡 1：四大要素与命名
+
+| 符号 | 名称 | 命名规则 |
+|---|---|---|
+| 矩形 | **外部实体**（系统外的人/系统） | 名词（"考生"） |
+| 圆/圆角矩形 | **加工**（处理动作） | **动词+宾语**（"审核报名"），禁写"处理" |
+| 双横线/开口矩形 | **数据存储**（文件/表） | 名词（"考生名单"） |
+| 箭头 | **数据流** | **名词**（"报名信息"），禁写"数据" |
+
+**三条铁律**：①加工必须有进有出——只进不出=**黑洞**，只出不进=**白洞**，输入不足以产生输出=**灰洞**（如输入"归还图书"却输出"罚款金额"）；②外部实体**不直连**数据存储；③DFD 里**没有控制流**（2021 真题：画图注意事项"不包括表示控制流"）。
+
+## 知识点卡 2：父子图平衡
+
+- 子图边界输入输出 = 父图对应加工的输入输出（**条数、名称、方向**全对上）；
+- **拆流不算病**：父图一条流被子图拆成几条 = 广义平衡；
+- **内部文件不算账**：只被子图内部读写、不与子图外加工来往的文件，可只画在子图。
+
+## 知识点卡 3：补缺失数据流三步定位法
+
+1. **加工逐个查**：有进无出=黑洞（缺输出）、有出无进=白洞（缺输入）、输入对不上输出=灰洞；
+2. **存储逐个查**：只写不读（缺读流）、只读不写（缺写流）；
+3. **对照题干说明逐句扫**：说明里每个动词短语→一个加工、每个数据名词→一条流，**提了没画的就要补**。
+
+**答题格式**：补的流写**三样**——起点、终点、名称。如"停车记录文件 → P2 缴费结算：停车费用信息"。
+
+## 口诀
+
+> **方是人圆是事，双线仓库箭头流；加工有进又有出，实体不连仓库头**
+> **进出必须平，拆流不算病，内部文件不算账**
+> **加进出，存读写，说明逐句扫；补流写三样，起点终点名**
+
+📌 逐字解读见《做题笔记》口诀汇总区（已同步）。
+
+## 真题实战：2022.11 充电桩计量检定（上午卷同款下午卷，已提取）
+
+**说明**（原文摘要）：随着新能源车增长，需开发**计量检定云端软件**，主要功能：
+（1）**数据接收**：接收计量装置上报的充电监测数据和计量数据（以秒为间隔）、心跳数据，分别存储；
+（2）**基础数据维护**：管理员对充电桩、计量检定装置等基础数据维护；
+（3）**数据分析**：电压、电流、电能数据对比，误差分析，记录充电误差；
+（4）**充电桩检定**：计量检测人员根据误差分析结果和检定信息记录检定，系统更新检定信息并存于检定记录；
+（5）**异常告警**：检测计量装置心跳，心跳停止时向管理员发出告警；
+（6）**检定信息获取**：供第三方服务查询充电桩检定信息。
+采用结构化方法，得到上下文数据流图和 0 层图。
+
+**问题与答题要点**：
+- **问题 1（外部实体）**：从说明里抓"系统外的人/系统"——**计量装置、管理员、计量检测人员、第三方服务（系统）**；
+- **问题 2（加工名）**：对照说明动词短语——数据接收、基础数据维护、数据分析、充电桩检定、异常告警、检定信息获取；
+- **问题 3（缺失数据流）**：用三步定位法——每条缺失流写"起点+终点+名称"；
+- **问题 4（平衡说明）**：套"进出必须平"模板：①判定平衡/不平衡 ②指出子图比父图多/少哪些流 ③修正=父图补画。
+
+（完整题目与图见 `_提取文本\2022年11月软件设计师下午真题及答案解析.txt`——**先自己做一遍再对答案**。）
+
+## 失分点
+
+- 外部实体画成加工；数据流箭头方向反；漏"父图有的流子图必须有"；
+- 命名不合格：流写"数据"、加工写"处理"；
+- 补流只写名称不写起点终点（丢分）。
+
+---
+
+# 试题二 · 数据库设计（15 分，必答）
+
+## 考情
+
+形式：说明 + E-R 图（缺几个联系/属性）+ 关系模式（缺主外键）+ 2~3 问 SQL。典型问题：①补 E-R 图联系/属性；②补关系模式的主键外键；③SQL 填空（建表约束/查询）。
+
+## 知识点卡 1：E-R 建模（名词→实体，动词→联系）
+
+- **矩形=实体**（方方正正的"东西"）；**菱形=联系**，永远夹在两个矩形中间；**椭圆=属性**，挂在实体旁；
+- 联系类型判断：两边都说"多个"→ **m:n**（医生-病人、学生-课程）；一个班多个学生 → 1:n。
+
+## 知识点卡 2：E-R 转关系模式（三规则）
+
+| 联系类型 | 转换规则 | 记法 |
+|---|---|---|
+| 1:1 | 任一方加对方主键 | 随便放 |
+| 1:n | **n 端**加 **1 端**主键 | 员工表放部门号 |
+| **m:n** | **必须单独建表**，主键=两端主键组合 | 成绩表（学号+课程号） |
+
+**补充关系模式**的套路：先看已有属性，**缺的就是联系产生的**——缺的属性 = 对方的主键 + 联系自身的属性（如"成绩"）。
+
+## 知识点卡 3：主键与外键
+
+- **主键**=能唯一标识一行且不含冗余；组合键看"两个加起来才唯一"；
+- **外键**=引用**其他表主键**的属性——写关系模式时外键就是"联系带过来的对方主键"。
+
+## 知识点卡 4：SQL 补全高频点
+
+- **建表约束**：`PRIMARY KEY`、`FOREIGN KEY(x) REFERENCES 表(y)`、`NOT NULL`、`UNIQUE`；
+- **查询**：连接 `FROM A JOIN B ON ...` 或 `FROM A, B WHERE`；分组 `GROUP BY`（SELECT 里的非聚合列必须出现在 GROUP BY 里）；聚合条件用 `HAVING`；去重 `DISTINCT`；
+- **权限**：`GRANT … ON … TO … [WITH GRANT OPTION]`（可转授）；
+- **执行顺序**：FROM 最先、SELECT 最后输出。
+
+## 完整算例（报名系统，带你走一遍）
+
+E-R：学生 —（选课）— 课程，选课联系上有属性"成绩"。
+①联系类型：一个学生选多门课、一门课被多个学生选 → **m:n**；
+②转关系模式：学生(**学号**，姓名，性别)、课程(**课程号**，课程名，学分)、选课(**学号**，**课程号**，成绩)——选课表主键=学号+课程号组合，成绩是联系自身属性；
+③主外键：选课表里"学号"外键→学生表、"课程号"外键→课程表；
+④SQL：
+```sql
+CREATE TABLE 选课 (
+    学号   CHAR(8),
+    课程号 CHAR(6),
+    成绩   SMALLINT,
+    PRIMARY KEY (学号, 课程号),
+    FOREIGN KEY (学号) REFERENCES 学生(学号),
+    FOREIGN KEY (课程号) REFERENCES 课程(课程号)
+);
+```
+查询"张三"选课的课程名和成绩：
+```sql
+SELECT 课程名, 成绩 FROM 学生, 课程, 选课
+WHERE 学生.学号 = 选课.学号 AND 课程.课程号 = 选课.课程号
+  AND 姓名 = '张三';
+```
+
+## 口诀
+
+> **1:1 随便放，1:n 放 n 方，m:n 单独建表忙**
+> **矩实椭属菱联系；筛行选择筛列投影**
+
+## 失分点
+
+- m:n 忘了单独建表（每卷必挖）；外键方向搞反；GROUP BY 漏列；WHERE 里写聚合函数（要用 HAVING）。
+
+---
+
+# 试题三 · UML 建模（15 分，必答）
+
+## 考情
+
+形式：说明 + 一张 UML 图（类图/用例图/序列图/状态图轮换，2024 考活动图分支并发）+ 填空（类名/关系名/多重度/消息名）。2023 新考点：**序列图 loop 组合片段**。
+
+## 知识点卡 1：用例图
+
+- 参与者（小人）、用例（椭圆）、关系（实线/虚线箭头）；
+- **include（包含）**：基用例**必做**的子流程，箭头**指向被包含者**（"登录"include"验证密码"）；
+- **extend（扩展）**：**可选/异常**才做的流程，箭头**指向基用例**（"登录"被"验证码失败处理"extend）；
+- 记法：**include 指被包含，extend 指基用例**（高频陷阱就是箭头方向）。
+
+## 知识点卡 2：类图
+
+- 类=三栏矩形（类名/属性/操作）；关系六种从弱到强：**依→关→聚→组→泛→实现**；
+- **聚合空心菱形可分离**（车队-车）、**组合实心菱形同生死**（订单-订单项）；菱形画在**整体端**；
+- **多重度**：1、0..1、0..*、1..\*——看题干"一个 X 包含多个 Y"（X 端 1，Y 端 \*）；
+- 判别一句话：**拆开后部分还能活吗？**能=聚合，不能=组合。
+
+## 知识点卡 3：序列图 / 状态图 / 活动图
+
+- **序列图**：生命线（虚线）+ 消息（实心箭头=同步调用，半开箭头=异步，虚线=返回）；**loop** 组合片段=循环执行；alt=分支；
+- **状态图**：状态（圆角矩形）+ 迁移（箭头）+ **[监护条件]** 与 **/ 转换后效果**（如登录失败 3 次：[tries<3] 是监护条件、tries++ 是转换后效果）；
+- **活动图**：起点实心圆、终点牛眼、**分支（菱形）/并发分叉汇合（粗横线）**——2024 新考点。
+
+## 答题套路（类图填空三步）
+
+1. **看箭头形状定关系**：实线三角=泛化、虚线三角=实现、菱形=聚合/组合（空心聚合实心组合）、箭头=关联/依赖；
+2. **看多重度填数字**：题干"一个部门有多个员工"→ 部门端 1、员工端 \*；
+3. **看方法调用填消息名**：序列图填空=找"谁调谁的什么方法"，方法名在类图里找。
+
+## 口诀
+
+> **静类部构署，动用顺状活协；聚合空心可分离，组合实心同生死；include 指被包含，extend 指基用例**
+
+## 失分点
+
+- include/extend 箭头方向反；多重度写反（1 和 \* 放错端）；组合聚合菱形画错端；泛化（实线三角）与实现（虚线三角）混淆。
+
+---
+
+# 试题四 · 算法设计（15 分，必答，C 代码）
+
+## 考情
+
+形式：一段 C 代码（约 30~60 行）+ 5~6 个空 + 1 问算法思想 + 1 问时间/空间复杂度。2021~2024 考过：分治（最大子段和）、动态规划、贪心（MST/Dijkstra）、回溯、字符串处理。
+
+## 五步解题套路
+
+1. **先读主函数**：搞清输入输出和整体流程，别一头扎进填空；
+2. **填空 = 前文准备 + 后文使用的连接点**：盯住"这个变量在空之后被怎么用"，反推空里该放什么；
+3. **递归题先找出口**：`if (n <= 1) return …;` 之类；递归式=`T(n) = aT(n/b) + f(n)`；
+4. **动态规划找状态转移**：盯 `dp[i]` 与 `dp[i-1]/dp[i-1][j]` 的关系；二维表先想"行是什么、列是什么"；
+5. **复杂度看循环嵌套层数**（与 n 相关的）：单层 O(n)、双层 O(n²)、折半 log；递归用主定理（T(n)=2T(n/2)+n → Θ(n log n)；+n log n → Θ(n log²n)；2T(n/2)+n² → Θ(n²)）。
+
+## 算法思想识别表（答"算法设计思想"问就靠它）
+
+| 看到 | 思想 | 关键词 |
+|---|---|---|
+| 每步取局部最优（排序+选取） | **贪心** | Prim/Kruskal/Dijkstra/部分背包 |
+| 子问题**独立** | **分治** | 二分、归并、最大子段和 |
+| 子问题**重叠**，记中间结果 | **动态规划** | dp 数组、状态转移 |
+| 递归+**撤销选择** | **回溯** | n 皇后、迷宫 |
+| 一条道走到黑用栈 | **DFS** | 连通、遍历 |
+
+## 完整算例：单链表反转（Java 版，已讲过，这里固化）
+
+```java
+Node reverse(Node head) {
+    Node prev = null, curr = head, next;
+    while (curr != null) {
+        next = __(1)__;        // (1) curr.next —— 暂存后继，否则断链
+        curr.next = __(2)__;   // (2) prev —— 当前结点掉头指向前一个
+        prev = curr;           // prev 前移
+        curr = next;           // curr 前移
+    }
+    return __(3)__;            // (3) prev —— 循环结束时 prev 停在原表尾=新表头
+}
+```
+三个空的思维：**(1) 是"先接后断"的接**（错题本 id48 的铁律）；**(2) 是反转动作本体**；**(3) 看循环结束时谁停在表头**。C++ 版一字不差，只是 `->`/`NULL`。
+
+## 口诀
+
+> **先读主函数，填空连前后；递归找出口，动规转移瞧；贪心局部优，回溯走不通就回头**
+
+## 失分点
+
+- 不看主函数直接填空；边界条件（`i<n` 还是 `i<=n`）想当然；复杂度只看一层循环；递归式答错（用主定理三行速判，见《总复习》3.10 节）。
+
+---
+
+# 试题五/六 · 面向对象 + 设计模式（15 分，二选一——你已选 Java）
+
+## 考情
+
+形式：说明 + **类图** + Java 代码（约 40~80 行）+ 5 个空。**考的不是语言语法，是设计模式角色**——先识别模式，再按角色填空。高频模式（2021~2024 统计）：**观察者 5 次、策略 4 次、状态 3 次、适配器 3 次、桥接 3 次**。这五个模式必须**手写骨架**肌肉记忆。
+
+## Java 语法速查（填空的"外壳"）
+
+| 语法 | 写法 |
+|---|---|
+| 接口 | `interface Strategy { void doWork(); }` |
+| 抽象类 | `abstract class X { abstract void f(); }` |
+| 继承 | `class A extends B` |
+| 实现接口 | `class A implements Strategy` |
+| 重写标记 | `@Override`（可省略） |
+| 空引用 | `null`（不是 NULL） |
+| 成员访问 | 全用 `.`（没有 `->`） |
+
+## 骨架 1：观察者模式（5 次，榜首）
+
+场景：一对多通知——UP 主更新，粉丝自动收到。
+
+```java
+interface Observer {                       // 观察者接口
+    void update(String msg);               // __(1)__ 常考：方法签名
+}
+class Fan implements Observer {            // 具体观察者
+    public void update(String msg) { System.out.println("收到：" + msg); }
+}
+class Uploader {                           // 目标（Subject）
+    private List<Observer> fans = new ArrayList<>();
+    public void attach(Observer o) { fans.add(o); }      // __(2)__ 订阅
+    public void detach(Observer o) { fans.remove(o); }
+    public void notify(String msg) {
+        for (Observer o : fans) { __(3)__; }  // (3) o.update(msg) —— 遍历通知
+    }
+}
+```
+**空的高频位置**：接口方法名、`add/remove`、遍历里的 `o.update(msg)`。
+
+## 骨架 2：策略模式（4 次）
+
+场景：打折/返利/满减可切换。
+
+```java
+interface Strategy { double calc(double money); }        // 策略接口
+class Discount implements Strategy {                     // 具体策略
+    public double calc(double money) { return money * 0.8; }
+}
+class Cashback implements Strategy {
+    public double calc(double money) { return money - 50; }
+}
+class Context {                                          // 上下文：持有策略
+    private Strategy strategy;
+    public Context(__(1)__) { this.strategy = s; }       // (1) Strategy s
+    public double doCalc(double money) { return __(2)__; } // (2) strategy.calc(money)
+}
+```
+**空的高频位置**：Context 构造参数类型、委托调用 `strategy.calc(money)`。
+
+## 骨架 3：状态模式（3 次）
+
+场景：对象行为随状态改变（订单：待支付→已支付→已发货）。
+
+```java
+interface State { void handle(Context ctx); }
+class Paid implements State {
+    public void handle(Context ctx) { /* 已支付的行为 */ }
+}
+class Context {
+    private State state;                                 // 当前状态
+    public void setState(__(1)__) { this.state = s; }    // (1) State s
+    public void request() { __(2)__; }                   // (2) state.handle(this) —— 委托当前状态
+}
+```
+**辨析**：状态=状态变行为变（内部自动换状态）；策略=算法可切换（客户端主动换）。
+
+## 骨架 4：适配器模式（3 次）
+
+场景：统一驱动接口——新接口包旧实现。
+
+```java
+class Adaptee {                       // 被适配者（旧的东西）
+    public void oldRequest() { /* 旧接口 */ }
+}
+interface Target { void request(); }  // 目标接口（客户想要的）
+class Adapter implements Target {     // 适配器
+    private Adaptee adaptee;
+    public Adapter(Adaptee a) { this.adaptee = a; }
+    public void request() { __(1)__; } // (1) adaptee.oldRequest() —— 转调旧接口
+}
+```
+**辨析（2024 细化考点）**：适配器=**转换**接口；代理=**控制**访问；外观=**统一简化**接口。
+
+## 骨架 5：桥接模式（3 次）
+
+场景：两个独立变化的维度（形状×颜色、消息类型×发送渠道）。
+
+```java
+interface Channel { void send(String msg); }          // 实现维度
+class SMS implements Channel { public void send(String m) { /* 发短信 */ } }
+abstract class Message {                              // 抽象维度
+    protected Channel channel;                        // 桥：持有实现维度的引用
+    public Message(Channel c) { this.channel = c; }
+    abstract public void sendMsg(String m);
+}
+class NormalMsg extends Message {
+    public NormalMsg(Channel c) { super(c); }
+    public void sendMsg(String m) { __(1)__; }         // (1) channel.send(m) —— 桥接调用
+}
+```
+**空的高频位置**：抽象类里**持有实现维度引用**的成员、构造器传参、`channel.send(m)`。
+
+## 填空五步法（考场上照做）
+
+1. 看类图：**接口+多个实现类+一个持有者** → 先猜是哪个模式；
+2. 对着骨架想角色：接口方法空=照抄类图方法名；成员空=类型照类图；
+3. 委托调用空=`成员.方法(参数)`；
+4. `null`/`null` 判断、`new ArrayList<>()` 初始化也是常客；
+5. 全部填完通读一遍，看"调用的方法在被调类里是否存在"。
+
+## 失分点
+
+- 模式认错（状态 vs 策略、代理 vs 适配器 vs 外观）→ 后面全空跟着错，**先花 3 分钟定模式**；
+- Java 接口方法默认 `public abstract`，实现类方法必须带 `public`；
+- `null` 写成 `NULL`（Java 编译不过）；
+- 观察者遍历忘了写 `o.update(...)`。
+
+---
+
+# 附 A · 设计模式下午题频率榜（2021-2024）
+
+| 模式 | 次数 | 类型 | 骨架 |
+|---|---|---|---|
+| 观察者 | 5 | 行为型 | ✅ 本文件 |
+| 策略 | 4 | 行为型 | ✅ 本文件 |
+| 状态 | 3 | 行为型 | ✅ 本文件 |
+| 适配器 | 3 | 结构型 | ✅ 本文件 |
+| 桥接 | 3 | 结构型 | ✅ 本文件 |
+| 组合/代理/装饰 | 各 2 | 结构型 | 认场景即可 |
+| 单例/工厂方法 | 各 2 | 创建型 | 认场景即可 |
+
+> 💡 行为型三巨头（观察者/策略/状态）+ 结构型双雄（适配器/桥接）覆盖近年大部分下午模式题。
+
+---
+
+# 附 B · 每种题的"答题句式"汇总
+
+| 题型 | 常见小问 | 答题句式 |
+|---|---|---|
+| DFD | 外部实体 | 从说明抓"系统外的人/系统"：X、Y、Z |
+| DFD | 缺失数据流 | 起点 → 终点：流名称（三样缺一不可） |
+| DFD | 平衡判定 | ①不平衡 ②子图比父图多进 X、多出 Y ③父图对应加工补画 X、Y |
+| DB | 联系类型 | 一个 A 对多个 B、一个 B 也对多个 A → m:n |
+| DB | 主外键 | 主键=唯一标识；外键=引用对方主键（联系带过来的） |
+| UML | 关系名 | 看箭头：实线三角=泛化、菱形=聚合/组合（空/实心） |
+| UML | 多重度 | "一个 X 对多个 Y" → X 端 1、Y 端 0..* |
+| 算法 | 设计思想 | 本算法采用【贪心/分治/动态规划/回溯】，因为… |
+| 算法 | 复杂度 | 时间复杂度 O(?)，主要来自…层循环/递归式… |
+| Java | 模式名 | 该设计采用【模式名】模式，因为题干提到…特征 |
+
+---
+
+> **生成时间**：2026-10-08（国庆后收心版）｜依据：afternoon-map + 全攻略下午部分 + 2021-2024 六套下午卷真题 + 讲义库沉淀
+> **配套实战**：`2021-2024历年真题及解析\_提取文本\` 六套下午卷（充电桩 DFD/数据库/UML/算法/Java 都在）——按本文件套路逐题打
+
+    </script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Theme setup
+            const themeBtn = document.getElementById('theme-btn');
+            const html = document.documentElement;
+            
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            html.setAttribute('data-theme', savedTheme);
+            themeBtn.textContent = savedTheme === 'light' ? '🌙' : '☀️';
+            
+            themeBtn.addEventListener('click', () => {
+                const currentTheme = html.getAttribute('data-theme');
+                const newTheme = currentTheme === 'light' ? 'dark' : 'light';
+                html.setAttribute('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                themeBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
+            });
+
+            // Mobile menu
+            const menuBtn = document.getElementById('menu-btn');
+            const sidebar = document.getElementById('sidebar');
+            menuBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                sidebar.classList.toggle('open');
+            });
+            document.addEventListener('click', (e) => {
+                if (window.innerWidth <= 900 && !sidebar.contains(e.target) && e.target !== menuBtn) {
+                    sidebar.classList.remove('open');
+                }
+            });
+
+            // Parse markdown
+            let rawMd = document.getElementById('raw-markdown').textContent;
+            
+            const contentDiv = document.getElementById('markdown-content');
+            contentDiv.innerHTML = marked.parse(rawMd);
+            
+            // Syntax highlighting
+            if (window.Prism) {
+                Prism.highlightAll();
+            }
+
+            // Generate TOC
+            const tocDiv = document.getElementById('toc');
+            const headers = contentDiv.querySelectorAll('h1, h2, h3, h4');
+            
+            // Highlight specific markers
+            const walker = document.createTreeWalker(contentDiv, NodeFilter.SHOW_TEXT, null, false);
+            const textNodes = [];
+            let node;
+            while (node = walker.nextNode()) {
+                textNodes.push(node);
+            }
+            textNodes.forEach(textNode => {
+                if (textNode.nodeValue.includes('🔺') || textNode.nodeValue.includes('重点')) {
+                    const span = document.createElement('span');
+                    span.innerHTML = textNode.nodeValue
+                        .replace(/🔺/g, '<span class="highlight-icon">🔺</span>')
+                        .replace(/重点/g, '<span style="color: #ef4444; font-weight: bold; border-bottom: 2px dashed #ef4444;">重点</span>');
+                    textNode.parentNode.replaceChild(span, textNode);
+                }
+            });
+            
+            headers.forEach((h, index) => {
+                const id = 'heading-' + index;
+                h.id = id;
+                const a = document.createElement('a');
+                a.href = '#' + id;
+                a.textContent = h.textContent;
+                a.className = 'toc-' + h.tagName.toLowerCase();
+                
+                a.addEventListener('click', (e) => {
+                    if (window.innerWidth <= 900) {
+                        sidebar.classList.remove('open');
+                    }
+                });
+                
+                tocDiv.appendChild(a);
+            });
+
+            // Scroll to top button
+            const toTop = document.getElementById('totop');
+            window.addEventListener('scroll', () => {
+                if (window.scrollY > 300) {
+                    toTop.classList.add('visible');
+                } else {
+                    toTop.classList.remove('visible');
+                }
+            });
+            
+            // Active TOC highlighting
+            const tocLinks = document.querySelectorAll('#toc a');
+            window.addEventListener('scroll', () => {
+                let current = '';
+                // Add a small offset to highlight early
+                const offset = 100;
+                headers.forEach(h => {
+                    const top = h.offsetTop;
+                    if (scrollY >= top - offset) {
+                        current = h.getAttribute('id');
+                    }
+                });
+                
+                tocLinks.forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === '#' + current) {
+                        link.classList.add('active');
+                    }
+                });
+            });
+            
+        });
+    </script>
+</body>
+</html>
