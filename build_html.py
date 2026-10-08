@@ -318,9 +318,11 @@ template = '''<!DOCTYPE html>
     <div class="content-wrapper">
         <div class="content">
             <div class="top-nav">
-                <a href="../1%20图像笔记一/软件设计师讲义_可视化.html" class="{nav1_active}">📔 软件设计师讲义 (详细版)</a>
-                <a href="../2%20图像笔记二/软考-软件设计师-笔记_可视化.html" class="{nav2_active}">📝 软件设计师笔记 (速查版)</a>
-                <a href="../软考突击冲刺宝典_可视化.html" class="{nav3_active}">🔥 考前冲刺宝典 (必看)</a>
+                <a href="{nav_prefix}1%20图像笔记一/软件设计师讲义_可视化.html" class="{nav1_active}">📔 软件设计师讲义 (详细版)</a>
+                <a href="{nav_prefix}2%20图像笔记二/软考-软件设计师-笔记_可视化.html" class="{nav2_active}">📝 软件设计师笔记 (速查版)</a>
+                <a href="{nav_prefix}上午题全知识点总复习_可视化.html" class="{nav4_active}">🌅 上午题总复习</a>
+                <a href="{nav_prefix}下午题全题型总复习_可视化.html" class="{nav5_active}">🌆 下午题总复习</a>
+                <a href="{nav_prefix}软考突击冲刺宝典_可视化.html" class="{nav3_active}">🔥 考前冲刺宝典 (必看)</a>
             </div>
             <div id="markdown-content">
                 <p>正在渲染内容，请稍候...</p>
@@ -452,7 +454,8 @@ template = '''<!DOCTYPE html>
 </html>
 '''
 
-def build_html(md_path, html_path, title, active_index):
+def build_html(md_path, html_path, title, active_index, depth=1):
+    """depth: 1=页面在子文件夹（导航前缀 ../），0=页面在根目录（无前缀）"""
     with open(md_path, 'r', encoding='utf-8') as f:
         md_content = f.read()
     
@@ -462,12 +465,18 @@ def build_html(md_path, html_path, title, active_index):
     nav1_active = 'active-nav' if active_index == 1 else ''
     nav2_active = 'active-nav' if active_index == 2 else ''
     nav3_active = 'active-nav' if active_index == 3 else ''
+    nav4_active = 'active-nav' if active_index == 4 else ''
+    nav5_active = 'active-nav' if active_index == 5 else ''
+    nav_prefix = '../' if depth == 1 else ''
     
     html = template.replace('{title}', title)\
                    .replace('{markdown_content}', md_content)\
                    .replace('{nav1_active}', nav1_active)\
                    .replace('{nav2_active}', nav2_active)\
-                   .replace('{nav3_active}', nav3_active)
+                   .replace('{nav3_active}', nav3_active)\
+                   .replace('{nav4_active}', nav4_active)\
+                   .replace('{nav5_active}', nav5_active)\
+                   .replace('{nav_prefix}', nav_prefix)
                    
     with open(html_path, 'w', encoding='utf-8') as f:
         f.write(html)
@@ -478,6 +487,7 @@ build_html(
     r'f:/软设笔记/1 图像笔记一/软件设计师讲义.md',
     r'f:/软设笔记/1 图像笔记一/软件设计师讲义_可视化.html',
     '软件设计师讲义 (详细版) - 学习平台',
+    1,
     1
 )
 
@@ -485,12 +495,14 @@ build_html(
     r'f:/软设笔记/2 图像笔记二/软考-软件设计师-笔记.md',
     r'f:/软设笔记/2 图像笔记二/软考-软件设计师-笔记_可视化.html',
     '软件设计师笔记 (速查版) - 学习平台',
-    2
+    2,
+    1
 )
 
 build_html(
     r'f:/软设笔记/软考突击冲刺宝典.md',
     r'f:/软设笔记/软考突击冲刺宝典_可视化.html',
     '软考突击冲刺宝典 - 考前必看',
-    3
+    3,
+    0
 )
