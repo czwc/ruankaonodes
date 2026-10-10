@@ -88,6 +88,46 @@ template = '''<!DOCTYPE html>
             transition: background 0.2s;
         }
         .theme-toggle:hover { background: rgba(128,128,128,0.1); }
+
+        /* 答案隐藏模式 */
+        .eye-toggle {
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--text-color);
+            padding: 4px;
+            border-radius: 5px;
+            transition: background 0.2s;
+        }
+        .eye-toggle:hover { background: rgba(128,128,128,0.1); }
+        .ans-inline {
+            display: inline-block;
+            min-width: 2.4em;
+            text-align: center;
+            padding: 0 8px;
+            margin: 0 2px;
+            border-radius: 4px;
+            background: var(--code-bg);
+            border: 1px dashed var(--accent-color);
+            color: var(--accent-color);
+            font-weight: 600;
+            cursor: pointer;
+            user-select: none;
+        }
+        body.hide-answers .ans-inline:not(.revealed) { color: transparent; position: relative; }
+        body.hide-answers .ans-inline:not(.revealed)::before {
+            content: '答案';
+            position: absolute;
+            left: 0; right: 0;
+            color: var(--muted);
+            font-size: 0.72em;
+            line-height: inherit;
+        }
+        .answer-block { transition: filter 0.2s; }
+        body.hide-answers .answer-block { filter: blur(7px); cursor: pointer; }
+        body.hide-answers .answer-block:hover { filter: blur(4px); }
+        body.hide-answers .answer-block.revealed { filter: none; cursor: auto; }
         
         .sidebar a {
             display: block;
@@ -311,7 +351,7 @@ template = '''<!DOCTYPE html>
     <button id="menu-btn">☰ 目录</button>
     
     <div class="sidebar" id="sidebar">
-        <h3>目录 <button class="theme-toggle" id="theme-btn" title="切换主题">🌙</button></h3>
+        <h3>目录 <button class="eye-toggle" id="eye-btn" title="切换答案显示/隐藏">🙈</button> <button class="theme-toggle" id="theme-btn" title="切换主题">🌙</button></h3>
         <div id="toc"></div>
     </div>
     
@@ -355,6 +395,20 @@ template = '''<!DOCTYPE html>
                 themeBtn.textContent = newTheme === 'light' ? '🌙' : '☀️';
             });
 
+            // 答案隐藏开关（默认隐藏，状态记忆）
+            const eyeBtn = document.getElementById('eye-btn');
+            function applyEye() {
+                const hid = localStorage.getItem('hideAnswers') !== '0';
+                document.body.classList.toggle('hide-answers', hid);
+                eyeBtn.textContent = hid ? '🙈' : '👁️';
+            }
+            eyeBtn.addEventListener('click', () => {
+                const hid = localStorage.getItem('hideAnswers') !== '0';
+                localStorage.setItem('hideAnswers', hid ? '0' : '1');
+                applyEye();
+            });
+            applyEye();
+
             // Mobile menu
             const menuBtn = document.getElementById('menu-btn');
             const sidebar = document.getElementById('sidebar');
@@ -373,6 +427,31 @@ template = '''<!DOCTYPE html>
             
             const contentDiv = document.getElementById('markdown-content');
             contentDiv.innerHTML = marked.parse(rawMd);
+
+            // 答案隐藏：例题加粗单选字母 → 点击显示；含答案标记的段落/表格 → 模糊块
+            (function transformAnswers(root) {
+                root.querySelectorAll('p strong, li strong, td strong').forEach(function (st) {
+                    var t = st.textContent.trim();
+                    if (!/^[A-DＡ-Ｄa-d][\\s　]*$/.test(t)) return;
+                    var holder = st.closest('p, li, td');
+                    if (!holder || !/^(例|题|练习|真题|考题|模拟)[：:①-⑩\\s]*/.test(holder.textContent.trim())) return;
+                    var span = document.createElement('span');
+                    span.className = 'ans-inline';
+                    span.textContent = t;
+                    st.replaceWith(span);
+                });
+                var BLOCK_RE = /(【答案】|答案[:：]|参考答案|答案及解析|答案解析|正确答案)/;
+                root.querySelectorAll('p, li, td, blockquote, pre, dd').forEach(function (el) {
+                    if (el.closest('h1,h2,h3,h4,h5') || el.querySelector('.ans-inline')) return;
+                    if (BLOCK_RE.test(el.textContent)) el.classList.add('answer-block');
+                });
+            })(contentDiv);
+            contentDiv.addEventListener('click', function (e) {
+                var t = e.target.closest('.ans-inline, .answer-block');
+                if (t && document.body.classList.contains('hide-answers') && !t.classList.contains('revealed')) {
+                    t.classList.add('revealed');
+                }
+            });
             
             // Syntax highlighting
             if (window.Prism) {
