@@ -85,6 +85,7 @@
     <text x="340" y="240" text-anchor="middle" font-size="14" fill="#d64545" font-weight="bold">考试挖空顺序：联系名 → 联系类型(m:n / 1:n / 1:1) → 关系模式主键</text>
   </svg>
   <div class="box blue"><b>注意：</b>联系本身也可以有属性！比如"选修"联系上挂着"成绩"——成绩既不属于学生也不属于课程，而是属于"某人选某门课"这件事。这是填空题的高频点。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s1"></div>
 </section>
 
 <section id="s2">
@@ -96,6 +97,7 @@
     <tr><td><b>m : n</b></td><td>两边都能对应多个</td><td>学生 ←选修→ 课程（一人选多课，一课被多人选）</td></tr>
   </table>
   <div class="box orange"><b>判断口诀：</b>先固定 A 端一个，问"它对应几个 B"，再固定 B 端一个，问"它对应几个 A"。两个答案一拼就是联系类型（两边都答"多个"就是 m:n）。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s2"></div>
 </section>
 
 <section id="s3">
@@ -110,6 +112,7 @@
     <b>为什么要这么转（理解）：</b>1:n 时如果独立建表，n 端每个学生都要多查一次表，冗余且麻烦，所以并入 n 端；而 m:n 时如果并入任何一端，都会出现"一个格子装多个值"（违反 1NF），所以必须独立建表。
   </div>
   <div class="box purple"><b>主键 vs 外键一句话：</b>主键 = 本表内部唯一标识一行；外键 = 本表里"引用别家主键"的属性（如学生表里的"系号"引用系表的系号）。考试问"XX 关系的主键/外键"，就是照这个找。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s3"></div>
 </section>
 
 <section id="s4">
@@ -148,7 +151,7 @@
 </section>
 
 <section id="s5">
-  <h2>⑤ 训练题</h2>
+  <h2>⑤ 综合大题训练（客观题已随各章节"随学随练"分发）</h2>
   <div id="quizArea"></div>
 </section>
 
@@ -200,7 +203,24 @@ const QUIZ=[
 ];
 const CASES=[
  {title:'大题一：补联系类型 + 补联系属性',
-  body:`<div class="case"><b>情境：</b>某工厂信息系统：每名<b>职工</b>（工号、姓名）可以同时参与多个<b>项目</b>（项目号、项目名、预算），每个项目由多名职工参与；职工参加每个项目要记录<b>投入工时</b>。每个项目由一名<b>经理</b>负责，每名经理只负责一个项目。</div>
+  body:`<div class="case"><b>情境：</b>某工厂信息系统 E-R 草图如下：每名<b>职工</b>（工号、姓名）可以同时参与多个<b>项目</b>（项目号、项目名、预算），每个项目由多名职工参与；职工参加每个项目要记录<b>投入工时</b>。每个项目由一名<b>经理</b>负责，每名经理只负责一个项目。</div>
+  <svg viewBox="0 0 680 230" xmlns="http://www.w3.org/2000/svg">
+    <rect x="40" y="70" width="100" height="44" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="90" y="97" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a9e5c">职工</text>
+    <polygon points="280,70 330,92 280,114 230,92" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="280" y="97" text-anchor="middle" font-size="13" fill="#2f6fed" font-weight="bold">参与</text>
+    <text x="180" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#d64545">(1)____</text>
+    <rect x="420" y="70" width="100" height="44" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="470" y="97" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a9e5c">项目</text>
+    <text x="395" y="80" text-anchor="middle" font-size="13" font-weight="bold" fill="#d64545">(2)____</text>
+    <line x1="140" y1="92" x2="228" y2="92" stroke="#5b6474" stroke-width="2"/>
+    <line x1="332" y1="92" x2="418" y2="92" stroke="#5b6474" stroke-width="2"/>
+    <ellipse cx="280" cy="170" rx="62" ry="24" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="280" y="175" text-anchor="middle" font-size="13" fill="#e08a1e">投入工时</text>
+    <line x1="280" y1="114" x2="280" y2="146" stroke="#5b6474" stroke-width="2"/>
+    <rect x="560" y="170" width="90" height="40" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="605" y="195" text-anchor="middle" font-size="13" font-weight="bold" fill="#1a9e5c">经理</text>
+    <polygon points="570,70 606,92 570,114 534,92" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="570" y="97" text-anchor="middle" font-size="12" fill="#2f6fed" font-weight="bold">负责</text>
+    <line x1="520" y1="92" x2="532" y2="92" stroke="#5b6474" stroke-width="2"/>
+    <line x1="570" y1="114" x2="600" y2="168" stroke="#5b6474" stroke-width="2"/>
+    <text x="630" y="145" text-anchor="middle" font-size="13" font-weight="bold" fill="#d64545">(3)____</text>
+    <text x="340" y="226" text-anchor="middle" font-size="12" fill="#5b6474">把 (1)(2)(3) 三处联系类型补全，并回答"投入工时"挂在哪里</text>
+  </svg>
   <p><b>问题：</b>(1) 职工与项目之间的联系类型？经理与项目之间的联系类型？(2) "投入工时"应放在哪里？(3) 参与联系转成关系模式后主键是什么？</p>`,
   answer:`<b class="pt">得分点：</b><br>
   (1) 职工-项目：一名职工参与多个项目、一个项目多名职工 → <b>m:n</b>；经理-项目：一对一 → <b>1:1</b>。<br>
@@ -243,14 +263,15 @@ const CASES=[
   ② 作者—图书：独立出现"编写"模式，主键 = (书号,作者号) 联合 → m:n 联系独立建表的标准形态 → <b>m:n</b>。<br>
   <span style="color:#d64545">反推口诀：</span>看外键形态——<b>并入 n 端 = 1:n / 独立建表 = m:n / 并入任意一端 = 1:1</b>，逆向题按转换规则倒着推。`}
 ];
+const SEC_MAP=['s3','s3','s2','s3','s1','s1','s3','s3','s3','s3'];
 (function(){
-  const area=document.getElementById('quizArea');
   QUIZ.forEach((q,i)=>{
+    const host=document.getElementById('qa-'+SEC_MAP[i])||document.getElementById('quizArea');
     const d=document.createElement('div'); d.className='quiz';
     d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
       q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
       '<div class="explain" id="ex'+i+'"></div>';
-    area.appendChild(d);
+    host.appendChild(d);
   });
   CASES.forEach((c,i)=>{
     const d=document.createElement('div'); d.className='quiz';

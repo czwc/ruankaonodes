@@ -107,6 +107,7 @@
   </svg>
 
   <div class="box blue"><b>一眼辨认技巧：</b>矩形=人，圆=动作，开口条=表，箭头=数据。填空时按"缺哪种形状"反推要填什么类型的名字。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s1"></div>
 </section>
 
 <!-- ============ 2 三大铁律 ============ -->
@@ -134,6 +135,7 @@
     <line x1="450" y1="190" x2="497" y2="190" stroke="#d64545" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#ar2)"/>
     <text x="560" y="235" text-anchor="middle" font-size="12" fill="#d64545">实体直连存储 = 错！</text>
   </svg>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s2"></div>
 </section>
 
 <!-- ============ 3 答题四板斧 ============ -->
@@ -153,6 +155,7 @@
     问"XX 数据流的起点和终点"→ 起点：加工P1（或外部实体XX）；终点：外部实体XX（或数据存储D1）。<br>
     问"图中有何错误"→ "加工P4 只有输入没有输出，存在黑洞错误；数据流XX违反父子平衡原则"。
   </div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s3"></div>
 </section>
 
 <!-- ============ 4 案例实战 ============ -->
@@ -227,7 +230,7 @@
 
 <!-- ============ 5 大题训练 ============ -->
 <section id="s5">
-  <h2>⑤ 大题训练（先自己想，再点开参考答案对照得分点）</h2>
+  <h2>⑤ 综合大题训练（客观题已随各章节"随学随练"分发，先自己想再对照得分点）</h2>
   <div id="quizArea"></div>
 </section>
 
@@ -298,6 +301,20 @@ const CASES=[
   定位方法：题干中"生成催缴单发送给欠费业主"一句话，同时给出了数据流名、起点（生成它的加工）和终点（业主）。`},
  {title:'大题三：综合找错（多个错误一起挑）',
   body:`<div class="case"><b>情境：</b>某报销审批系统 0 层图如下：外部实体"员工"直接连到数据存储"D1 报销单表"（员工把报销单直接写入表中）；加工 P2 审批处理从 D1 读取报销单，审批结果发给"主管"；加工 P3 生成凭证只有"财务凭证"一条输出流，没有任何输入。</div>
+  <svg viewBox="0 0 680 255" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="qe1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
+    <rect x="20" y="60" width="80" height="40" fill="#fff" stroke="#1f2430" stroke-width="2"/><text x="60" y="85" text-anchor="middle" font-size="13" font-weight="bold">员工</text>
+    <line x1="100" y1="72" x2="178" y2="62" stroke="#d64545" stroke-width="2.5" stroke-dasharray="6 3" marker-end="url(#qe1)"/><text x="140" y="50" text-anchor="middle" font-size="11" fill="#d64545" font-weight="bold">连线①：?</text>
+    <g><path d="M 184 42 L 288 42" stroke="#1f2430" stroke-width="2"/><path d="M 184 78 L 288 78" stroke="#1f2430" stroke-width="2"/><line x1="184" y1="42" x2="184" y2="78" stroke="#1f2430" stroke-width="2"/><text x="190" y="65" font-size="11" font-weight="bold">D1 报销单表</text></g>
+    <circle cx="400" cy="60" r="34" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="400" y="65" text-anchor="middle" font-size="12" fill="#2f6fed" font-weight="bold">P2 审批处理</text>
+    <line x1="288" y1="54" x2="364" y2="58" stroke="#5b6474" stroke-width="2" marker-end="url(#qe1)"/><text x="326" y="44" text-anchor="middle" font-size="10" fill="#5b6474">读报销单</text>
+    <line x1="428" y1="76" x2="492" y2="112" stroke="#5b6474" stroke-width="2" marker-end="url(#qe1)"/><text x="466" y="86" text-anchor="middle" font-size="10" fill="#5b6474">审批结果</text>
+    <rect x="496" y="112" width="80" height="40" fill="#fff" stroke="#1f2430" stroke-width="2"/><text x="536" y="137" text-anchor="middle" font-size="13" font-weight="bold">主管</text>
+    <circle cx="250" cy="190" r="36" fill="#fdeeee" stroke="#d64545" stroke-width="2"/><text x="250" y="195" text-anchor="middle" font-size="12" fill="#d64545" font-weight="bold">P3 生成凭证</text>
+    <line x1="286" y1="204" x2="430" y2="204" stroke="#5b6474" stroke-width="2" marker-end="url(#qe1)"/><text x="358" y="193" text-anchor="middle" font-size="10" fill="#5b6474">财务凭证</text>
+    <text x="500" y="195" text-anchor="middle" font-size="12" fill="#d64545" font-weight="bold">P3 有什么问题？</text>
+    <text x="340" y="248" text-anchor="middle" font-size="12" fill="#d64545">红色虚线①这样连符合数据流图规则吗？——两处问题都要指出来并说明理由</text>
+  </svg>
   <p><b>问题：</b>指出图中所有不符合数据流图规则之处，并说明理由。</p>`,
   answer:`<b class="pt">得分点拆解（三处）：</b><br>
   ① <b>员工 → D1 报销单表直接连线：错误</b>。外部实体与数据存储之间必须经过加工（应增设"提交报销单"加工）。<br>
@@ -320,14 +337,15 @@ const CASES=[
   <span style="color:#d64545">规范提醒：</span>起点/终点要么写加工（编号+名称），要么写外部实体（名称）；若该流确实连到存储，才写"D1 报销记录表"。`}
 ];
 
+const SEC_MAP=['s1','s2','s2','s2','s3','s3','s2','s3','s2','s2'];
 (function(){
-  const area=document.getElementById('quizArea');
   QUIZ.forEach((q,i)=>{
+    const host=document.getElementById('qa-'+SEC_MAP[i])||document.getElementById('quizArea');
     const d=document.createElement('div'); d.className='quiz';
     d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
       q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
       '<div class="explain" id="ex'+i+'"></div>';
-    area.appendChild(d);
+    host.appendChild(d);
   });
   CASES.forEach((c,i)=>{
     const d=document.createElement('div'); d.className='quiz';

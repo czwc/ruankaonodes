@@ -114,6 +114,7 @@
   <div class="box blue">
     <b>为什么要这么干？</b>内存用久了会"碎"成很多小空隙，整段程序装不进去；分页后每片 4KB 的小块见缝就插，<b>外碎变内碎</b>，利用率高。软考还爱考：页式管理<b>没有外部碎片，但有内部碎片</b>（最后一页常常装不满）。
   </div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s1"></div>
 </section>
 
 <!-- ================= 2 地址转换 ================= -->
@@ -155,6 +156,7 @@
     <text x="220" y="179" font-size="15" font-weight="bold" fill="#e08a1e">C88</text>
     <text x="420" y="179" font-size="15" fill="#1a9e5c">物理地址 = 0x3C88 ✓</text>
   </svg>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s2"></div>
 </section>
 
 <!-- ================= 3 页面置换 ================= -->
@@ -182,6 +184,7 @@
     <tr><td>OPT（最优置换）</td><td class="hl">7 次</td><td>往后看，谁以后用得最晚谁走</td></tr>
   </table>
   <div class="box purple"><b>真题彩蛋（Belady 异常）：</b>FIFO 算法下，物理块<b>变多</b>缺页反而可能<b>变多</b>——这是选择题干扰项常客；LRU 不可能出现该异常。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s3"></div>
 </section>
 
 <!-- ================= 4 磁盘结构 ================= -->
@@ -231,6 +234,7 @@
   <h3>公式二：磁盘容量</h3>
   <div class="formula">容量 = 磁头数(盘面数) × 每面磁道数 × 每磁道扇区数 × 每扇区字节数</div>
   <div class="box blue">例：16 磁头 × 100 磁道 × 20 扇区 × 512B = 163,840,000 B ÷ 1024² = <b>15.625 MB</b></div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s5"></div>
 </section>
 
 <!-- ================= 6 旋转优化 ================= -->
@@ -264,6 +268,7 @@
     <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#9aa7bd"/></marker></defs>
   </svg>
   <div class="box purple">考试变体：题目会问"<b>为达到最优，记录之间应间隔多少个逻辑记录？</b>"答：<b>3 个</b>（即隔 3 空 1，第 n 条与 n+1 条起点相距 4 个记录位置）。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s6"></div>
 </section>
 
 <!-- ================= 7B 候选码 ================= -->
@@ -312,6 +317,7 @@
     ③ 再试 AC⁺ = {A,C} → C→B 得 B → {A,B,C} ✓ → <b>AC 也是候选码</b><br>
     <b>候选码 = {AB, AC}</b>，此时 A、B、C <b>全是主属性</b>。（记住这个例子，⑧ 节判定 BCNF 还要用它！）
   </div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s7b"></div>
 </section>
 
 <!-- ================= 7C 范式 ================= -->
@@ -392,11 +398,12 @@
   <div class="box purple">
     <b>口诀：</b>"<b>一化要原子，二化消部分，三化消传递，BC 看左部（左部必须含码）</b>"。答题先写"候选码是谁、主属性是谁"，坏依赖就一目了然。
   </div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s7c"></div>
 </section>
 
 <!-- ================= 7 练习题 ================= -->
 <section id="s7">
-  <h2>⑨ 考试练习（点选项立即判分 + 解析）</h2>
+  <h2>⑨ 综合练习（位示图等；其余客观题已随学随练分布在各章节）</h2>
   <div id="quizArea"></div>
 </section>
 
@@ -538,14 +545,15 @@ const QUIZ=[
   opts:['2NF 消除的是非主属性对码的部分函数依赖','2NF 消除的是非主属性对码的传递函数依赖','若候选码是单属性，则该模式可能违反 2NF','1NF 允许属性再分'],ans:0,
   ex:'2NF = 消除非主属性对码的<b>部分依赖</b>（传递依赖是 3NF 干的事）。候选码是单属性时<b>不可能</b>存在部分依赖，故自动满足 2NF——C 说反了；1NF 恰恰要求属性不可再分。'}
 ];
+const SEC_MAP=['s2','s1','s3','s5','s5','s6',null,'s7b','s7b','s7b','s7c','s7c','s7c','s7c'];
 (function(){
-  const area=document.getElementById('quizArea');
   QUIZ.forEach((q,i)=>{
+    const host=SEC_MAP[i]?document.getElementById('qa-'+SEC_MAP[i]):document.getElementById('quizArea');
     const d=document.createElement('div'); d.className='quiz';
     d.innerHTML='<div class="q">第 '+(i+1)+' 题　'+q.t+'</div>'+
       q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
       '<div class="explain" id="ex'+i+'"></div>';
-    area.appendChild(d);
+    host.appendChild(d);
   });
   area.addEventListener('click',function(e){
     const btn=e.target.closest('.opt'); if(!btn)return;

@@ -82,6 +82,28 @@
     ④ 系统管理员（<b>排班员</b>）负责录入各科室的排班信息，存入科室排班表。<br>
     系统将患者的预约信息登记在<b>预约记录表</b>中，将各科室排班与号源保存在<b>科室排班表</b>中，将每次诊疗的信息保存在<b>诊疗记录表</b>中。
   </div>
+  <svg viewBox="0 0 680 310" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ex1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
+    <text x="340" y="18" text-anchor="middle" font-size="13" font-weight="bold" fill="#5b6474">0 层图（按题干绘制，含两处待你指出的问题）</text>
+    <rect x="20" y="50" width="80" height="40" fill="#fff" stroke="#1f2430" stroke-width="2"/><text x="60" y="75" text-anchor="middle" font-size="13" font-weight="bold">患者</text>
+    <rect x="20" y="230" width="80" height="40" fill="#fff" stroke="#1f2430" stroke-width="2"/><text x="60" y="255" text-anchor="middle" font-size="13" font-weight="bold">医生</text>
+    <circle cx="250" cy="55" r="36" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="250" y="60" text-anchor="middle" font-size="12" fill="#2f6fed" font-weight="bold">P1 预约处理</text>
+    <circle cx="250" cy="150" r="36" fill="#fdeeee" stroke="#d64545" stroke-width="2"/><text x="250" y="155" text-anchor="middle" font-size="12" fill="#d64545" font-weight="bold">P2 签到处理</text>
+    <circle cx="250" cy="250" r="40" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="250" y="255" text-anchor="middle" font-size="12" fill="#2f6fed" font-weight="bold">P3 诊疗登记</text>
+    <g><path d="M 560 30 L 665 30" stroke="#1f2430" stroke-width="2"/><path d="M 560 66 L 665 66" stroke="#1f2430" stroke-width="2"/><line x1="560" y1="30" x2="560" y2="66" stroke="#1f2430" stroke-width="2"/><text x="566" y="53" font-size="11" font-weight="bold">D1 科室排班表</text></g>
+    <g><path d="M 560 120 L 665 120" stroke="#1f2430" stroke-width="2"/><path d="M 560 156 L 665 156" stroke="#1f2430" stroke-width="2"/><line x1="560" y1="120" x2="560" y2="156" stroke="#1f2430" stroke-width="2"/><text x="566" y="143" font-size="11" font-weight="bold">D2 预约记录表</text></g>
+    <g><path d="M 560 230 L 665 230" stroke="#1f2430" stroke-width="2"/><path d="M 560 266 L 665 266" stroke="#1f2430" stroke-width="2"/><line x1="560" y1="230" x2="560" y2="266" stroke="#1f2430" stroke-width="2"/><text x="566" y="253" font-size="11" font-weight="bold">D3 诊疗记录表</text></g>
+    <line x1="100" y1="60" x2="212" y2="56" stroke="#5b6474" stroke-width="2" marker-end="url(#ex1)"/><text x="156" y="46" text-anchor="middle" font-size="11" fill="#1a9e5c" font-weight="bold">预约申请</text>
+    <line x1="214" y1="72" x2="102" y2="82" stroke="#5b6474" stroke-width="2" marker-end="url(#ex1)"/><text x="168" y="94" text-anchor="middle" font-size="11" fill="#1a9e5c" font-weight="bold">预约成功通知</text>
+    <line x1="284" y1="40" x2="557" y2="48" stroke="#5b6474" stroke-width="2" marker-end="url(#ex1)"/><text x="420" y="34" text-anchor="middle" font-size="11" fill="#5b6474">读号源</text>
+    <line x1="284" y1="74" x2="557" y2="126" stroke="#5b6474" stroke-width="2" marker-end="url(#ex1)"/><text x="430" y="112" text-anchor="middle" font-size="11" fill="#5b6474">登记预约</text>
+    <line x1="100" y1="90" x2="216" y2="136" stroke="#5b6474" stroke-width="2" marker-end="url(#ex1)"/><text x="140" y="128" text-anchor="middle" font-size="11" fill="#1a9e5c" font-weight="bold">签到信息</text>
+    <text x="250" y="200" text-anchor="middle" font-size="12" fill="#d64545" font-weight="bold">✗ P2 没有任何输出流！</text>
+    <line x1="558" y1="134" x2="290" y2="76" stroke="#d64545" stroke-width="2" stroke-dasharray="6 3" marker-end="url(#ex1)"/><text x="430" y="88" text-anchor="middle" font-size="11" fill="#d64545" font-weight="bold">欠费名单（红色虚线，顶层图没有）</text>
+    <line x1="100" y1="240" x2="210" y2="250" stroke="#5b6474" stroke-width="2" marker-end="url(#ex1)"/><text x="155" y="232" text-anchor="middle" font-size="11" fill="#1a9e5c" font-weight="bold">诊疗结果</text>
+    <line x1="288" y1="266" x2="557" y2="252" stroke="#5b6474" stroke-width="2" marker-end="url(#ex1)"/><text x="420" y="278" text-anchor="middle" font-size="11" fill="#5b6474">保存诊疗记录</text>
+    <text x="340" y="305" text-anchor="middle" font-size="12" fill="#5b6474">（排班员经 P4 排班维护 D1，图中略；"取药提醒"请自行补在 P3 → 患者）</text>
+  </svg>
   <div class="case">
     <b>【问题】</b>（共 3 问）<br>
     (1) 根据题干说明，指出该系统数据流图中的<b>外部实体</b>与<b>数据存储</b>分别有哪些。（5 分）<br>
@@ -145,6 +167,37 @@
     ② 一场<b>考试</b>（考试编号、科目、时长）包含多道<b>试题</b>（题号、题型、分值）；一道试题可被多场考试复用；试题可以独立于任何考试预先录入题库。<br>
     ③ 一场考试的生命周期：从"未开始"进入"进行中"，考生交卷（或强制收卷）后进入"已交卷"，阅卷完成后进入"已出分"。
   </div>
+  <svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ex3" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#5b6474" stroke-width="1.5"/></marker></defs>
+    <text x="340" y="14" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5b6474">用例图骨架（虚线椭圆与 ?①② 待你补全）</text>
+    <rect x="230" y="24" width="320" height="200" fill="#fbfcff" stroke="#c3ccdc" rx="12"/>
+    <g stroke="#1f2430" stroke-width="2" fill="#fff">
+      <circle cx="80" cy="105" r="12"/><line x1="80" y1="117" x2="80" y2="150"/><line x1="62" y1="130" x2="98" y2="130"/><line x1="80" y1="150" x2="66" y2="175"/><line x1="80" y1="150" x2="94" y2="175"/>
+    </g>
+    <text x="80" y="195" text-anchor="middle" font-size="13" font-weight="bold">考生</text>
+    <ellipse cx="300" cy="80" rx="62" ry="25" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="300" y="85" text-anchor="middle" font-size="13" fill="#2f6fed" font-weight="bold">参加考试</text>
+    <ellipse cx="480" cy="80" rx="56" ry="25" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="480" y="85" text-anchor="middle" font-size="13" fill="#2f6fed" font-weight="bold">交卷</text>
+    <ellipse cx="300" cy="180" rx="62" ry="25" fill="#fff" stroke="#2f6fed" stroke-width="2" stroke-dasharray="6 3"/><text x="300" y="185" text-anchor="middle" font-size="13" fill="#d64545" font-weight="bold">身份核验 ?</text>
+    <ellipse cx="480" cy="180" rx="62" ry="25" fill="#fff" stroke="#2f6fed" stroke-width="2" stroke-dasharray="6 3"/><text x="480" y="185" text-anchor="middle" font-size="13" fill="#d64545" font-weight="bold">强制收卷 ?</text>
+    <line x1="98" y1="112" x2="240" y2="86" stroke="#5b6474" stroke-width="1.5"/>
+    <line x1="98" y1="126" x2="422" y2="90" stroke="#5b6474" stroke-width="1.5"/>
+    <line x1="300" y1="105" x2="300" y2="153" stroke="#5b6474" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ex3)"/><text x="272" y="133" text-anchor="end" font-size="12" fill="#d64545" font-weight="bold">?①</text>
+    <line x1="480" y1="155" x2="480" y2="107" stroke="#5b6474" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#ex3)"/><text x="497" y="135" font-size="12" fill="#d64545" font-weight="bold">?②</text>
+    <text x="390" y="240" text-anchor="middle" font-size="12" fill="#5b6474">?①?② 写出关系名（«include» / «extend»）并确认箭头方向是否画对</text>
+  </svg>
+  <svg viewBox="0 0 680 150" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ex3b" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
+    <text x="340" y="14" text-anchor="middle" font-size="12.5" font-weight="bold" fill="#5b6474">状态图骨架（?①② 转移标注待补）</text>
+    <circle cx="40" cy="70" r="10" fill="#1f2430"/>
+    <rect x="90" y="45" width="110" height="50" rx="14" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="145" y="75" text-anchor="middle" font-size="14" fill="#1a9e5c" font-weight="bold">未开始</text>
+    <rect x="280" y="45" width="110" height="50" rx="14" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="335" y="75" text-anchor="middle" font-size="14" fill="#2f6fed" font-weight="bold">进行中</text>
+    <rect x="470" y="45" width="110" height="50" rx="14" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="525" y="75" text-anchor="middle" font-size="14" fill="#2f6fed" font-weight="bold">已交卷</text>
+    <line x1="50" y1="70" x2="88" y2="70" stroke="#5b6474" stroke-width="2" marker-end="url(#ex3b)"/>
+    <line x1="200" y1="70" x2="278" y2="70" stroke="#5b6474" stroke-width="2" marker-end="url(#ex3b)"/><text x="239" y="60" text-anchor="middle" font-size="11" fill="#d64545" font-weight="bold">?①</text>
+    <line x1="390" y1="70" x2="468" y2="70" stroke="#5b6474" stroke-width="2" marker-end="url(#ex3b)"/><text x="429" y="60" text-anchor="middle" font-size="11" fill="#d64545" font-weight="bold">?②</text>
+    <text x="618" y="75" font-size="13" fill="#5b6474">→ 已出分</text>
+    <text x="340" y="140" text-anchor="middle" font-size="12" fill="#5b6474">?①?② 按"事件[条件]/动作"格式补全（别忘了"超时→强制收卷"这条转移）</text>
+  </svg>
   <div class="case">
     <b>【问题】</b>（共 3 问）<br>
     (1) 画出用例图的参与者；说明"身份核验""强制收卷"分别与"参加考试/交卷"用例的关系，并写明箭头方向。（6 分）<br>

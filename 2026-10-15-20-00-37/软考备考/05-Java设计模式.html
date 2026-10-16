@@ -72,6 +72,7 @@
     <tr><td>多态调用</td><td>Person p = new Student(); p.f() → 执行 Student 的 f</td><td>理解"父类引用指向子类对象"</td></tr>
   </table>
   <div class="box blue"><b>读题套路：</b>代码里出现 <b>interface</b> = 大概率是策略/装饰器/适配器这类"多态替换"结构；出现 <b>abstract class + 若干子类</b> = 模板方法/工厂；出现 <b>private 构造 + static getInstance</b> = 单例。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s0"></div>
 </section>
 
 <!-- ============ 1 策略模式 ============ -->
@@ -121,6 +122,7 @@
     <tr><td><b>桥接</b> Bridge</td><td>把<b>抽象部分与实现部分分离</b>，独立变化</td><td>抽象类持有"实现"接口的引用</td></tr>
   </table>
   <div class="box purple"><b>易混三组（选择题陷阱）：</b>① 代理 vs 装饰器：代理控制<b>访问</b>（远程/权限），装饰器<b>加职责</b>；② 外观 vs 适配器：外观是"简化打包一堆子系统"，适配器是"接口转换"；③ 工厂方法 vs 抽象工厂：一个产品用工厂方法，<b>一族产品</b>用抽象工厂。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s2"></div>
 </section>
 
 <!-- ============ 3 装饰器 ============ -->
@@ -144,6 +146,7 @@
 }
 <span class="c">// 使用：Coffee c = new Milk(new SimpleCoffee()); → 12.0，"咖啡+牛奶"</span></pre>
   <div class="box green"><b>装饰器识别三标志：</b>① 装饰类 <b>extends/implements 同一个抽象</b>；② 成员变量类型 = <b>被装饰的抽象类型</b>；③ 方法体 = <b>coffee.cost() 再加点什么</b>（委托+增强）。三者齐 = 装饰器，没有例外。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s3"></div>
 </section>
 
 <!-- ============ 高频模式骨架 ============ -->
@@ -190,11 +193,12 @@
 }
 <span class="c">// 使用：LoggerFactory f = new FileLoggerFactory(); f.createLogger().write("hi");</span></pre>
   <div class="box green"><b>工厂方法填空点：</b>① 工厂方法返回类型 = <b>抽象产品</b>；② 具体工厂里 new <b>具体产品</b>；③ 使用方拿抽象类型接住（多态）。和策略的区别：工厂管"创建"，策略管"行为切换"。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s4"></div>
 </section>
 
 <!-- ============ 训练 ============ -->
 <section id="s5">
-  <h2>⑥ 训练题</h2>
+  <h2>⑥ 综合大题训练（客观题已随各章节"随学随练"分发）</h2>
   <div id="quizArea"></div>
 </section>
 
@@ -312,14 +316,15 @@ const CASES=[
   构造私有的原因：<b>禁止外部用 new 创建对象</b>，强制所有调用方通过 getInstance() 获取唯一实例，保证"仅有一个实例"。<br>
   <span style="color:#d64545">易错：</span>getInstance 忘写 static 是真题里最常见的错误选项。`}
 ];
+const SEC_MAP=['s3','s4','s4','s0','s0','s4','s4','s2','s2','s4'];
 (function(){
-  const area=document.getElementById('quizArea');
   QUIZ.forEach((q,i)=>{
+    const host=document.getElementById('qa-'+SEC_MAP[i])||document.getElementById('quizArea');
     const d=document.createElement('div'); d.className='quiz';
     d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
       q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
       '<div class="explain" id="ex'+i+'"></div>';
-    area.appendChild(d);
+    host.appendChild(d);
   });
   CASES.forEach((c,i)=>{
     const d=document.createElement('div'); d.className='quiz';

@@ -70,6 +70,7 @@
     <tr><td>作用域解析</td><td>Child::f() 调父类版本 / 定义处</td><td>类外定义方法要 类名::方法名</td></tr>
   </table>
   <div class="box blue"><b>一句话理解 virtual：</b>Java 所有方法天生可多态；C++ 必须给方法加 <b>virtual</b> 才能多态。基类指针指向派生类对象时，没 virtual 调基类版本、有 virtual 调派生类版本——选择题最爱考这个区别。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s0"></div>
 </section>
 
 <!-- ============ 1 策略模式 C++ ============ -->
@@ -145,11 +146,12 @@
 };
 <span class="c">// 使用：Coffee* c = new Milk(new SimpleCoffee()); → 12.0</span></pre>
   <div class="box green"><b>C++ 装饰器四连挖：</b>① 基类纯虚 <b>cost() = 0</b>；② 装饰类成员是 <b>Coffee* 指针</b>；③ 构造函数初始化列表 <b>coffee(c)</b> 或调父类构造 <b>CoffeeDecorator(c)</b>；④ 委托调用 <b>coffee-&gt;cost()</b> 再加料。与 Java 版结构完全同构，只是多了指针与初始化列表。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s2b"></div>
 </section>
 
 <!-- ============ 训练 ============ -->
 <section id="s5">
-  <h2>⑤ 训练题</h2>
+  <h2>⑤ 综合大题训练（客观题已随各章节"随学随练"分发）</h2>
   <div id="quizArea"></div>
 </section>
 
@@ -253,14 +255,15 @@ const CASES=[
   ④ 调用 . → <b>-&gt;</b>。<br>
   最关键：基类方法必须加 <b>virtual</b>——C++ 默认静态绑定，漏写 virtual 时基类指针调用的<b>永远是基类版本</b>，多态失效，策略"可替换"就不成立（Java 方法默认可多态，无此问题）。`}
 ];
+const SEC_MAP=['s0','s0','s0','s0','s2b','s2b','s0','s0','s0'];
 (function(){
-  const area=document.getElementById('quizArea');
   QUIZ.forEach((q,i)=>{
+    const host=document.getElementById('qa-'+SEC_MAP[i])||document.getElementById('quizArea');
     const d=document.createElement('div'); d.className='quiz';
     d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
       q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
       '<div class="explain" id="ex'+i+'"></div>';
-    area.appendChild(d);
+    host.appendChild(d);
   });
   CASES.forEach((c,i)=>{
     const d=document.createElement('div'); d.className='quiz';

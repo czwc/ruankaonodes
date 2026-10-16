@@ -75,6 +75,7 @@
   <div class="box blue"><b>快速区分（考试最常混淆的两组）：</b><br>
   ① 贪心 vs 动态规划：贪心<b>只做选择不回头</b>，快但可能不是全局最优；DP <b>枚举所有子问题</b>保证最优，慢但一定对。题干说"求最优"且数据小 → DP；说"近似/快速"或明确"每步取最优" → 贪心。<br>
   ② 分治 vs DP：分治的子问题<b>互不重叠</b>（二分）；DP 的子问题<b>大量重叠</b>（要填表避免重复算）。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s0"></div>
 </section>
 
 <!-- ============ 分治 ============ -->
@@ -90,6 +91,7 @@
     merge(a, lo, mid, hi);           <span class="c">// ④ 合：合并两个有序段（挖空高频处！）</span>
 }</pre>
   <div class="box green"><b>考试填空点：</b>递归区间边界（lo, mid / mid+1, hi）、merge 的合并条件。记住"左闭到 mid，右开从 mid+1"。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s1"></div>
 </section>
 
 <!-- ============ 贪心 ============ -->
@@ -108,6 +110,7 @@ cnt = 1; last = act[<span class="hl">0</span>].end;
     按性价比贪心选 10、20 → 价值 160；最优解选 20、30 → 价值 <b>220</b>。贪心装不下第三件也不回头，就输了。<br>
     （部分背包允许切分物品时才能用贪心，此时性价比排序是正确的。）
   </div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s2"></div>
 </section>
 
 <!-- ============ 动态规划 ============ -->
@@ -166,6 +169,7 @@ cnt = 1; last = act[<span class="hl">0</span>].end;
     <tr><td>最长公共子序列 LCS</td><td>相同：dp[i][j]=dp[i-1][j-1]+1；不同：max(dp[i-1][j], dp[i][j-1])</td></tr>
     <tr><td>最大子段和</td><td>b[j] = max( b[j-1]+a[j], a[j] )，答案为 max b[j]</td></tr>
   </table>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s3"></div>
 </section>
 
 <!-- ============ 回溯 ============ -->
@@ -185,6 +189,7 @@ cnt = 1; last = act[<span class="hl">0</span>].end;
     <span class="k">return</span> 0;
 }</pre>
   <div class="box orange"><b>回溯填空点：</b>check 冲突条件（同列：q[k]==col；对角线：|q[k]-col| == |k-row|）、递归调用下一层、剪枝 if。对角线判断 |q[k]-col|==|k-row| 直接背。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s4"></div>
 </section>
 
 <!-- ============ 复杂度 ============ -->
@@ -200,11 +205,12 @@ cnt = 1; last = act[<span class="hl">0</span>].end;
   </table>
   <div class="box blue"><b>展开法示范（看一遍就会）：</b>T(n) = 2T(n/2) + n → 第 1 层合并代价 n，第 2 层两个子问题共 2×(n/2)=n，每层都是 n；要砍 log n 层才到 1 → 总代价 <b>n × log n = O(n log n)</b>。</div>
   <div class="box orange"><b>复杂度大小排序（选择题直接用）：</b>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(n³) &lt; O(2ⁿ) &lt; O(n!)。问"最高/最低复杂度"就按这条链排。</div>
+  <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s4b"></div>
 </section>
 
 <!-- ============ 训练 ============ -->
 <section id="s5">
-  <h2>⑦ 训练题</h2>
+  <h2>⑦ 综合大题训练（客观题已随各章节"随学随练"分发）</h2>
   <div id="quizArea"></div>
 </section>
 
@@ -312,14 +318,15 @@ const CASES=[
   ② T(n) = n×T(n-1)：n×(n-1)×(n-2)×…×1 = <b>O(n!)</b>（全排列枚举）。<br>
   答题格式：写出"每层代价 × 层数"或"连乘展开"的过程，最后给大 O 结论——<b>只写结论不给过程可能扣分</b>。`}
 ];
+const SEC_MAP=['s0','s0','s3','s2','s4','s3','s1','s4b','s3','s4b'];
 (function(){
-  const area=document.getElementById('quizArea');
   QUIZ.forEach((q,i)=>{
+    const host=document.getElementById('qa-'+SEC_MAP[i])||document.getElementById('quizArea');
     const d=document.createElement('div'); d.className='quiz';
     d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
       q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
       '<div class="explain" id="ex'+i+'"></div>';
-    area.appendChild(d);
+    host.appendChild(d);
   });
   CASES.forEach((c,i)=>{
     const d=document.createElement('div'); d.className='quiz';
