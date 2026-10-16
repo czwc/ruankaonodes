@@ -555,10 +555,10 @@ const SEC_MAP=['s2','s1','s3','s5','s5','s6',null,'s7b','s7b','s7b','s7c','s7c',
       '<div class="explain" id="ex'+i+'"></div>';
     host.appendChild(d);
   });
-  area.addEventListener('click',function(e){
+  document.addEventListener('click',function(e){
     const btn=e.target.closest('.opt'); if(!btn)return;
     const qi=+btn.dataset.q, q=QUIZ[qi];
-    const all=area.querySelectorAll('[data-q="'+qi+'"]');
+    const all=document.querySelectorAll('[data-q="'+qi+'"]');
     all.forEach(b=>{b.disabled=true; if(+b.dataset.j===q.ans)b.classList.add('right');});
     if(+btn.dataset.j!==q.ans) btn.classList.add('wrong');
     const ex=document.getElementById('ex'+qi); ex.style.display='block'; ex.innerHTML='<b>解析：</b>'+q.ex;

@@ -408,6 +408,7 @@ const SEC_MAP=['s1','s2','s3','s4','s4','s4b','s4b','s2','s3','s2'];
       '<div class="explain" id="ex'+i+'"></div>';
     host.appendChild(d);
   });
+  const area=document.getElementById('quizArea');
   CASES.forEach((c,i)=>{
     const d=document.createElement('div'); d.className='quiz';
     d.innerHTML='<div class="q">'+c.title+'</div>'+c.body+
@@ -415,11 +416,11 @@ const SEC_MAP=['s1','s2','s3','s4','s4','s4b','s4b','s2','s3','s2'];
       '<div class="answer" id="ans'+i+'">'+c.answer+'</div></div>';
     area.appendChild(d);
   });
-  area.addEventListener('click',function(e){
+  document.addEventListener('click',function(e){
     const btn=e.target.closest('.opt');
     if(btn){
       const qi=+btn.dataset.q, q=QUIZ[qi];
-      const all=area.querySelectorAll('[data-q="'+qi+'"]');
+      const all=document.querySelectorAll('[data-q="'+qi+'"]');
       all.forEach(b=>{b.disabled=true; if(+b.dataset.j===q.ans)b.classList.add('right');});
       if(+btn.dataset.j!==q.ans) btn.classList.add('wrong');
       const ex=document.getElementById('ex'+qi); ex.style.display='block'; ex.innerHTML='<b>解析：</b>'+q.ex;
