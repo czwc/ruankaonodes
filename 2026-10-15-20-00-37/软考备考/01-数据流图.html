@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·下午题1 数据流图（DFD）满分教程</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#ffffff; --ink:#1f2430; --muted:#5b6474;
+    --blue:#2f6fed; --blue-bg:#eaf1fe; --green:#1a9e5c; --green-bg:#e8f7ef;
+    --red:#d64545; --red-bg:#fdeeee; --orange:#e08a1e; --orange-bg:#fdf3e3;
+    --purple:#7b52d6; --purple-bg:#f1ebfc; --border:#e3e7ef;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#2f6fed,#1a9e5c);color:#fff;border-radius:16px;padding:32px 28px;margin-bottom:24px;}
+  header h1{margin:0 0 8px;font-size:26px;}
+  header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:22px;}
+  h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
+  h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
+  .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+  .tag.exam{background:var(--red-bg);color:var(--red);}
+  .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;}
+  .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;}
+  .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
+  .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;}
+  th{background:#f0f3f9;}
+  .hl{color:var(--red);font-weight:bold;}
+  .ok{color:var(--green);font-weight:bold;}
+  svg{max-width:100%;height:auto;display:block;margin:10px auto;}
+  .quiz{border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:14px 0;}
+  .quiz .q{font-weight:bold;margin-bottom:10px;}
+  .opt{display:block;width:100%;text-align:left;background:#fafbfe;border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:14px;font-family:inherit;}
+  .opt:hover{border-color:var(--blue);}
+  .opt.right{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:bold;}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .opt:disabled{cursor:default;}
+  .explain{display:none;background:var(--orange-bg);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:14px;}
+  .reveal{margin-top:10px;}
+  .reveal-btn{background:var(--purple);color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit;}
+  .answer{display:none;background:var(--green-bg);border:1px solid #bfe8d2;border-radius:8px;padding:12px 16px;margin-top:10px;font-size:14px;}
+  .answer b.pt{color:var(--green);}
+  .case{background:#fbfcff;border:1px solid #dbe3f2;border-radius:10px;padding:16px 18px;font-size:14.5px;margin:12px 0;}
+  .step{display:flex;gap:10px;margin:8px 0;}
+  .step .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>下午题 ① 数据流图（DFD）· 15 分必答</h1>
+  <p>不考画图，只考"看图填空"——掌握套路，这是全卷最容易拿分的大题</p>
+  <nav>
+    <a href="#s1">① 四大元素</a>
+    <a href="#s2">② 三大铁律</a>
+    <a href="#s3">③ 答题四板斧</a>
+    <a href="#s4">④ 完整案例实战</a>
+    <a href="#s5">⑤ 大题训练</a>
+    <a href="#s6">⑥ 考场模板</a>
+  </nav>
+</header>
+
+<!-- ============ 1 四大元素 ============ -->
+<section id="s1">
+  <h2>① 四大元素：先认识图中所有符号 <span class="tag core">基础</span></h2>
+  <p>数据流图只有 4 种符号，下午题第一问几乎必考"图中缺失的元素是什么"。认符号是第一步：</p>
+
+  <svg viewBox="0 0 680 330" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ar1" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
+    <!-- 外部实体 -->
+    <rect x="40" y="40" width="130" height="50" fill="#fff" stroke="#1f2430" stroke-width="2"/>
+    <text x="105" y="70" text-anchor="middle" font-size="15" font-weight="bold">读者</text>
+    <text x="105" y="118" text-anchor="middle" font-size="13" fill="#2f6fed" font-weight="bold">外部实体（矩形）</text>
+    <text x="105" y="138" text-anchor="middle" font-size="12" fill="#5b6474">系统之外的人/组织/系统</text>
+    <!-- 加工 -->
+    <circle cx="105" cy="205" r="38" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/>
+    <text x="105" y="210" text-anchor="middle" font-size="13" font-weight="bold" fill="#2f6fed">P1 借书</text>
+    <text x="105" y="270" text-anchor="middle" font-size="13" fill="#2f6fed" font-weight="bold">加工（圆/圆角矩形）</text>
+    <text x="105" y="290" text-anchor="middle" font-size="12" fill="#5b6474">命名 = 动词+名词</text>
+    <!-- 数据存储 -->
+    <g>
+      <path d="M 300 40 L 540 40" stroke="#1f2430" stroke-width="2" fill="none"/>
+      <path d="M 300 90 L 540 90" stroke="#1f2430" stroke-width="2" fill="none"/>
+      <line x1="300" y1="40" x2="300" y2="90" stroke="#1f2430" stroke-width="2"/>
+      <text x="330" y="70" font-size="14" font-weight="bold">D1 | 图书信息表</text>
+    </g>
+    <text x="420" y="118" text-anchor="middle" font-size="13" fill="#e08a1e" font-weight="bold">数据存储（开口长条/双横线）</text>
+    <text x="420" y="138" text-anchor="middle" font-size="12" fill="#5b6474">命名 = XX表 / XX文件 / XX库</text>
+    <!-- 数据流 -->
+    <line x1="310" y1="220" x2="530" y2="220" stroke="#5b6474" stroke-width="2" marker-end="url(#ar1)"/>
+    <text x="420" y="210" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a9e5c">借书凭证</text>
+    <text x="420" y="270" text-anchor="middle" font-size="13" fill="#1a9e5c" font-weight="bold">数据流（带名字的箭头）</text>
+    <text x="420" y="290" text-anchor="middle" font-size="12" fill="#5b6474">名字来自题干：提交/生成/发送的"XX"</text>
+    <text x="340" y="322" text-anchor="middle" font-size="13" fill="#d64545">⚠ 考试就是把图中某个符号挖空，让你根据题干填回来</text>
+  </svg>
+
+  <div class="box blue"><b>一眼辨认技巧：</b>矩形=人，圆=动作，开口条=表，箭头=数据。填空时按"缺哪种形状"反推要填什么类型的名字。</div>
+</section>
+
+<!-- ============ 2 三大铁律 ============ -->
+<section id="s2">
+  <h2>② 三大铁律：所有考题都从这出 <span class="tag exam">必考</span></h2>
+
+  <div class="step"><div class="n">1</div><div><b>父子平衡</b>：顶层图（父）上出现的每条数据流，在 0 层图（子）里也必须出现；反之亦然。<span class="hl">考试最爱：0 层图少画了一条流，让你补。</span></div></div>
+  <div class="step"><div class="n">2</div><div><b>加工必须有进有出</b>：只有输入没有输出 = <b>黑洞</b>；只有输出没有输入 = <b>奇迹</b>。考题问"图中有什么错误"就往这两个找。</div></div>
+  <div class="step"><div class="n">3</div><div><b>外部实体不能与数据存储直接连线</b>：中间必须经过加工。<span class="hl">选错连线也是常考错误。</span></div></div>
+
+  <svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
+    <rect x="30" y="40" width="100" height="44" fill="#fff" stroke="#1f2430" stroke-width="2"/><text x="80" y="67" text-anchor="middle" font-size="13" font-weight="bold">外部实体</text>
+    <circle cx="260" cy="62" r="30" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="260" y="67" text-anchor="middle" font-size="12" fill="#2f6fed" font-weight="bold">加工</text>
+    <line x1="130" y1="62" x2="226" y2="62" stroke="#5b6474" stroke-width="2" marker-end="url(#ar2)"/>
+    <line x1="290" y1="62" x2="386" y2="62" stroke="#5b6474" stroke-width="2" marker-end="url(#ar2)"/>
+    <g><path d="M 390 40 L 550 40" stroke="#1f2430" stroke-width="2"/><path d="M 390 84 L 550 84" stroke="#1f2430" stroke-width="2"/><line x1="390" y1="40" x2="390" y2="84" stroke="#1f2430" stroke-width="2"/></g>
+    <text x="300" y="130" text-anchor="middle" font-size="13" fill="#1a9e5c" font-weight="bold">✓ 正确：实体→加工→存储，都有名字</text>
+    <circle cx="80" cy="190" r="24" fill="#fdeeee" stroke="#d64545" stroke-width="2"/><text x="80" y="195" text-anchor="middle" font-size="11" fill="#d64545">P4</text>
+    <text x="80" y="235" text-anchor="middle" font-size="12" fill="#d64545">只进不出 = 黑洞</text>
+    <circle cx="230" cy="190" r="24" fill="#fdeeee" stroke="#d64545" stroke-width="2"/><text x="230" y="195" text-anchor="middle" font-size="11" fill="#d64545">P5</text>
+    <text x="230" y="235" text-anchor="middle" font-size="12" fill="#d64545">只出不进 = 奇迹</text>
+    <rect x="360" y="170" width="90" height="40" fill="#fff" stroke="#1f2430" stroke-width="2"/><text x="405" y="195" text-anchor="middle" font-size="12" font-weight="bold">实体A</text>
+    <g><path d="M 500 170 L 620 170" stroke="#1f2430" stroke-width="2"/><path d="M 500 210 L 620 210" stroke="#1f2430" stroke-width="2"/><line x1="500" y1="170" x2="500" y2="210" stroke="#1f2430" stroke-width="2"/></g>
+    <line x1="450" y1="190" x2="497" y2="190" stroke="#d64545" stroke-width="2" stroke-dasharray="5 3" marker-end="url(#ar2)"/>
+    <text x="560" y="235" text-anchor="middle" font-size="12" fill="#d64545">实体直连存储 = 错！</text>
+  </svg>
+</section>
+
+<!-- ============ 3 答题四板斧 ============ -->
+<section id="s3">
+  <h2>③ 答题四板斧：缺什么就按这个套路找 <span class="tag exam">核心方法</span></h2>
+
+  <table>
+    <tr><th style="width:130px">缺什么</th><th>怎么找（题干定位词）</th></tr>
+    <tr><td><b>外部实体</b></td><td>找"人/部门/外部系统"，且是数据的源头或归宿。定位词：<b>"XX 提交/发送/录入"</b>（起点）、<b>"向 XX 发送/通知 XX"</b>（终点）。<span class="hl">注意：不与系统直接交互的人不算！</span>（如顾客只在店里活动、不直接和系统打交道，就不是外部实体）</td></tr>
+    <tr><td><b>数据存储</b></td><td>定位词：<b>"保存/记录/存储/登记 XX 信息"</b> → 答案写成"XX表 / XX文件 / XX库"</td></tr>
+    <tr><td><b>加工</b></td><td>定位词：题干里的动作句 → 命名格式<b>"动词+名词"</b>，如"审批申请""生成报表"</td></tr>
+    <tr><td><b>数据流</b></td><td>两个方法：<b>① 题干法</b>——题干说"生成XX/发送XX"，数据流名就是"XX"；<b>② 平衡法</b>——顶层图有而 0 层图没有的那条流，就是答案，起点终点分别顺着箭头两头找</td></tr>
+  </table>
+
+  <div class="box orange">
+    <b>简答题标准句式（照抄就有分）：</b><br>
+    问"XX 数据流的起点和终点"→ 起点：加工P1（或外部实体XX）；终点：外部实体XX（或数据存储D1）。<br>
+    问"图中有何错误"→ "加工P4 只有输入没有输出，存在黑洞错误；数据流XX违反父子平衡原则"。
+  </div>
+</section>
+
+<!-- ============ 4 案例实战 ============ -->
+<section id="s4">
+  <h2>④ 完整案例实战：图书借阅管理系统 <span class="tag core">跟着走一遍</span></h2>
+
+  <div class="case">
+    <b>题干（自拟仿真题）：</b>某图书馆开发图书借阅管理系统。<b>读者</b>向系统提交<b>借书请求</b>，系统核对读者信息和图书信息后，向读者发出<b>借书凭证</b>；读者<b>还书</b>时，系统检查是否逾期，若逾期向读者发送<b>逾期通知</b>。<b>图书管理员</b>录入<b>新书入库单</b>，由系统登记新书。<br>
+    系统将全部图书的库存与位置信息保存在<b>图书信息表</b>中，将每位读者的基本信息保存在<b>读者信息表</b>中，每次借还都在<b>借阅记录表</b>中登记。
+  </div>
+
+  <h3>顶层图（父图）：只看系统和外部打交道</h3>
+  <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ar3" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
+    <rect x="40" y="60" width="110" height="46" fill="#fff" stroke="#1f2430" stroke-width="2"/><text x="95" y="88" text-anchor="middle" font-size="14" font-weight="bold">读者</text>
+    <circle cx="340" cy="130" r="55" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/>
+    <text x="340" y="126" text-anchor="middle" font-size="14" font-weight="bold" fill="#2f6fed">图书借阅</text>
+    <text x="340" y="146" text-anchor="middle" font-size="14" font-weight="bold" fill="#2f6fed">管理系统</text>
+    <line x1="150" y1="72" x2="292" y2="106" stroke="#5b6474" stroke-width="2" marker-end="url(#ar3)"/>
+    <text x="205" y="72" text-anchor="middle" font-size="12" fill="#1a9e5c" font-weight="bold">借书请求</text>
+    <line x1="295" y1="160" x2="152" y2="104" stroke="#5b6474" stroke-width="2" marker-end="url(#ar3)"/>
+    <text x="225" y="150" text-anchor="middle" font-size="12" fill="#1a9e5c" font-weight="bold">借书凭证</text>
+    <line x1="160" y1="230" x2="300" y2="176" stroke="#5b6474" stroke-width="2" marker-end="url(#ar3)"/>
+    <text x="215" y="220" text-anchor="middle" font-size="12" fill="#1a9e5c" font-weight="bold">还书</text>
+    <line x1="315" y1="183" x2="170" y2="245" stroke="#5b6474" stroke-width="2" marker-end="url(#ar3)"/>
+    <text x="245" y="245" text-anchor="middle" font-size="12" fill="#d64545" font-weight="bold">逾期通知 ←重点!</text>
+    <rect x="540" y="70" width="120" height="46" fill="#fff" stroke="#1f2430" stroke-width="2"/><text x="600" y="98" text-anchor="middle" font-size="14" font-weight="bold">图书管理员</text>
+    <line x1="540" y1="106" x2="395" y2="120" stroke="#5b6474" stroke-width="2" marker-end="url(#ar3)"/>
+    <text x="470" y="100" text-anchor="middle" font-size="12" fill="#1a9e5c" font-weight="bold">新书入库单</text>
+    <text x="340" y="285" text-anchor="middle" font-size="13" fill="#5b6474">顶层图：记住"逾期通知"这条流，子图必须也有它（父子平衡）</text>
+  </svg>
+
+  <h3>0 层图（子图）：系统内部拆成 3 个加工</h3>
+  <svg viewBox="0 0 680 410" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ar4" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
+    <!-- 外部实体 -->
+    <rect x="20" y="80" width="90" height="44" fill="#fff" stroke="#1f2430" stroke-width="2"/><text x="65" y="107" text-anchor="middle" font-size="13" font-weight="bold">读者</text>
+    <rect x="20" y="330" width="100" height="44" fill="#fff" stroke="#1f2430" stroke-width="2"/><text x="70" y="357" text-anchor="middle" font-size="13" font-weight="bold">图书管理员</text>
+    <!-- 加工 -->
+    <circle cx="270" cy="70" r="36" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="270" y="75" text-anchor="middle" font-size="13" font-weight="bold" fill="#2f6fed">P1 借书</text>
+    <circle cx="270" cy="205" r="36" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="270" y="210" text-anchor="middle" font-size="13" font-weight="bold" fill="#2f6fed">P2 还书</text>
+    <circle cx="270" cy="350" r="40" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="270" y="355" text-anchor="middle" font-size="12" font-weight="bold" fill="#2f6fed">P3 新书入库</text>
+    <!-- 存储：D1 顶 / D2 中 / D3 底 -->
+    <g><path d="M 560 40 L 660 40" stroke="#1f2430" stroke-width="2"/><path d="M 560 76 L 660 76" stroke="#1f2430" stroke-width="2"/><line x1="560" y1="40" x2="560" y2="76" stroke="#1f2430" stroke-width="2"/><text x="566" y="63" font-size="11" font-weight="bold">D1 图书信息表</text></g>
+    <g><path d="M 560 170 L 660 170" stroke="#1f2430" stroke-width="2"/><path d="M 560 206 L 660 206" stroke="#1f2430" stroke-width="2"/><line x1="560" y1="170" x2="560" y2="206" stroke="#1f2430" stroke-width="2"/><text x="566" y="193" font-size="11" font-weight="bold">D2 借阅记录表</text></g>
+    <g><path d="M 560 300 L 660 300" stroke="#1f2430" stroke-width="2"/><path d="M 560 336 L 660 336" stroke="#1f2430" stroke-width="2"/><line x1="560" y1="300" x2="560" y2="336" stroke="#1f2430" stroke-width="2"/><text x="566" y="323" font-size="11" font-weight="bold">D3 读者信息表</text></g>
+    <!-- 读者 ↔ P1 -->
+    <line x1="110" y1="88" x2="234" y2="72" stroke="#5b6474" stroke-width="2" marker-end="url(#ar4)"/><text x="168" y="68" text-anchor="middle" font-size="11" fill="#1a9e5c" font-weight="bold">借书请求</text>
+    <line x1="238" y1="92" x2="112" y2="112" stroke="#5b6474" stroke-width="2" marker-end="url(#ar4)"/><text x="180" y="120" text-anchor="middle" font-size="11" fill="#1a9e5c" font-weight="bold">借书凭证</text>
+    <!-- 读者 ↔ P2 -->
+    <line x1="110" y1="120" x2="236" y2="192" stroke="#5b6474" stroke-width="2" marker-end="url(#ar4)"/><text x="146" y="152" text-anchor="middle" font-size="11" fill="#1a9e5c" font-weight="bold">还书</text>
+    <line x1="238" y1="212" x2="112" y2="130" stroke="#d64545" stroke-width="2.5" marker-end="url(#ar4)"/><text x="192" y="172" text-anchor="middle" font-size="11" fill="#d64545" font-weight="bold">逾期通知(补)</text>
+    <!-- 管理员 → P3 -->
+    <line x1="120" y1="352" x2="228" y2="350" stroke="#5b6474" stroke-width="2" marker-end="url(#ar4)"/><text x="175" y="340" text-anchor="middle" font-size="11" fill="#1a9e5c" font-weight="bold">新书入库单</text>
+    <!-- P1 → D1 读 -->
+    <line x1="302" y1="52" x2="557" y2="56" stroke="#5b6474" stroke-width="2" marker-end="url(#ar4)"/><text x="430" y="44" text-anchor="middle" font-size="11" fill="#5b6474">读库存/位置</text>
+    <!-- P1 → D2 写 -->
+    <line x1="295" y1="96" x2="557" y2="180" stroke="#5b6474" stroke-width="2" marker-end="url(#ar4)"/><text x="430" y="132" text-anchor="middle" font-size="11" fill="#5b6474">登记借阅</text>
+    <!-- P2 → D2 写 -->
+    <line x1="303" y1="185" x2="557" y2="188" stroke="#5b6474" stroke-width="2" marker-end="url(#ar4)"/><text x="430" y="176" text-anchor="middle" font-size="11" fill="#5b6474">登记还书</text>
+    <!-- P2 → D1 更新库存（折线绕行，避免多条线交叉） -->
+    <polyline points="270,169 270,130 540,130 540,72 558,72" fill="none" stroke="#e08a1e" stroke-width="2" marker-end="url(#ar4)"/><text x="415" y="147" text-anchor="middle" font-size="11" fill="#e08a1e" font-weight="bold">更新库存</text>
+    <!-- P3 → D1 写 -->
+    <line x1="303" y1="330" x2="557" y2="202" stroke="#5b6474" stroke-width="2" marker-end="url(#ar4)"/><text x="455" y="272" text-anchor="middle" font-size="11" fill="#5b6474">登记新书</text>
+    <text x="340" y="400" text-anchor="middle" font-size="13" fill="#d64545">红色"逾期通知"：顶层图有、子图原本漏画 → 必考的父子平衡补流题（起点：P2，终点：读者）</text>
+  </svg>
+
+  <div class="box green">
+    <b>案例拆解要点：</b>① 三个数据存储的名字全部来自题干"保存在……"那句话；② 三个加工的名字是题干动作的"动词+名词"概括（借书处理/还书处理/新书入库处理）；③ 红色的"逾期通知"就是考试最爱挖掉的流——顶层有、子图没有，按父子平衡必须补上，<b>起点：P2 还书处理，终点：读者</b>。
+  </div>
+</section>
+
+<!-- ============ 5 大题训练 ============ -->
+<section id="s5">
+  <h2>⑤ 大题训练（先自己想，再点开参考答案对照得分点）</h2>
+  <div id="quizArea"></div>
+</section>
+
+<!-- ============ 6 考场模板 ============ -->
+<section id="s6">
+  <h2>⑥ 考场执行清单（按顺序走，15 分稳拿 12+）</h2>
+  <div class="step"><div class="n">1</div><div><b>先读题干再读图</b>，圈出所有"人/部门/系统"和所有"保存/登记的 XX 表/文件"——这就是外部实体和数据存储的候选池。</div></div>
+  <div class="step"><div class="n">2</div><div>第 1 问通常问补实体/存储/加工：从候选池按形状对号入座，名字<b>尽量用题干原文</b>。</div></div>
+  <div class="step"><div class="n">3</div><div>补数据流时先做"<b>父子对账</b>"：把顶层图的流一条条和 0 层图对，缺哪条补哪条。</div></div>
+  <div class="step"><div class="n">4</div><div>问"错误"就检查三件事：黑洞（只进不出）、奇迹（只出不进）、实体直连存储。</div></div>
+  <div class="step"><div class="n">5</div><div>回答起点终点时写规范格式："起点：加工X（XX处理），终点：外部实体XX"。</div></div>
+  <div class="box purple"><b>时间预算：</b>本题 15 分建议 15~18 分钟完成，是整张下午卷性价比最高的题，务必先做且拿满。</div>
+</section>
+
+<div class="foot">软考软件设计师 · 下午题①数据流图 · 学完做⑤的训练，全对再进入试题②数据库设计</div>
+</div>
+
+<script>
+/* ---------- 客观选择题 ---------- */
+const QUIZ=[
+ {t:'【元素辨认】在数据流图中，"开口长条 / 双横线"符号表示（　）。',
+  opts:['数据存储','外部实体','加工','数据流'],ans:0,
+  ex:'矩形=外部实体，圆/圆角矩形=加工，开口长条（双横线）=<b>数据存储</b>，带名箭头=数据流。四选一考符号是送分题。'},
+ {t:'【铁律】某加工只有输入数据流、没有任何输出数据流，该错误称为（　）。',
+  opts:['黑洞','奇迹','父子失衡','越界'],ans:0,
+  ex:'只进不出=有东西进去却"凭空消失"=<b>黑洞</b>；只出不进=没原料却产出东西=<b>奇迹</b>。这两个名词直接写进答案就能得分。'},
+ {t:'【铁律】下列连线方式中，符合数据流图规则的是（　）。',
+  opts:['外部实体 → 加工','外部实体 → 数据存储','数据存储 → 数据存储','加工 → 外部实体（不经过任何加工且无数据流名）'],ans:0,
+  ex:'外部实体与数据存储<b>不能直接连线</b>，必须经过加工；实体→加工、加工→存储、加工→实体都合法（数据存储到加工也合法）。A 正确。'},
+ {t:'【平衡原则】顶层图中存在数据流"月度报表→馆长"，但 0 层图中没有任何加工产生"月度报表"。该图的错误是（　）。',
+  opts:['违反父子平衡原则','加工存在黑洞','数据流未命名','存在多个主加工'],ans:0,
+  ex:'父图（顶层）有的数据流，子图（0 层）必须同样出现——这叫<b>父子平衡</b>。补法：在 0 层图中找到题干里"生成月度报表"的加工，从它引一条"月度报表"流到外部实体"馆长"。'},
+ {t:'【命名规范】数据流图中某加工被命名为"数据"或"处理信息"，该命名（　）。',
+  opts:['不合格，加工名应为"动词+名词"，如"审核报销单"','合格，简短即可','必须写成"加工1"','必须与数据流同名'],ans:0,
+  ex:'加工命名 = <b>动词+名词</b>（审批申请、生成报表）；"数据/处理/信息"这类没有动作含义的词不给分。数据流名才是名词性短语。'},
+ {t:'【数据存储】题干写"将每位读者的基本信息保存在读者信息库中"。对应的数据存储应命名为（　）。',
+  opts:['读者信息库（抄题干原文）','读者','保存信息','D文件'],ans:0,
+  ex:'数据存储命名 = "XX表/XX文件/XX库"，答案优先<b>抄题干原文</b>（"保存在…"后面的名字），自己编的名字容易丢分。'},
+ {t:'【父子平衡】0 层图中出现了数据流"缺书通知"，但顶层图中没有这条流。该图（　）。',
+  opts:['不平衡：子图有的流父图也必须有','符合规范，子图可以自由增加','只需删除该流名即可','说明顶层图画错了方向'],ans:0,
+  ex:'父子平衡是<b>双向</b>的：父图有子图必须有，子图有父图也必须有。出现"多出来的流"同样判失衡——真题两个方向都考过。'},
+ {t:'【外部实体】下列选项中，最不可能作为图书管理系统外部实体的是（　）。',
+  opts:['系统内部的"图书库存统计"功能','读者','图书管理员','出版社（外部供书单位）'],ans:0,
+  ex:'系统内部的功能是"加工"，不是外部实体。外部实体 = 系统之外且与系统直接收发数据的人/组织/外部系统（读者、管理员、出版社都可能）。'},
+ {t:'【奇迹辨析】加工 P3"发放证书"只有一条输出流"证书"，没有任何输入流。该错误称为（　）。',
+  opts:['奇迹','黑洞','父子失衡','数据流未命名'],ans:0,
+  ex:'只有<b>输出</b>没有输入 = 无中生有 = <b>奇迹</b>（对照：只有输入没有输出 = 黑洞）。答题时先写错误名，再写"应补充输入流XX"。'},
+ {t:'【连线规则】下列数据流图中的连线，正确的是（　）。',
+  opts:['外部实体A → 外部实体B（不经过加工）','加工P1 → 加工P2','数据存储D1 → 数据存储D2','数据存储 → 外部实体'],ans:1,
+  ex:'实体↔实体、存储↔存储、存储↔实体都不允许直接连线；<b>任何连线必须至少一端是加工</b>。加工→加工（P1→P2）完全合法。'}
+];
+
+/* ---------- 大题训练 ---------- */
+const CASES=[
+ {title:'大题一：补充外部实体与数据存储（第一问标准题型）',
+  body:`<div class="case"><b>情境：</b>某物业管理公司开发物业费管理系统。<b>业主</b>通过手机提交缴费申请；<b>财务人员</b>录入收费记录，系统将缴费信息保存在<b>缴费记录表</b>中，将每栋楼的房号、面积等保存在<b>房产信息表</b>中；系统每月末统计欠费情况，生成<b>催缴单</b>发送给欠费业主，并生成<b>收费统计报表</b>提交给<b>物业经理</b>。业主的车辆信息由<b>车位管理员</b>维护录入。</div>
+  <p><b>问题：</b>根据题干说明，指出该系统数据流图中的外部实体和数据存储分别有哪些？</p>`,
+  answer:`<b class="pt">得分点拆解：</b><br>
+  ① 外部实体（找"人"，且与系统直接收发数据）：<b>业主、财务人员、物业经理、车位管理员</b><br>
+  ② 数据存储（题干"保存在/保存于"后面的名字）：<b>缴费记录表、房产信息表</b><br>
+  <span style="color:#d64545">⚠ 易错：</span>"手机"不是外部实体（它是通道，不是与系统交互的人/系统）；题干没说业主直接维护车辆信息，录入者是车位管理员。命名尽量抄题干原文。`},
+ {title:'大题二：补充缺失数据流 + 说明起点终点（父子平衡题）',
+  body:`<div class="case"><b>情境：</b>继续大题一的物业系统。0 层图包含加工：P1 缴费处理、P2 催缴统计、P3 车位信息维护、P4 报表生成。顶层图中存在数据流"<b>催缴单</b>（→业主）"，但 0 层图中 P2 催缴统计只画了输入"缴费记录表"和"房产信息表"，没有任何输出。</div>
+  <p><b>问题：</b>(1) 0 层图存在什么错误？(2) 应补充的数据流是什么？给出它的起点和终点。</p>`,
+  answer:`<b class="pt">得分点拆解：</b><br>
+  (1) 两层错误：<b>违反父子平衡</b>（顶层有"催缴单"流，0 层没有）；同时 P2 只有输入没有输出，构成<b>黑洞</b>错误（答出一个通常也给分，两个都写更稳）。<br>
+  (2) 补充数据流：<b>催缴单</b>；起点：<b>P2 催缴统计加工</b>；终点：<b>外部实体"业主"</b>。<br>
+  定位方法：题干中"生成催缴单发送给欠费业主"一句话，同时给出了数据流名、起点（生成它的加工）和终点（业主）。`},
+ {title:'大题三：综合找错（多个错误一起挑）',
+  body:`<div class="case"><b>情境：</b>某报销审批系统 0 层图如下：外部实体"员工"直接连到数据存储"D1 报销单表"（员工把报销单直接写入表中）；加工 P2 审批处理从 D1 读取报销单，审批结果发给"主管"；加工 P3 生成凭证只有"财务凭证"一条输出流，没有任何输入。</div>
+  <p><b>问题：</b>指出图中所有不符合数据流图规则之处，并说明理由。</p>`,
+  answer:`<b class="pt">得分点拆解（三处）：</b><br>
+  ① <b>员工 → D1 报销单表直接连线：错误</b>。外部实体与数据存储之间必须经过加工（应增设"提交报销单"加工）。<br>
+  ② <b>P3 生成凭证只有输出没有输入：奇迹错误</b>（凭空产生数据，必须补输入流，如"审批结果"）。<br>
+  ③ 检查 P2：有输入有输出，<b>合规</b>（注意考试会放合规项做干扰，别乱挑）。`},
+ {title:'大题四：给加工命名（命名规范题）',
+  body:`<div class="case"><b>情境：</b>某报销审批系统题干节选："员工提交报销单后，系统先由财务审核金额是否超标；审核通过后由主管签批；签批完成后系统按月汇总生成报销报表，提交给总经理查阅。"</div>
+  <p><b>问题：</b>为该系统 0 层图的三个加工命名（P1~P3），并说明命名依据。</p>`,
+  answer:`<b class="pt">参考答案（动词+名词）：</b><br>
+  P1：<b>审核报销单</b>（对应题干"审核金额是否超标"）；<br>
+  P2：<b>签批报销单</b>（对应"由主管签批"）；<br>
+  P3：<b>生成报销报表</b>（对应"汇总生成报销报表"）。<br>
+  命名依据：加工名 = 题干动作句的"动词+名词"压缩，<b>不照抄整句、也不写成"数据/处理"</b>。`},
+ {title:'大题五：写数据流的起点与终点（规范格式题）',
+  body:`<div class="case"><b>情境：</b>继续大题四的报销系统。0 层图中：P2 签批完成后向 P3 传送"签批结果"；P3 从"D1 报销记录表"读取当月数据，生成报表后发给外部实体"总经理"。顶层图中对应画了"报销报表（→总经理）"。</div>
+  <p><b>问题：</b>(1) 写出数据流"报销报表"的起点和终点；(2) "签批结果"这条流连接哪两个符号？</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  (1) 报销报表：起点 = <b>加工 P3（生成报销报表）</b>；终点 = <b>外部实体"总经理"</b>。<br>
+  (2) 签批结果：起点 = <b>加工 P2（签批报销单）</b>，终点 = <b>加工 P3（生成报销报表）</b>——加工与加工之间也可以有数据流。<br>
+  <span style="color:#d64545">规范提醒：</span>起点/终点要么写加工（编号+名称），要么写外部实体（名称）；若该流确实连到存储，才写"D1 报销记录表"。`}
+];
+
+(function(){
+  const area=document.getElementById('quizArea');
+  QUIZ.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
+      q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
+      '<div class="explain" id="ex'+i+'"></div>';
+    area.appendChild(d);
+  });
+  CASES.forEach((c,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">'+c.title+'</div>'+c.body+
+      '<div class="reveal"><button class="reveal-btn" id="rb'+i+'">显示参考答案与得分点</button>'+
+      '<div class="answer" id="ans'+i+'">'+c.answer+'</div></div>';
+    area.appendChild(d);
+  });
+  area.addEventListener('click',function(e){
+    const btn=e.target.closest('.opt');
+    if(btn){
+      const qi=+btn.dataset.q, q=QUIZ[qi];
+      const all=area.querySelectorAll('[data-q="'+qi+'"]');
+      all.forEach(b=>{b.disabled=true; if(+b.dataset.j===q.ans)b.classList.add('right');});
+      if(+btn.dataset.j!==q.ans) btn.classList.add('wrong');
+      const ex=document.getElementById('ex'+qi); ex.style.display='block'; ex.innerHTML='<b>解析：</b>'+q.ex;
+      return;
+    }
+    const rb=e.target.closest('.reveal-btn');
+    if(rb){
+      const i=rb.id.slice(2), ans=document.getElementById('ans'+i);
+      ans.style.display = ans.style.display==='block' ? 'none' : 'block';
+      rb.textContent = ans.style.display==='block' ? '收起答案' : '显示参考答案与得分点';
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·下午题5 C++程序设计（语法+设计模式）满分教程</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#ffffff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#5b6474,#2f6fed);color:#fff;border-radius:16px;padding:32px 28px;margin-bottom:24px;}
+  header h1{margin:0 0 8px;font-size:26px;} header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:22px;}
+  h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
+  h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
+  .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
+  pre{background:#232a3a;color:#d7e3ff;padding:16px 18px;border-radius:10px;overflow-x:auto;font-family:Consolas,monospace;font-size:14px;line-height:1.6;margin:10px 0;}
+  pre .c{color:#7ee787;} pre .k{color:#ff9b72;} pre .hl{color:#ffd479;font-weight:bold;}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;} th{background:#f0f3f9;}
+  .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
+  .quiz{border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:14px 0;}
+  .quiz .q{font-weight:bold;margin-bottom:10px;}
+  .opt{display:block;width:100%;text-align:left;background:#fafbfe;border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:14px;font-family:inherit;}
+  .opt:hover{border-color:var(--blue);}
+  .opt.right{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:bold;}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);} .opt:disabled{cursor:default;}
+  .explain{display:none;background:var(--orange-bg);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:14px;}
+  .reveal-btn{background:var(--purple);color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit;}
+  .answer{display:none;background:var(--green-bg);border:1px solid #bfe8d2;border-radius:8px;padding:12px 16px;margin-top:10px;font-size:14px;}
+  .step{display:flex;gap:10px;margin:8px 0;}
+  .step .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>下午题 ⑤ C++ 程序设计 · 15 分选答（与⑥二选一）</h1>
+  <p>模式和⑥完全同一套，只是代码从 Java 换成 C++——建议先学 05，再回来看 C++ 写法差异</p>
+  <nav>
+    <a href="#s0">① C++ 语法速览</a>
+    <a href="#s1">② 策略模式 C++ 版</a>
+    <a href="#s2">③ Java vs C++ 对照</a>
+    <a href="#s2b">④ 装饰器 C++ 版</a>
+    <a href="#s5">⑤ 训练题</a>
+    <a href="#s6">⑥ 考场清单</a>
+  </nav>
+</header>
+
+<!-- ============ 0 语法速览 ============ -->
+<section id="s0">
+  <h2>① C++ 语法速览：与 Java 的关键差异 <span class="tag core">基础</span></h2>
+  <table>
+    <tr><th style="width:160px">概念</th><th>C++ 写法</th><th>考试挖空点</th></tr>
+    <tr><td>抽象方法</td><td><span class="hl">virtual void pay(int) = 0;</span></td><td>virtual 和 = 0 是双挖空重灾区</td></tr>
+    <tr><td>虚函数</td><td><span class="ok">virtual</span> void f();</td><td>没有 virtual 就没有多态！</td></tr>
+    <tr><td>公有继承</td><td><span class="ok">class</span> A : <span class="hl">public</span> B { };</td><td>继承时的 public 几乎必考</td></tr>
+    <tr><td>对象指针调用</td><td>p->pay(100);　（对象用 . ）</td><td>-> 与 . 混淆考</td></tr>
+    <tr><td>构造与析构</td><td>类名() / <span class="ok">~</span>类名()</td><td>析构函数 = ~ + 类名</td></tr>
+    <tr><td>作用域解析</td><td>Child::f() 调父类版本 / 定义处</td><td>类外定义方法要 类名::方法名</td></tr>
+  </table>
+  <div class="box blue"><b>一句话理解 virtual：</b>Java 所有方法天生可多态；C++ 必须给方法加 <b>virtual</b> 才能多态。基类指针指向派生类对象时，没 virtual 调基类版本、有 virtual 调派生类版本——选择题最爱考这个区别。</div>
+</section>
+
+<!-- ============ 1 策略模式 C++ ============ -->
+<section id="s1">
+  <h2>② 策略模式 C++ 版（与 05 的 Java 版逐行对照）<span class="tag exam">核心</span></h2>
+  <pre>
+<span class="c">// 抽象策略：纯虚函数（= 0）使类成为抽象类，不能实例化</span>
+<span class="k">class</span> PaymentStrategy {
+<span class="k">public</span>:
+    <span class="k">virtual void</span> pay(<span class="k">int</span> amount) <span class="hl">= 0</span>;        <span class="c">// ★挖空1：纯虚函数 = 0</span>
+    <span class="k">virtual</span> ~PaymentStrategy() {}             <span class="c">// 虚析构（好习惯，偶考）</span>
+};
+<span class="k">class</span> AliPay : <span class="k">public</span> PaymentStrategy {       <span class="c">// ★挖空2：public 继承</span>
+<span class="k">public</span>:
+    <span class="k">void</span> pay(<span class="k">int</span> amount) { <span class="c">/* 支付宝支付 */</span> }
+};
+<span class="k">class</span> WechatPay : <span class="k">public</span> PaymentStrategy {
+<span class="k">public</span>:
+    <span class="k">void</span> pay(<span class="k">int</span> amount) { <span class="c">/* 微信支付 */</span> }
+};
+<span class="k">class</span> CashContext {                           <span class="c">// 环境类：与 Java 版结构相同</span>
+<span class="k">private</span>:
+    PaymentStrategy* <span class="hl">strategy</span>;                <span class="c">// ★挖空3：持有抽象类型【指针】</span>
+<span class="k">public</span>:
+    <span class="k">void</span> setStrategy(PaymentStrategy* s) { strategy = s; }
+    <span class="k">void</span> checkout(<span class="k">int</span> amount) {
+        <span class="hl">strategy-&gt;</span>pay(amount);                <span class="c">// ★挖空4：指针用 -&gt; 调用</span>
+    }
+};
+<span class="c">// 使用：CashContext ctx; ctx.setStrategy(new AliPay()); ctx.checkout(100);</span></pre>
+  <div class="box green"><b>C++ 版四连挖：</b>① 纯虚函数 <b>virtual ... = 0</b>；② 继承时的 <b>public</b>；③ 成员是指向抽象类的<b>指针</b>；④ 指针调用用 <b>-></b>。这四处在历年 C++ 卷里反复出现。</div>
+</section>
+
+<!-- ============ 2 对照表 ============ -->
+<section id="s2">
+  <h2>③ Java vs C++ 对照表（学完 05 直接迁移）</h2>
+  <table>
+    <tr><th>概念</th><th>Java</th><th>C++</th></tr>
+    <tr><td>定义接口</td><td>interface X { void f(); }</td><td>class X { virtual void f() = 0; }</td></tr>
+    <tr><td>实现/继承</td><td>implements X / extends Y</td><td>: public X</td></tr>
+    <tr><td>多态调用</td><td>自动（默认多态）</td><td>必须 virtual</td></tr>
+    <tr><td>持有引用</td><td>直接持有对象引用</td><td>持有指针 X* 或引用 X&</td></tr>
+    <tr><td>调用成员</td><td>统一用 .</td><td>对象用 . ，指针用 -></td></tr>
+    <tr><td>调用父类版本</td><td>super.f()</td><td>Parent::f()</td></tr>
+  </table>
+  <div class="box orange">设计模式的<b>意图、类图结构、填空思路完全一致</b>（策略/装饰器/单例/工厂…），对照表只是"翻译"语法。05 的速查表在这里同样全适用。</div>
+</section>
+
+<!-- ============ 装饰器 C++ ============ -->
+<section id="s2b">
+  <h2>④ 装饰器 C++ 版（与 05 的 Java 版逐行对照）<span class="tag exam">第二高频</span></h2>
+  <pre>
+<span class="k">class</span> Coffee {
+<span class="k">public</span>:
+    <span class="k">virtual double</span> cost() <span class="hl">= 0</span>;                 <span class="c">// ★抽象构件：纯虚函数</span>
+    <span class="k">virtual</span> ~Coffee() {}                        <span class="c">// 虚析构（好习惯）</span>
+};
+<span class="k">class</span> SimpleCoffee : <span class="k">public</span> Coffee {           <span class="c">// 具体构件</span>
+<span class="k">public</span>:
+    <span class="k">double</span> cost() { <span class="k">return</span> 10.0; }
+};
+<span class="k">class</span> CoffeeDecorator : <span class="k">public</span> Coffee {        <span class="c">// 装饰器：也继承 Coffee</span>
+<span class="k">protected</span>:
+    Coffee* <span class="hl">coffee</span>;                             <span class="c">// ★核心挖空：持有同类型【指针】</span>
+<span class="k">public</span>:
+    CoffeeDecorator(Coffee* c) : <span class="hl">coffee(c)</span> {}   <span class="c">// ★构造初始化列表</span>
+    <span class="k">double</span> cost() { <span class="k">return</span> coffee-&gt;cost(); }    <span class="c">// 默认委托</span>
+};
+<span class="k">class</span> Milk : <span class="k">public</span> CoffeeDecorator {          <span class="c">// 具体装饰器：继承装饰器</span>
+<span class="k">public</span>:
+    Milk(Coffee* c) : <span class="hl">CoffeeDecorator(c)</span> {}     <span class="c">// ★挖空：调父类构造</span>
+    <span class="k">double</span> cost() { <span class="k">return</span> <span class="hl">coffee-&gt;cost()</span> + 2.0; }  <span class="c">// ★委托 + 加价</span>
+};
+<span class="c">// 使用：Coffee* c = new Milk(new SimpleCoffee()); → 12.0</span></pre>
+  <div class="box green"><b>C++ 装饰器四连挖：</b>① 基类纯虚 <b>cost() = 0</b>；② 装饰类成员是 <b>Coffee* 指针</b>；③ 构造函数初始化列表 <b>coffee(c)</b> 或调父类构造 <b>CoffeeDecorator(c)</b>；④ 委托调用 <b>coffee-&gt;cost()</b> 再加料。与 Java 版结构完全同构，只是多了指针与初始化列表。</div>
+</section>
+
+<!-- ============ 训练 ============ -->
+<section id="s5">
+  <h2>⑤ 训练题</h2>
+  <div id="quizArea"></div>
+</section>
+
+<!-- ============ 清单 ============ -->
+<section id="s6">
+  <h2>⑥ 考场执行清单</h2>
+  <div class="step"><div class="n">1</div><div>看类图定模式（同 05 的速查表），第一空通常问模式名。</div></div>
+  <div class="step"><div class="n">2</div><div>看到"virtual ... (  ) = 0"型空 → 填 <b>virtual</b> 或 <b>0</b>；看到继承冒号后 → 填 <b>public</b>。</div></div>
+  <div class="step"><div class="n">3</div><div>指针变量调用成员 → <b>-></b>；对象变量 → <b>.</b>；看变量声明是 X 还是 X*。</div></div>
+  <div class="step"><div class="n">4</div><div>环境类成员类型 = 抽象策略类<b>指针</b>（PaymentStrategy*），new 出的具体类赋给它。</div></div>
+  <div class="step"><div class="n">5</div><div>类外定义成员函数时记得 <b>类名::</b> 前缀，如 void AliPay::pay(int amount) {}。</div></div>
+</section>
+
+<div class="foot">软考软件设计师 · 下午题⑤C++程序设计 · 与⑥二选一即可，选定后另一篇可略读</div>
+</div>
+
+<script>
+const QUIZ=[
+ {t:'【C++语法】要使基类指针指向派生类对象时调用的是派生类的 pay() 方法，基类中的 pay 必须声明为（　）。',
+  opts:['virtual 虚函数（或纯虚函数）','static 静态函数','inline 内联函数','const 函数'],ans:0,
+  ex:'C++ 多态的前提 = 基类方法加 <b>virtual</b>。没有 virtual 时按指针的静态类型调用基类版本——这是 C++ 与 Java 最大的语法差异。'},
+ {t:'【C++语法】class A : (　) B {}; 中横线处应填（　），表示公有继承。',
+  opts:['public','private','protected','virtual'],ans:0,
+  ex:'考试代码里一律写 <b>public</b> 继承；private/protected 继承会改变成员可见性，设计模式代码不使用。'},
+ {t:'【C++语法】PaymentStrategy* p = new AliPay(); 要调用 p 所指对象的 pay(100)，正确写法是（　）。',
+  opts:['p->pay(100);','p.pay(100);','*p.pay(100);','p::pay(100);'],ans:0,
+  ex:'<b>指针用 -></b>，对象用 . ；p 是指针所以 p->pay(100)。-> 与 . 的选择看变量是声明为类还是类指针。'},
+ {t:'【C++语法】纯虚函数 virtual void pay(int amount) = 0; 的作用是（　）。',
+  opts:['使 PaymentStrategy 成为抽象类，不能被实例化，强制派生类实现 pay','表示 pay 函数返回值为 0','表示 pay 只能被调用 0 次','与 virtual void pay(int amount); 完全等价'],ans:0,
+  ex:'<b>= 0</b> 表示"纯虚"：本类变抽象类（不能 new），每个派生类必须给出自己的实现。这正是 C++ 表达"接口"的方式。'},
+ {t:'【模式迁移】在 C++ 版装饰器中，装饰类 CoffeeDecorator 应（　）。',
+  opts:['实现（继承）Coffee 接口并持有 Coffee* 类型的成员','只能继承 SimpleCoffee 具体类','持有 Coffee 类型的普通对象（非指针）','不需要任何成员变量'],ans:0,
+  ex:'与 Java 完全同构：装饰类实现同一抽象 + 持有同类型引用（C++ 里通常是指针）+ 方法里委托再加料。模式结构不因语言而变。'},
+ {t:'【初始化列表】CoffeeDecorator(Coffee* c) (　) { } 中横线处应填（　），完成成员 coffee 的初始化。',
+  opts:[': coffee(c)','coffee = c;','::coffee(c)','coffee(c);'],ans:0,
+  ex:'C++ 构造函数用<b>初始化列表</b>给成员/父类构造传参：类名(参数) : 成员(参数) {}。这是 C++ 版装饰器/策略的高频挖空点。'},
+ {t:'【虚析构】通过基类指针 delete 派生类对象时，为正确调用派生类析构函数，基类析构函数应声明为（　）。',
+  opts:['virtual','static','inline','const'],ans:0,
+  ex:'<b>虚析构（virtual ~X()）</b>：基类指针 delete 派生类对象时才能先调派生类析构、再调基类析构，否则内存泄漏。C++ 卷偶考。'},
+ {t:'【作用域解析】在类外定义成员函数 void AliPay::pay(int amount) { }，其中 "::" 的作用是（　）。',
+  opts:['表明 pay 是 AliPay 类的成员函数','表示命名空间','表示指针调用','表示取地址'],ans:0,
+  ex:'类外定义成员函数必须写 <b>类名::方法名</b>，否则编译器不知道它属于谁。:: 是作用域解析运算符，与 ->（指针调用）、.（对象调用）区分。'},
+ {t:'【抽象类】关于 C++ 抽象类，正确的说法是（　）。',
+  opts:['含纯虚函数的类不能实例化，只能被继承','抽象类不能有成员变量','抽象类不能有构造函数','纯虚函数可以在派生类中不实现'],ans:0,
+  ex:'含<b>纯虚函数（=0）</b>的类 = 抽象类：不能 new；可以有成员变量和构造函数（供派生类调用）；<b>每个派生类必须实现全部纯虚函数</b>，否则派生类也是抽象类。'}
+];
+const CASES=[
+ {title:'大题一：C++ 策略模式填空（4 空，仿真真题）',
+  body:`<pre>
+<span class="k">class</span> SortStrategy {
+<span class="k">public</span>:
+    (1)____ <span class="k">virtual void</span> sort(<span class="k">int</span> a[]) <span class="hl">(2)____</span>;
+};
+<span class="k">class</span> QuickSort : (3)____ SortStrategy {
+<span class="k">public</span>:
+    <span class="k">void</span> sort(<span class="k">int</span> a[]) { <span class="c">/* 快排 */</span> }
+};
+<span class="k">class</span> Sorter {
+    SortStrategy* strategy;
+<span class="k">public</span>:
+    <span class="k">void</span> doSort(<span class="k">int</span> a[]) { strategy(4)____sort(a); }
+};</pre>
+  <p><b>问题：</b>填空 (1)~(4)，并回答：为什么 SortStrategy 不能直接实例化（SortStrategy s; 报错）？</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  (1) <b>virtual</b>（声明纯虚函数）；(2) <b>= 0</b>（纯虚标记）；(3) <b>public</b>（公有继承）；(4) <b>-></b>（指针调用成员）。<br>
+  不能实例化的原因：sort 是<b>纯虚函数</b>（=0），SortStrategy 成为<b>抽象类</b>，只能作为基类被继承，由派生类（QuickSort 等）提供具体实现后才能创建对象。<br>
+  答题点：抽象类 + 纯虚函数两个术语必须出现。`},
+ {title:'大题二：C++ 装饰器填空（4 空）',
+  body:`<pre>
+<span class="k">class</span> Logger {
+<span class="k">public</span>:
+    (1)____ <span class="k">virtual void</span> log(<span class="k">const char</span>* msg) (2)____;
+    <span class="k">virtual</span> ~Logger() {}
+};
+<span class="k">class</span> FileLogger : <span class="k">public</span> Logger {
+<span class="k">public</span>:
+    <span class="k">void</span> log(<span class="k">const char</span>* msg) { <span class="c">/* 写文件 */</span> }
+};
+<span class="k">class</span> TimestampLogger : <span class="k">public</span> Logger {
+    Logger* inner;
+<span class="k">public</span>:
+    TimestampLogger(Logger* i) : (3)____ {}
+    <span class="k">void</span> log(<span class="k">const char</span>* msg) {
+        <span class="c">// 先加时间戳，再委托给 inner</span>
+        inner(4)____log(msg);
+    }
+};</pre>
+  <p><b>问题：</b>填空 (1)~(4)，并说明 TimestampLogger 体现的设计模式。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  (1) <b>virtual</b>；(2) <b>= 0</b>（纯虚函数，Logger 成为抽象构件）；<br>
+  (3) <b>inner(i)</b>（构造初始化列表给成员指针赋值）；<br>
+  (4) <b>-&gt;</b>（指针调用成员）。<br>
+  模式：<b>装饰器（Decorator）</b>——TimestampLogger 与被装饰者实现同一抽象 Logger，<b>持有同类型指针</b>并在委托前"加料"（时间戳），可无限层包装。`},
+ {title:'大题三：Java/C++ 模式迁移简答',
+  body:`<div class="case"><b>情境：</b>同一套策略模式代码分别用 Java 和 C++ 实现。Java 版：interface SortStrategy + class QuickSort implements SortStrategy + 环境类持有 SortStrategy 成员。C++ 版需要表达同样的结构。</div>
+  <p><b>问题：</b>列出 Java 版转 C++ 版必须做的 4 处语法改动，并说明哪一处遗漏会导致"多态失效"。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  ① interface SortStrategy → <b>class SortStrategy</b>，sort 声明为<b>纯虚函数 virtual void sort(int[]) = 0;</b>；<br>
+  ② implements → <b>: public</b> 继承；<br>
+  ③ 环境类成员/参数：引用 → <b>指针 SortStrategy*</b>；<br>
+  ④ 调用 . → <b>-&gt;</b>。<br>
+  最关键：基类方法必须加 <b>virtual</b>——C++ 默认静态绑定，漏写 virtual 时基类指针调用的<b>永远是基类版本</b>，多态失效，策略"可替换"就不成立（Java 方法默认可多态，无此问题）。`}
+];
+(function(){
+  const area=document.getElementById('quizArea');
+  QUIZ.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
+      q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
+      '<div class="explain" id="ex'+i+'"></div>';
+    area.appendChild(d);
+  });
+  CASES.forEach((c,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">'+c.title+'</div>'+c.body+
+      '<div class="reveal" style="margin-top:10px"><button class="reveal-btn" id="rb'+i+'">显示参考答案与得分点</button>'+
+      '<div class="answer" id="ans'+i+'">'+c.answer+'</div></div>';
+    area.appendChild(d);
+  });
+  area.addEventListener('click',function(e){
+    const btn=e.target.closest('.opt');
+    if(btn){
+      const qi=+btn.dataset.q, q=QUIZ[qi];
+      const all=area.querySelectorAll('[data-q="'+qi+'"]');
+      all.forEach(b=>{b.disabled=true; if(+b.dataset.j===q.ans)b.classList.add('right');});
+      if(+btn.dataset.j!==q.ans) btn.classList.add('wrong');
+      const ex=document.getElementById('ex'+qi); ex.style.display='block'; ex.innerHTML='<b>解析：</b>'+q.ex;
+      return;
+    }
+    const rb=e.target.closest('.reveal-btn');
+    if(rb){
+      const i=rb.id.slice(2), ans=document.getElementById('ans'+i);
+      ans.style.display = ans.style.display==='block' ? 'none' : 'block';
+      rb.textContent = ans.style.display==='block' ? '收起答案' : '显示参考答案与得分点';
+    }
+  });
+})();
+</script>
+</body>
+</html>

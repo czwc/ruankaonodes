@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·仿真真题精析（下午整卷）</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#7b52d6,#2f6fed);color:#fff;border-radius:16px;padding:32px 28px;margin-bottom:24px;}
+  header h1{margin:0 0 8px;font-size:26px;} header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:22px;}
+  h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--purple);padding-left:12px;}
+  h3{margin:20px 0 8px;font-size:16px;color:var(--purple);}
+  .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+  .tag.exam{background:var(--red-bg);color:var(--red);}
+  .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
+  .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
+  pre{background:#f6f8fc;border:1px solid var(--border);border-radius:10px;padding:14px 16px;overflow-x:auto;font-size:13.5px;line-height:1.7;}
+  .k{color:#7b52d6;font-weight:bold;} .c{color:#8a93a5;} .hl{color:#d64545;font-weight:bold;}
+  .case{background:#fbfcff;border:1px solid #dbe3f2;border-radius:10px;padding:16px 18px;font-size:14.5px;margin:12px 0;}
+  .step{display:flex;gap:10px;margin:8px 0;}
+  .step .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--purple);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;}
+  .reveal{margin-top:12px;}
+  .reveal-btn{background:var(--purple);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit;}
+  .answer{display:none;background:var(--green-bg);border:1px solid #bfe8d2;border-radius:10px;padding:14px 18px;margin-top:10px;font-size:14px;}
+  .answer b.pt{color:var(--green);}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;} th{background:#f0f3f9;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>仿真真题精析 · 下午卷整卷实战</h1>
+  <p>150 分钟 · 5 道大题（试题 1~4 必答 + 试题 5/6 二选一）——按真题风格仿真复刻，先掐表自测，再对照逐问评分点自评</p>
+  <nav>
+    <a href="#rule">使用说明</a>
+    <a href="#e1">试题一 数据流图</a>
+    <a href="#e2">试题二 数据库</a>
+    <a href="#e3">试题三 UML</a>
+    <a href="#e4">试题四 算法</a>
+    <a href="#e6">试题六 Java</a>
+    <a href="#review">全卷复盘</a>
+  </nav>
+</header>
+
+<section id="rule">
+  <h2>使用说明（先读这个）</h2>
+  <div class="box orange">
+    <b>仿真声明：</b>本卷按软考软件设计师<b>近年真题的题型、提问方式与分值结构仿真复刻</b>（题干为自拟情境，非逐字原题），考点分布与真实试卷一致。用于限时训练与"逐问拆解思路"的学习完全够用；如需逐字原题，请配合官方历年真题册使用。
+  </div>
+  <div class="step"><div class="n">1</div><div><b>掐表 150 分钟</b>，一次性做完整卷（先做 1、2 题，再 3、4，最后二选一做 6）。用白纸手写答案，模拟考试。</div></div>
+  <div class="step"><div class="n">2</div><div>做完后<b>逐题点开"参考答案与逐问评分"</b>，按每问的分值给自己打分（每题 15 分）。</div></div>
+  <div class="step"><div class="n">3</div><div>错在哪一问，就回对应教程章节回炉：数据流图→01、数据库→02、UML→03、算法→04、Java→05。</div></div>
+  <table>
+    <tr><th>题号</th><th>考点</th><th style="width:110px">建议用时</th><th style="width:110px">目标分数</th></tr>
+    <tr><td>试题一</td><td>数据流图（补实体/存储 + 找错 + 补流）</td><td>15~18 分钟</td><td>12~15</td></tr>
+    <tr><td>试题二</td><td>数据库设计（E-R 补全 + 转关系模式）</td><td>15~20 分钟</td><td>12~15</td></tr>
+    <tr><td>试题三</td><td>UML（用例图 + 类图 + 状态图）</td><td>20~25 分钟</td><td>10~13</td></tr>
+    <tr><td>试题四</td><td>算法策略（代码填空 + 复杂度）</td><td>25~30 分钟</td><td>9~13</td></tr>
+    <tr><td>试题六</td><td>Java 设计模式（代码填空 + 模式识别）</td><td>25~30 分钟</td><td>10~14</td></tr>
+  </table>
+</section>
+
+<section id="e1">
+  <h2>试题一 · 数据流图（15 分）<span class="tag exam">必答</span></h2>
+  <div class="case">
+    <b>【题干】</b>某医院开发"门诊预约挂号系统"，功能描述如下：<br>
+    ① <b>患者</b>（注册用户）通过手机提交<b>预约申请</b>，系统根据<b>科室排班表</b>检查该科室当天剩余号源，若有号源则扣减号源，并向患者发送<b>预约成功通知</b>；若无号源则发送<b>预约失败通知</b>。<br>
+    ② 患者就诊当天到<b>签到机</b>刷卡签到，系统核对预约记录后，为患者生成<b>就诊排队号</b>。<br>
+    ③ <b>医生</b>诊疗结束后录入<b>诊疗结果</b>，系统将其保存在诊疗记录中，并向患者发送<b>取药提醒</b>。<br>
+    ④ 系统管理员（<b>排班员</b>）负责录入各科室的排班信息，存入科室排班表。<br>
+    系统将患者的预约信息登记在<b>预约记录表</b>中，将各科室排班与号源保存在<b>科室排班表</b>中，将每次诊疗的信息保存在<b>诊疗记录表</b>中。
+  </div>
+  <div class="case">
+    <b>【问题】</b>（共 3 问）<br>
+    (1) 根据题干说明，指出该系统数据流图中的<b>外部实体</b>与<b>数据存储</b>分别有哪些。（5 分）<br>
+    (2) 0 层图中：加工 P2"签到处理"画了输入流"签到信息"，但没有任何输出流；同时 0 层图中出现了一条顶层图上不存在的数据流"欠费名单"。请指出图中存在的问题，并分别说明理由。（5 分）<br>
+    (3) 写出数据流"预约成功通知"的起点和终点。（5 分）
+  </div>
+  <div class="reveal">
+    <button class="reveal-btn" id="rb0">显示参考答案与逐问评分</button>
+    <div class="answer" id="ans0">
+      <b class="pt">问 (1) 评分点（每个 0.5~1 分）：</b><br>
+      ① 外部实体：<b>患者、医生、排班员</b>（3 个）。<span class="hl">陷阱：手机/签到机是设备通道，不是外部实体</span>——它们是患者与系统交互的媒介；若把"签到机"当实体写，通常扣分。<br>
+      ② 数据存储：<b>预约记录表、科室排班表、诊疗记录表</b>（3 个）——全部来自题干"登记在/保存在/存入"句式。<br><br>
+      <b class="pt">问 (2) 评分点（每个问题 2.5 分）：</b><br>
+      ① P2"签到处理"只有输入没有输出 → <b>黑洞错误</b>（应有输出"就诊排队号"，题干②明确写了生成排队号）。答题句式："加工 P2 只有输入数据流而无输出数据流，存在黑洞错误；应补充数据流'就诊排队号'。"<br>
+      ② "欠费名单"在顶层图没有、0 层图有 → <b>违反父子平衡原则</b>（父子平衡双向：子图有的流父图也必须有）。答题句式："数据流'欠费名单'出现在 0 层图但顶层图中没有，违反父子平衡原则。"<br><br>
+      <b class="pt">问 (3) 评分点：</b><br>
+      起点：<b>加工 P1（预约处理）</b>；终点：<b>外部实体"患者"</b>。<br>
+      定位方法：题干①"若有号源则扣减号源，并向患者发送预约成功通知"——生成它的加工是起点（P1），接收方"患者"是终点。<br>
+      <div class="box red" style="margin:8px 0 0"><b>常见丢分：</b>①把"手机/签到机"写成外部实体；②只答"黑洞"不写"应补什么流"（通常要补全才给满分）；③起点终点写成数据存储。</div>
+    </div>
+  </div>
+</section>
+
+<section id="e2">
+  <h2>试题二 · 数据库设计（15 分）<span class="tag exam">必答</span></h2>
+  <div class="case">
+    <b>【题干】</b>某网店销售系统的部分需求如下：<br>
+    ① 每件<b>商品</b>（商品号、商品名、单价）由唯一的<b>供应商</b>（供应商号、名称、地址）供货；一个供应商可供应多种商品。<br>
+    ② <b>顾客</b>（顾客号、姓名、电话）可购买多种商品，每种商品可被多名顾客购买；顾客购买商品时系统需记录<b>购买数量</b>与<b>购买日期</b>。<br>
+    ③ 每件商品属于一个<b>类别</b>（类别号、类别名），每个类别包含多件商品。
+  </div>
+  <div class="case">
+    <b>【问题】</b>（共 4 问）<br>
+    (1) 补充下列联系类型：供应商—商品（　）、顾客—商品（　）、类别—商品（　）。（4 分）<br>
+    (2) "购买数量""购买日期"应放在哪里？（3 分）<br>
+    (3) 将 E-R 模型转换为关系模式，写出每个关系模式的主键与外键。（5 分）<br>
+    (4) 新增需求：顾客可对每件商品发表<b>多条评论</b>（评论内容、评论时间），请说明 E-R 图与关系模式应如何修改。（3 分）
+  </div>
+  <div class="reveal">
+    <button class="reveal-btn" id="rb1">显示参考答案与逐问评分</button>
+    <div class="answer" id="ans1">
+      <b class="pt">问 (1) 评分点：</b>供应商—商品：<b>1:n</b>（一件商品唯一供应商）；顾客—商品：<b>m:n</b>（双向多）；类别—商品：<b>1:n</b>。（每个 1.3 分左右，判错一个整体丢 4 分）<br><br>
+      <b class="pt">问 (2) 评分点：</b>购买数量/日期属于"某位顾客买了某件商品"这件事本身 → 挂在 <b>m:n 的"购买"联系</b>上（既不属于顾客也不属于商品）。答"放购买联系"即得分；答放顾客表或商品表不给分。<br><br>
+      <b class="pt">问 (3) 评分点（每个模式 1~1.5 分）：</b><br>
+      供应商(<b>供应商号</b>, 名称, 地址)<br>
+      类别(<b>类别号</b>, 类别名)<br>
+      商品(<b>商品号</b>, 商品名, 单价, <span style="text-decoration:underline">供应商号</span>, <span style="text-decoration:underline">类别号</span>)　← 两个 1:n 联系并入 n 端商品表，外键=供应商号、类别号<br>
+      顾客(<b>顾客号</b>, 姓名, 电话)<br>
+      购买(<b>顾客号, 商品号</b>, 购买数量, 购买日期)　← m:n 独立建表，主键=(顾客号,商品号)，二者都是外键<br><br>
+      <b class="pt">问 (4) 评分点：</b>评论是"顾客—商品"之间<b>新的独立联系</b>且一名顾客可对同一商品多次评论（多条），不能与"购买"混用 → 新增联系"发表"（顾客—商品，1:n 或 m:n 视题干，多条评论按 1:n 处理：一个顾客多条评论、一条评论只属一个顾客）；新增关系模式：<b>评论(评论号, 顾客号, 商品号, 评论内容, 评论时间)</b>，主键=评论号，顾客号、商品号为外键。原有模式不变。<br>
+      <div class="box red" style="margin:8px 0 0"><b>常见丢分：</b>①把"购买"写成 1:n；②商品表漏写两个外键；③问(4)直接在"购买"表里加评论字段（评论与购买是两件事，真题爱考这个辨析）。</div>
+    </div>
+  </div>
+</section>
+
+<section id="e3">
+  <h2>试题三 · UML 建模（15 分）<span class="tag exam">必答</span></h2>
+  <div class="case">
+    <b>【题干】</b>某在线考试系统的部分需求如下：<br>
+    ① <b>考生</b>参加考试前，系统<b>必须先</b>完成"身份核验"；交卷时若<b>超出考试时长</b>，系统<b>额外</b>执行"强制收卷"并标记超时。<br>
+    ② 一场<b>考试</b>（考试编号、科目、时长）包含多道<b>试题</b>（题号、题型、分值）；一道试题可被多场考试复用；试题可以独立于任何考试预先录入题库。<br>
+    ③ 一场考试的生命周期：从"未开始"进入"进行中"，考生交卷（或强制收卷）后进入"已交卷"，阅卷完成后进入"已出分"。
+  </div>
+  <div class="case">
+    <b>【问题】</b>（共 3 问）<br>
+    (1) 画出用例图的参与者；说明"身份核验""强制收卷"分别与"参加考试/交卷"用例的关系，并写明箭头方向。（6 分）<br>
+    (2) 指出"考试—试题"的关系类型（泛化/实现/组合/聚合/关联/依赖），并写出连线两端的多重性。（4 分）<br>
+    (3) 按"事件[条件]/动作"格式，写出"进行中 → 已交卷"这条状态转移上应标注的内容。（5 分）
+  </div>
+  <div class="reveal">
+    <button class="reveal-btn" id="rb2">显示参考答案与逐问评分</button>
+    <div class="answer" id="ans2">
+      <b class="pt">问 (1) 评分点：</b><br>
+      参与者：<b>考生</b>（题干中与系统直接交互的角色；"在线考试系统"本身不是参与者）。<br>
+      身份核验：每次考试<b>必做</b> → <b>«include»</b>，箭头：<b>参加考试 → 身份核验</b>（指向被包含用例）。<br>
+      强制收卷：仅<b>超时才触发</b> → <b>«extend»</b>，箭头：<b>强制收卷 → 交卷</b>（扩展用例指向被扩展的基用例）。<br>
+      方向写反是本题最常见的 4 分大坑——include 指向"小功能"，extend 指向"大用例"。<br><br>
+      <b class="pt">问 (2) 评分点：</b><br>
+      试题<b>可以独立于考试存在</b>（预先录入题库）→ 不是组合，判 <b>聚合</b>（空心菱形画在"考试"整体端）。<br>
+      多重性：考试端 1 —— 1..* 试题端（一场考试 1 到多道题；一道题可被 0..* 场考试复用，故严格写法：考试端 * 或 0..*，试题端 1..*——两种方向写对一种并说明含义即得分）。<br>
+      依据句式："题干出现'可以独立存在'判聚合；'随之消失/不可独立'判组合。"<br><br>
+      <b class="pt">问 (3) 评分点：</b>转移标注 = <b>交卷[未超时]/保存答卷</b> 或 <b>超时[超过考试时长]/强制收卷</b>——写出"事件 + [条件] + /动作"三段中至少事件与条件两段（各 2 分左右），格式完整给满分。<br>
+      <div class="box red" style="margin:8px 0 0"><b>常见丢分：</b>①include/extend 箭头方向写反；②组合/聚合不看题干暗示乱选；③状态转移只写事件漏写 [条件]。</div>
+    </div>
+  </div>
+</section>
+
+<section id="e4">
+  <h2>试题四 · 算法策略（15 分）<span class="tag exam">必答</span></h2>
+  <div class="case">
+    <b>【题干】</b>某算法求一维整数数组 a[0..n-1] 的<b>最大子段和</b>（连续若干个元素之和的最大值）。其 C 代码如下：
+    <pre>
+<span class="k">int</span> maxSum(<span class="k">int</span> a[], <span class="k">int</span> n) {
+    <span class="k">int</span> b = 0, sum = 0, i;      <span class="c">// b：以当前元素结尾的最大子段和</span>
+    <span class="k">for</span> (i = 0; i &lt; n; i++) {
+        <span class="k">if</span> (b &gt; 0)
+            b = (1)____;
+        <span class="k">else</span>
+            b = (2)____;
+        <span class="k">if</span> (b &gt; sum)
+            sum = (3)____;
+    }
+    <span class="k">return</span> sum;
+}</pre>
+  </div>
+  <div class="case">
+    <b>【问题】</b>（共 3 问）<br>
+    (1) 填空 (1)~(3)。（6 分）<br>
+    (2) 该算法采用的策略是什么？写出它的递推式（状态转移方程）。（5 分）<br>
+    (3) 该算法的时间复杂度是多少？数组 a = {-2, 1, -3, 4, -1, 2, 1, -5} 时，返回值是多少？（4 分）
+  </div>
+  <div class="reveal">
+    <button class="reveal-btn" id="rb3">显示参考答案与逐问评分</button>
+    <div class="answer" id="ans3">
+      <b class="pt">问 (1) 评分点（每空 2 分）：</b><br>
+      (1) <b>b + a[i]</b>（前面的累加和为正就"带着走"，继续延伸子段）；<br>
+      (2) <b>a[i]</b>（前面的累加和 ≤ 0 就"重新起头"，从当前元素开始新子段）；<br>
+      (3) <b>b</b>（全局最大值随时被 b 刷新）。<br>
+      填空技巧：注释里"以当前元素结尾"已经暗示了递推含义，先读懂注释再填。<br><br>
+      <b class="pt">问 (2) 评分点：</b>策略：<b>动态规划</b>（2 分）。递推式（3 分）：<b>b[j] = max( b[j-1] + a[j], a[j] )</b>，答案 sum = max{ b[j] }。术语得分点：最优子结构 / 递推 / 填表（写出"以 j 结尾"的子问题定义更好）。<br><br>
+      <b class="pt">问 (3) 评分点：</b>复杂度 <b>O(n)</b>（2 分，单层循环）；返回值 <b>6</b>（2 分，子段 [4, -1, 2, 1]）。<br>
+      <div class="box red" style="margin:8px 0 0"><b>常见丢分：</b>①(1)(2) 填反（判断条件是 b &gt; 0，正才延续）；②递推式漏写 else 分支；③手算返回值算成 7（4-1+2+1=6，别把 -5 算进去）。</div>
+    </div>
+  </div>
+</section>
+
+<section id="e6">
+  <h2>试题六 · Java 程序设计（15 分，与试题五二选一）<span class="tag exam">建议选答</span></h2>
+  <div class="case">
+    <b>【题干】</b>某电商平台按顾客等级计算订单折扣：普通顾客原价，VIP 顾客 8 折，SVIP 顾客 7 折。系统采用的设计模式类图描述为：抽象折扣接口 Discount 声明方法 calc(double money)；三个具体折扣类 NormalDiscount、VipDiscount、SvipDiscount 实现该接口；订单环境类 OrderContext 持有一个 Discount 类型的成员，checkout 时委托其计算价格。代码如下：
+    <pre>
+<span class="k">interface</span> Discount { <span class="k">double</span> calc(<span class="k">double</span> money); }
+
+<span class="k">class</span> NormalDiscount <span class="k">implements</span> Discount {
+    <span class="k">public double</span> calc(<span class="k">double</span> money) { <span class="k">return</span> money; }
+}
+<span class="k">class</span> VipDiscount <span class="k">implements</span> Discount {
+    <span class="k">public double</span> calc(<span class="k">double</span> money) { <span class="k">return</span> money * 0.8; }
+}
+<span class="k">class</span> SvipDiscount <span class="k">implements</span> Discount {
+    <span class="k">public double</span> calc(<span class="k">double</span> money) { <span class="k">return</span> money * 0.7; }
+}
+<span class="k">class</span> OrderContext {
+    <span class="k">private</span> (1)____ discount;
+    <span class="k">public void</span> setDiscount((2)____ d) { (3)____ = d; }
+    <span class="k">public double</span> checkout(<span class="k">double</span> money) { <span class="k">return</span> (4)____.calc(money); }
+}
+<span class="c">// 使用：ctx.setDiscount(new VipDiscount()); ctx.checkout(200);</span></pre>
+  </div>
+  <div class="case">
+    <b>【问题】</b>（共 3 问）<br>
+    (1) 填空 (1)~(4)。（8 分）<br>
+    (2) 该代码体现的设计模式是什么？写出其意图。（4 分）<br>
+    (3) 新增"满 300 减 50"规则时，系统需要修改哪些类？这体现了该模式的什么优点？（3 分）
+  </div>
+  <div class="reveal">
+    <button class="reveal-btn" id="rb4">显示参考答案与逐问评分</button>
+    <div class="answer" id="ans4">
+      <b class="pt">问 (1) 评分点（每空 2 分）：</b><br>
+      (1) <b>Discount</b>（环境类成员类型 = 抽象策略接口）；<br>
+      (2) <b>Discount</b>（set 方法参数类型 = 同一抽象接口）；<br>
+      (3) <b>this.discount</b>（区分成员变量与参数 d）；<br>
+      (4) <b>discount</b>（用成员变量名调用，运行时多态分派到具体折扣类）。<br>
+      四空全部是"抽象类型 + this + 变量名"三板斧，照类图抄即可。<br><br>
+      <b class="pt">问 (2) 评分点：</b>模式：<b>策略（Strategy）</b>（2 分）。意图：定义一系列<b>算法（折扣规则）</b>，把它们一个个封装起来，并使它们<b>可以互相替换</b>，算法的变化不影响使用算法的客户（2 分，"封装 + 可替换"两个关键词）。<br><br>
+      <b class="pt">问 (3) 评分点：</b>只需<b>新增一个具体策略类</b>（如 FullReductionDiscount 实现 Discount），OrderContext 与既有折扣类<b>无需修改</b>（2 分）。体现的优点：<b>对扩展开放、对修改关闭</b>（开闭原则），新增算法不改动已有代码（1 分）。<br>
+      <div class="box red" style="margin:8px 0 0"><b>常见丢分：</b>①(3) 填 discount 漏了 this.；②意图只写"换算法"漏"封装/不影响客户"关键词；③问(3)答"修改 OrderContext 加 if 判断"——那正是该模式要消除的写法。</div>
+    </div>
+  </div>
+</section>
+
+<section id="review">
+  <h2>全卷复盘清单（自评后按这个回炉）</h2>
+  <div class="step"><div class="n">1</div><div>总分 ≥ 60：状态很好，把错题对应章节的训练题重做一遍即可。</div></div>
+  <div class="step"><div class="n">2</div><div>数据流图 &lt; 12：重看 01 的"三大铁律"和"答题四板斧"，父子平衡双向判断再刷一遍。</div></div>
+  <div class="step"><div class="n">3</div><div>数据库 &lt; 12：重看 02 的"转关系模式三条铁规则"，把 m:n/1:n/1:1 三种转换手写各一遍。</div></div>
+  <div class="step"><div class="n">4</div><div>UML &lt; 10：重点回炉 include/extend 方向和聚合/组合判别——这两处丢了分最可惜。</div></div>
+  <div class="step"><div class="n">5</div><div>算法 &lt; 9：0-1 背包 dp 表必须能徒手填，LCS 递推式默写三遍；复杂度排序链背熟。</div></div>
+  <div class="step"><div class="n">6</div><div>Java &lt; 10：把策略/装饰器/观察者/单例四个骨架各默写一遍，"抽象类型 + this + 变量名"三板斧形成肌肉记忆。</div></div>
+  <div class="box purple"><b>时间复盘同样重要：</b>记录每题实际用时。若某题超时 10 分钟以上，说明套路不熟，回对应教程把"考场执行清单"按步骤演练一遍。考前一周再做一次本卷，目标：65/75。</div>
+</section>
+
+<div class="foot">软考软件设计师 · 仿真真题精析 · 先掐表实战，再逐问对照评分点自评</div>
+</div>
+
+<script>
+(function(){
+  document.querySelectorAll('.reveal-btn').forEach(function(btn){
+    btn.addEventListener('click', function(){
+      const ans = document.getElementById(btn.id.replace('rb','ans'));
+      ans.style.display = ans.style.display === 'block' ? 'none' : 'block';
+      btn.textContent = ans.style.display === 'block' ? '收起答案' : '显示参考答案与逐问评分';
+    });
+  });
+})();
+</script>
+</body>
+</html>

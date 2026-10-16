@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师 · 页式存储与磁盘计算 可视化教程</title>
+<style>
+  :root{
+    --bg:#f6f7fb; --card:#ffffff; --ink:#1f2430; --muted:#5b6474;
+    --blue:#2f6fed; --blue-bg:#eaf1fe; --green:#1a9e5c; --green-bg:#e8f7ef;
+    --red:#d64545; --red-bg:#fdeeee; --orange:#e08a1e; --orange-bg:#fdf3e3;
+    --purple:#7b52d6; --purple-bg:#f1ebfc; --border:#e3e7ef;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.75;}
+  .wrap{max-width:960px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#2f6fed,#7b52d6);color:#fff;border-radius:16px;padding:32px 28px;margin-bottom:24px;}
+  header h1{margin:0 0 8px;font-size:26px;}
+  header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:22px;}
+  h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
+  h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
+  .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+  .tag.exam{background:var(--red-bg);color:var(--red);}
+  .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;}
+  .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;}
+  .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
+  .formula{background:#232a3a;color:#ffd479;font-family:Consolas,monospace;padding:12px 16px;border-radius:8px;font-size:15px;margin:10px 0;overflow-x:auto;}
+  .mono{font-family:Consolas,monospace;}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+  th,td{border:1px solid var(--border);padding:7px 10px;text-align:center;}
+  th{background:#f0f3f9;}
+  .hl{color:var(--red);font-weight:bold;}
+  .step{display:flex;gap:10px;margin:8px 0;}
+  .step .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;}
+  /* 模拟器 */
+  .sim{background:#f8f9fc;border:1px dashed #b9c4d8;border-radius:10px;padding:16px;margin:14px 0;}
+  .sim input{padding:7px 10px;border:1px solid #c3ccdc;border-radius:6px;font-size:15px;width:170px;font-family:Consolas,monospace;}
+  .btn{background:var(--blue);color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:14px;cursor:pointer;margin:4px 6px 4px 0;}
+  .btn:hover{opacity:.88;}
+  .btn.ghost{background:#fff;color:var(--blue);border:1px solid var(--blue);}
+  .simout{font-family:Consolas,monospace;font-size:15px;margin-top:10px;min-height:28px;}
+  .chip{display:inline-block;background:#eef2fa;border:1px solid #d4def2;border-radius:6px;padding:2px 10px;margin:2px 4px 2px 0;font-size:14px;}
+  .chip.on{background:var(--blue);color:#fff;border-color:var(--blue);}
+  /* 测验 */
+  .quiz{border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:14px 0;}
+  .quiz .q{font-weight:bold;margin-bottom:10px;}
+  .opt{display:block;width:100%;text-align:left;background:#fafbfe;border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:14px;font-family:inherit;}
+  .opt:hover{border-color:var(--blue);}
+  .opt.right{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:bold;}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);}
+  .opt:disabled{cursor:default;}
+  .explain{display:none;background:var(--orange-bg);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:14px;}
+  .steps-table td.on{background:var(--blue-bg);font-weight:bold;}
+  svg{max-width:100%;height:auto;display:block;margin:10px auto;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>软考软件设计师 · 页式存储 与 磁盘计算</h1>
+  <p>看得懂 · 算得对 · 做得会的可视化教程（上午题高频考点）</p>
+  <nav>
+    <a href="#s1">① 页式存储</a>
+    <a href="#s2">② 地址转换手算</a>
+    <a href="#s3">③ 页面置换</a>
+    <a href="#s4">④ 磁盘结构</a>
+    <a href="#s5">⑤ 磁盘时间与容量</a>
+    <a href="#s6">⑥ 旋转优化神题</a>
+    <a href="#s7b">⑦ 候选码</a>
+    <a href="#s7c">⑧ 范式</a>
+    <a href="#s7">⑨ 考试练习</a>
+  </nav>
+</header>
+
+<!-- ================= 1 页式存储 ================= -->
+<section id="s1">
+  <h2>① 页式存储：到底在干什么？</h2>
+  <p>一句话：<b>把程序"切碎"，装进内存的"格子"里</b>。程序觉得自己是连续的（逻辑地址），实际散落在内存各处（物理地址）——中间靠一张<b>页表</b>翻译。</p>
+
+  <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+    <text x="90" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#2f6fed">程序的视角（逻辑地址）</text>
+    <g font-size="13" font-weight="bold" text-anchor="middle">
+      <rect x="30" y="40" width="120" height="44" rx="6" fill="#eaf1fe" stroke="#2f6fed"/><text x="90" y="67" fill="#2f6fed">页 0</text>
+      <rect x="30" y="88" width="120" height="44" rx="6" fill="#eaf1fe" stroke="#2f6fed"/><text x="90" y="115" fill="#2f6fed">页 1</text>
+      <rect x="30" y="136" width="120" height="44" rx="6" fill="#eaf1fe" stroke="#2f6fed"/><text x="90" y="163" fill="#2f6fed">页 2</text>
+      <rect x="30" y="184" width="120" height="44" rx="6" fill="#eaf1fe" stroke="#2f6fed"/><text x="90" y="211" fill="#2f6fed">页 3</text>
+    </g>
+    <rect x="220" y="100" width="240" height="70" rx="10" fill="#f1ebfc" stroke="#7b52d6"/>
+    <text x="340" y="128" text-anchor="middle" font-size="14" font-weight="bold" fill="#7b52d6">页表（翻译官）</text>
+    <text x="340" y="152" text-anchor="middle" font-size="13" fill="#7b52d6">0→8   1→3   2→5   3→2</text>
+    <line x1="152" y1="62" x2="218" y2="110" stroke="#9aa7bd" stroke-dasharray="4 3"/>
+    <line x1="152" y1="158" x2="218" y2="150" stroke="#9aa7bd" stroke-dasharray="4 3"/>
+    <text x="575" y="24" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">内存的视角（物理块/页帧）</text>
+    <g font-size="13" font-weight="bold" text-anchor="middle">
+      <rect x="520" y="40" width="120" height="44" rx="6" fill="#e8f7ef" stroke="#1a9e5c"/><text x="580" y="67" fill="#1a9e5c">块 2（装着页3）</text>
+      <rect x="520" y="88" width="120" height="44" rx="6" fill="#f4f6fa" stroke="#c3ccdc"/><text x="580" y="115" fill="#8a93a5">块 3（空）</text>
+      <rect x="520" y="136" width="120" height="44" rx="6" fill="#e8f7ef" stroke="#1a9e5c"/><text x="580" y="163" fill="#1a9e5c">块 5（装着页2）</text>
+      <rect x="520" y="184" width="120" height="44" rx="6" fill="#f4f6fa" stroke="#c3ccdc"/><text x="580" y="211" fill="#8a93a5">块 7（空）</text>
+    </g>
+    <line x1="462" y1="110" x2="518" y2="200" stroke="#9aa7bd" stroke-dasharray="4 3"/>
+    <line x1="462" y1="158" x2="518" y2="155" stroke="#9aa7bd" stroke-dasharray="4 3"/>
+    <text x="340" y="280" text-anchor="middle" font-size="13" fill="#5b6474">程序"以为"自己连续，实际页0、页2 被塞进了内存不挨着的块里</text>
+  </svg>
+
+  <div class="box blue">
+    <b>为什么要这么干？</b>内存用久了会"碎"成很多小空隙，整段程序装不进去；分页后每片 4KB 的小块见缝就插，<b>外碎变内碎</b>，利用率高。软考还爱考：页式管理<b>没有外部碎片，但有内部碎片</b>（最后一页常常装不满）。
+  </div>
+</section>
+
+<!-- ================= 2 地址转换 ================= -->
+<section id="s2">
+  <h2>② 地址转换：三步手算法 <span class="tag exam">必考</span><span class="tag core">核心公式</span></h2>
+
+  <div class="formula">物理地址 = 页帧号 × 页大小 + 页内偏移</div>
+
+  <div class="step"><div class="n">1</div><div><b>页号 p = 逻辑地址 ÷ 页大小</b>（取整）</div></div>
+  <div class="step"><div class="n">2</div><div><b>页内偏移 d = 逻辑地址 mod 页大小</b>（偏移不变！直接抄过去）</div></div>
+  <div class="step"><div class="n">3</div><div><b>查页表</b>：页号 p → 页帧号 f，拼装物理地址</div></div>
+
+  <div class="box orange">
+    <b>十六进制小技巧（考试提速）：</b>页大小 4KB = 0x1000，即地址的低 12 位是页内偏移、高位是页号。<br>
+    所以物理地址 = <b>（页表给出的页帧号）拼上（原地址的低 3 位十六进制）</b>，不用真的转十进制！
+  </div>
+
+  <h3>▶ 互动模拟器：亲手拆一次地址</h3>
+  <div class="sim">
+    <p style="margin:4px 0"><b>固定条件：</b>页大小 4KB（0x1000）　页表：页0→块8，页1→块3，页2→块5，页3→块2</p>
+    <input id="addrInput" value="0x1C88" placeholder="输入逻辑地址">
+    <button class="btn" onclick="simTranslate()">开始转换</button>
+    <button class="btn ghost" onclick="document.getElementById('addrInput').value='8196';simTranslate()">试一试 8196</button>
+    <div class="simout" id="simOut">点"开始转换"，看下面逐步拆解 ↓</div>
+  </div>
+
+  <h3>▶ 转换全程图（以 0x1C88 为例）</h3>
+  <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
+    <rect x="40" y="40" width="260" height="46" rx="8" fill="#eaf1fe" stroke="#2f6fed"/>
+    <text x="105" y="69" font-size="15" font-weight="bold" fill="#2f6fed">0x1</text>
+    <rect x="140" y="40" width="160" height="46" rx="0" fill="#fdf3e3" stroke="#e08a1e"/>
+    <text x="220" y="69" font-size="15" font-weight="bold" fill="#e08a1e">C88</text>
+    <text x="170" y="108" font-size="13" fill="#2f6fed">页号部分（高位）</text>
+    <text x="220" y="128" font-size="13" fill="#e08a1e">页内偏移（低12位，原封不动）</text>
+    <text x="420" y="69" font-size="15" fill="#1f2430">0x1 = 页号1 → 查页表得块号 3 = 0x3</text>
+    <rect x="40" y="150" width="260" height="46" rx="8" fill="#e8f7ef" stroke="#1a9e5c"/>
+    <text x="105" y="179" font-size="15" font-weight="bold" fill="#1a9e5c">0x3</text>
+    <rect x="140" y="150" width="160" height="46" fill="#fdf3e3" stroke="#e08a1e"/>
+    <text x="220" y="179" font-size="15" font-weight="bold" fill="#e08a1e">C88</text>
+    <text x="420" y="179" font-size="15" fill="#1a9e5c">物理地址 = 0x3C88 ✓</text>
+  </svg>
+</section>
+
+<!-- ================= 3 页面置换 ================= -->
+<section id="s3">
+  <h2>③ 页面置换：内存满了，谁出去？<span class="tag exam">必考</span></h2>
+  <p>三个算法就记一句口诀：<b>FIFO 看谁先来，LRU 看谁最久没用，OPT 看谁以后最晚才用</b>（OPT 是理论最优，考试当"下限"用）。<b>每装入一个不在内存的页 = 缺页 1 次</b>。</p>
+
+  <div class="sim">
+    <b>▶ 置换模拟器</b>（访问序列：4,3,2,1,4,3,5,4,3,2,1,5　物理块 3 个）
+    <div style="margin:8px 0">
+      <button class="btn" onclick="setAlgo('FIFO')">FIFO 模式</button>
+      <button class="btn ghost" onclick="setAlgo('LRU')">LRU 模式</button>
+      <button class="btn" onclick="stepSim()">走一步 →</button>
+      <button class="btn ghost" onclick="resetSim()">重置</button>
+      <span id="faultCount" style="margin-left:8px;font-weight:bold;color:#d64545">缺页：0</span>
+    </div>
+    <div id="simRow" style="font-family:Consolas,monospace;font-size:15px;min-height:30px">当前内存块：[ 空, 空, 空 ]</div>
+    <div id="simLog" style="font-size:13px;color:#5b6474;margin-top:6px"></div>
+  </div>
+
+  <table class="steps-table">
+    <tr><th>算法</th><th>本序列缺页次数</th><th>口诀</th></tr>
+    <tr><td>FIFO（先进先出）</td><td class="hl">9 次</td><td>队列排队，最早进来的先走</td></tr>
+    <tr><td>LRU（最近最久未用）</td><td class="hl">10 次</td><td>谁最长时间没被访问谁走</td></tr>
+    <tr><td>OPT（最优置换）</td><td class="hl">7 次</td><td>往后看，谁以后用得最晚谁走</td></tr>
+  </table>
+  <div class="box purple"><b>真题彩蛋（Belady 异常）：</b>FIFO 算法下，物理块<b>变多</b>缺页反而可能<b>变多</b>——这是选择题干扰项常客；LRU 不可能出现该异常。</div>
+</section>
+
+<!-- ================= 4 磁盘结构 ================= -->
+<section id="s4">
+  <h2>④ 磁盘长什么样？</h2>
+  <svg viewBox="0 0 680 320" xmlns="http://www.w3.org/2000/svg">
+    <ellipse cx="240" cy="165" rx="200" ry="120" fill="#f4f6fa" stroke="#9aa7bd" stroke-width="2"/>
+    <ellipse cx="240" cy="165" rx="150" ry="90" fill="none" stroke="#c3ccdc" stroke-dasharray="5 4"/>
+    <ellipse cx="240" cy="165" rx="100" ry="60" fill="none" stroke="#c3ccdc" stroke-dasharray="5 4"/>
+    <ellipse cx="240" cy="165" rx="50" ry="30" fill="none" stroke="#c3ccdc" stroke-dasharray="5 4"/>
+    <circle cx="240" cy="165" r="14" fill="#9aa7bd"/>
+    <path d="M 395 165 A 155 93 0 0 1 372 100" fill="none" stroke="#d64545" stroke-width="5"/>
+    <text x="410" y="140" font-size="13" fill="#d64545">磁道：一圈一圈的</text>
+    <path d="M 240 45 L 265 165 L 240 285" fill="none" stroke="#2f6fed" stroke-width="2" opacity="0"/>
+    <line x1="240" y1="165" x2="330" y2="72" stroke="#e08a1e" stroke-width="3"/>
+    <line x1="240" y1="165" x2="330" y2="258" stroke="#e08a1e" stroke-width="3"/>
+    <text x="345" y="250" font-size="13" fill="#e08a1e">扇区：磁道上的小段</text>
+    <rect x="490" y="60" width="180" height="200" rx="10" fill="#eaf1fe" stroke="#2f6fed"/>
+    <text x="580" y="88" text-anchor="middle" font-size="14" font-weight="bold" fill="#2f6fed">记住三层结构</text>
+    <text x="580" y="118" text-anchor="middle" font-size="13" fill="#1f2430">盘面（磁头数）</text>
+    <text x="580" y="144" text-anchor="middle" font-size="13" fill="#1f2430">↓ 每面有多少</text>
+    <text x="580" y="170" text-anchor="middle" font-size="13" fill="#1f2430">磁道（柱面）</text>
+    <text x="580" y="196" text-anchor="middle" font-size="13" fill="#1f2430">↓ 每道切多少</text>
+    <text x="580" y="222" text-anchor="middle" font-size="13" fill="#1f2430">扇区（每扇区若干字节）</text>
+  </svg>
+</section>
+
+<!-- ================= 5 时间与容量 ================= -->
+<section id="s5">
+  <h2>⑤ 磁盘计算：两个公式走天下 <span class="tag exam">必考</span></h2>
+
+  <h3>公式一：存取时间</h3>
+  <div class="formula">存取时间 = 寻道时间 + 旋转延迟 + 传输时间<br>
+平均旋转延迟 = 转一圈的时间 ÷ 2 = (60 / 转速rpm) ÷ 2<br>
+传输时间 = 读的数据量 ÷ 数据传输率（或 读几扇区 × 每扇区时间）</div>
+  <div class="box orange"><b>理解记忆：</b>磁头先"跑过去"（寻道），再"等盘转到目标位置"（旋转延迟，平均等半圈），最后"数据转过去被读完"（传输）。三步接力。</div>
+
+  <div class="sim">
+    <b>▶ 磁盘时间计算器</b>
+    <p style="margin:6px 0">转速 <input id="rpm" value="7200" style="width:80px"> 转/分　　寻道时间 <input id="seek" value="8" style="width:80px"> ms　　每道扇区数 <input id="sec" value="100" style="width:80px">　　读 <input id="ns" value="1" style="width:60px"> 个扇区</p>
+    <button class="btn" onclick="calcDisk()">计算</button>
+    <div class="simout" id="diskOut"></div>
+  </div>
+
+  <h3>公式二：磁盘容量</h3>
+  <div class="formula">容量 = 磁头数(盘面数) × 每面磁道数 × 每磁道扇区数 × 每扇区字节数</div>
+  <div class="box blue">例：16 磁头 × 100 磁道 × 20 扇区 × 512B = 163,840,000 B ÷ 1024² = <b>15.625 MB</b></div>
+</section>
+
+<!-- ================= 6 旋转优化 ================= -->
+<section id="s6">
+  <h2>⑥ 旋转优化"神题"：间隔存放 <span class="tag exam">高频大题</span></h2>
+  <p>经典设定：单缓冲，<b>读完一条记录后 CPU 处理它时，磁盘还在继续转</b>——处理期间磁头"飘"过了后面的记录，回来得再等一整圈。这就是时间的最大杀手。</p>
+
+  <table>
+    <tr><th>条件</th><th>数值</th></tr>
+    <tr><td>转速</td><td>6000 转/分 → 转一圈 <b>10ms</b></td></tr>
+    <tr><td>每磁道 10 条逻辑记录（均分）</td><td>读 1 条需 <b>1ms</b></td></tr>
+    <tr><td>每条记录处理时间</td><td><b>3ms</b>（单缓冲：读完才能处理）</td></tr>
+  </table>
+
+  <svg viewBox="0 0 680 260" xmlns="http://www.w3.org/2000/svg">
+    <text x="140" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#d64545">顺序存放：处理时飘过 R2，白等一圈</text>
+    <line x1="40" y1="50" x2="240" y2="50" stroke="#d64545" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="140" y="72" text-anchor="middle" font-size="12" fill="#d64545">读R1(1ms)→处理R1(3ms)→磁头已在4ms处，R2在1ms处</text>
+    <text x="140" y="90" text-anchor="middle" font-size="12" fill="#d64545">→ 空转 6ms 等下一圈才追上 R2！</text>
+    <text x="140" y="115" text-anchor="middle" font-size="13" fill="#1f2430">前 9 条：每条 1+3+6 = 10ms</text>
+    <text x="140" y="137" text-anchor="middle" font-size="13" fill="#d64545" font-weight="bold">总计 = 9×10 + 1 + 3 = 94ms</text>
+    <text x="500" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a9e5c">间隔存放：读完处理完，磁头正好到 R2</text>
+    <line x1="400" y1="50" x2="600" y2="50" stroke="#1a9e5c" stroke-width="2" marker-end="url(#ar)"/>
+    <text x="500" y="72" text-anchor="middle" font-size="12" fill="#1a9e5c">每条记录"占位"= 读1ms+处理3ms = 4个扇区格</text>
+    <text x="500" y="90" text-anchor="middle" font-size="12" fill="#1a9e5c">→ 存放时每条之间空 3 格，无缝衔接</text>
+    <text x="500" y="115" text-anchor="middle" font-size="13" fill="#1f2430">10 条连续接力，无空转</text>
+    <text x="500" y="137" text-anchor="middle" font-size="13" fill="#1a9e5c" font-weight="bold">总计 = 10 × (1+3) = 40ms</text>
+    <rect x="120" y="170" width="440" height="60" rx="10" fill="#e8f7ef" stroke="#1a9e5c"/>
+    <text x="340" y="196" text-anchor="middle" font-size="14" fill="#1a9e5c" font-weight="bold">记忆模板：间隔 = (读+处理) ÷ 每条读取时间 - 1 = (1+3)/1 - 1 = 空3格</text>
+    <text x="340" y="218" text-anchor="middle" font-size="13" fill="#5b6474">总时间 = 记录数 × (读取时间 + 处理时间)</text>
+    <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#9aa7bd"/></marker></defs>
+  </svg>
+  <div class="box purple">考试变体：题目会问"<b>为达到最优，记录之间应间隔多少个逻辑记录？</b>"答：<b>3 个</b>（即隔 3 空 1，第 n 条与 n+1 条起点相距 4 个记录位置）。</div>
+</section>
+
+<!-- ================= 7B 候选码 ================= -->
+<section id="s7b">
+  <h2>⑦ 候选码：怎么求？<span class="tag exam">必考</span></h2>
+
+  <h3>先弄懂 4 个词</h3>
+  <div class="step"><div class="n">1</div><div><b>函数依赖 X→Y</b>：知道了 X，就唯一确定了 Y。如"学号→姓名"。</div></div>
+  <div class="step"><div class="n">2</div><div><b>候选码</b>：能唯一标识一行（元组）的<b>最小</b>属性集。"最小"指：少一个属性就不行了。</div></div>
+  <div class="step"><div class="n">3</div><div><b>主码</b>：候选码可能有多个，从中挑一个当主码。</div></div>
+  <div class="step"><div class="n">4</div><div><b>主属性 / 非主属性</b>：出现在<b>任意一个</b>候选码里的属性叫主属性；谁都不在的叫非主属性。</div></div>
+
+  <h3>闭包 X⁺：求候选码的基本功</h3>
+  <div class="box blue"><b>闭包是什么：</b>从属性集 X 出发，反复执行"<b>某条函数依赖的左部全在闭包里 → 把右部也加进来</b>"，直到加不动为止，得到的就是 X⁺。若 X⁺ 包含了全部属性，说明 X 能推出一切 → X（或其超集）能唯一标识元组。</div>
+
+  <div class="sim">
+    <b>▶ 闭包计算器</b>（固定 F = { A→B, B→C, D→E }）
+    <p style="margin:6px 0">输入属性集：<input id="clInput" value="AD" style="width:140px">　<button class="btn" onclick="calcClosure()">求闭包</button>　<button class="btn ghost" onclick="document.getElementById('clInput').value='B';calcClosure()">试一试 B</button></p>
+    <div class="simout" id="clOut">试试输入 AD，看闭包如何一步步长大 ↓</div>
+  </div>
+
+  <h3>求解四步法（图形分类法，软考标准解法）</h3>
+  <div class="box orange">
+    <b>第一步：给属性分类</b>（只看每条函数依赖，数某属性出现在箭头左边还是右边）<br>
+    ① <b>L 类</b>：只在<b>左</b>部出现 → <span class="hl">必在</span>候选码中<br>
+    ② <b>R 类</b>：只在<b>右</b>部出现 → <span class="hl">必不在</span>候选码中<br>
+    ③ <b>N 类</b>：左右都<b>不</b>出现 → <span class="hl">必在</span>候选码中<br>
+    ④ <b>LR 类</b>：左右都出现 → 待定，需要试<br><br>
+    <b>第二步：</b>先求 (L类 ∪ N类) 的闭包，若覆盖全部属性 → 它就是候选码；<br>
+    <b>第三步：</b>否则，逐个/组合加入 LR 类属性再求闭包，能覆盖全部属性且"最小"的，就是候选码。
+  </div>
+
+  <h3>▶ 例 1（纯 L 类，一步到位）</h3>
+  <div class="box green">
+    R(A,B,C,D,E)，F = { A→B, B→C, D→E }<br>
+    分类：L 类 = {A, D}；R 类 = {B, C, E}；无 N、无 LR。<br>
+    求 (AD)⁺：初始 {A,D} → A→B 得 B → B→C 得 C → D→E 得 E → {A,B,C,D,E} 覆盖全部 ✓<br>
+    <b>候选码 = {AD}（唯一）</b>。主属性：A、D；<b>非主属性：B、C、E</b>（后面范式判定要用！）。
+  </div>
+
+  <h3>▶ 例 2（含 LR 类，要试）</h3>
+  <div class="box green">
+    R(A,B,C)，F = { AB→C, C→B }<br>
+    分类：L 类 = {A}；LR 类 = {B, C}；无 R、无 N。<br>
+    ① 先试 A⁺ = {A} ✗ 不够 → ② 加入 B 试 AB⁺ = {A,B} → AB→C 得 C → {A,B,C} ✓ → <b>AB 是候选码</b><br>
+    ③ 再试 AC⁺ = {A,C} → C→B 得 B → {A,B,C} ✓ → <b>AC 也是候选码</b><br>
+    <b>候选码 = {AB, AC}</b>，此时 A、B、C <b>全是主属性</b>。（记住这个例子，⑧ 节判定 BCNF 还要用它！）
+  </div>
+</section>
+
+<!-- ================= 7C 范式 ================= -->
+<section id="s7c">
+  <h2>⑧ 范式：一张表"规范化"到什么程度<span class="tag exam">必考</span></h2>
+  <p>范式就是层层加码的"合格标准"。考试通常给一张表 + 函数依赖，问你<b>最高满足第几范式</b>。核心只有两件事：<b>找码 → 找坏依赖</b>。</p>
+
+  <table>
+    <tr><th>范式</th><th>一句话要求</th><th>消除什么坏依赖</th></tr>
+    <tr><td><b>1NF</b></td><td>每个属性不可再分（原子性）</td><td>表中有表 / 大字段</td></tr>
+    <tr><td><b>2NF</b></td><td>1NF + 非主属性<b>完全</b>依赖候选码</td><td>非主属性对码的<b>部分依赖</b></td></tr>
+    <tr><td><b>3NF</b></td><td>2NF + 非主属性不传递依赖候选码</td><td>非主属性对码的<b>传递依赖</b></td></tr>
+    <tr><td><b>BCNF</b></td><td>每个<b>决定因素</b>（箭头左部）都必须包含某个候选码</td><td>主属性之间的坏依赖</td></tr>
+  </table>
+
+  <div class="box blue">
+    <b>两个定义必须咬死：</b><br>
+    ① <b>部分依赖</b>：码是联合的（如"学号+课程号"），但某个非主属性只依赖其中一半（姓名只依赖学号）。<b>码是单属性时不可能有部分依赖</b>——考试陷阱！<br>
+    ② <b>传递依赖</b>：X→Y、Y→Z，且 Y 反推不出 X，则 Z 传递依赖于 X（如 学号→系→系主任）。
+  </div>
+
+  <h3>▶ 例 A：卡在 1NF（部分依赖）</h3>
+  <div class="box green">
+    R(<b>学号, 课程号</b>, 成绩, 姓名)，码 = (学号, 课程号)（联合码）<br>
+    依赖：成绩 完全依赖联合码 ✓，但 <b>姓名只依赖学号</b>（半个码）→ 部分依赖 → 只到 <b>1NF</b><br>
+    拆法：R1(学号, 课程号, 成绩) + R2(学号, 姓名) → 都到 2NF
+  </div>
+
+  <h3>▶ 例 B：卡在 2NF（传递依赖）</h3>
+  <div class="box green">
+    R(<b>学号</b>, 系, 系主任)，码 = 学号（单属性，无部分依赖 → 自动 2NF）<br>
+    依赖：学号→系，系→系主任 ⇒ 学号→(传递)→系主任 → 卡在 <b>2NF</b><br>
+    拆法：R1(学号, 系) + R2(系, 系主任) → 都到 3NF
+  </div>
+
+  <h3>▶ 例 C：3NF 但不是 BCNF（主属性闹事）</h3>
+  <div class="box green">
+    R(A,B,C)，F = { AB→C, C→B }，由 ⑦ 例 2 知候选码 = {AB, AC}，<b>全是主属性，无非主属性</b><br>
+    → 3NF 管的是"非主属性"，这里没有非主属性 → 自动满足 <b>3NF</b><br>
+    → 但 C→B 的左部 C 不包含任何候选码 → 违反 BCNF 的"左部必须含码" → <b>不是 BCNF</b><br>
+    拆法：R1(A,B) + R2(A,C)（即把 C→B 拆出去）→ BCNF
+  </div>
+
+  <h3>▶ 判定流程图（考试照这个顺序问自己）</h3>
+  <svg viewBox="0 0 680 380" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ar2" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#9aa7bd"/></marker></defs>
+    <rect x="190" y="14" width="300" height="44" rx="8" fill="#eaf1fe" stroke="#2f6fed"/>
+    <text x="340" y="42" text-anchor="middle" font-size="14" font-weight="bold" fill="#2f6fed">第0步：先求出候选码！</text>
+    <line x1="340" y1="58" x2="340" y2="84" stroke="#9aa7bd" stroke-width="2" marker-end="url(#ar2)"/>
+    <rect x="150" y="86" width="380" height="44" rx="8" fill="#f4f6fa" stroke="#9aa7bd"/>
+    <text x="340" y="114" text-anchor="middle" font-size="13" fill="#1f2430">属性都可再分（原子）？　是 → 至少 1NF</text>
+    <line x1="340" y1="130" x2="340" y2="156" stroke="#9aa7bd" stroke-width="2" marker-end="url(#ar2)"/>
+    <rect x="150" y="158" width="380" height="44" rx="8" fill="#fdeeee" stroke="#d64545"/>
+    <text x="340" y="186" text-anchor="middle" font-size="13" fill="#d64545">非主属性对（联合）码有部分依赖？　是 → 停：1NF</text>
+    <line x1="340" y1="202" x2="340" y2="228" stroke="#9aa7bd" stroke-width="2" marker-end="url(#ar2)"/>
+    <rect x="150" y="230" width="380" height="44" rx="8" fill="#fdeeee" stroke="#d64545"/>
+    <text x="340" y="258" text-anchor="middle" font-size="13" fill="#d64545">非主属性对码有传递依赖？　是 → 停：2NF</text>
+    <line x1="340" y1="274" x2="340" y2="300" stroke="#9aa7bd" stroke-width="2" marker-end="url(#ar2)"/>
+    <rect x="150" y="302" width="380" height="44" rx="8" fill="#fdf3e3" stroke="#e08a1e"/>
+    <text x="340" y="330" text-anchor="middle" font-size="13" fill="#e08a1e">所有箭头左部都包含候选码？　否 → 停：3NF</text>
+    <line x1="340" y1="346" x2="340" y2="362" stroke="#1a9e5c" stroke-width="2" marker-end="url(#ar2)"/>
+    <rect x="270" y="336" width="140" height="34" rx="17" fill="#e8f7ef" stroke="#1a9e5c"/>
+    <text x="340" y="358" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a9e5c">BCNF ✓</text>
+  </svg>
+
+  <div class="box purple">
+    <b>口诀：</b>"<b>一化要原子，二化消部分，三化消传递，BC 看左部（左部必须含码）</b>"。答题先写"候选码是谁、主属性是谁"，坏依赖就一目了然。
+  </div>
+</section>
+
+<!-- ================= 7 练习题 ================= -->
+<section id="s7">
+  <h2>⑨ 考试练习（点选项立即判分 + 解析）</h2>
+  <div id="quizArea"></div>
+</section>
+
+<div class="foot">软考软件设计师 · 页式存储与磁盘计算可视化教程 · 建议先通读 ①~⑥ 再做题，错题回到对应章节重看</div>
+</div>
+
+<script>
+/* ---------- 地址转换模拟器 ---------- */
+const PAGE_TABLE = {0:8, 1:3, 2:5, 3:2};
+function simTranslate(){
+  const raw = document.getElementById('addrInput').value.trim();
+  const out = document.getElementById('simOut');
+  let v;
+  try{ v = raw.toLowerCase().startsWith('0x') ? parseInt(raw,16) : parseInt(raw,10); }catch(e){}
+  if(isNaN(v)||v<0){ out.innerHTML = '<span style="color:#d64545">请输入合法的非负整数或 0x 十六进制地址</span>'; return; }
+  const PS = 4096;
+  const p = Math.floor(v/PS), d = v%PS;
+  if(!(p in PAGE_TABLE)){ out.innerHTML = '<span style="color:#d64545">页号 '+p+' 超出页表范围（0~3），真题里这种情况叫"越界中断"。</span>'; return; }
+  const f = PAGE_TABLE[p];
+  const phys = f*PS + d;
+  out.innerHTML =
+    '逻辑地址 '+v+' (0x'+v.toString(16).toUpperCase()+')<br>'+
+    '① 页号 = '+v+' ÷ 4096 取整 = <b style="color:#2f6fed">'+p+'</b>　② 页内偏移 = '+v+' mod 4096 = <b style="color:#e08a1e">'+d+' (0x'+d.toString(16).toUpperCase()+')</b><br>'+
+    '③ 查页表：页 '+p+' → 块 '+f+'<br>'+
+    '物理地址 = '+f+'×4096 + '+d+' = <b style="color:#1a9e5c">'+phys+' (0x'+phys.toString(16).toUpperCase()+')</b>';
+}
+
+/* ---------- 置换模拟器 ---------- */
+const SEQ=[4,3,2,1,4,3,5,4,3,2,1,5];
+let algo='FIFO', idx=0, blocks=[], order=[], faults=0, log='';
+function setAlgo(a){ algo=a; resetSim(); document.getElementById('simLog').textContent='已切换为 '+a+' 模式，点"走一步"开始。'; }
+function resetSim(){ idx=0; blocks=[]; order=[]; faults=0; log=''; updateSim('已重置，点"走一步"开始。'); document.getElementById('faultCount').textContent='缺页：0'; }
+function updateSim(msg){
+  document.getElementById('simRow').textContent='当前内存块：[ '+Array.from({length:3},(_,i)=>blocks[i]===undefined?'空':blocks[i]).join(', ')+' ]';
+  document.getElementById('faultCount').textContent='缺页：'+faults;
+  document.getElementById('simLog').textContent=msg;
+}
+function stepSim(){
+  if(idx>=SEQ.length){ updateSim('✅ 序列走完！'+algo+' 共缺页 '+faults+' 次（FIFO 应为 9 次，LRU 应为 10 次）。'); return; }
+  const pg=SEQ[idx++]; let msg;
+  if(blocks.includes(pg)){ msg='访问 '+pg+'：命中 ✓'; }
+  else{
+    faults++;
+    if(blocks.length<3){ blocks.push(pg); order.push(pg); msg='访问 '+pg+'：缺页 ✗，装入空块 → ['+blocks.join(',')+']'; }
+    else{
+      let victim;
+      if(algo==='FIFO'){ victim=order.shift(); }
+      else{ // LRU: 找 blocks 中最久未出现在 SEQ[idx-?]之前的位置
+        const past=SEQ.slice(0,idx-1);
+        let best=-1;
+        for(const b of blocks){ const last=past.lastIndexOf(b); if(last<best||best===-1){best=last; victim=b;} }
+      }
+      blocks[blocks.indexOf(victim)]=pg; order.push(pg);
+      msg='访问 '+pg+'：缺页 ✗，'+algo+'淘汰 '+victim+' → ['+blocks.join(',')+']';
+    }
+  }
+  updateSim(msg);
+}
+
+/* ---------- 磁盘计算器 ---------- */
+function calcDisk(){
+  const rpm=+document.getElementById('rpm').value, seek=+document.getElementById('seek').value,
+        sec=+document.getElementById('sec').value, ns=+document.getElementById('ns').value;
+  const rev=60000/rpm, rot=rev/2, trans=rev/sec*ns, total=seek+rot+trans;
+  document.getElementById('diskOut').innerHTML=
+    '转一圈 = 60000÷'+rpm+' = <b>'+rev.toFixed(3)+' ms</b><br>'+
+    '平均旋转延迟 = '+rev.toFixed(3)+'÷2 = <b>'+rot.toFixed(3)+' ms</b><br>'+
+    '传输时间 = '+rev.toFixed(3)+'÷'+sec+'×'+ns+' = <b>'+trans.toFixed(3)+' ms</b><br>'+
+    '总存取时间 = '+seek+' + '+rot.toFixed(3)+' + '+trans.toFixed(3)+' = <b style="color:#1a9e5c">'+total.toFixed(2)+' ms</b>';
+}
+
+/* ---------- 闭包计算器 ---------- */
+const CLOSURE_F = [['A','B'],['B','C'],['D','E']];
+function calcClosure(){
+  const raw = (document.getElementById('clInput').value||'').toUpperCase().replace(/[^A-E]/g,'');
+  const out = document.getElementById('clOut');
+  let cur = Array.from(new Set(raw.split('')));
+  if(cur.length===0){ out.innerHTML='<span style="color:#d64545">请输入属性字母，如 AD</span>'; return; }
+  const steps = ['初始 X = { '+cur.join(', ')+' }'];
+  let changed = true;
+  while(changed){
+    changed = false;
+    for(const [l,r] of CLOSURE_F){
+      if(l.split('').every(c=>cur.includes(c)) && !cur.includes(r)){
+        cur.push(r);
+        steps.push('左部 {'+l.split('').join(',')+'} ⊆ 闭包，应用 '+l+'→'+r+'，加入 '+r+' → { '+cur.join(', ')+' }');
+        changed = true;
+      }
+    }
+  }
+  const all = cur.length===5;
+  out.innerHTML = steps.join('<br>') +
+    '<br><b style="color:'+(all?'#1a9e5c':'#5b6474')+'">X⁺ = { '+cur.join(', ')+' }</b>' +
+    (all ? '　→ 覆盖全部属性，X 可作候选码的一部分 ✓' : '　→ 未覆盖全部属性（还差：'+['A','B','C','D','E'].filter(a=>!cur.includes(a)).join(', ')+'），需要再并入其他属性');
+}
+
+/* ---------- 练习题 ---------- */
+const QUIZ=[
+ {t:'【页式存储·地址转换】某系统页大小为 4KB，进程页表：页0→块8，页1→块3，页2→块5，页3→块2。逻辑地址 0x1C88 对应的物理地址是（　）。',
+  opts:['0x3C88','0x1C88','0x5C88','0x2C88'],ans:0,
+  ex:'页大小 4KB=0x1000，低 3 位十六进制 C88 是页内偏移（不变），高位 0x1 是页号 → 查页表得块 3 → 物理地址 = 0x3 拼上 C88 = 0x3C88。口诀：偏移照抄，只换高位。'},
+ {t:'【页式存储·特性】下列关于分页存储管理的说法，正确的是（　）。',
+  opts:['分页管理会产生外部碎片','分页管理不会产生任何碎片','分页管理的页大小对用户透明，最后可能产生内部碎片','页的大小必须与块的大小不同'],ans:2,
+  ex:'页与块大小必须相同才能一一对应；页式管理无外部碎片，但程序最后一页装不满，产生少量<b>内部碎片</b>，这是必考结论。'},
+ {t:'【页面置换】访问序列 4,3,2,1,4,3,5,4,3,2,1,5，分配 3 个物理块，LRU 算法的缺页次数是（　）。',
+  opts:['9 次','10 次','11 次','7 次'],ans:1,
+  ex:'LRU 淘汰"最久未使用"的页：序列走完共 <b>10 次</b>缺页（可用上面模拟器验证）。同序列 FIFO 为 9 次，OPT 为 7 次——3 块时 FIFO 反而比 LRU 少，是经典 Belady 序列。'},
+ {t:'【磁盘·存取时间】磁盘转速为 6000 转/分，平均寻道时间为 10ms，每磁道 10 个扇区。读取 1 个扇区的平均存取时间约为（　）。',
+  opts:['16ms','14.5ms','12ms','20ms'],ans:0,
+  ex:'三步接力：① 寻道时间 = 10ms；② 转一圈 = 60000÷6000 = 10ms，平均旋转延迟 = 10÷2 = <b>5ms</b>（平均要等半圈）；③ 读 1 个扇区 = 10ms÷10 = <b>1ms</b>。总存取时间 = 10 + 5 + 1 = <b>16ms</b>。考试就按这三步加，别慌。'},
+ {t:'【磁盘·容量】某磁盘有 16 个磁头，每面 100 个磁道，每磁道 20 个扇区，每扇区 512 字节，该磁盘容量为（　）。',
+  opts:['15.625 MB','16 MB','20 MB','31.25 MB'],ans:0,
+  ex:'容量 = 16×100×20×512 = 163,840,000 B ÷ 1024 ÷ 1024 = <b>15.625 MB</b>。乘完除两次 1024 换算 MB，注意不是除 1000。'},
+ {t:'【磁盘·旋转优化】磁盘转速 6000 转/分，每磁道 10 条逻辑记录，读 1 条需 1ms，处理 1 条需 3ms（单缓冲）。顺序存放处理完 10 条需 94ms，若将记录<b>优化间隔存放</b>，处理完 10 条共需（　）。',
+  opts:['40ms','50ms','94ms','30ms'],ans:0,
+  ex:'每条"占位"= 读1 + 处理3 = 4ms，即 4 个记录位置，所以每条之间空 3 格。这样处理完第 n 条时磁头正好到第 n+1 条起点，无缝接力：总时间 = 10 × (1+3) = <b>40ms</b>。'},
+ {t:'【位示图】某文件管理系统采用位示图管理磁盘空间，字长 32 位，磁盘块号从 0 开始编号。块号 2050 对应位示图中的（　）。',
+  opts:['第 64 字的第 2 位（均从 0 计）','第 65 字的第 2 位（均从 0 计）','第 64 字的第 3 位（均从 0 计）','第 65 字的第 3 位（均从 0 计）'],ans:0,
+  ex:'字号 = 2050 ÷ 32 = 64 余 2 → 第 <b>64 字</b>（从 0 计，即第 65 字从 1 计）、位号 = 余数 = <b>2 位</b>（从 0 计）。真题两种计数口径都要看清题目约定。'},
+ {t:'【候选码】设 R(A,B,C,D)，F = { A→B, B→C, D→B }，则 R 的候选码为（　）。',
+  opts:['AD','A','ABD','ABCD'],ans:0,
+  ex:'分类：只在左部出现的 L 类 = {A, D}（必在码中）；只在右部出现的 R 类 = {B, C}（必不在）。求 (AD)⁺：{A,D} → A→B 得 B → B→C 得 C → D→B 已有 B → {A,B,C,D} 覆盖全部 ✓。候选码 = <b>AD</b>（唯一）。'},
+ {t:'【闭包】已知 F = { A→B, B→C, C→D }，则属性集 A 的闭包 A⁺ 为（　）。',
+  opts:['ABCD','ABC','AB','ACD'],ans:0,
+  ex:'A⁺ 从 {A} 出发：A→B 得 B → B→C 得 C → C→D 得 D → {A,B,C,D}，直到加不动为止。闭包覆盖全部属性，所以 A 单独就是候选码。'},
+ {t:'【主属性】设 R(A,B,C,D,E)，F = { A→B, B→C, D→E }，候选码为 AD，则 R 的非主属性是（　）。',
+  opts:['B、C、E','A、D','B、C、D','没有非主属性'],ans:0,
+  ex:'主属性 = 出现在候选码里的属性，这里候选码只有 AD → 主属性 A、D；其余 <b>B、C、E 是非主属性</b>。这一步是范式判定的前提，考 BCNF 题经常先让你确认主属性。'},
+ {t:'【范式判定】关系模式 R(学号, 课程号, 成绩, 学分)，函数依赖：(学号,课程号)→成绩，课程号→学分。该关系模式最高满足（　）。',
+  opts:['1NF','2NF','3NF','BCNF'],ans:0,
+  ex:'码 = (学号, 课程号) 是联合码；学分是非主属性，且只依赖码的一部分（课程号）→ 存在<b>部分函数依赖</b> → 只满足 <b>1NF</b>。拆成 (学号,课程号,成绩) 和 (课程号,学分) 即达 2NF。'},
+ {t:'【范式判定】关系模式 R(学号, 系, 系主任)，函数依赖：学号→系，系→系主任。该关系模式最高满足（　）。',
+  opts:['2NF','1NF','3NF','BCNF'],ans:0,
+  ex:'码 = 学号（单属性，不可能有部分依赖 → 自动 2NF）；但 学号→系→系主任 构成<b>传递依赖</b>（系主任传递依赖于码）→ 卡在 <b>2NF</b>。拆成 (学号,系)+(系,系主任) 达 3NF。'},
+ {t:'【范式判定】关系模式 R(A,B,C)，F = { AB→C, C→B }，候选码为 AB 和 AC。该关系模式最高满足（　）。',
+  opts:['3NF','2NF','BCNF','1NF'],ans:0,
+  ex:'候选码 {AB, AC} → A、B、C <b>全是主属性，没有非主属性</b>，而 2NF/3NF 管的是非主属性 → 自动满足 3NF。但 BCNF 要求每个决定因素（左部）包含候选码，C→B 的左部 C 不含任何候选码 → 违反 BCNF。故最高 <b>3NF</b>。'},
+ {t:'【范式概念】关于 2NF，下列说法正确的是（　）。',
+  opts:['2NF 消除的是非主属性对码的部分函数依赖','2NF 消除的是非主属性对码的传递函数依赖','若候选码是单属性，则该模式可能违反 2NF','1NF 允许属性再分'],ans:0,
+  ex:'2NF = 消除非主属性对码的<b>部分依赖</b>（传递依赖是 3NF 干的事）。候选码是单属性时<b>不可能</b>存在部分依赖，故自动满足 2NF——C 说反了；1NF 恰恰要求属性不可再分。'}
+];
+(function(){
+  const area=document.getElementById('quizArea');
+  QUIZ.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">第 '+(i+1)+' 题　'+q.t+'</div>'+
+      q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
+      '<div class="explain" id="ex'+i+'"></div>';
+    area.appendChild(d);
+  });
+  area.addEventListener('click',function(e){
+    const btn=e.target.closest('.opt'); if(!btn)return;
+    const qi=+btn.dataset.q, q=QUIZ[qi];
+    const all=area.querySelectorAll('[data-q="'+qi+'"]');
+    all.forEach(b=>{b.disabled=true; if(+b.dataset.j===q.ans)b.classList.add('right');});
+    if(+btn.dataset.j!==q.ans) btn.classList.add('wrong');
+    const ex=document.getElementById('ex'+qi); ex.style.display='block'; ex.innerHTML='<b>解析：</b>'+q.ex;
+  });
+})();
+</script>
+</body>
+</html>

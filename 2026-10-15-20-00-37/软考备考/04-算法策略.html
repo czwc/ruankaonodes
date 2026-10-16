@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·下午题4 算法策略（分治/贪心/动态规划/回溯）满分教程</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#ffffff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#d64545,#e08a1e);color:#fff;border-radius:16px;padding:32px 28px;margin-bottom:24px;}
+  header h1{margin:0 0 8px;font-size:26px;} header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:22px;}
+  h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
+  h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
+  .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
+  pre{background:#232a3a;color:#d7e3ff;padding:16px 18px;border-radius:10px;overflow-x:auto;font-family:Consolas,monospace;font-size:14px;line-height:1.6;margin:10px 0;}
+  pre .c{color:#7ee787;} pre .k{color:#ff9b72;} pre .hl{color:#ffd479;font-weight:bold;}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;} th{background:#f0f3f9;}
+  td.c{text-align:center;font-family:Consolas,monospace;} th.c{text-align:center;}
+  .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
+  svg{max-width:100%;height:auto;display:block;margin:10px auto;}
+  .quiz{border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:14px 0;}
+  .quiz .q{font-weight:bold;margin-bottom:10px;}
+  .opt{display:block;width:100%;text-align:left;background:#fafbfe;border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:14px;font-family:inherit;}
+  .opt:hover{border-color:var(--blue);}
+  .opt.right{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:bold;}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);} .opt:disabled{cursor:default;}
+  .explain{display:none;background:var(--orange-bg);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:14px;}
+  .reveal-btn{background:var(--purple);color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit;}
+  .answer{display:none;background:var(--green-bg);border:1px solid #bfe8d2;border-radius:8px;padding:12px 16px;margin-top:10px;font-size:14px;}
+  .case{background:#fbfcff;border:1px solid #dbe3f2;border-radius:10px;padding:16px 18px;font-size:14.5px;margin:12px 0;}
+  .step{display:flex;gap:10px;margin:8px 0;}
+  .step .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>下午题 ④ C 语言算法策略 · 15 分必答</h1>
+  <p>分治 · 贪心 · 动态规划 · 回溯——考法 = 认出策略 + 补全 C 代码空格</p>
+  <nav>
+    <a href="#s0">① 一眼认策略</a>
+    <a href="#s1">② 分治</a>
+    <a href="#s2">③ 贪心</a>
+    <a href="#s3">④ 动态规划（重点）</a>
+    <a href="#s4">⑤ 回溯</a>
+    <a href="#s4b">⑥ 复杂度计算</a>
+    <a href="#s5">⑦ 训练题</a>
+    <a href="#s6">⑧ 考场清单</a>
+  </nav>
+</header>
+
+<!-- ============ 0 识别表 ============ -->
+<section id="s0">
+  <h2>① 一眼认策略：四句话特征表 <span class="tag exam">先背这张表</span></h2>
+  <table>
+    <tr><th style="width:110px">策略</th><th>识别特征（题干/代码里找这些词）</th><th>经典题目</th></tr>
+    <tr><td><b>分治</b></td><td>"分成两半""分别求解""再合并"；代码有<b>递归调用自己 + 合并</b></td><td>归并排序、快速排序、二分查找、大整数乘法</td></tr>
+    <tr><td><b>贪心</b></td><td>"每次选取当前最优""不回头"；通常是<b>排序后一遍循环</b></td><td>活动选择、部分背包、找零钱、哈夫曼编码</td></tr>
+    <tr><td><b>动态规划</b></td><td>"最优解包含子问题最优解"；代码有<b>二维表 dp[i][j]</b> 或递推式</td><td>0-1背包、最长公共子序列、最大子段和</td></tr>
+    <tr><td><b>回溯</b></td><td>"试探""不满足则退回""剪枝"；代码是<b>递归 + 撤销选择</b></td><td>N 皇后、迷宫、子集/排列枚举</td></tr>
+  </table>
+  <div class="box blue"><b>快速区分（考试最常混淆的两组）：</b><br>
+  ① 贪心 vs 动态规划：贪心<b>只做选择不回头</b>，快但可能不是全局最优；DP <b>枚举所有子问题</b>保证最优，慢但一定对。题干说"求最优"且数据小 → DP；说"近似/快速"或明确"每步取最优" → 贪心。<br>
+  ② 分治 vs DP：分治的子问题<b>互不重叠</b>（二分）；DP 的子问题<b>大量重叠</b>（要填表避免重复算）。</div>
+</section>
+
+<!-- ============ 分治 ============ -->
+<section id="s1">
+  <h2>② 分治法：拆 → 解 → 合 <span class="tag core">三步曲</span></h2>
+  <pre>
+<span class="c">// 例：归并排序 —— 把数组拆两半，各自排好，再合并</span>
+<span class="k">void</span> mergeSort(<span class="k">int</span> a[], <span class="k">int</span> lo, <span class="k">int</span> hi) {
+    <span class="k">if</span> (lo >= hi) <span class="k">return</span>;          <span class="c">// ① 终止：只剩 0/1 个元素</span>
+    <span class="k">int</span> mid = (lo + hi) / <span class="hl">2</span>;        <span class="c">// ② 拆：从中点分成两半</span>
+    mergeSort(a, lo, mid);           <span class="c">// ③ 解：递归排左半</span>
+    mergeSort(a, mid+1, hi);         <span class="c">// ③ 解：递归排右半</span>
+    merge(a, lo, mid, hi);           <span class="c">// ④ 合：合并两个有序段（挖空高频处！）</span>
+}</pre>
+  <div class="box green"><b>考试填空点：</b>递归区间边界（lo, mid / mid+1, hi）、merge 的合并条件。记住"左闭到 mid，右开从 mid+1"。</div>
+</section>
+
+<!-- ============ 贪心 ============ -->
+<section id="s2">
+  <h2>③ 贪心法：每步局部最优，绝不回头</h2>
+  <pre>
+<span class="c">// 例：活动选择 —— n 个活动按结束时间排序，能选就选</span>
+sort(act, act+n, cmp);              <span class="c">// 按<span class="hl">结束时间</span>从小到大排序（贪心的关键）</span>
+cnt = 1; last = act[<span class="hl">0</span>].end;
+<span class="k">for</span> (i = 1; i &lt; n; i++)
+    <span class="k">if</span> (act[i].start >= <span class="hl">last</span>) {    <span class="c">// 与上一个已选活动不冲突</span>
+        cnt++; last = <span class="hl">act[i].end</span>;
+    }</pre>
+  <div class="box orange">
+    <b>贪心反例（必懂，考过简答）：</b>0-1 背包<b>不能</b>用贪心。物品 w=[10,20,30]，v=[60,100,120]，容量 50：<br>
+    按性价比贪心选 10、20 → 价值 160；最优解选 20、30 → 价值 <b>220</b>。贪心装不下第三件也不回头，就输了。<br>
+    （部分背包允许切分物品时才能用贪心，此时性价比排序是正确的。）
+  </div>
+</section>
+
+<!-- ============ 动态规划 ============ -->
+<section id="s3">
+  <h2>④ 动态规划：下午题最爱的策略 <span class="tag exam">重点·手把手填表</span></h2>
+  <div class="box blue"><b>三要素（答题要用术语）：</b>① 最优子结构（大问题最优解含子问题最优解）；② 重叠子问题（所以填表而不是傻递归）；③ 状态转移方程（填空的核心就是它）。</div>
+
+  <h3>例题：0-1 背包（软考出现频率最高）</h3>
+  <div class="case">背包容量 W=5，3 件物品：物品1(w=2,v=3)、物品2(w=3,v=4)、物品3(w=4,v=5)。求能装的最大价值。</div>
+  <div class="box purple"><b>状态转移方程（必须会默写）：</b><br>
+  dp[i][j] = <b>max( dp[i-1][j] , dp[i-1][ j-w[i] ] + v[i] )</b>　（j ≥ w[i] 时）<br>
+  含义："不装第 i 件"和"装第 i 件（腾出 w[i] 空间）"哪个值钱。</div>
+
+  <svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg">
+    <text x="340" y="24" text-anchor="middle" font-size="14" font-weight="bold" fill="#1f2430">dp 表逐格填写（行=物品 i，列=容量 j）</text>
+    <g font-size="13" text-anchor="middle" font-family="Consolas,monospace">
+      <rect x="110" y="40" width="80" height="36" fill="#f0f3f9" stroke="#e3e7ef"/><text x="150" y="63" fill="#5b6474">i\j</text>
+      <rect x="190" y="40" width="80" height="36" fill="#f0f3f9" stroke="#e3e7ef"/><text x="230" y="63">0</text>
+      <rect x="270" y="40" width="80" height="36" fill="#f0f3f9" stroke="#e3e7ef"/><text x="310" y="63">1</text>
+      <rect x="350" y="40" width="80" height="36" fill="#f0f3f9" stroke="#e3e7ef"/><text x="390" y="63">2</text>
+      <rect x="430" y="40" width="80" height="36" fill="#f0f3f9" stroke="#e3e7ef"/><text x="470" y="63">3</text>
+      <rect x="510" y="40" width="80" height="36" fill="#f0f3f9" stroke="#e3e7ef"/><text x="550" y="63">4</text>
+      <rect x="590" y="40" width="80" height="36" fill="#f0f3f9" stroke="#e3e7ef"/><text x="630" y="63">5</text>
+      <rect x="110" y="76" width="80" height="36" fill="#f0f3f9" stroke="#e3e7ef"/><text x="150" y="99">物品1</text>
+      <g fill="#fff"><rect x="190" y="76" width="80" height="36" stroke="#e3e7ef"/><rect x="270" y="76" width="80" height="36" stroke="#e3e7ef"/><rect x="350" y="76" width="80" height="36" stroke="#e3e7ef"/><rect x="430" y="76" width="80" height="36" stroke="#e3e7ef"/><rect x="510" y="76" width="80" height="36" stroke="#e3e7ef"/><rect x="590" y="76" width="80" height="36" stroke="#e3e7ef"/></g>
+      <text x="230" y="99">0</text><text x="310" y="99">0</text><text x="390" y="99" font-weight="bold" fill="#1a9e5c">3</text><text x="470" y="99" font-weight="bold" fill="#1a9e5c">3</text><text x="550" y="99" font-weight="bold" fill="#1a9e5c">3</text><text x="630" y="99" font-weight="bold" fill="#1a9e5c">3</text>
+      <rect x="110" y="112" width="80" height="36" fill="#f0f3f9" stroke="#e3e7ef"/><text x="150" y="135">物品2</text>
+      <g fill="#fff"><rect x="190" y="112" width="80" height="36" stroke="#e3e7ef"/><rect x="270" y="112" width="80" height="36" stroke="#e3e7ef"/><rect x="350" y="112" width="80" height="36" stroke="#e3e7ef"/><rect x="430" y="112" width="80" height="36" stroke="#e3e7ef"/><rect x="510" y="112" width="80" height="36" stroke="#e3e7ef"/><rect x="590" y="112" width="80" height="36" stroke="#e3e7ef"/></g>
+      <text x="230" y="135">0</text><text x="310" y="135">0</text><text x="390" y="135">3</text><text x="470" y="135" font-weight="bold" fill="#1a9e5c">4</text><text x="550" y="135" font-weight="bold" fill="#1a9e5c">4</text><text x="630" y="135" font-weight="bold" fill="#1a9e5c">7</text>
+      <rect x="110" y="148" width="80" height="36" fill="#f0f3f9" stroke="#e3e7ef"/><text x="150" y="171">物品3</text>
+      <g fill="#fff"><rect x="190" y="148" width="80" height="36" stroke="#e3e7ef"/><rect x="270" y="148" width="80" height="36" stroke="#e3e7ef"/><rect x="350" y="148" width="80" height="36" stroke="#e3e7ef"/><rect x="430" y="148" width="80" height="36" stroke="#e3e7ef"/><rect x="510" y="148" width="80" height="36" stroke="#e3e7ef"/><rect x="590" y="148" width="80" height="36" stroke="#e3e7ef"/></g>
+      <text x="230" y="171">0</text><text x="310" y="171">0</text><text x="390" y="171">3</text><text x="470" y="171">4</text><text x="550" y="171" font-weight="bold" fill="#d64545">5</text><text x="630" y="171" font-weight="bold" fill="#1a9e5c">7</text>
+    </g>
+    <text x="340" y="215" text-anchor="middle" font-size="13" fill="#1f2430">绿=比上一行变大（装了新物品）；dp[3][5]=7 为答案（物品1+物品2）</text>
+    <text x="340" y="236" text-anchor="middle" font-size="13" fill="#d64545">验证 dp[3][4]：不装=4，装物品3 = dp[2][0]+5 = 5 → 取 5 ✓</text>
+  </svg>
+
+  <pre>
+<span class="c">// 真题风格的 C 代码（挖空处已用 hl 标出）</span>
+<span class="k">int</span> knapsack(<span class="k">int</span> n, <span class="k">int</span> W, <span class="k">int</span> w[], <span class="k">int</span> v[]) {
+    <span class="k">int</span> dp[N][M], i, j;
+    <span class="k">for</span> (i = 1; i &lt;= n; i++)
+        <span class="k">for</span> (j = 0; j &lt;= W; j++) {
+            dp[i][j] = <span class="hl">(1)  dp[i-1][j]</span>;                <span class="c">// 默认不装第 i 件</span>
+            <span class="k">if</span> (<span class="hl">(2)  j &gt;= w[i]</span>)                       <span class="c">// 背包装得下才考虑装</span>
+                <span class="k">if</span> (dp[i-1][<span class="hl">(3)  j - w[i]</span>] + v[i] &gt; dp[i][j])
+                    dp[i][j] = dp[i-1][j-w[i]] + v[i]; <span class="c">// 装第 i 件更优则更新</span>
+        }
+    <span class="k">return</span> dp[n][W];
+}</pre>
+  <div class="box green"><b>填空技巧：</b>看到 dp[i][j] 先写 dp[i-1][j]；if 条件几乎总是 j >= w[i]；递归引用处找"j 减去什么"。三空连着考是固定套路。</div>
+
+  <h3>另两个高频 DP 递推式（认识即可）</h3>
+  <table>
+    <tr><th>题目</th><th>状态转移方程</th></tr>
+    <tr><td>最长公共子序列 LCS</td><td>相同：dp[i][j]=dp[i-1][j-1]+1；不同：max(dp[i-1][j], dp[i][j-1])</td></tr>
+    <tr><td>最大子段和</td><td>b[j] = max( b[j-1]+a[j], a[j] )，答案为 max b[j]</td></tr>
+  </table>
+</section>
+
+<!-- ============ 回溯 ============ -->
+<section id="s4">
+  <h2>⑤ 回溯法：试探 → 碰壁 → 退回来</h2>
+  <pre>
+<span class="c">// 例：N 皇后 —— 逐行放皇后，冲突就换列，本行无解就回退到上一行</span>
+<span class="k">int</span> place(<span class="k">int</span> row) {
+    <span class="k">int</span> col;
+    <span class="k">if</span> (row &gt; n) { cnt++; <span class="k">return</span> 1; }   <span class="c">// n 行都放完，找到一组解</span>
+    <span class="k">for</span> (col = 1; col &lt;= n; col++) {
+        <span class="k">if</span> (<span class="hl">check(row, col)</span>) {           <span class="c">// 剪枝：与前面行的皇后不冲突才试</span>
+            q[row] = col;
+            <span class="hl">place(row + 1)</span>;               <span class="c">// 递归试探下一行</span>
+        }                                  <span class="c">// 此处天然"回溯"：函数返回后 col++ 换位置重试</span>
+    }
+    <span class="k">return</span> 0;
+}</pre>
+  <div class="box orange"><b>回溯填空点：</b>check 冲突条件（同列：q[k]==col；对角线：|q[k]-col| == |k-row|）、递归调用下一层、剪枝 if。对角线判断 |q[k]-col|==|k-row| 直接背。</div>
+</section>
+
+<!-- ============ 复杂度 ============ -->
+<section id="s4b">
+  <h2>⑥ 时间复杂度：代码填空后的必问 <span class="tag exam">必考</span></h2>
+  <table>
+    <tr><th>代码形态 / 递归式</th><th style="width:130px">复杂度</th><th>典型题目</th></tr>
+    <tr><td>T(n) = T(n/2) + O(1)（每次砍一半，只递归一边）</td><td><b>O(log n)</b></td><td>二分查找</td></tr>
+    <tr><td>T(n) = 2T(n/2) + O(n)（砍一半×2，合并代价 n）</td><td><b>O(n log n)</b></td><td>归并排序、快速排序（平均）</td></tr>
+    <tr><td>T(n) = T(n-1) + O(1)（每次少一个）</td><td><b>O(n)</b></td><td>顺序查找、单层递推</td></tr>
+    <tr><td>T(n) = 2T(n-1) + O(1)（每次分两支全试）</td><td><b>O(2ⁿ)</b></td><td>回溯枚举子集</td></tr>
+    <tr><td>双层循环填 dp 表（物品×容量 / i×j）</td><td><b>O(n×W)、O(n²)</b></td><td>0-1 背包、LCS、最大子段和</td></tr>
+  </table>
+  <div class="box blue"><b>展开法示范（看一遍就会）：</b>T(n) = 2T(n/2) + n → 第 1 层合并代价 n，第 2 层两个子问题共 2×(n/2)=n，每层都是 n；要砍 log n 层才到 1 → 总代价 <b>n × log n = O(n log n)</b>。</div>
+  <div class="box orange"><b>复杂度大小排序（选择题直接用）：</b>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(n³) &lt; O(2ⁿ) &lt; O(n!)。问"最高/最低复杂度"就按这条链排。</div>
+</section>
+
+<!-- ============ 训练 ============ -->
+<section id="s5">
+  <h2>⑦ 训练题</h2>
+  <div id="quizArea"></div>
+</section>
+
+<!-- ============ 清单 ============ -->
+<section id="s6">
+  <h2>⑧ 考场执行清单</h2>
+  <div class="step"><div class="n">1</div><div>先读题干最后一问——问题会提示策略（"求最优解且给出 dp 表"→DP）。</div></div>
+  <div class="step"><div class="n">2</div><div>对照特征表认策略，答案第一空通常就是"算法策略"或"时间复杂度"。</div></div>
+  <div class="step"><div class="n">3</div><div>代码填空：先看空的前后语句，DP 三件套（dp[i-1][j]、j>=w[i]、j-w[i]）按套路套。</div></div>
+  <div class="step"><div class="n">4</div><div>复杂度：DP 双层循环 O(nW)；分治看递归式；回溯通常指数级 O(n^n) 或 O(n!)。</div></div>
+  <div class="step"><div class="n">5</div><div>宁可按"语义通顺"填也不要空——填空按空给分。</div></div>
+</section>
+
+<div class="foot">软考软件设计师 · 下午题④算法策略 · 0-1 背包必须能手算 dp 表，这是硬指标</div>
+</div>
+
+<script>
+const QUIZ=[
+ {t:'【策略识别】某算法将 n 个元素每次分成规模减半的两组分别求解，再将两组结果合并，该策略是（　）。',
+  opts:['分治法','贪心法','动态规划法','回溯法'],ans:0,
+  ex:'"拆一半→分别解→合并" = <b>分治</b>三步曲（如归并排序）。子问题不重叠是它与 DP 的本质区别。'},
+ {t:'【策略识别】求 0-1 背包的最优装法，代码中出现了二维数组 dp[i][j] 且用两层循环填表，该策略是（　）。',
+  opts:['动态规划法','贪心法','分治法','回溯法'],ans:0,
+  ex:'看到 dp 表 + 状态转移 = <b>动态规划</b>。贪心没有表；分治没有重叠子问题；回溯是递归试探。'},
+ {t:'【0-1 背包】容量 W=5，物品 w=[2,3,4]、v=[3,4,5]。按 dp 递推式，dp[3][5]（三件物品、容量5）的值是（　）。',
+  opts:['7','5','4','9'],ans:0,
+  ex:'装物品1+物品2：w=2+3=5≤5，v=3+4=<b>7</b>；装物品3 只剩容量1装不下别的（v=5）。dp 表逐格验证：dp[2][5]=7，dp[3][5]=max(7, dp[2][1]+5=5)=7。'},
+ {t:'【贪心】关于贪心法，正确的说法是（　）。',
+  opts:['每步做出局部最优选择，不回退，结果不一定是全局最优','一定能得到全局最优解','每步选择后需要回溯撤销','必须使用递归实现'],ans:0,
+  ex:'贪心 = 局部最优、<b>不回头</b>，因此快但<b>不保证</b>全局最优（0-1 背包反例）。不用递归（一遍循环即可），更没有回退。'},
+ {t:'【回溯】四皇后问题中，检查第 row 行第 col 列能否放皇后时，与第 k 行皇后 (q[k]) 冲突的条件不包括（　）。',
+  opts:['q[k] == col（同列）','|q[k]-col| == |k-row|（对角线）','q[k] == row（同行放置判断）','以上都是冲突条件'],ans:0,
+  ex:'回溯放皇后逐<b>行</b>进行，不同行不可能同行，所以"q[k]==row"不是检查项。同列 q[k]==col 和对角线 |q[k]-col|==|k-row| 是标准冲突检查。'},
+ {t:'【LCS】最长公共子序列（LCS）的递推式中，当 X[i] == Y[j] 时 dp[i][j] =（　）。',
+  opts:['dp[i-1][j-1] + 1','dp[i-1][j]','dp[i][j-1] + 1','max(dp[i-1][j], dp[i][j-1])'],ans:0,
+  ex:'末尾字符<b>相同</b>：LCS 长度 = 去掉两个末尾字符的 LCS + 1，即 dp[i-1][j-1]+1；<b>不同</b>时才取 max(dp[i-1][j], dp[i][j-1])。两个分支别背反。'},
+ {t:'【策略+复杂度】在有序数组中查找某元素，每次与中间元素比较后将范围减半，该算法策略与时间复杂度是（　）。',
+  opts:['分治法，O(log n)','贪心法，O(n)','动态规划，O(n log n)','回溯法，O(n²)'],ans:0,
+  ex:'折半查找 = 分治（拆一半、只解一边、无需合并）；递归式 T(n)=T(n/2)+O(1) → <b>O(log n)</b>。'},
+ {t:'【复杂度排序】下列复杂度按增长率从低到高排列，正确的是（　）。',
+  opts:['O(log n) < O(n) < O(n log n) < O(n²) < O(2ⁿ)','O(n) < O(log n) < O(n²) < O(n log n) < O(2ⁿ)','O(n log n) < O(log n) < O(n) < O(2ⁿ) < O(n²)','O(n²) < O(n log n) < O(n) < O(2ⁿ) < O(log n)'],ans:0,
+  ex:'标准链：O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ) &lt; O(n!)。背熟这条链，"最高/最低复杂度"题秒答。'},
+ {t:'【DP三要素】动态规划法求解问题的基本要素不包括（　）。',
+  opts:['贪心选择性质','最优子结构','重叠子问题','状态转移方程'],ans:0,
+  ex:'DP 三件套 = 最优子结构 + 重叠子问题 + 状态转移方程。<b>贪心选择性质是贪心法的要素</b>，DP 恰恰不做"一步定死"的选择。'},
+ {t:'【递归式求复杂度】某算法 T(n) = 2T(n/2) + n，则 T(n) =（　）。',
+  opts:['O(n log n)','O(n)','O(log n)','O(n²)'],ans:0,
+  ex:'展开：每层的合并总代价都是 n（2×n/2=n），共 log n 层 → n×log n。与归并排序同型；若合并代价是 O(1) 才是 O(n)。'}
+];
+const CASES=[
+ {title:'大题一：补全 0-1 背包代码（3 空，真题同款）',
+  body:`<pre>
+<span class="k">for</span> (i = 1; i &lt;= n; i++)
+    <span class="k">for</span> (j = 0; j &lt;= W; j++) {
+        dp[i][j] = (1)____;
+        <span class="k">if</span> ((2)____)
+            <span class="k">if</span> (dp[i-1][(3)____] + v[i] &gt; dp[i][j])
+                dp[i][j] = dp[i-1][j-w[i]] + v[i];
+    }</pre>
+  <p><b>问题：</b>填空 (1)(2)(3)，并回答该算法的时间复杂度。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  (1) <b>dp[i-1][j]</b>（先默认"不装第 i 件"，继承上一行）；<br>
+  (2) <b>j >= w[i]</b>（当前容量装得下第 i 件才考虑装）；<br>
+  (3) <b>j - w[i]</b>（装第 i 件 = 腾出 w[i] 的空间，取剩余容量的最优再加 v[i]）。<br>
+  时间复杂度：<b>O(n×W)</b>（双层循环，n 物品 × W 容量）。<br>
+  记忆：三空 = "先抄上一行 → 装得下 → 减重量"，是 0-1 背包固定三连。`},
+ {title:'大题二：策略辨认 + 理由（简答题）',
+  body:`<div class="case"><b>情境 A：</b>求 n 个活动的最大兼容集合：将活动按结束时间排序，依次选择与已选活动不冲突的活动。<br>
+  <b>情境 B：</b>求字符串 X 与 Y 的最长公共子序列：设 dp[i][j] 表示 X 前 i 个与 Y 前 j 个字符的 LCS 长度，双层循环填表，X[i]==Y[j] 时 dp[i][j]=dp[i-1][j-1]+1。</div>
+  <p><b>问题：</b>指出 A、B 分别采用什么算法策略，并各用一句话说明理由。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  A：<b>贪心法</b>。理由：每一步只做当前最优选择（选最早结束且兼容的活动），选择后不再改变、不考察其他可能。<br>
+  B：<b>动态规划法</b>。理由：问题具有最优子结构和重叠子问题，用 dp 表自底向上求解，dp[i][j] 由更小的子问题递推得到。<br>
+  <span style="color:#d64545">答题格式：</span>"策略名 + 理由"两件套，理由里点到"局部最优不回退"（贪心）或"子问题重叠/最优子结构/填表"（DP）这些术语词就能拿分。`},
+ {title:'大题三：贪心 vs 最优（简答，理解题）',
+  body:`<div class="case"><b>情境：</b>0-1 背包：容量 50，三件物品 (w,v) 分别为 (10,60)、(20,100)、(30,120)。有人按"单位重量价值最高优先"的贪心策略求解：先装 (10,60)，再装 (20,100)，容量剩 20 装不下 (30,120)，总价值 160。</div>
+  <p><b>问题：</b>该贪心解是不是最优解？最优解价值多少？为什么 0-1 背包不能使用贪心法？</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  贪心得 160 <b>不是最优</b>。最优解：装 (20,100) 和 (30,120)，重量 20+30=50≤50，总价值 <b>220</b>。<br>
+  原因：贪心装入高性价比的 (10,60) 后占用了 10 单位容量，导致无法组合 (20,100)+(30,120)；<b>贪心做出选择后不回退</b>，而 0-1 背包的全局最优需要"试探各种组合"——这正是动态规划逐格比较才能保证的。<br>
+  加分点：若题目允许物品<b>切分</b>（部分背包），按性价比贪心则<b>是</b>最优的——一句话对比着写更稳。`},
+ {title:'大题四：LCS 代码填空（2 空 + 复杂度）',
+  body:`<pre>
+<span class="k">int</span> lcs(<span class="k">char</span> X[], <span class="k">char</span> Y[], <span class="k">int</span> m, <span class="k">int</span> n) {
+    <span class="k">int</span> dp[N][N], i, j;
+    <span class="k">for</span> (i = 1; i &lt;= m; i++)
+        <span class="k">for</span> (j = 1; j &lt;= n; j++)
+            <span class="k">if</span> (X[i] == Y[j])
+                dp[i][j] = (1)____;
+            <span class="k">else</span>
+                dp[i][j] = (2)____;
+    <span class="k">return</span> dp[m][n];
+}</pre>
+  <p><b>问题：</b>填空 (1)(2)，并回答时间复杂度与该策略名称。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  (1) <b>dp[i-1][j-1] + 1</b>（末尾字符相同，公共子序列延长一位）；<br>
+  (2) <b>max(dp[i-1][j], dp[i][j-1])</b>（不同时，丢 X 末尾或丢 Y 末尾取较大者）。<br>
+  时间复杂度：<b>O(m×n)</b>（双层填表）；策略：<b>动态规划</b>（最优子结构 + 重叠子问题 + 填表）。<br>
+  与 0-1 背包对比记忆：相同加一（dp[i-1][j-1]+1），不同取大（max 两个方向）。`},
+ {title:'大题五：复杂度计算简答（递归式展开）',
+  body:`<div class="case"><b>情境：</b>某分治算法把规模 n 的问题拆成 2 个 n/2 的子问题，合并两个子解需要 O(n) 时间，即 T(n) = 2T(n/2) + n。另有一回溯算法对 n 个元素做全排列枚举，递归式 T(n) = n × T(n-1)。</div>
+  <p><b>问题：</b>分别推导两个算法的时间复杂度，并简述理由。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  ① T(n) = 2T(n/2) + n：每层子问题合并总代价 = 2×(n/2) = n，共递归 <b>log₂n 层</b> → T(n) = <b>O(n log n)</b>（归并排序同型）。<br>
+  ② T(n) = n×T(n-1)：n×(n-1)×(n-2)×…×1 = <b>O(n!)</b>（全排列枚举）。<br>
+  答题格式：写出"每层代价 × 层数"或"连乘展开"的过程，最后给大 O 结论——<b>只写结论不给过程可能扣分</b>。`}
+];
+(function(){
+  const area=document.getElementById('quizArea');
+  QUIZ.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
+      q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
+      '<div class="explain" id="ex'+i+'"></div>';
+    area.appendChild(d);
+  });
+  CASES.forEach((c,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">'+c.title+'</div>'+c.body+
+      '<div class="reveal" style="margin-top:10px"><button class="reveal-btn" id="rb'+i+'">显示参考答案与得分点</button>'+
+      '<div class="answer" id="ans'+i+'">'+c.answer+'</div></div>';
+    area.appendChild(d);
+  });
+  area.addEventListener('click',function(e){
+    const btn=e.target.closest('.opt');
+    if(btn){
+      const qi=+btn.dataset.q, q=QUIZ[qi];
+      const all=area.querySelectorAll('[data-q="'+qi+'"]');
+      all.forEach(b=>{b.disabled=true; if(+b.dataset.j===q.ans)b.classList.add('right');});
+      if(+btn.dataset.j!==q.ans) btn.classList.add('wrong');
+      const ex=document.getElementById('ex'+qi); ex.style.display='block'; ex.innerHTML='<b>解析：</b>'+q.ex;
+      return;
+    }
+    const rb=e.target.closest('.reveal-btn');
+    if(rb){
+      const i=rb.id.slice(2), ans=document.getElementById('ans'+i);
+      ans.style.display = ans.style.display==='block' ? 'none' : 'block';
+      rb.textContent = ans.style.display==='block' ? '收起答案' : '显示参考答案与得分点';
+    }
+  });
+})();
+</script>
+</body>
+</html>

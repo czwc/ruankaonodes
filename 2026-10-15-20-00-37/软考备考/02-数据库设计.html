@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·下午题2 数据库设计（E-R图与关系模式）满分教程</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#ffffff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#2f6fed,#e08a1e);color:#fff;border-radius:16px;padding:32px 28px;margin-bottom:24px;}
+  header h1{margin:0 0 8px;font-size:26px;} header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:22px;}
+  h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
+  h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
+  .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
+  .mono{font-family:Consolas,monospace;}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;} th{background:#f0f3f9;}
+  .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
+  svg{max-width:100%;height:auto;display:block;margin:10px auto;}
+  .quiz{border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:14px 0;}
+  .quiz .q{font-weight:bold;margin-bottom:10px;}
+  .opt{display:block;width:100%;text-align:left;background:#fafbfe;border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:14px;font-family:inherit;}
+  .opt:hover{border-color:var(--blue);}
+  .opt.right{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:bold;}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);} .opt:disabled{cursor:default;}
+  .explain{display:none;background:var(--orange-bg);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:14px;}
+  .reveal-btn{background:var(--purple);color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit;}
+  .answer{display:none;background:var(--green-bg);border:1px solid #bfe8d2;border-radius:8px;padding:12px 16px;margin-top:10px;font-size:14px;}
+  .answer b.pt{color:var(--green);}
+  .case{background:#fbfcff;border:1px solid #dbe3f2;border-radius:10px;padding:16px 18px;font-size:14.5px;margin:12px 0;}
+  .step{display:flex;gap:10px;margin:8px 0;}
+  .step .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>下午题 ② 数据库设计 · 15 分必答</h1>
+  <p>E-R 图补缺 + 转关系模式 + 主外键 + 规范化——和你上午题学的候选码/范式正好是同一套知识</p>
+  <nav>
+    <a href="#s1">① E-R 三要素</a>
+    <a href="#s2">② 联系类型判断</a>
+    <a href="#s3">③ 转关系模式规则</a>
+    <a href="#s4">④ 完整案例</a>
+    <a href="#s5">⑤ 训练题</a>
+    <a href="#s6">⑥ 考场清单</a>
+  </nav>
+</header>
+
+<section id="s1">
+  <h2>① E-R 图三要素 <span class="tag core">基础</span></h2>
+  <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="er" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
+    <!-- 实体 -->
+    <rect x="40" y="60" width="110" height="50" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/>
+    <text x="95" y="90" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">学生</text>
+    <text x="95" y="140" text-anchor="middle" font-size="13" fill="#1a9e5c" font-weight="bold">实体 = 矩形</text>
+    <text x="95" y="160" text-anchor="middle" font-size="12" fill="#5b6474">客观存在的"东西"：人、物、单据</text>
+    <!-- 联系 -->
+    <polygon points="300,60 350,85 300,110 250,85" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/>
+    <text x="300" y="90" text-anchor="middle" font-size="13" font-weight="bold" fill="#2f6fed">选修</text>
+    <text x="300" y="140" text-anchor="middle" font-size="13" fill="#2f6fed" font-weight="bold">联系 = 菱形</text>
+    <text x="300" y="160" text-anchor="middle" font-size="12" fill="#5b6474">实体间的动作/关系</text>
+    <!-- 属性 -->
+    <ellipse cx="530" cy="85" rx="62" ry="26" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/>
+    <text x="530" y="90" text-anchor="middle" font-size="13" fill="#e08a1e">学号(主键)</text>
+    <text x="530" y="140" text-anchor="middle" font-size="13" fill="#e08a1e" font-weight="bold">属性 = 椭圆</text>
+    <text x="530" y="160" text-anchor="middle" font-size="12" fill="#5b6474">主键属性常加下划线</text>
+    <line x1="152" y1="85" x2="248" y2="85" stroke="#5b6474" stroke-width="2" marker-end="url(#er)"/>
+    <text x="200" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#d64545">m</text>
+    <line x1="352" y1="85" x2="466" y2="85" stroke="#5b6474" stroke-width="2" marker-end="url(#er)"/>
+    <text x="420" y="76" text-anchor="middle" font-size="13" font-weight="bold" fill="#d64545">n</text>
+    <text x="340" y="240" text-anchor="middle" font-size="14" fill="#d64545" font-weight="bold">考试挖空顺序：联系名 → 联系类型(m:n / 1:n / 1:1) → 关系模式主键</text>
+  </svg>
+  <div class="box blue"><b>注意：</b>联系本身也可以有属性！比如"选修"联系上挂着"成绩"——成绩既不属于学生也不属于课程，而是属于"某人选某门课"这件事。这是填空题的高频点。</div>
+</section>
+
+<section id="s2">
+  <h2>② 联系类型判断：从两边各看一眼 <span class="tag exam">必考</span></h2>
+  <table>
+    <tr><th style="width:90px">类型</th><th>判断方法（站在每端各问一次）</th><th style="width:200px">典型例子</th></tr>
+    <tr><td><b>1 : 1</b></td><td>A 的一个只对应 B 的一个，B 的一个也只对应 A 的一个</td><td>部门 ←管理→ 经理（一个部门一个正经理）</td></tr>
+    <tr><td><b>1 : n</b></td><td>A 的一个对应 B 的多个，但 B 的一个只对应 A 的一个</td><td>系 ←拥有→ 学生（一个系多名学生，一个学生只属一个系）</td></tr>
+    <tr><td><b>m : n</b></td><td>两边都能对应多个</td><td>学生 ←选修→ 课程（一人选多课，一课被多人选）</td></tr>
+  </table>
+  <div class="box orange"><b>判断口诀：</b>先固定 A 端一个，问"它对应几个 B"，再固定 B 端一个，问"它对应几个 A"。两个答案一拼就是联系类型（两边都答"多个"就是 m:n）。</div>
+</section>
+
+<section id="s3">
+  <h2>③ E-R 转关系模式：三条铁规则 <span class="tag exam">必考（答题要默写）</span></h2>
+  <table>
+    <tr><th>联系类型</th><th>转换方法</th><th>主键 / 外键</th></tr>
+    <tr><td><b>1:1</b></td><td>联系可并入任意一端的关系中（作为若干属性）</td><td>并入端需要加上另一端的主键作<b>外键</b></td></tr>
+    <tr><td><b>1:n</b></td><td>联系并入 <span class="hl">n 端</span>的关系中</td><td>n 端加 1 端主键作<b>外键</b>；主键仍是 n 端自己的码</td></tr>
+    <tr><td><b>m:n</b></td><td><span class="hl">必须独立成一个关系模式</span>，不能并入</td><td>主键 = <b>两端主键的组合</b>；两端主键都是外键</td></tr>
+  </table>
+  <div class="box green">
+    <b>为什么要这么转（理解）：</b>1:n 时如果独立建表，n 端每个学生都要多查一次表，冗余且麻烦，所以并入 n 端；而 m:n 时如果并入任何一端，都会出现"一个格子装多个值"（违反 1NF），所以必须独立建表。
+  </div>
+  <div class="box purple"><b>主键 vs 外键一句话：</b>主键 = 本表内部唯一标识一行；外键 = 本表里"引用别家主键"的属性（如学生表里的"系号"引用系表的系号）。考试问"XX 关系的主键/外键"，就是照这个找。</div>
+</section>
+
+<section id="s4">
+  <h2>④ 完整案例：教务系统（系-学生-课程）<span class="tag core">手把手</span></h2>
+  <div class="case">
+    <b>题干（自拟仿真）：</b>学校有若干<b>系</b>（系号、系名、办公地点），每个系有多名学生，每名学生只属于一个系。学生（学号、姓名、性别）可以选修多门<b>课程</b>（课程号、课程名、学分），每门课程可被多名学生选修，学生选修每门课程后有一个<b>成绩</b>。
+  </div>
+  <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+    <rect x="40" y="50" width="90" height="44" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="85" y="77" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a9e5c">系</text>
+    <polygon points="230,72 275,95 230,118 185,95" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="230" y="100" text-anchor="middle" font-size="13" fill="#2f6fed" font-weight="bold">拥有</text>
+    <text x="160" y="66" text-anchor="middle" font-size="13" font-weight="bold" fill="#d64545">1</text>
+    <text x="200" y="130" text-anchor="middle" font-size="13" font-weight="bold" fill="#d64545">n</text>
+    <rect x="290" y="73" width="100" height="44" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="340" y="100" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a9e5c">学生</text>
+    <polygon points="500,72 545,95 500,118 455,95" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="500" y="100" text-anchor="middle" font-size="13" fill="#2f6fed" font-weight="bold">选修</text>
+    <text x="425" y="66" text-anchor="middle" font-size="13" font-weight="bold" fill="#d64545">m</text>
+    <text x="545" y="66" text-anchor="middle" font-size="13" font-weight="bold" fill="#d64545">n</text>
+    <rect x="560" y="73" width="100" height="44" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="610" y="100" text-anchor="middle" font-size="14" font-weight="bold" fill="#1a9e5c">课程</text>
+    <line x1="130" y1="95" x2="185" y2="95" stroke="#5b6474" stroke-width="2"/>
+    <line x1="275" y1="95" x2="290" y2="95" stroke="#5b6474" stroke-width="2"/>
+    <line x1="390" y1="95" x2="455" y2="95" stroke="#5b6474" stroke-width="2"/>
+    <line x1="545" y1="95" x2="560" y2="95" stroke="#5b6474" stroke-width="2"/>
+    <ellipse cx="500" cy="220" rx="60" ry="26" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/>
+    <text x="500" y="225" text-anchor="middle" font-size="13" fill="#e08a1e">成绩</text>
+    <line x1="500" y1="118" x2="500" y2="194" stroke="#5b6474" stroke-width="2"/>
+    <text x="512" y="165" font-size="12" fill="#e08a1e">联系自己的属性</text>
+    <text x="340" y="280" text-anchor="middle" font-size="13" fill="#d64545">拥有 = 1:n　选修 = m:n（成绩挂在选修联系上）</text>
+  </svg>
+  <h3>转换成关系模式（这就是答案的标准写法）</h3>
+  <div class="box green mono">
+    系(<b>系号</b>, 系名, 办公地点)<br>
+    学生(<b>学号</b>, 姓名, 性别, <span style="text-decoration:underline">系号</span>)　← 1:n 联系"拥有"并入 n 端，系号是<b>外键</b><br>
+    课程(<b>课程号</b>, 课程名, 学分)<br>
+    选修(<b>学号, 课程号</b>, 成绩)　← m:n 联系独立建表，主键=(学号,课程号)，二者也都是<b>外键</b>
+  </div>
+  <div class="box blue"><b>检查一遍：</b>4 个实体/联系 → 4 个关系模式；每个模式主键唯一；1:n 并入 n 端、m:n 独立建表两条规则都落实——照这个格式写就是满分答案。</div>
+</section>
+
+<section id="s5">
+  <h2>⑤ 训练题</h2>
+  <div id="quizArea"></div>
+</section>
+
+<section id="s6">
+  <h2>⑥ 考场执行清单</h2>
+  <div class="step"><div class="n">1</div><div><b>圈名词定实体</b>：题干中的"人/物/单据"→ 实体；"动作关系"→ 联系。</div></div>
+  <div class="step"><div class="n">2</div><div><b>补联系类型</b>：每条联系两边各问一次"一个对应几个"，在连线旁标 1、n、m。</div></div>
+  <div class="step"><div class="n">3</div><div><b>补联系属性</b>：不属于任何单个实体、又必须记下来的数据（成绩、数量、金额）→ 挂在联系上。</div></div>
+  <div class="step"><div class="n">4</div><div><b>转关系模式</b>：1:n 并 n 端、m:n 独立建、1:1 随便并；主键下划线，外键明确指出。</div></div>
+  <div class="step"><div class="n">5</div><div><b>新需求题</b>（"如果增加 XX 功能"）：先加实体，再补联系及类型，最后看要不要新增/修改关系模式——m:n 修改时记得新建表。</div></div>
+  <div class="box purple"><b>时间预算：</b>15 分建议 15~20 分钟。转关系模式题答案格式固定，是纯送分，千万别空。</div>
+</section>
+
+<div class="foot">软考软件设计师 · 下午题②数据库设计 · 完成全部训练后进入 03 UML 建模</div>
+</div>
+
+<script>
+const QUIZ=[
+ {t:'【转换规则】学生与课程之间是 m:n 的"选修"联系，转换为关系模式时正确做法是（　）。',
+  opts:['选修联系独立成一个关系模式，主键为(学号,课程号)','并入学生关系，在学生表加课程号','并入课程关系，在课程表加学号','联系不需要转换成任何关系模式'],ans:0,
+  ex:'m:n 联系<b>必须独立建表</b>（并入任何一端都会违反 1NF），主键 = 两端主键的组合 (学号,课程号)，成绩作为非主属性放在表里。A 正确。'},
+ {t:'【转换规则】系与学生是 1:n 的"拥有"联系，转换为关系模式时（　）。',
+  opts:['在学生（n端）关系中增加"系号"作为外键','在系（1端）关系中增加"学号"作为外键','必须独立建一个"拥有"关系模式','学生关系的主键改为(学号,系号)'],ans:0,
+  ex:'1:n 联系并入 <b>n 端</b>：学生表加"系号"外键即可。独立建表是 m:n 的待遇；主键不需要变，学号仍能唯一标识。'},
+ {t:'【联系类型】"部门"与"经理"之间：一个部门只有一名正经理，一名经理只管理一个部门。该联系类型是（　）。',
+  opts:['1:1','1:n','m:n','无法确定'],ans:0,
+  ex:'固定部门问几个经理 → 1 个；固定经理问几个部门 → 1 个。两边都是 1 → <b>1:1</b>。考试常把"一个部门多个经理"改成 1:n 做干扰，看清题干。'},
+ {t:'【概念】下列关于主键和外键的说法，正确的是（　）。',
+  opts:['外键的取值必须参照另一个关系（或本关系）中主键的取值','一个关系可以有多个主键','主键允许取空值','外键必须是本关系的主键'],ans:0,
+  ex:'外键 = 引用别表主键的属性，取值必须来自被参照表的主键（参照完整性）。A 对；主键只能有一个（候选码可以多个）；主键<b>不允许空</b>；外键不必是本表主键。'},
+ {t:'【E-R符号】在 E-R 图中，菱形表示（　）。',
+  opts:['联系','实体','属性','主键'],ans:0,
+  ex:'矩形=实体，菱形=<b>联系</b>，椭圆=属性。送分题，别和数据流图的"加工（圆）"记混。'},
+ {t:'【联系属性】学生与课程是 m:n 的"选修"联系，"成绩"既不属于学生也不属于课程。"成绩"应（　）。',
+  opts:['作为"选修"联系的属性','作为学生的属性','作为课程的属性','单独作为一个实体'],ans:0,
+  ex:'属于"某人选某门课"这件事的数据 → 挂在<b>联系</b>上。题干出现"成绩/数量/金额/日期"这类词，八成是联系属性。'},
+ {t:'【转换规则】"部门"与"经理"是 1:1 联系，转换为关系模式时（　）。',
+  opts:['联系可并入任意一端，被并入端加另一端的主键作外键','必须独立建表','两端都必须加对方的全部属性','无法转换'],ans:0,
+  ex:'1:1 最灵活：并入任意一端都行，并入端补对方主键作<b>外键</b>。独立建表是 m:n 的待遇。'},
+ {t:'【外键判断】选修(学号, 课程号, 成绩) 由 m:n 联系转换而来，下列说法正确的是（　）。',
+  opts:['学号和课程号都是外键，且合起来是主键','只有学号是外键','学号和课程号都是主属性但都不是外键','成绩是主键'],ans:0,
+  ex:'m:n 独立建表：主键 = <b>两端主键的组合</b>(学号,课程号)；同时它们各自参照学生表、课程表，<b>都是外键</b>——"既是主键成分又是外键"是常考细节。'},
+ {t:'【主属性】设 R 的候选码为 AB，则属性 C 是（　）。',
+  opts:['非主属性','主属性','外键','候选码'],ans:0,
+  ex:'主属性 = 出现在<b>任一候选码</b>里的属性。C 不在候选码 AB 中 → <b>非主属性</b>。这一步是判定 2NF/3NF 的前提。'},
+ {t:'【新需求题】原系统"学生—课程"为 m:n 联系（选修表已存在）。新需求：记录每位学生每门课的"上课学期"。需要（　）。',
+  opts:['在选修关系中增加"学期"属性即可','新建一个学期实体并独立建表','把选修表删了重建','在学生表加学期属性'],ans:0,
+  ex:'"某人选某门课的学期"仍属于选修联系本身 → 直接给选修表<b>加属性</b>，无需新实体。新需求题先判断"数据挂在谁身上"，别急着建新表。'}
+];
+const CASES=[
+ {title:'大题一：补联系类型 + 补联系属性',
+  body:`<div class="case"><b>情境：</b>某工厂信息系统：每名<b>职工</b>（工号、姓名）可以同时参与多个<b>项目</b>（项目号、项目名、预算），每个项目由多名职工参与；职工参加每个项目要记录<b>投入工时</b>。每个项目由一名<b>经理</b>负责，每名经理只负责一个项目。</div>
+  <p><b>问题：</b>(1) 职工与项目之间的联系类型？经理与项目之间的联系类型？(2) "投入工时"应放在哪里？(3) 参与联系转成关系模式后主键是什么？</p>`,
+  answer:`<b class="pt">得分点：</b><br>
+  (1) 职工-项目：一名职工参与多个项目、一个项目多名职工 → <b>m:n</b>；经理-项目：一对一 → <b>1:1</b>。<br>
+  (2) 投入工时既不属于职工也不属于项目，属于"参与"这件事本身 → 挂在 <b>m:n 的"参与"联系</b>上。<br>
+  (3) 独立建表：参与(<b>工号, 项目号</b>, 投入工时)，主键 = <b>(工号, 项目号)</b> 组合，工号、项目号都是外键。`},
+ {title:'大题二：完整转换（给情境写出全部关系模式）',
+  body:`<div class="case"><b>情境：</b>图书借阅库：<b>读者</b>(读者号,姓名) 可借阅多本<b>图书</b>(条码号,书名,价格)，每本图书同一时刻至多被一名读者借走，借阅需记录<b>借出日期</b>。每本图书属于某个<b>类别</b>(类别号,类别名)，每个类别包含多本图书。</div>
+  <p><b>问题：</b>将 E-R 模型转换为关系模式，写出每个关系的主键和外键。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  读者(<b>读者号</b>, 姓名)<br>
+  类别(<b>类别号</b>, 类别名)<br>
+  图书(<b>条码号</b>, 书名, 价格, <span style="text-decoration:underline">类别号</span>, <span style="text-decoration:underline">读者号</span>, 借出日期)　← 类别-图书是 1:n（并入 n 端图书）；读者-图书是 <b>1:n</b>（一本同时只借一人）→ 也并入图书表<br>
+  外键：图书表中的类别号（参照类别表）、读者号（参照读者表）。<br>
+  <span style="color:#d64545">易错提醒：</span>这里读者-图书不是 m:n！因为"同一时刻至多被一名读者借走"，且每条借阅用借出日期区分历史记录时可视为 1:n——<b>联系类型必须严格按题干判断，不能想当然</b>。若题干允许"一名读者同时借多本"则为 1:n；若问"历史借阅关系"才考虑 m:n 单独建"借阅表"。`},
+ {title:'大题三：增加实体（新需求改造题）',
+  body:`<div class="case"><b>情境：</b>在"④ 完整案例"的教务系统（系-学生-课程，选修 m:n）基础上提出新需求：每门课程由多名<b>教师</b>(工号,姓名,职称)讲授，每名教师可讲授多门课程，系统要记录每位教师所讲的每一门课程的<b>上课班级数</b>。</div>
+  <p><b>问题：</b>需要在 E-R 图中增加什么？关系模式需要做哪些修改或新增？</p>`,
+  answer:`<b class="pt">得分点：</b><br>
+  ① 增加实体：<b>教师</b>(工号, 姓名, 职称)。<br>
+  ② 增加联系：教师—课程 的<b>"讲授"联系，类型 m:n</b>（一名教师讲多门、一门被多名教师讲）；"上课班级数"是讲授联系的属性。<br>
+  ③ 新增关系模式：讲授(<b>工号, 课程号</b>, 上课班级数)，主键 = (工号, 课程号)，工号、课程号为外键。<br>
+  ④ 原有系/学生/课程/选修四个模式<b>不变</b>（新需求没动它们）。`},
+ {title:'大题四：1:1 联系的完整转换',
+  body:`<div class="case"><b>情境：</b>某公司系统：每个<b>部门</b>(部门号,部门名)只有一名<b>经理</b>(工号,姓名)，每名经理只管理一个部门；系统要记录每位经理的"任职日期"。</div>
+  <p><b>问题：</b>(1) 部门与经理的联系类型？(2) 写出转换后的关系模式（含"任职日期"），标出主键和外键。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  (1) 一个部门↔一名经理，双向都是 1 → <b>1:1</b>。<br>
+  (2) 方案一（并入部门端）：<br>
+  部门(<b>部门号</b>, 部门名, <span style="text-decoration:underline">工号</span>, 任职日期)　← 工号为<b>外键</b>，参照经理表<br>
+  经理(<b>工号</b>, 姓名)<br>
+  方案二（并入经理端）也正确：经理(工号, 姓名, 部门号, 任职日期)，部门号是外键。<br>
+  <span style="color:#d64545">易错：</span>1:1 的联系属性（任职日期）要跟着联系一起<b>并入被并入端</b>，别忘了带上。`},
+ {title:'大题五：由关系模式反推 E-R 联系类型（逆向题）',
+  body:`<div class="case"><b>情境：</b>某系统转换后得到四个关系模式：<br>
+  ① 出版社(<b>社号</b>, 社名, 地址)　② 图书(<b>书号</b>, 书名, <span style="text-decoration:underline">社号</span>)<br>
+  ③ 作者(<b>作者号</b>, 姓名)　④ 编写(<b>书号, 作者号</b>, 排名)</div>
+  <p><b>问题：</b>指出"出版社—图书""作者—图书"的联系类型，并说明判断依据。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  ① 出版社—图书：图书表中只有<b>单个</b>社号作外键，说明一本书只属于一个出版社 → <b>1:n</b>（联系已并入 n 端图书表）。<br>
+  ② 作者—图书：独立出现"编写"模式，主键 = (书号,作者号) 联合 → m:n 联系独立建表的标准形态 → <b>m:n</b>。<br>
+  <span style="color:#d64545">反推口诀：</span>看外键形态——<b>并入 n 端 = 1:n / 独立建表 = m:n / 并入任意一端 = 1:1</b>，逆向题按转换规则倒着推。`}
+];
+(function(){
+  const area=document.getElementById('quizArea');
+  QUIZ.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
+      q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
+      '<div class="explain" id="ex'+i+'"></div>';
+    area.appendChild(d);
+  });
+  CASES.forEach((c,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">'+c.title+'</div>'+c.body+
+      '<div class="reveal" style="margin-top:10px"><button class="reveal-btn" id="rb'+i+'">显示参考答案与得分点</button>'+
+      '<div class="answer" id="ans'+i+'">'+c.answer+'</div></div>';
+    area.appendChild(d);
+  });
+  area.addEventListener('click',function(e){
+    const btn=e.target.closest('.opt');
+    if(btn){
+      const qi=+btn.dataset.q, q=QUIZ[qi];
+      const all=area.querySelectorAll('[data-q="'+qi+'"]');
+      all.forEach(b=>{b.disabled=true; if(+b.dataset.j===q.ans)b.classList.add('right');});
+      if(+btn.dataset.j!==q.ans) btn.classList.add('wrong');
+      const ex=document.getElementById('ex'+qi); ex.style.display='block'; ex.innerHTML='<b>解析：</b>'+q.ex;
+      return;
+    }
+    const rb=e.target.closest('.reveal-btn');
+    if(rb){
+      const i=rb.id.slice(2), ans=document.getElementById('ans'+i);
+      ans.style.display = ans.style.display==='block' ? 'none' : 'block';
+      rb.textContent = ans.style.display==='block' ? '收起答案' : '显示参考答案与得分点';
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·下午题6 Java程序设计（语法+设计模式）满分教程</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#ffffff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#e08a1e,#d64545);color:#fff;border-radius:16px;padding:32px 28px;margin-bottom:24px;}
+  header h1{margin:0 0 8px;font-size:26px;} header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:22px;}
+  h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
+  h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
+  .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
+  pre{background:#232a3a;color:#d7e3ff;padding:16px 18px;border-radius:10px;overflow-x:auto;font-family:Consolas,monospace;font-size:14px;line-height:1.6;margin:10px 0;}
+  pre .c{color:#7ee787;} pre .k{color:#ff9b72;} pre .hl{color:#ffd479;font-weight:bold;}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;} th{background:#f0f3f9;}
+  .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
+  .quiz{border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:14px 0;}
+  .quiz .q{font-weight:bold;margin-bottom:10px;}
+  .opt{display:block;width:100%;text-align:left;background:#fafbfe;border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:14px;font-family:inherit;}
+  .opt:hover{border-color:var(--blue);}
+  .opt.right{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:bold;}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);} .opt:disabled{cursor:default;}
+  .explain{display:none;background:var(--orange-bg);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:14px;}
+  .reveal-btn{background:var(--purple);color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit;}
+  .answer{display:none;background:var(--green-bg);border:1px solid #bfe8d2;border-radius:8px;padding:12px 16px;margin-top:10px;font-size:14px;}
+  .case{background:#fbfcff;border:1px solid #dbe3f2;border-radius:10px;padding:16px 18px;font-size:14.5px;margin:12px 0;}
+  .step{display:flex;gap:10px;margin:8px 0;}
+  .step .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>下午题 ⑥ Java 程序设计 · 15 分选答（建议主攻）</h1>
+  <p>Java 语法 + 设计模式——考法固定：给 UML 类图 + 挖空代码，填类名/方法名/关键字</p>
+  <nav>
+    <a href="#s0">① Java 语法速览</a>
+    <a href="#s1">② 策略模式精讲</a>
+    <a href="#s2">③ 高频模式速查表</a>
+    <a href="#s3">④ 装饰器精讲</a>
+    <a href="#s4">⑤ 高频模式骨架</a>
+    <a href="#s5">⑥ 训练题</a>
+    <a href="#s6">⑦ 考场清单</a>
+  </nav>
+</header>
+
+<!-- ============ 0 语法速览 ============ -->
+<section id="s0">
+  <h2>① Java 语法速览：读代码够用就行 <span class="tag core">基础</span></h2>
+  <table>
+    <tr><th style="width:150px">语法</th><th>写法</th><th>考试挖空点</th></tr>
+    <tr><td>接口</td><td><span class="ok">interface</span> Strategy { void pay(int x); }</td><td>填 interface</td></tr>
+    <tr><td>实现接口</td><td><span class="ok">class</span> AliPay <span class="hl">implements</span> Strategy</td><td>implements 与 extends 混淆考</td></tr>
+    <tr><td>继承类</td><td><span class="ok">class</span> Student <span class="hl">extends</span> Person</td><td>extends = 继承类 / 实现接口用 implements</td></tr>
+    <tr><td>抽象类/方法</td><td><span class="ok">abstract class</span> X { <span class="hl">abstract</span> void f(); }</td><td>抽象类不能 new</td></tr>
+    <tr><td>访问控制</td><td>public（到处可见）> protected（子类+同包）> private（仅本类）</td><td>成员变量常填 protected/private</td></tr>
+    <tr><td>多态调用</td><td>Person p = new Student(); p.f() → 执行 Student 的 f</td><td>理解"父类引用指向子类对象"</td></tr>
+  </table>
+  <div class="box blue"><b>读题套路：</b>代码里出现 <b>interface</b> = 大概率是策略/装饰器/适配器这类"多态替换"结构；出现 <b>abstract class + 若干子类</b> = 模板方法/工厂；出现 <b>private 构造 + static getInstance</b> = 单例。</div>
+</section>
+
+<!-- ============ 1 策略模式 ============ -->
+<section id="s1">
+  <h2>② 策略模式（Strategy）精讲 <span class="tag exam">出题频率第一</span></h2>
+  <div class="box orange"><b>意图（背）：</b>定义一系列算法，把它们一个个封装起来，并且使它们可以<b>互相替换</b>。客户端在运行时切换算法，算法变化不影响使用算法的客户。</div>
+  <pre>
+<span class="c">// 仿真真题：支付方式可切换</span>
+<span class="k">interface</span> <span class="hl">PaymentStrategy</span> {              <span class="c">// 抽象策略（挖空常考接口名）</span>
+    <span class="k">void</span> pay(<span class="k">int</span> amount);
+}
+<span class="k">class</span> AliPay <span class="k">implements</span> PaymentStrategy { <span class="c">// 具体策略 A</span>
+    <span class="k">public void</span> pay(<span class="k">int</span> amount) { System.out.println(<span class="hl">"支付宝支付"</span> + amount); }
+}
+<span class="k">class</span> WechatPay <span class="k">implements</span> PaymentStrategy { <span class="c">// 具体策略 B</span>
+    <span class="k">public void</span> pay(<span class="k">int</span> amount) { System.out.println(<span class="hl">"微信支付"</span> + amount); }
+}
+<span class="k">class</span> CashContext {                       <span class="c">// 环境类：持有一个策略引用</span>
+    <span class="k">private</span> <span class="hl">PaymentStrategy</span> strategy;     <span class="c">// ★高频挖空：成员类型 = 抽象策略（多态！）</span>
+    <span class="k">public void</span> setStrategy(<span class="hl">PaymentStrategy</span> strategy) {  <span class="c">// 参数类型同样是抽象策略</span>
+        <span class="hl">this</span>.strategy = strategy;          <span class="c">// ★高频挖空：this.</span>
+    }
+    <span class="k">public void</span> checkout(<span class="k">int</span> amount) {
+        <span class="hl">strategy</span>.pay(amount);              <span class="c">// ★高频挖空：调用的变量名（多态分派）</span>
+    }
+}
+<span class="c">// 使用：ctx.setStrategy(new AliPay()); ctx.checkout(100);</span></pre>
+  <div class="box green"><b>策略模式填空三板斧：</b>① 环境类的成员变量类型 = <b>抽象策略接口</b>；② set/构造方法参数 = 同一个接口；③ 调用处 = <b>strategy.pay(...)</b> 这个变量名而不是具体类名。认准这三处，15 分稳一半。</div>
+</section>
+
+<!-- ============ 2 速查表 ============ -->
+<section id="s2">
+  <h2>③ 高频设计模式速查表（近十年真题覆盖）<span class="tag exam">必须全认识</span></h2>
+  <table>
+    <tr><th style="width:110px">模式</th><th>一句话意图（题目问"该模式是？"就按这个选）</th><th style="width:210px">代码/类图识别标志</th></tr>
+    <tr><td><b>策略</b> Strategy</td><td>封装一系列可互相替换的算法</td><td>接口 + 多个实现类 + 环境类持有接口引用</td></tr>
+    <tr><td><b>观察者</b> Observer</td><td>对象状态变化时<b>自动通知</b>所有依赖者</td><td>attach/detach/notify + 子类列表 + update()</td></tr>
+    <tr><td><b>装饰器</b> Decorator</td><td><b>动态地给对象添加职责</b>，比继承灵活</td><td>装饰类<b>继承并持有</b>同一抽象类型的引用</td></tr>
+    <tr><td><b>工厂方法</b> Factory Method</td><td>定义创建对象的接口，让子类决定实例化哪个类</td><td>abstract Creator + factoryMethod() 返回产品</td></tr>
+    <tr><td><b>抽象工厂</b> Abstract Factory</td><td>创建<b>一系列相关</b>产品对象（产品族）</td><td>抽象工厂接口有<b>多个</b>创建方法</td></tr>
+    <tr><td><b>单例</b> Singleton</td><td>保证一个类<b>仅有一个实例</b>并提供全局访问点</td><td>private 构造函数 + static getInstance()</td></tr>
+    <tr><td><b>适配器</b> Adapter</td><td>把一个类的接口<b>转换</b>成客户期望的另一个接口</td><td>适配类继承目标接口 + 持有被适配者</td></tr>
+    <tr><td><b>外观</b> Facade</td><td>为子系统的一组接口提供<b>统一的高层入口</b></td><td>一个类的方法里依次调用多个子系统方法</td></tr>
+    <tr><td><b>代理</b> Proxy</td><td>为其他对象提供<b>占位/控制访问</b></td><td>代理类与真实类实现同一接口，代理里 new 真实类</td></tr>
+    <tr><td><b>模板方法</b> Template Method</td><td>父类定义算法骨架，子类实现某些步骤</td><td>抽象父类 final 方法按顺序调用抽象方法</td></tr>
+    <tr><td><b>状态</b> State</td><td>对象行为随<b>内部状态</b>改变而改变</td><td>环境类持有状态引用，状态子类可切换状态</td></tr>
+    <tr><td><b>桥接</b> Bridge</td><td>把<b>抽象部分与实现部分分离</b>，独立变化</td><td>抽象类持有"实现"接口的引用</td></tr>
+  </table>
+  <div class="box purple"><b>易混三组（选择题陷阱）：</b>① 代理 vs 装饰器：代理控制<b>访问</b>（远程/权限），装饰器<b>加职责</b>；② 外观 vs 适配器：外观是"简化打包一堆子系统"，适配器是"接口转换"；③ 工厂方法 vs 抽象工厂：一个产品用工厂方法，<b>一族产品</b>用抽象工厂。</div>
+</section>
+
+<!-- ============ 3 装饰器 ============ -->
+<section id="s3">
+  <h2>④ 装饰器（Decorator）精讲 <span class="tag exam">第二高频</span></h2>
+  <pre>
+<span class="c">// 仿真真题：给咖啡动态加配料</span>
+<span class="k">interface</span> Coffee { <span class="k">double</span> cost(); <span class="k">String</span> desc(); }  <span class="c">// 抽象构件</span>
+<span class="k">class</span> SimpleCoffee <span class="k">implements</span> Coffee {               <span class="c">// 具体构件</span>
+    <span class="k">public double</span> cost() { <span class="k">return</span> 10.0; }
+    <span class="k">public String</span> desc() { <span class="k">return</span> <span class="hl">"咖啡"</span>; }
+}
+<span class="k">abstract class</span> CoffeeDecorator <span class="k">implements</span> Coffee {   <span class="c">// 装饰器：实现同一接口</span>
+    <span class="k">protected</span> <span class="hl">Coffee</span> coffee;                          <span class="c">// ★核心挖空：持有同一类型引用</span>
+    <span class="k">public</span> CoffeeDecorator(<span class="hl">Coffee</span> coffee) { <span class="hl">this</span>.coffee = coffee; }
+}
+<span class="k">class</span> Milk <span class="k">extends</span> CoffeeDecorator {                 <span class="c">// 具体装饰器：继承装饰器</span>
+    <span class="k">public</span> Milk(Coffee coffee) { <span class="k">super</span>(coffee); }    <span class="c">// ★挖空：super(coffee)</span>
+    <span class="k">public double</span> cost() { <span class="k">return</span> <span class="hl">coffee.cost()</span> + 2.0; }  <span class="c">// ★委托 + 加价</span>
+    <span class="k">public String</span> desc() { <span class="k">return</span> coffee.desc() + <span class="hl">"+牛奶"</span>; }
+}
+<span class="c">// 使用：Coffee c = new Milk(new SimpleCoffee()); → 12.0，"咖啡+牛奶"</span></pre>
+  <div class="box green"><b>装饰器识别三标志：</b>① 装饰类 <b>extends/implements 同一个抽象</b>；② 成员变量类型 = <b>被装饰的抽象类型</b>；③ 方法体 = <b>coffee.cost() 再加点什么</b>（委托+增强）。三者齐 = 装饰器，没有例外。</div>
+</section>
+
+<!-- ============ 高频模式骨架 ============ -->
+<section id="s4">
+  <h2>⑤ 高频模式代码骨架（观察者 / 单例 / 工厂方法）<span class="tag exam">背骨架</span></h2>
+  <p>这三个模式的填空题频率仅次于策略和装饰器。骨架很短，记"挖空点"就行：</p>
+
+  <h3>▶ 观察者 Observer（识别词：attach / notify / update）</h3>
+  <pre>
+<span class="k">interface</span> Observer { <span class="k">void</span> update(<span class="k">float</span> temp); }
+<span class="k">class</span> WeatherData {                                <span class="c">// 被观察者（主题）</span>
+    <span class="k">private</span> List&lt;Observer&gt; obs = <span class="k">new</span> ArrayList&lt;&gt;();
+    <span class="k">public void</span> attach(Observer o) { obs.<span class="hl">add(o)</span>; }        <span class="c">// ★挖空：注册</span>
+    <span class="k">public void</span> dataChanged() {
+        <span class="k">for</span> (Observer o : obs) o.<span class="hl">update(temp)</span>;           <span class="c">// ★挖空：遍历通知</span>
+    }
+}
+<span class="k">class</span> PhoneDisplay <span class="k">implements</span> Observer {           <span class="c">// 观察者</span>
+    <span class="k">public void</span> update(<span class="k">float</span> temp) { <span class="c">/* 刷新显示 */</span> }
+}</pre>
+  <div class="box green"><b>观察者填空点：</b>① 主题里放的是 <b>List&lt;Observer&gt;</b>（抽象类型列表）；② attach 里 add；③ 通知处遍历调用 <b>o.update(...)</b>。</div>
+
+  <h3>▶ 单例 Singleton（识别词：private 构造 + static getInstance）</h3>
+  <pre>
+<span class="k">class</span> Config {
+    <span class="k">private static</span> Config instance;              <span class="c">// ★唯一实例（static）</span>
+    <span class="k">private</span> Config() {}                          <span class="c">// ★私有构造：禁止外部 new</span>
+    <span class="k">public static</span> Config <span class="hl">getInstance</span>() {         <span class="c">// ★全局访问点</span>
+        <span class="k">if</span> (instance == <span class="k">null</span>) instance = <span class="k">new</span> Config();
+        <span class="k">return</span> instance;
+    }
+}</pre>
+  <div class="box green"><b>单例三件套：</b>private 构造 + private static 实例 + public static getInstance()——三处都可能挖空，尤其 <b>private Config()</b> 和 <b>getInstance</b>。</div>
+
+  <h3>▶ 工厂方法 Factory Method（识别词：抽象工厂 + createXxx() 返回抽象产品）</h3>
+  <pre>
+<span class="k">abstract class</span> Logger { <span class="k">public abstract void</span> write(String msg); }   <span class="c">// 抽象产品</span>
+<span class="k">class</span> FileLogger <span class="k">extends</span> Logger { <span class="k">public void</span> write(String m){} }  <span class="c">// 具体产品</span>
+<span class="k">abstract class</span> LoggerFactory {
+    <span class="k">public abstract</span> Logger <span class="hl">createLogger</span>();       <span class="c">// ★工厂方法：返回抽象类型</span>
+}
+<span class="k">class</span> FileLoggerFactory <span class="k">extends</span> LoggerFactory {
+    <span class="k">public</span> Logger createLogger() { <span class="k">return new</span> <span class="hl">FileLogger</span>(); }  <span class="c">// ★决定造哪个</span>
+}
+<span class="c">// 使用：LoggerFactory f = new FileLoggerFactory(); f.createLogger().write("hi");</span></pre>
+  <div class="box green"><b>工厂方法填空点：</b>① 工厂方法返回类型 = <b>抽象产品</b>；② 具体工厂里 new <b>具体产品</b>；③ 使用方拿抽象类型接住（多态）。和策略的区别：工厂管"创建"，策略管"行为切换"。</div>
+</section>
+
+<!-- ============ 训练 ============ -->
+<section id="s5">
+  <h2>⑥ 训练题</h2>
+  <div id="quizArea"></div>
+</section>
+
+<!-- ============ 清单 ============ -->
+<section id="s6">
+  <h2>⑦ 考场执行清单</h2>
+  <div class="step"><div class="n">1</div><div>先看题给的 UML 类图：接口？抽象类？谁持有谁的引用？——结构定模式。</div></div>
+  <div class="step"><div class="n">2</div><div>读题干"意图描述"句，与速查表逐一匹配确定模式名（第一空通常就问模式）。</div></div>
+  <div class="step"><div class="n">3</div><div>代码填空顺着"多态三件套"找：成员类型 = 抽象父类/接口；this./super. 别漏；委托调用用成员变量名。</div></div>
+  <div class="step"><div class="n">4</div><div>实现接口的方法必须带 <b>public</b>（Java 规定不能降低可见性），挖空考过。</div></div>
+  <div class="step"><div class="n">5</div><div>空不会填就抄类图上的类名/方法名——考试答案 90% 出现在类图与题干里。</div></div>
+</section>
+
+<div class="foot">软考软件设计师 · 下午题⑥Java程序设计 · 策略+装饰器两个精讲模式务必能默写骨架</div>
+</div>
+
+<script>
+const QUIZ=[
+ {t:'【模式识别】某系统日志模块：Logger 接口有 FileLogger、ConsoleLogger 实现；另有 ErrorLogger 继承 LoggerDecorator，其中 LoggerDecorator 实现 Logger 且持有 Logger 类型的成员变量。这是（　）。',
+  opts:['装饰器模式','策略模式','观察者模式','单例模式'],ans:0,
+  ex:'"实现同一接口 + 持有同类型引用 + 方法里委托再加料" 三标志齐 = <b>装饰器</b>。策略是"接口+实现+环境类换算法"，没有"持有自己人再包一层"。'},
+ {t:'【模式识别】代码中出现 private 构造函数、private static 实例、public static Xxx getInstance()。这是（　）。',
+  opts:['单例模式','工厂方法模式','适配器模式','代理模式'],ans:0,
+  ex:'私有构造（禁止外部 new）+ 静态 getInstance（全局唯一入口）= <b>单例</b>，三件套是铁标志。'},
+ {t:'【模式识别】气象站 WeatherData 状态更新时自动调用所有已注册 Display 的 update() 方法，并提供 register/remove 接口。这是（　）。',
+  opts:['观察者模式','外观模式','模板方法模式','状态模式'],ans:0,
+  ex:'"注册+自动通知所有依赖者" = <b>观察者</b>。识别词：register/attach、notify、update。'},
+ {t:'【Java语法】在 Java 中，一个类要使用接口中规定的行为，应使用的关键字是（　）。',
+  opts:['implements','extends','interface','abstract'],ans:0,
+  ex:'类实现接口用 <b>implements</b>；extends 用于继承类；接口继承接口才用 extends——这是 Java 特有的双关键字体系，考试常挖。'},
+ {t:'【多态】PaymentStrategy p = new AliPay(); p.pay(100); 执行的是（　）。',
+  opts:['AliPay 中重写的 pay 方法','接口中声明的 pay 抽象方法','编译错误，无法运行','随机选择一个实现'],ans:0,
+  ex:'父类（接口）引用指向子类对象 → 调用走<b>子类的重写方法</b>，这是运行时多态。策略/装饰器能"换实现"全靠它。'},
+ {t:'【单例】补全单例模式代码：class Config { private static Config instance; (1) Config() {} public static Config (2)() {...} }。(1)(2) 分别是（　）。',
+  opts:['private；getInstance','public；newInstance','protected；create','static；init'],ans:0,
+  ex:'单例三件套：<b>private 构造函数</b>（禁止外部 new）+ private static 实例 + <b>public static getInstance()</b>。构造函数的可见性必须是 private。'},
+ {t:'【工厂方法】抽象工厂类中定义 public abstract Product createProduct();，子类返回 new 具体产品。这是（　）。',
+  opts:['工厂方法模式','单例模式','装饰器模式','观察者模式'],ans:0,
+  ex:'"抽象工厂声明创建方法（返回<b>抽象产品</b>）+ 子类决定实例化哪个具体产品" = 工厂方法。识别词：createXxx + 返回抽象类型。'},
+ {t:'【模板方法】抽象类 DataProcessor 的 process() 方法按固定顺序调用 readData()、transform()、save()，其中 transform() 是抽象方法。这是（　）。',
+  opts:['模板方法模式','策略模式','桥接模式','代理模式'],ans:0,
+  ex:'父类方法固定<b>算法骨架顺序</b>，部分步骤声明为抽象延迟到子类实现 = 模板方法。识别词：父类方法里按顺序调用若干（抽象）方法。'},
+ {t:'【外观】类 ReportFacade 的 export() 方法内部依次调用 DataModule.getData()、FormatModule.format()、IOModule.write()。这是（　）。',
+  opts:['外观模式','装饰器模式','观察者模式','命令模式'],ans:0,
+  ex:'一个类的方法里<b>依次调用多个子系统方法</b>，为子系统提供统一高层入口 = 外观（Facade）。对比适配器：适配器是"接口转换"，外观是"简化打包"。'},
+ {t:'【观察者】主题类中存放所有观察者的成员变量类型应为（　）。',
+  opts:['List&lt;Observer&gt;（抽象观察者类型的列表）','List&lt;ConcreteObserver&gt;（具体类型）','Observer 单个对象','String 类型'],ans:0,
+  ex:'主题要通知<b>所有</b>注册的观察者，所以成员是<b>抽象观察者类型的集合</b>；通知时遍历调用 o.update(...)。写成具体类就失去多态，是常见错误选项。'}
+];
+const CASES=[
+ {title:'大题一：策略模式代码填空（4 空，仿真真题）',
+  body:`<pre>
+<span class="k">interface</span> SortStrategy { <span class="k">void</span> sort(<span class="k">int</span>[] a); }
+<span class="k">class</span> QuickSort <span class="k">implements</span> SortStrategy {
+    <span class="k">public void</span> sort(<span class="k">int</span>[] a) { <span class="c">/* 快排 */</span> }
+}
+<span class="k">class</span> BubbleSort <span class="k">implements</span> SortStrategy {
+    <span class="k">public void</span> sort(<span class="k">int</span>[] a) { <span class="c">/* 冒泡 */</span> }
+}
+<span class="k">class</span> Sorter {
+    <span class="k">private</span> (1)____ strategy;
+    <span class="k">public void</span> setStrategy((2)____ strategy) { (3)____.strategy = strategy; }
+    <span class="k">public void</span> doSort(<span class="k">int</span>[] a) { (4)____.sort(a); }
+}</pre>
+  <p><b>问题：</b>填空 (1)~(4)，并回答该代码体现的设计模式名称与意图。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  (1) <b>SortStrategy</b>（成员变量类型 = 抽象策略接口，多态）；<br>
+  (2) <b>SortStrategy</b>（set 方法参数类型同样是接口）；<br>
+  (3) <b>this</b>（this.strategy = strategy，区分成员与参数）；<br>
+  (4) <b>strategy</b>（用成员变量调用，运行时自动分派到具体排序实现）。<br>
+  模式：<b>策略（Strategy）</b>；意图：定义一系列算法并封装，使它们可以<b>互相替换</b>，算法变化不影响客户。`},
+ {title:'大题二：模式名称判断（看类图结构描述）',
+  body:`<div class="case"><b>情境 A：</b>抽象类 DataProcessor 中有 final 方法 process()，按固定顺序调用 readData()、transform()、save()，其中 transform() 是抽象方法，由子类 ExcelProcessor、CsvProcessor 各自实现。<br>
+  <b>情境 B：</b>类 MediaPlayer 持有接口 Renderer 的引用，Renderer 有 VectorRenderer、RasterRenderer 两个实现，两者独立变化、可自由组合。</div>
+  <p><b>问题：</b>分别指出 A、B 使用的设计模式，并说明判断依据。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  A：<b>模板方法（Template Method）</b>。依据：父类用 final 方法固定算法<b>骨架顺序</b>（process），部分步骤声明为抽象，延迟到<b>子类实现</b>。<br>
+  B：<b>桥接（Bridge）</b>。依据：抽象部分（MediaPlayer）与实现部分（Renderer 及其两个实现）<b>分离</b>，抽象类持有实现接口的<b>引用</b>，两个维度可独立变化、自由组合。<br>
+  <span style="color:#d64545">易混提醒：</span>B 很容易被误判成策略（结构像！）。题干若强调"两个维度独立变化/组合"就是桥接；强调"算法可替换"才是策略——按题干措辞定。`},
+ {title:'大题三：观察者模式代码填空（3 空）',
+  body:`<pre>
+<span class="k">interface</span> Observer { <span class="k">void</span> update(<span class="k">double</span> price); }
+<span class="k">class</span> Stock {
+    <span class="k">private</span> List&lt;(1)____&gt; observers = <span class="k">new</span> ArrayList&lt;&gt;();
+    <span class="k">public void</span> attach(Observer o) { observers.add(o); }
+    <span class="k">public void</span> change(<span class="k">double</span> p) {
+        <span class="k">for</span> (Observer o : observers) o.(2)____(p);
+    }
+}
+<span class="k">class</span> Investor <span class="k">implements</span> (3)____ {
+    <span class="k">public void</span> update(<span class="k">double</span> price) { <span class="c">/* 收到通知 */</span> }
+}</pre>
+  <p><b>问题：</b>填空 (1)~(3)，并回答该代码体现的设计模式与意图。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  (1) <b>Observer</b>（成员列表类型 = 抽象观察者）；<br>
+  (2) <b>update</b>（遍历通知，调用抽象观察者定义的方法）；<br>
+  (3) <b>Observer</b>（具体观察者实现抽象观察者接口）。<br>
+  模式：<b>观察者（Observer）</b>；意图：对象状态变化时<b>自动通知</b>所有依赖它的对象。<br>
+  三空套路：列表类型、update 调用、implements 接口名——全部照"抽象类型"抄。`},
+ {title:'大题四：单例模式代码填空（3 空）',
+  body:`<pre>
+<span class="k">class</span> AppContext {
+    (1)____ AppContext instance;                 <span class="c">// 唯一实例</span>
+    (2)____ AppContext() {}                      <span class="c">// 构造函数</span>
+    <span class="k">public</span> (3)____ AppContext getInstance() {    <span class="c">// 全局访问点</span>
+        <span class="k">if</span> (instance == <span class="k">null</span>) instance = <span class="k">new</span> AppContext();
+        <span class="k">return</span> instance;
+    }
+}</pre>
+  <p><b>问题：</b>填空 (1)~(3)，并回答：为什么构造函数必须私有？</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  (1) <b>private static</b>（类级别唯一实例）；<br>
+  (2) <b>private</b>（私有构造）；<br>
+  (3) <b>static</b>（getInstance 必须静态，否则没有实例就无法调用它）。<br>
+  构造私有的原因：<b>禁止外部用 new 创建对象</b>，强制所有调用方通过 getInstance() 获取唯一实例，保证"仅有一个实例"。<br>
+  <span style="color:#d64545">易错：</span>getInstance 忘写 static 是真题里最常见的错误选项。`}
+];
+(function(){
+  const area=document.getElementById('quizArea');
+  QUIZ.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
+      q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
+      '<div class="explain" id="ex'+i+'"></div>';
+    area.appendChild(d);
+  });
+  CASES.forEach((c,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">'+c.title+'</div>'+c.body+
+      '<div class="reveal" style="margin-top:10px"><button class="reveal-btn" id="rb'+i+'">显示参考答案与得分点</button>'+
+      '<div class="answer" id="ans'+i+'">'+c.answer+'</div></div>';
+    area.appendChild(d);
+  });
+  area.addEventListener('click',function(e){
+    const btn=e.target.closest('.opt');
+    if(btn){
+      const qi=+btn.dataset.q, q=QUIZ[qi];
+      const all=area.querySelectorAll('[data-q="'+qi+'"]');
+      all.forEach(b=>{b.disabled=true; if(+b.dataset.j===q.ans)b.classList.add('right');});
+      if(+btn.dataset.j!==q.ans) btn.classList.add('wrong');
+      const ex=document.getElementById('ex'+qi); ex.style.display='block'; ex.innerHTML='<b>解析：</b>'+q.ex;
+      return;
+    }
+    const rb=e.target.closest('.reveal-btn');
+    if(rb){
+      const i=rb.id.slice(2), ans=document.getElementById('ans'+i);
+      ans.style.display = ans.style.display==='block' ? 'none' : 'block';
+      rb.textContent = ans.style.display==='block' ? '收起答案' : '显示参考答案与得分点';
+    }
+  });
+})();
+</script>
+</body>
+</html>

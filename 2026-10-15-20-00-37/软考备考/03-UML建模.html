@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·下午题3 UML建模 满分教程</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#ffffff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#7b52d6,#2f6fed);color:#fff;border-radius:16px;padding:32px 28px;margin-bottom:24px;}
+  header h1{margin:0 0 8px;font-size:26px;} header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:22px;}
+  h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
+  h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
+  .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;} th{background:#f0f3f9;}
+  .hl{color:var(--red);font-weight:bold;}
+  svg{max-width:100%;height:auto;display:block;margin:10px auto;}
+  .quiz{border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:14px 0;}
+  .quiz .q{font-weight:bold;margin-bottom:10px;}
+  .opt{display:block;width:100%;text-align:left;background:#fafbfe;border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:14px;font-family:inherit;}
+  .opt:hover{border-color:var(--blue);}
+  .opt.right{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:bold;}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);} .opt:disabled{cursor:default;}
+  .explain{display:none;background:var(--orange-bg);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:14px;}
+  .reveal-btn{background:var(--purple);color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit;}
+  .answer{display:none;background:var(--green-bg);border:1px solid #bfe8d2;border-radius:8px;padding:12px 16px;margin-top:10px;font-size:14px;}
+  .case{background:#fbfcff;border:1px solid #dbe3f2;border-radius:10px;padding:16px 18px;font-size:14.5px;margin:12px 0;}
+  .step{display:flex;gap:10px;margin:8px 0;}
+  .step .n{flex:none;width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:bold;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>下午题 ③ UML 建模 · 15 分必答</h1>
+  <p>用例图 · 类图 · 活动图 · 状态图——考法全部是"补图中的缺"，认符号 + 懂语义就能拿分</p>
+  <nav>
+    <a href="#s1">① 用例图</a>
+    <a href="#s2">② 类图六种关系</a>
+    <a href="#s3">③ 活动图</a>
+    <a href="#s4">④ 状态图</a>
+    <a href="#s4b">⑤ 顺序图与其他</a>
+    <a href="#s5">⑥ 训练题</a>
+    <a href="#s6">⑦ 考场清单</a>
+  </nav>
+</header>
+
+<!-- ============ 用例图 ============ -->
+<section id="s1">
+  <h2>① 用例图：谁用系统、能做什么 <span class="tag exam">include/extend 必考</span></h2>
+  <svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="uc" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#5b6474" stroke-width="1.5"/></marker></defs>
+    <rect x="230" y="16" width="300" height="270" fill="#fbfcff" stroke="#c3ccdc" rx="12"/>
+    <text x="380" y="40" text-anchor="middle" font-size="13" fill="#5b6474">系统边界：框内=系统功能</text>
+    <!-- 参与者 -->
+    <g stroke="#1f2430" stroke-width="2" fill="#fff">
+      <circle cx="90" cy="150" r="12"/><line x1="90" y1="162" x2="90" y2="195"/><line x1="72" y1="175" x2="108" y2="175"/><line x1="90" y1="195" x2="76" y2="220"/><line x1="90" y1="195" x2="104" y2="220"/>
+    </g>
+    <text x="90" y="242" text-anchor="middle" font-size="13" font-weight="bold">读者（参与者）</text>
+    <!-- 用例 -->
+    <ellipse cx="310" cy="80" rx="58" ry="26" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="310" y="85" text-anchor="middle" font-size="13" fill="#2f6fed" font-weight="bold">借书</text>
+    <ellipse cx="310" cy="180" rx="58" ry="26" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="310" y="185" text-anchor="middle" font-size="13" fill="#2f6fed" font-weight="bold">还书</text>
+    <ellipse cx="452" cy="80" rx="60" ry="26" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="452" y="85" text-anchor="middle" font-size="13" fill="#1a9e5c" font-weight="bold">身份验证</text>
+    <ellipse cx="452" cy="180" rx="60" ry="26" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="452" y="185" text-anchor="middle" font-size="13" fill="#e08a1e" font-weight="bold">计算罚金</text>
+    <!-- 参与者关联 -->
+    <line x1="108" y1="140" x2="254" y2="84" stroke="#5b6474" stroke-width="1.5"/>
+    <line x1="110" y1="170" x2="254" y2="180" stroke="#5b6474" stroke-width="1.5"/>
+    <!-- include: 借书 ..> 身份验证（箭头指向被包含用例） -->
+    <line x1="368" y1="80" x2="388" y2="80" stroke="#2f6fed" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#uc)"/>
+    <text x="378" y="66" text-anchor="middle" font-size="12" fill="#2f6fed" font-weight="bold">«include»</text>
+    <!-- extend: 计算罚金 ..> 还书（箭头指向被扩展的基用例） -->
+    <line x1="392" y1="180" x2="372" y2="180" stroke="#e08a1e" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#uc)"/>
+    <text x="382" y="166" text-anchor="middle" font-size="12" fill="#e08a1e" font-weight="bold">«extend»</text>
+    <text x="340" y="322" text-anchor="middle" font-size="12.5" fill="#5b6474">include：借书 → 身份验证（每次必做）　extend：计算罚金 → 还书（逾期才发生）—— 两组箭头方向相反</text>
+  </svg>
+  <table>
+    <tr><th style="width:120px">关系</th><th>语义</th><th>方向（考试就考这个）</th><th>记忆</th></tr>
+    <tr><td><b>«include»</b></td><td>基用例<b>必然</b>包含另一个用例的行为</td><td>箭头：基用例 → 被包含用例</td><td>"一定做" → 指向被包含者</td></tr>
+    <tr><td><b>«extend»</b></td><td>扩展用例<b>可选</b>地插入基用例</td><td>箭头：扩展用例 → 被扩展（基）用例</td><td>"偶尔做" → 指向基用例</td></tr>
+  </table>
+  <div class="box orange"><b>一句记牢：</b>两个箭头方向<b>相反</b>——include 指向"被包含的小功能"，extend 指向"被扩展的大功能"。判断技巧：问"是每次必做（include）还是条件触发才做（extend）"。</div>
+</section>
+
+<!-- ============ 类图 ============ -->
+<section id="s2">
+  <h2>② 类图：六种关系一张表 <span class="tag exam">必考（填箭头/菱形）</span></h2>
+  <table>
+    <tr><th style="width:110px">关系</th><th>语义</th><th style="width:190px">UML 记号</th><th>例子</th></tr>
+    <tr><td><b>泛化</b></td><td>继承"is-a"</td><td><b>实线 + 空心三角箭头</b>指向父类</td><td>学生 → 人</td></tr>
+    <tr><td><b>实现</b></td><td>实现接口</td><td><b>虚线 + 空心三角箭头</b>指向接口</td><td>飞机 → 飞行器接口</td></tr>
+    <tr><td><b>组合</b></td><td>强拥有，整体消失部分也消失</td><td><b>实线 + 实心菱形</b>在整体端</td><td>订单 — 订单明细</td></tr>
+    <tr><td><b>聚合</b></td><td>弱拥有，可独立存在</td><td><b>实线 + 空心菱形</b>在整体端</td><td>班级 — 学生</td></tr>
+    <tr><td><b>关联</b></td><td>知道对方、长期联系</td><td>实线（可加多重性）</td><td>教师 — 学生（指导）</td></tr>
+    <tr><td><b>依赖</b></td><td>临时使用（参数、局部变量）</td><td><b>虚线箭头</b>指向被使用者</td><td>人 使用 车</td></tr>
+  </table>
+  <div class="box green">
+    <b>组合 vs 聚合一分钟判别：</b>问"部分能离开整体活吗？"——订单明细离开订单无意义 → <b>组合（实心菱形）</b>；学生离开班级还是学生 → <b>聚合（空心菱形）</b>。菱形永远画在<b>整体</b>那一端！
+  </div>
+  <h3>▶ 类图案例（教务场景）</h3>
+  <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="tri" markerWidth="14" markerHeight="12" refX="12" refY="5" orient="auto"><path d="M0,0 L12,5 L0,10 Z" fill="#fff" stroke="#5b6474" stroke-width="1.5"/></marker></defs>
+    <!-- Person -->
+    <rect x="280" y="20" width="120" height="52" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="340" y="42" text-anchor="middle" font-size="13" font-weight="bold" fill="#2f6fed">Person（人）</text><text x="340" y="62" text-anchor="middle" font-size="11" fill="#2f6fed">姓名 / 查询信息()</text>
+    <!-- Student / Teacher 泛化 -->
+    <rect x="150" y="130" width="130" height="52" fill="#fff" stroke="#1f2430" stroke-width="1.5"/><text x="215" y="152" text-anchor="middle" font-size="13" font-weight="bold">Student（学生）</text><text x="215" y="172" text-anchor="middle" font-size="11" fill="#5b6474">学号 / 选课()</text>
+    <rect x="400" y="130" width="130" height="52" fill="#fff" stroke="#1f2430" stroke-width="1.5"/><text x="465" y="152" text-anchor="middle" font-size="13" font-weight="bold">Teacher（教师）</text><text x="465" y="172" text-anchor="middle" font-size="11" fill="#5b6474">工号 / 授课()</text>
+    <line x1="215" y1="130" x2="310" y2="74" stroke="#5b6474" stroke-width="1.5" marker-end="url(#tri)"/>
+    <line x1="465" y1="130" x2="372" y2="74" stroke="#5b6474" stroke-width="1.5" marker-end="url(#tri)"/>
+    <!-- Department 聚合 Student -->
+    <rect x="20" y="230" width="150" height="52" fill="#fff" stroke="#1f2430" stroke-width="1.5"/><text x="95" y="252" text-anchor="middle" font-size="13" font-weight="bold">Department（系）</text><text x="95" y="272" text-anchor="middle" font-size="11" fill="#5b6474">系名</text>
+    <line x1="152" y1="232" x2="205" y2="184" stroke="#5b6474" stroke-width="1.5"/>
+    <polygon points="153,229 149,238 139,241 143,230" fill="#fff" stroke="#5b6474" stroke-width="1.5"/>
+    <text x="160" y="224" font-size="11" fill="#d64545" font-weight="bold">1</text>
+    <text x="196" y="202" font-size="11" fill="#d64545" font-weight="bold">1..*</text>
+    <text x="60" y="300" font-size="11" fill="#5b6474">空心菱形=聚合（画在整体"系"端）</text>
+    <!-- Student 关联 Course -->
+    <rect x="520" y="230" width="130" height="52" fill="#fff" stroke="#1f2430" stroke-width="1.5"/><text x="585" y="252" text-anchor="middle" font-size="13" font-weight="bold">Course（课程）</text><text x="585" y="272" text-anchor="middle" font-size="11" fill="#5b6474">课程名 / 学分</text>
+    <line x1="280" y1="182" x2="518" y2="245" stroke="#5b6474" stroke-width="1.5"/>
+    <text x="300" y="202" font-size="11" fill="#d64545" font-weight="bold">0..*</text>
+    <text x="390" y="230" text-anchor="middle" font-size="11" fill="#d64545" font-weight="bold">选课（关联）</text>
+    <text x="480" y="258" font-size="11" fill="#d64545" font-weight="bold">0..*</text>
+    <text x="340" y="298" text-anchor="middle" font-size="12" fill="#5b6474">空心三角=泛化（指向父类）；空心菱形=聚合且画在整体端；多重性写在连线两端</text>
+  </svg>
+  <div class="box blue"><b>多重性怎么读：</b>写在 A 端的数字 = "B 的一个对象对应几个 A"。如 Department 端写 1、Student 端写 1..*：一个学生属于 1 个系，一个系有 1 个到多个学生。</div>
+</section>
+
+<!-- ============ 活动图 ============ -->
+<section id="s3">
+  <h2>③ 活动图：业务流程图（带并发）<span class="tag exam">必考</span></h2>
+  <table>
+    <tr><th style="width:150px">符号</th><th>含义 / 考点</th></tr>
+    <tr><td>实心圆 → 同心圆</td><td>起点 → 终点（每个活动图各一个）</td></tr>
+    <tr><td>圆角矩形</td><td>活动（动词短语）</td></tr>
+    <tr><td>菱形</td><td>判定分支（出边标 [条件]，如 [有库存] / [无库存]）</td></tr>
+    <tr><td><b>粗横线（同步条）</b></td><td>分叉 fork：一条流<b>并行</b>拆成多条；汇合 join：多条并行流必须<b>都完成</b>才继续——考试问"哪里表示并发"就答这里</td></tr>
+    <tr><td>泳道（纵向分区）</td><td>每个分区是一个角色，活动画在执行它的角色的泳道里</td></tr>
+  </table>
+  <svg viewBox="0 0 680 240" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="ac" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
+    <circle cx="60" cy="60" r="10" fill="#1f2430"/>
+    <rect x="110" y="40" width="130" height="42" rx="12" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="175" y="66" text-anchor="middle" font-size="13" fill="#2f6fed">提交借书申请</text>
+    <line x1="70" y1="60" x2="108" y2="60" stroke="#5b6474" stroke-width="2" marker-end="url(#ac)"/>
+    <line x1="240" y1="60" x2="290" y2="60" stroke="#5b6474" stroke-width="2" marker-end="url(#ac)"/>
+    <polygon points="310,38 350,60 310,82 270,60" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="310" y="65" text-anchor="middle" font-size="12" fill="#e08a1e" font-weight="bold">有库存?</text>
+    <line x1="350" y1="60" x2="410" y2="60" stroke="#5b6474" stroke-width="2" marker-end="url(#ac)"/><text x="380" y="48" text-anchor="middle" font-size="12" fill="#1a9e5c" font-weight="bold">[是]</text>
+    <rect x="412" y="38" width="130" height="42" rx="12" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="477" y="64" text-anchor="middle" font-size="13" fill="#1a9e5c">办理借阅</text>
+    <line x1="310" y1="82" x2="310" y2="120" stroke="#5b6474" stroke-width="2" marker-end="url(#ac)"/><text x="330" y="105" font-size="12" fill="#d64545" font-weight="bold">[否]</text>
+    <rect x="245" y="122" width="130" height="42" rx="12" fill="#fdeeee" stroke="#d64545" stroke-width="2"/><text x="310" y="148" text-anchor="middle" font-size="13" fill="#d64545">登记预约</text>
+    <line x1="477" y1="80" x2="477" y2="200" stroke="#5b6474" stroke-width="2"/>
+    <line x1="310" y1="164" x2="477" y2="200" stroke="#5b6474" stroke-width="2"/>
+    <line x1="412" y1="221" x2="477" y2="221" stroke="#5b6474" stroke-width="3"/>
+    <circle cx="560" cy="221" r="12" fill="#fff" stroke="#1f2430" stroke-width="2"/><circle cx="560" cy="221" r="6" fill="#1f2430"/>
+    <line x1="477" y1="221" x2="546" y2="221" stroke="#5b6474" stroke-width="2" marker-end="url(#ac)"/>
+    <text x="340" y="180" text-anchor="middle" font-size="12" fill="#5b6474">菱形分支：出边必须有 [条件]，两条边条件加起来要覆盖全部情况</text>
+  </svg>
+</section>
+
+<!-- ============ 状态图 ============ -->
+<section id="s4">
+  <h2>④ 状态图：一个对象的一生 <span class="tag exam">必考</span></h2>
+  <div class="box blue"><b>与活动图的区别（考过概念题）：</b>活动图关注<b>业务流程</b>（跨多个对象）；状态图关注<b>单个对象</b>在事件驱动下的状态变化。看到题干说"某对象的状态转换"就是状态图。</div>
+  <svg viewBox="0 0 680 220" xmlns="http://www.w3.org/2000/svg">
+    <defs><marker id="st" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
+    <circle cx="50" cy="80" r="10" fill="#1f2430"/>
+    <rect x="110" y="55" width="110" height="50" rx="14" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="165" y="85" text-anchor="middle" font-size="14" fill="#1a9e5c" font-weight="bold">在架</text>
+    <rect x="330" y="55" width="110" height="50" rx="14" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="385" y="85" text-anchor="middle" font-size="14" fill="#2f6fed" font-weight="bold">借出</text>
+    <rect x="550" y="55" width="110" height="50" rx="14" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="605" y="85" text-anchor="middle" font-size="14" fill="#e08a1e" font-weight="bold">逾期</text>
+    <circle cx="385" cy="180" r="12" fill="#fff" stroke="#1f2430" stroke-width="2"/><circle cx="385" cy="180" r="6" fill="#1f2430"/>
+    <line x1="60" y1="80" x2="108" y2="80" stroke="#5b6474" stroke-width="2" marker-end="url(#st)"/><text x="84" y="68" text-anchor="middle" font-size="11" fill="#5b6474">初始</text>
+    <line x1="220" y1="80" x2="328" y2="80" stroke="#5b6474" stroke-width="2" marker-end="url(#st)"/>
+    <text x="274" y="68" text-anchor="middle" font-size="12" fill="#d64545" font-weight="bold">借书[有库存]/更新库存</text>
+    <line x1="440" y1="80" x2="548" y2="80" stroke="#5b6474" stroke-width="2" marker-end="url(#st)"/>
+    <text x="494" y="68" text-anchor="middle" font-size="12" fill="#d64545" font-weight="bold">超过应还日期</text>
+    <line x1="550" y1="105" x2="400" y2="172" stroke="#5b6474" stroke-width="2" marker-end="url(#st)"/>
+    <text x="470" y="150" text-anchor="middle" font-size="12" fill="#d64545" font-weight="bold">归还/收取罚金</text>
+    <text x="340" y="210" text-anchor="middle" font-size="12" fill="#5b6474">转移标注格式：事件[条件]/动作 —— 三个部分都可能被挖空让你填</text>
+  </svg>
+</section>
+
+<!-- ============ 顺序图 ============ -->
+<section id="s4b">
+  <h2>⑤ 顺序图：按时间排的消息 <span class="tag exam">真题考过</span></h2>
+  <table>
+    <tr><th style="width:150px">元素</th><th>样子 / 考点</th></tr>
+    <tr><td>对象（顶部一排）</td><td>矩形 + 下划线的"对象名:类名"，如 <b>:读者</b>、<b>:借书界面</b></td></tr>
+    <tr><td><b>生命线</b></td><td>对象正下方的垂直虚线，表示对象"活着"的时间轴</td></tr>
+    <tr><td><b>激活条</b></td><td>生命线上的窄长矩形，表示对象正在执行动作</td></tr>
+    <tr><td><b>消息（水平箭头）</b></td><td><b>实线箭头 = 同步消息</b>（等对方做完才往下走）；空心箭头 = 异步消息；<b>虚线箭头 = 返回</b>。<span class="hl">消息从上到下严格按时间顺序排——考试最爱把顺序挖空</span></td></tr>
+  </table>
+  <svg viewBox="0 0 680 250" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <marker id="sq" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L7,3.5 L0,7 Z" fill="#5b6474"/></marker>
+      <marker id="sqd" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#9aa7bd" stroke-width="1.5"/></marker>
+    </defs>
+    <rect x="60" y="16" width="90" height="32" fill="#fff" stroke="#1f2430" stroke-width="1.5"/><text x="105" y="37" text-anchor="middle" font-size="12.5" font-weight="bold">:读者</text>
+    <rect x="280" y="16" width="110" height="32" fill="#fff" stroke="#1f2430" stroke-width="1.5"/><text x="335" y="37" text-anchor="middle" font-size="12.5" font-weight="bold">:借书界面</text>
+    <rect x="510" y="16" width="100" height="32" fill="#fff" stroke="#1f2430" stroke-width="1.5"/><text x="560" y="37" text-anchor="middle" font-size="12.5" font-weight="bold">:图书库</text>
+    <line x1="105" y1="48" x2="105" y2="225" stroke="#9aa7bd" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <line x1="335" y1="48" x2="335" y2="225" stroke="#9aa7bd" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <line x1="560" y1="48" x2="560" y2="225" stroke="#9aa7bd" stroke-width="1.5" stroke-dasharray="5 4"/>
+    <rect x="100" y="80" width="10" height="130" fill="#eaf1fe" stroke="#2f6fed"/>
+    <rect x="330" y="88" width="10" height="115" fill="#eaf1fe" stroke="#2f6fed"/>
+    <rect x="555" y="96" width="10" height="60" fill="#eaf1fe" stroke="#2f6fed"/>
+    <line x1="110" y1="88" x2="328" y2="88" stroke="#5b6474" stroke-width="2" marker-end="url(#sq)"/><text x="220" y="80" text-anchor="middle" font-size="12" font-weight="bold">① 提交借书请求()</text>
+    <line x1="340" y1="100" x2="553" y2="100" stroke="#5b6474" stroke-width="2" marker-end="url(#sq)"/><text x="447" y="92" text-anchor="middle" font-size="12" font-weight="bold">② 校验并登记借阅()</text>
+    <line x1="553" y1="130" x2="342" y2="130" stroke="#9aa7bd" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#sqd)"/><text x="447" y="122" text-anchor="middle" font-size="12" fill="#5b6474">③ 返回：登记结果</text>
+    <line x1="328" y1="160" x2="112" y2="160" stroke="#9aa7bd" stroke-width="2" stroke-dasharray="5 4" marker-end="url(#sqd)"/><text x="220" y="152" text-anchor="middle" font-size="12" fill="#5b6474">④ 返回：借书凭证</text>
+    <text x="340" y="244" text-anchor="middle" font-size="12.5" fill="#5b6474">实线=同步消息（发完等回复），虚线=返回；时间从上往下——①~④的先后顺序就是考点</text>
+  </svg>
+  <div class="box orange"><b>顺序图 vs 活动图：</b>顺序图按<b>对象之间消息的时间先后</b>展开（谁发给谁、何时返回）；活动图按<b>业务流程的分支与并发</b>展开。题干出现"甲先请求…乙再调用…最后返回…"，就按时间从上往下摆消息。</div>
+  <div class="box blue"><b>顺带认识（上午题概念题）：</b>组件图 = 代码构件及相互依赖（带插头图标的矩形）；部署图 = 软件到<b>硬件节点</b>的映射（立方体节点）。问"哪个图描述系统硬件拓扑/部署"就选部署图。</div>
+</section>
+
+<!-- ============ 训练 ============ -->
+<section id="s5">
+  <h2>⑥ 训练题</h2>
+  <div id="quizArea"></div>
+</section>
+
+<!-- ============ 清单 ============ -->
+<section id="s6">
+  <h2>⑦ 考场执行清单</h2>
+  <div class="step"><div class="n">1</div><div><b>先看问什么图</b>：用例图找参与者+用例；类图找类名+关系；活动图找活动+条件；状态图找状态+事件。</div></div>
+  <div class="step"><div class="n">2</div><div><b>所有答案优先抄题干</b>：用例名 = 题干里的功能句（"系统应支持 XX"→ 用例"XX"）；状态名 = 题干里的"处于 XX 状态"。</div></div>
+  <div class="step"><div class="n">3</div><div>类图关系题先问"继承吗？"（泛化）→ 再问"整体-部分吗？"（聚合/组合）→ 再问"临时使用吗？"（依赖）→ 剩下是关联。</div></div>
+  <div class="step"><div class="n">4</div><div>活动图分支检查：每个菱形<b>每个出口</b>都要有 [条件]；并发题找粗横线。</div></div>
+  <div class="step"><div class="n">5</div><div>状态图转移 = "事件[条件]/动作"，挖空时先在题干找对应的那句话逐词填。</div></div>
+</section>
+
+<div class="foot">软考软件设计师 · 下午题③UML建模 · 完成训练后进入 04 算法策略</div>
+</div>
+
+<script>
+const QUIZ=[
+ {t:'【用例图】"借书"用例在每次执行时都必须进行"身份验证"；"还书"用例只有在逾期时才会触发"计算罚金"。两组关系的写法是（　）。',
+  opts:['借书--«include»-->身份验证；计算罚金--«extend»-->还书','身份验证--«include»-->借书；还书--«extend»-->计算罚金','借书--«extend»-->身份验证；计算罚金--«include»-->还书','两组都用 «include»'],ans:0,
+  ex:'include：<b>箭头从基用例指向被包含用例</b>（借书→身份验证，必做）；extend：<b>箭头从扩展用例指向基用例</b>（计算罚金→还书，条件触发）。方向相反，A 正确。'},
+ {t:'【类图】订单与订单明细：一张订单包含多条明细，订单取消后明细随之无意义。应表示为（　）。',
+  opts:['组合，实心菱形画在订单端','聚合，空心菱形画在明细端','依赖，虚线箭头指向订单','泛化，空心三角指向明细'],ans:0,
+  ex:'部分离开整体无意义 → <b>组合</b>（实心菱形）；菱形永远画在<b>整体</b>端（订单端）。学生与班级那种可分离的才是聚合（空心菱形）。'},
+ {t:'【活动图】关于活动图中的"分叉/汇合（同步条）"，正确的说法是（　）。',
+  opts:['表示之后的多个活动分支可以并发执行，汇合处需全部完成才能继续','表示二选一的判定','表示活动需要重复执行','表示活动的执行者'],ans:0,
+  ex:'粗横线同步条 = <b>并发</b>：分叉把流拆成并行的多条，汇合要等<b>所有</b>并行流完成。二选一判定是菱形；重复执行用循环边；执行者用泳道。'},
+ {t:'【状态图】状态图中转移线上的标注 "归还[图书完好]/收取押金退还"，其中 [图书完好] 属于（　）。',
+  opts:['守卫条件','触发事件','入口动作','状态名'],ans:0,
+  ex:'格式 = <b>事件[条件]/动作</b>：归还 = 触发事件；[图书完好] = 守卫条件；收取押金退还 = 动作。三段都可能被挖空。'},
+ {t:'【辨析】下列场景中，最适合用状态图描述的是（　）。',
+  opts:['一张图书从在架→借出→逾期→归还的状态变化','图书借阅业务从申请到结束的整个办理流程','系统中各个参与角色与功能的关系','类的继承层次'],ans:0,
+  ex:'单个对象随事件改变状态 → 状态图；跨对象的业务流程 → 活动图；角色与功能 → 用例图；继承层次 → 类图。这是四种图的"分工"选择题。'},
+ {t:'【顺序图】顺序图中，实线箭头与虚线箭头分别表示（　）。',
+  opts:['同步消息；返回消息','返回消息；同步消息','异步消息；同步消息','创建消息；销毁消息'],ans:0,
+  ex:'顺序图：<b>实线箭头=同步消息</b>（调用方等对方执行完才继续），<b>虚线箭头=返回</b>。消息从上到下按时间顺序排。'},
+ {t:'【图种类】要描述"软件构件部署到哪些服务器/硬件节点上"，应使用（　）。',
+  opts:['部署图','组件图','类图','状态图'],ans:0,
+  ex:'部署图 = 软件→<b>硬件节点</b>的映射（立方体节点）；组件图描述代码构件及其依赖（插头矩形）。问"硬件/节点/服务器"选部署图。'},
+ {t:'【多重性】类图中"班级 1 —— 1..* 学生"的正确读法是（　）。',
+  opts:['一个班级有 1 个到多个学生；一个学生只属于 1 个班级','一个学生有 1 到多个班级','班级和学生一一对应','1..* 表示可有可无'],ans:0,
+  ex:'写在 A 端的数字 = "<b>B 的一个对象</b>对应几个 A"。班级端 1、学生端 1..* → 一个班级 1~多个学生、一个学生属 1 个班级。'},
+ {t:'【活动图】活动图中"泳道"的作用是（　）。',
+  opts:['区分活动的执行者（哪个角色做什么）','表示并发执行','表示条件分支','表示循环'],ans:0,
+  ex:'泳道 = 纵向分区，每个分区一个<b>角色</b>，活动画在执行它的角色的泳道里。并发是粗横线（同步条），分支是菱形。'},
+ {t:'【泛化vs实现】关于类图箭头线型，正确的是（　）。',
+  opts:['泛化用实线+空心三角，实现用虚线+空心三角','泛化用虚线，实现用实线','两者都用实线','两者都用虚线箭头'],ans:0,
+  ex:'空心三角 = "is-a"家族：<b>实线=泛化（继承类）</b>，<b>虚线=实现（实现接口）</b>。考试考"实/虚"之差，看线型即可。'}
+];
+const CASES=[
+ {title:'大题一：补用例图（参与者 + include/extend）',
+  body:`<div class="case"><b>情境：</b>网上书店：顾客浏览商品、下单购买；下单时系统<b>必须先</b>完成"登录验证"；若订单金额超过 500 元，则<b>额外</b>触发"赠送优惠券"；仓库管理员使用"发货处理"功能，发货前<b>必须</b>先"打印拣货单"。</div>
+  <p><b>问题：</b>(1) 指出全部参与者；(2) "登录验证""赠送优惠券"分别与"下单购买"是什么关系？箭头指向哪里？</p>`,
+  answer:`<b class="pt">得分点：</b><br>
+  (1) 参与者：<b>顾客、仓库管理员</b>（题干中与系统直接交互的角色；"网上书店"是系统本身，不是参与者）。<br>
+  (2) 登录验证：每次下单<b>必做</b> → <b>«include»</b>，箭头：下单购买 → 登录验证；<br>
+  赠送优惠券：金额超 500 才触发 → <b>«extend»</b>，箭头：赠送优惠券 → 下单购买。<br>
+  记忆：include 箭头指向被包含者，extend 箭头指向被扩展的基用例——方向相反。`},
+ {title:'大题二：判类图关系 + 补多重性',
+  body:`<div class="case"><b>情境：</b>人事系统：公司(公司名) 部门(部门名) 员工(工号,姓名)。公司由多个部门组成，部门撤销后其员工可调往其他部门；每名员工属于且仅属于一个部门；员工可以有 0 到多个家属(姓名,关系)；每个家属信息必属于唯一员工。</div>
+  <p><b>问题：</b>(1) 公司-部门、部门-员工各是什么关系（泛化/聚合/组合/关联）？(2) 写出各连线两端的多重性。</p>`,
+  answer:`<b class="pt">得分点：</b><br>
+  (1) 公司-部门：部门离开公司一般仍可描述（且题干未说随之消亡）→ 通常判 <b>聚合</b>（空心菱形在"公司"端）；<b>部门-员工</b>：员工独立于部门存在 → <b>关联</b>（实线）。<br>
+  (2) 多重性：公司端 1 — 1..* 部门端（一个公司 1 个以上部门，一个部门属 1 个公司）；部门端 1 — 1..* 员工端（一个部门多名员工，一名员工只属一个部门）。<br>
+  <span style="color:#d64545">说明：</span>聚合 vs 组合在真实考试中依赖题干暗示——若题干出现"撤销/随之消失/不可独立"选组合；出现"调入/调出/独立存在"选聚合。答题时把判断依据写出来即可得分。`},
+ {title:'大题三：补状态图',
+  body:`<div class="case"><b>情境：</b>电梯控制系统：电梯空闲时停在某层等待；收到呼梯请求后"开门"，乘客进入且无超重 →"运行"；若超重则保持"开门"并报警；到达目的层后"开门"，一段时间无人使用则回到"空闲"；运行中若检测到故障则进入"维护"。</div>
+  <p><b>问题：</b>指出电梯对象的主要状态（至少 4 个）和"开门→运行"这一转移上应标注的事件与条件。</p>`,
+  answer:`<b class="pt">得分点：</b><br>
+  (1) 状态：<b>空闲、开门、运行、维护</b>（答出 4 个即可，来自题干"等待/开门/运行/维护"四个词——状态名永远优先抄题干）。<br>
+  (2) 开门→运行 的转移标注：<b>事件</b> = 收到目的层指令（或"关门完成"）；<b>条件</b> = [未超重]；可加动作 /关闭轿厢门。<br>
+  格式记忆：事件[条件]/动作——三段逐一在题干里找对应描述。`},
+ {title:'大题四：补活动图（分支条件 + 并发）',
+  body:`<div class="case"><b>情境：</b>网上购物流程：顾客提交订单后，系统检查库存：<b>有库存</b>则进行"支付处理"，支付成功后<b>同时</b>进行"生成发货单"和"扣减库存"，两者都完成后"通知顾客"；<b>无库存</b>则"登记缺货预约"后结束。</div>
+  <p><b>问题：</b>(1) 描述活动图的判定节点及其出边条件；(2) 哪两个活动需要用同步条（fork/join）连接？为什么？</p>`,
+  answer:`<b class="pt">得分点：</b><br>
+  (1) 判定节点 = "检查库存"（菱形）：出边① [有库存] → 支付处理；出边② [无库存] → 登记缺货预约。<b>每个菱形出口都必须标条件</b>，且所有出边条件要覆盖全部情况。<br>
+  (2) "生成发货单"与"扣减库存"：题干"同时进行" → 用<b>分叉（fork）</b>拆成两条并行流，再<b>汇合（join）</b>后进入"通知顾客"；汇合处必须等两条流<b>都完成</b>。<br>
+  答题关键词：菱形=判定、[条件] 写在出边上、粗横线=并发、join 等全部完成。`},
+ {title:'大题五：顺序图消息排序（补消息序列）',
+  body:`<div class="case"><b>情境：</b>用户登录流程："用户在登录界面输入账号密码并点击登录；登录界面把凭据交给身份验证模块；验证模块查询用户库核对；核对无误后向登录界面返回成功；登录界面向用户显示主页面。"</div>
+  <p><b>问题：</b>按时间顺序列出顺序图中的消息（标注发起对象→接收对象、消息名、同步还是返回）。</p>`,
+  answer:`<b class="pt">参考答案（从上到下 5 条）：</b><br>
+  ① :用户 → :登录界面　输入账号密码（<b>同步</b>）<br>
+  ② :登录界面 → :身份验证模块　verify(凭据)（<b>同步</b>）<br>
+  ③ :身份验证模块 → :用户库　查询核对（<b>同步</b>）<br>
+  ④ :身份验证模块 --> :登录界面　返回核对结果（<b>返回，虚线</b>）<br>
+  ⑤ :登录界面 --> :用户　显示主页面（<b>返回，虚线</b>）<br>
+  方法：把题干按"谁→谁→干了什么"逐句切开，一句一条消息，<b>时间顺序 = 题干句子顺序</b>；最后"返回/显示"两步画虚线。`}
+];
+(function(){
+  const area=document.getElementById('quizArea');
+  QUIZ.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
+      q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
+      '<div class="explain" id="ex'+i+'"></div>';
+    area.appendChild(d);
+  });
+  CASES.forEach((c,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">'+c.title+'</div>'+c.body+
+      '<div class="reveal" style="margin-top:10px"><button class="reveal-btn" id="rb'+i+'">显示参考答案与得分点</button>'+
+      '<div class="answer" id="ans'+i+'">'+c.answer+'</div></div>';
+    area.appendChild(d);
+  });
+  area.addEventListener('click',function(e){
+    const btn=e.target.closest('.opt');
+    if(btn){
+      const qi=+btn.dataset.q, q=QUIZ[qi];
+      const all=area.querySelectorAll('[data-q="'+qi+'"]');
+      all.forEach(b=>{b.disabled=true; if(+b.dataset.j===q.ans)b.classList.add('right');});
+      if(+btn.dataset.j!==q.ans) btn.classList.add('wrong');
+      const ex=document.getElementById('ex'+qi); ex.style.display='block'; ex.innerHTML='<b>解析：</b>'+q.ex;
+      return;
+    }
+    const rb=e.target.closest('.reveal-btn');
+    if(rb){
+      const i=rb.id.slice(2), ans=document.getElementById('ans'+i);
+      ans.style.display = ans.style.display==='block' ? 'none' : 'block';
+      rb.textContent = ans.style.display==='block' ? '收起答案' : '显示参考答案与得分点';
+    }
+  });
+})();
+</script>
+</body>
+</html>
