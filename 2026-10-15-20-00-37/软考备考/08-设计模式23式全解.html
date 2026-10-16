@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·23个设计模式全解</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#e08a1e,#d64545);color:#fff;border-radius:16px;padding:32px 28px;margin-bottom:24px;}
+  header h1{margin:0 0 8px;font-size:26px;} header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:16px 0 8px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:24px 26px;margin-bottom:22px;}
+  h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--orange);padding-left:12px;}
+  h3{margin:26px 0 8px;font-size:17px;color:var(--purple);border-bottom:1px dashed var(--border);padding-bottom:6px;}
+  .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .box{border-radius:10px;padding:12px 15px;margin:10px 0;font-size:14px;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;} .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
+  pre{background:#f6f8fc;border:1px solid var(--border);border-radius:10px;padding:12px 15px;overflow-x:auto;font-size:13px;line-height:1.7;margin:10px 0;}
+  .k{color:#7b52d6;font-weight:bold;} .c{color:#8a93a5;} .hl{color:#d64545;font-weight:bold;}
+  table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
+  th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;} th{background:#f0f3f9;}
+  .quiz{border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:14px 0;}
+  .quiz .q{font-weight:bold;margin-bottom:10px;}
+  .opt{display:block;width:100%;text-align:left;background:#fafbfe;border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:14px;font-family:inherit;}
+  .opt:hover{border-color:var(--blue);}
+  .opt.right{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:bold;}
+  .opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);} .opt:disabled{cursor:default;}
+  .explain{display:none;background:var(--orange-bg);border-left:4px solid var(--orange);padding:10px 14px;border-radius:0 8px 8px 0;margin-top:10px;font-size:14px;}
+  .reveal-btn{background:var(--purple);color:#fff;border:none;padding:8px 18px;border-radius:6px;font-size:14px;cursor:pointer;font-family:inherit;margin-top:8px;}
+  .answer{display:none;background:var(--green-bg);border:1px solid #bfe8d2;border-radius:8px;padding:12px 16px;margin-top:10px;font-size:14px;}
+  .answer b.pt{color:var(--green);}
+  .case{background:#fbfcff;border:1px solid #dbe3f2;border-radius:10px;padding:16px 18px;font-size:14.5px;margin:12px 0;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+  svg{max-width:100%;height:auto;display:block;margin:10px auto;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>GoF 23 个设计模式全解</h1>
+  <p>三大类 23 式逐个过：意图必背 → 题干信号词 → 代码骨架 → 填空点。上午题认得出、下午题填得对</p>
+  <nav>
+    <a href="#s0">① 总览与分类记忆</a>
+    <a href="#s1">② 创建型 5 式</a>
+    <a href="#s2">③ 结构型 7 式</a>
+    <a href="#s3">④ 行为型 11 式</a>
+    <a href="#s4">⑤ 易混对比（陷阱表）</a>
+    <a href="#s5">⑥ 训练题</a>
+    <a href="#s6">⑦ 考场清单</a>
+  </nav>
+</header>
+
+<!-- ============ 0 总览 ============ -->
+<section id="s0">
+  <h2>① 总览：23 式一张地图 <span class="tag core">先背分类</span></h2>
+  <table>
+    <tr><th style="width:110px">类别</th><th>解决什么问题</th><th>模式（23 个）</th></tr>
+    <tr><td><b>创建型 5</b></td><td>对象怎么<b>创建</b>（把 new 藏起来）</td><td>单例、工厂方法、抽象工厂、建造者、原型</td></tr>
+    <tr><td><b>结构型 7</b></td><td>类和对象怎么<b>组合成大结构</b></td><td>适配器、桥接、组合、装饰器、外观、享元、代理</td></tr>
+    <tr><td><b>行为型 11</b></td><td>对象之间怎么<b>交互、分配职责</b></td><td>策略、模板方法、观察者、迭代器、职责链、命令、备忘录、状态、访问者、中介者、解释器</td></tr>
+  </table>
+  <svg viewBox="0 0 680 150" xmlns="http://www.w3.org/2000/svg">
+    <rect x="20" y="30" width="190" height="90" rx="10" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/>
+    <text x="115" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#2f6fed">创建型 5</text>
+    <text x="115" y="86" text-anchor="middle" font-size="12.5" fill="#2f6fed">工厂造/单例/建造/原型</text>
+    <text x="115" y="106" text-anchor="middle" font-size="12" fill="#5b6474">关键词：new、创建、实例</text>
+    <rect x="245" y="30" width="190" height="90" rx="10" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/>
+    <text x="340" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#e08a1e">结构型 7</text>
+    <text x="340" y="86" text-anchor="middle" font-size="12.5" fill="#e08a1e">适配/桥接/组合/装饰</text>
+    <text x="340" y="106" text-anchor="middle" font-size="12" fill="#5b6474">关键词：包装、组合、接口转换</text>
+    <rect x="470" y="30" width="190" height="90" rx="10" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/>
+    <text x="565" y="62" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">行为型 11</text>
+    <text x="565" y="86" text-anchor="middle" font-size="12.5" fill="#1a9e5c">策略/观察者/状态/命令…</text>
+    <text x="565" y="106" text-anchor="middle" font-size="12" fill="#5b6474">关键词：通知、交互、职责分配</text>
+  </svg>
+  <div class="box blue"><b>分类速记：</b>名字带"工厂/单例/建造/原型"→创建型；带"包装味"（装饰/适配/代理/外观/桥接/组合/享元）→结构型；其余全是行为型（数量最多，考试出题也最多）。<b>软考高频 Top6：策略、观察者、装饰器、单例、工厂方法、状态</b>——这 6 个必须能默写骨架，其余认得意图即可。</div>
+</section>
+
+<!-- ============ 1 创建型 ============ -->
+<section id="s1">
+  <h2>② 创建型 5 式：把"new"管起来</h2>
+
+  <h3>1. 单例 Singleton ★高频</h3>
+  <div class="box orange"><b>意图：</b>保证一个类<b>仅有一个实例</b>，并提供一个全局访问点。</div>
+  <div class="box blue"><b>题干信号：</b>"全局唯一""只允许创建一个""连接池/配置管理器/日志对象/打印机任务管理"。</div>
+  <pre><span class="k">class</span> Config {
+    <span class="k">private static</span> Config instance;          <span class="c">// 唯一实例</span>
+    <span class="k">private</span> Config() {}                      <span class="c">// 私有构造：禁止 new</span>
+    <span class="k">public static</span> Config <span class="hl">getInstance</span>() {
+        <span class="k">if</span> (instance == <span class="k">null</span>) instance = <span class="k">new</span> Config();
+        <span class="k">return</span> instance;
+    }
+}</pre>
+  <div class="box green"><b>填空点：</b>private 构造、private static 实例、public static getInstance() 三件套轮着挖。</div>
+
+  <h3>2. 工厂方法 Factory Method ★高频</h3>
+  <div class="box orange"><b>意图：</b>定义创建对象的接口，让<b>子类决定实例化哪个类</b>。把实例化延迟到子类。</div>
+  <div class="box blue"><b>题干信号：</b>"具体创建哪个对象由子类决定""新增产品只需新增工厂子类"。</div>
+  <pre><span class="k">abstract class</span> LoggerFactory {
+    <span class="k">public abstract</span> Logger <span class="hl">createLogger</span>();  <span class="c">// 工厂方法：返回抽象产品</span>
+}
+<span class="k">class</span> FileLoggerFactory <span class="k">extends</span> LoggerFactory {
+    <span class="k">public</span> Logger createLogger() { <span class="k">return new</span> <span class="hl">FileLogger</span>(); }  <span class="c">// 子类决定</span>
+}</pre>
+  <div class="box green"><b>填空点：</b>工厂方法返回<b>抽象产品</b>类型；具体工厂里 new <b>具体产品</b>。</div>
+
+  <h3>3. 抽象工厂 Abstract Factory</h3>
+  <div class="box orange"><b>意图：</b>提供一个创建<b>一系列相关产品（产品族）</b>的接口，无需指定具体类。</div>
+  <div class="box blue"><b>题干信号：</b>"一族/一系列相关产品""多套风格整体切换"（如 Windows 风格按钮+文本框 vs Mac 风格整套）。</div>
+  <pre><span class="k">interface</span> GUIFactory {
+    Button <span class="hl">createButton</span>();     <span class="c">// 不止一个创建方法 = 产品族</span>
+    TextBox <span class="hl">createTextBox</span>();
+}
+<span class="k">class</span> MacFactory <span class="k">implements</span> GUIFactory {
+    <span class="k">public</span> Button createButton() { <span class="k">return new</span> MacButton(); }
+    <span class="k">public</span> TextBox createTextBox() { <span class="k">return new</span> MacTextBox(); }
+}</pre>
+  <div class="box green"><b>填空点：</b>抽象工厂接口有<b>多个</b>创建方法（和工厂方法的本质区别）；具体工厂实现全部方法。</div>
+
+  <h3>4. 建造者 Builder</h3>
+  <div class="box orange"><b>意图：</b>把复杂对象的<b>构建过程分步进行</b>，同样的构建过程可以创建不同的表示。</div>
+  <div class="box blue"><b>题干信号：</b>"分步骤/分部分构建""组装""同样的过程创建不同表示"（如拼装电脑：CPU→内存→硬盘）。</div>
+  <pre><span class="k">interface</span> Builder { <span class="k">void</span> buildCPU(); <span class="k">void</span> buildMem(); Computer getResult(); }
+<span class="k">class</span> HighEndBuilder <span class="k">implements</span> Builder { <span class="c">/* 逐步构建高端机 */</span> }
+<span class="k">class</span> Director {                            <span class="c">// 指挥者：固定构建顺序</span>
+    <span class="k">public</span> Computer construct(Builder b) {
+        b.buildCPU(); b.buildMem();          <span class="c">// 分步调用</span>
+        <span class="k">return</span> b.getResult();
+    }
+}</pre>
+  <div class="box green"><b>填空点：</b>Director 逐步调用 Builder 的 buildXxx()；Builder 提供 getResult() 返回产品。</div>
+
+  <h3>5. 原型 Prototype</h3>
+  <div class="box orange"><b>意图：</b>用<b>原型实例指定要创建对象的种类</b>，通过<b>拷贝（clone）</b>这个原型来创建新对象。</div>
+  <div class="box blue"><b>题干信号：</b>"克隆/复制已有对象来创建""对象初始化成本高，直接复制"。</div>
+  <pre><span class="k">abstract class</span> Shape <span class="k">implements</span> Cloneable {
+    <span class="k">public</span> Shape <span class="hl">clone</span>() { ... }             <span class="c">// 核心方法：克隆自己</span>
+}
+<span class="c">// 使用：Shape s2 = cachedShape.clone();  不走 new</span></pre>
+  <div class="box green"><b>填空点：</b>clone() 方法；与工厂的区别——原型是"复制自己"，工厂是"新建"。</div>
+</section>
+
+<!-- ============ 2 结构型 ============ -->
+<section id="s2">
+  <h2>③ 结构型 7 式：怎么"包装"和"组装"</h2>
+
+  <h3>6. 适配器 Adapter</h3>
+  <div class="box orange"><b>意图：</b>把一个类的接口<b>转换</b>成客户期望的另一个接口，使接口<b>不兼容</b>的类可以一起工作。</div>
+  <div class="box blue"><b>题干信号：</b>"接口不兼容""复用已有类但接口不匹配""转接头"。</div>
+  <pre><span class="k">class</span> Adapter <span class="k">extends</span> Target {              <span class="c">// 实现目标接口</span>
+    <span class="k">private</span> Adaptee adaptee;                  <span class="c">// 持有被适配的旧类</span>
+    <span class="k">public void</span> request() { adaptee.<span class="hl">specificRequest</span>(); }  <span class="c">// 转发+翻译</span>
+}</pre>
+  <div class="box green"><b>填空点：</b>适配类继承目标接口 + 持有被适配者引用，方法里做"翻译转发"。</div>
+
+  <h3>7. 桥接 Bridge</h3>
+  <div class="box orange"><b>意图：</b>把<b>抽象部分与实现部分分离</b>，使两者可以<b>独立变化</b>。</div>
+  <div class="box blue"><b>题干信号：</b>"两个维度独立变化""避免类爆炸"（形状×颜色、遥控器×电视品牌）。</div>
+  <pre><span class="k">class</span> RemoteControl {                        <span class="c">// 抽象维度</span>
+    <span class="k">protected</span> TV tv;                          <span class="c">// ★持有"实现"维度接口的引用</span>
+    <span class="k">public void</span> on() { tv.turnOn(); }
+}
+<span class="k">interface</span> TV { <span class="k">void</span> turnOn(); }              <span class="c">// 实现维度：SonyTV / XiaomiTV</span></pre>
+  <div class="box green"><b>填空点：</b>抽象类持有实现接口的<b>引用</b>（聚合关系）。与策略结构几乎一样，靠题干"两个维度独立变化"区分。</div>
+
+  <h3>8. 组合 Composite</h3>
+  <div class="box orange"><b>意图：</b>把对象组合成<b>树形"部分-整体"层次</b>，使客户对单个对象和组合对象的使用具有<b>一致性</b>。</div>
+  <div class="box blue"><b>题干信号：</b>"树形结构""文件与文件夹""容器与叶子同等对待"。</div>
+  <pre><span class="k">abstract class</span> Component {                   <span class="c">// 叶子和容器的共同抽象</span>
+    <span class="k">public abstract void</span> display();
+}
+<span class="k">class</span> Folder <span class="k">extends</span> Component {             <span class="c">// 容器：持有 Component 列表</span>
+    <span class="k">private</span> List&lt;Component&gt; children = <span class="k">new</span> ArrayList&lt;&gt;();
+    <span class="k">public void</span> add(Component c) { children.<span class="hl">add(c)</span>; }
+    <span class="k">public void</span> display() { <span class="k">for</span> (Component c : children) c.<span class="hl">display()</span>; }
+}</pre>
+  <div class="box green"><b>填空点：</b>容器类持有 <b>List&lt;Component&gt;</b>；display 递归遍历调用。</div>
+
+  <h3>9. 装饰器 Decorator ★高频</h3>
+  <div class="box orange"><b>意图：</b><b>动态地给对象添加额外职责</b>，比继承更灵活。</div>
+  <div class="box blue"><b>题干信号：</b>"动态添加职责/功能""不改变原类的前提下增强"。</div>
+  <pre><span class="k">abstract class</span> CoffeeDecorator <span class="k">implements</span> Coffee {
+    <span class="k">protected</span> <span class="hl">Coffee coffee</span>;                  <span class="c">// 持有同类型引用</span>
+    <span class="k">public double</span> cost() { <span class="k">return</span> coffee.cost(); }   <span class="c">// 委托</span>
+}
+<span class="k">class</span> Milk <span class="k">extends</span> CoffeeDecorator {
+    <span class="k">public double</span> cost() { <span class="k">return</span> coffee.cost() + <span class="hl">2.0</span>; }  <span class="c">// 委托+加料</span>
+}</pre>
+  <div class="box green"><b>填空点：</b>三标志——继承同一抽象 + 持有同类型引用 + 委托再加料。详见 05 篇精讲。</div>
+
+  <h3>10. 外观 Facade</h3>
+  <div class="box orange"><b>意图：</b>为子系统中的一组接口提供一个<b>一致的高层界面（统一入口）</b>，降低耦合。</div>
+  <div class="box blue"><b>题干信号：</b>"统一入口""简化使用""封装一层"（一键启动：自动调 CPU→内存→硬盘检查）。</div>
+  <pre><span class="k">class</span> ComputerFacade {
+    <span class="k">public void</span> start() {
+        <span class="k">new</span> CPU().start();        <span class="c">// 一个方法里依次</span>
+        <span class="k">new</span> Memory().check();     <span class="c">// 调用多个子系统方法</span>
+        <span class="k">new</span> Disk().read();
+    }
+}</pre>
+  <div class="box green"><b>填空点：</b>外观类的方法里<b>依次调用多个子系统</b>的方法。没有"持有+翻译"，就是打包简化。</div>
+
+  <h3>11. 享元 Flyweight</h3>
+  <div class="box orange"><b>意图：</b>用<b>共享</b>技术支持大量<b>细粒度</b>对象的复用，减少内存。</div>
+  <div class="box blue"><b>题干信号：</b>"系统中存在大量相似/重复对象""共享池"（棋子、文字字符、图标缓存）。</div>
+  <pre><span class="k">class</span> ChessPieceFactory {
+    <span class="k">private static</span> Map&lt;String, ChessPiece&gt; pool = <span class="k">new</span> HashMap&lt;&gt;();
+    <span class="k">public static</span> ChessPiece get(String color) {
+        pool.putIfAbsent(color, <span class="k">new</span> ChessPiece(color));   <span class="c">// 有就复用</span>
+        <span class="k">return</span> pool.get(color);
+    }
+}</pre>
+  <div class="box green"><b>填空点：</b>工厂里有 Map/池 + "存在即复用，不存在才创建"逻辑。</div>
+
+  <h3>12. 代理 Proxy</h3>
+  <div class="box orange"><b>意图：</b>为其他对象提供一个<b>代理以控制对它的访问</b>。</div>
+  <div class="box blue"><b>题干信号：</b>"访问控制/权限校验""远程调用""延迟加载""图片加载前先显示占位"。</div>
+  <pre><span class="k">class</span> ImageProxy <span class="k">implements</span> Image {          <span class="c">// 与真实类同接口</span>
+    <span class="k">private</span> RealImage real;
+    <span class="k">public void</span> display() {
+        <span class="k">if</span> (real == <span class="k">null</span>) real = <span class="k">new</span> RealImage();  <span class="c">// 延迟加载/权限检查</span>
+        real.display();
+    }
+}</pre>
+  <div class="box green"><b>填空点：</b>代理与真实类<b>实现同一接口</b>，代理内部 new 真实类。与装饰器结构相同，区别在<b>意图</b>：代理管"访问控制"，装饰器管"加职责"。</div>
+</section>
+
+<!-- ============ 3 行为型 ============ -->
+<section id="s3">
+  <h2>④ 行为型 11 式：对象间怎么交互（出题最多）</h2>
+
+  <h3>13. 策略 Strategy ★最高频</h3>
+  <div class="box orange"><b>意图：</b>定义一系列<b>算法</b>，把它们一个个封装起来，并使它们可以<b>互相替换</b>。</div>
+  <div class="box blue"><b>题干信号：</b>"算法可动态切换""不同促销/计费/排序方式"。</div>
+  <pre><span class="k">interface</span> Discount { <span class="k">double</span> calc(<span class="k">double</span> money); }
+<span class="k">class</span> OrderContext {
+    <span class="k">private</span> <span class="hl">Discount</span> discount;                <span class="c">// 持抽象策略</span>
+    <span class="k">public void</span> setDiscount(<span class="hl">Discount</span> d) { <span class="hl">this</span>.discount = d; }
+    <span class="k">public double</span> checkout(<span class="k">double</span> m) { <span class="k">return</span> <span class="hl">discount</span>.calc(m); }
+}</pre>
+  <div class="box green"><b>填空点：</b>三板斧——成员类型=接口、参数=接口、调用=成员变量名。详见 05 篇。</div>
+
+  <h3>14. 模板方法 Template Method ★高频</h3>
+  <div class="box orange"><b>意图：</b>父类定义算法的<b>骨架</b>，把某些步骤延迟到<b>子类实现</b>。</div>
+  <div class="box blue"><b>题干信号：</b>"固定步骤/流程顺序不变，个别步骤子类不同"（泡饮料：烧水→冲泡→倒杯，冲泡各不同）。</div>
+  <pre><span class="k">abstract class</span> DrinkMaker {
+    <span class="k">public final void</span> make() {                <span class="c">// 骨架固定顺序</span>
+        boil(); <span class="hl">brew()</span>; pour();
+    }
+    <span class="k">private void</span> boil() {} <span class="k">private void</span> pour() {}
+    <span class="k">protected abstract void</span> <span class="hl">brew</span>();           <span class="c">// 变化步骤留给子类</span>
+}</pre>
+  <div class="box green"><b>填空点：</b>父类骨架方法（常 final）+ abstract 步骤方法。</div>
+
+  <h3>15. 观察者 Observer ★高频（2023 真题三问题3）</h3>
+  <div class="box orange"><b>意图：</b>定义对象间<b>一对多</b>依赖，主题状态变化时<b>自动通知</b>所有依赖者。</div>
+  <div class="box blue"><b>题干信号：</b>"注册/订阅/关注""状态变化时及时通知"。</div>
+  <pre><span class="k">interface</span> Observer { <span class="k">void</span> update(<span class="k">int</span> count); }
+<span class="k">class</span> Resource {
+    <span class="k">private</span> List&lt;<span class="hl">Observer</span>&gt; obs = <span class="k">new</span> ArrayList&lt;&gt;();
+    <span class="k">public void</span> <span class="hl">attach</span>(Observer o) { obs.add(o); }       <span class="c">// 注册</span>
+    <span class="k">public void</span> changed() { <span class="k">for</span> (Observer o : obs) o.<span class="hl">update</span>(n); }  <span class="c">// 通知</span>
+}</pre>
+  <div class="box green"><b>填空点：</b>List&lt;Observer&gt;、attach 遍历 update。作答模板见 03 篇考场清单第 6 步。</div>
+
+  <h3>16. 迭代器 Iterator</h3>
+  <div class="box orange"><b>意图：</b>提供一种方法<b>顺序访问</b>聚合对象中的元素，而<b>不暴露内部表示</b>。</div>
+  <div class="box blue"><b>题干信号：</b>"遍历集合不暴露内部结构""hasNext()/next()"。</div>
+  <pre><span class="k">interface</span> Iterator_ { <span class="k">boolean</span> hasNext(); Object <span class="hl">next</span>(); }
+<span class="k">class</span> BookList {
+    <span class="k">public</span> Iterator_ createIterator() { <span class="k">return new</span> ListIterator_(<span class="hl">this</span>); }
+}</pre>
+  <div class="box green"><b>填空点：</b>hasNext / next 两个方法；集合类提供 createIterator()。</div>
+
+  <h3>17. 职责链 Chain of Responsibility</h3>
+  <div class="box orange"><b>意图：</b>多个处理者连成一条链，请求沿链传递，<b>每个处理者决定处理或传给下一个</b>。</div>
+  <div class="box blue"><b>题干信号：</b>"逐级审批""请求沿链传递直到被处理"（请假：组长→经理→总监）。</div>
+  <pre><span class="k">abstract class</span> Handler {
+    <span class="k">protected</span> <span class="hl">Handler next</span>;                    <span class="c">// 持有下一节点</span>
+    <span class="k">public void</span> setNext(Handler n) { next = n; }
+    <span class="k">public abstract void</span> handle(Request r);     <span class="c">// 处理不了就 next.handle(r)</span>
+}</pre>
+  <div class="box green"><b>填空点：</b>持有同类型 next 引用 + "能处理则处理，否则 <b>next.handle()</b>"。</div>
+
+  <h3>18. 命令 Command</h3>
+  <div class="box orange"><b>意图：</b>把<b>请求封装成对象</b>，从而支持请求的参数化、排队、日志和<b>撤销/重做</b>。</div>
+  <div class="box blue"><b>题干信号：</b>"撤销/重做""请求排队/记录日志""按钮与具体动作解耦"。</div>
+  <pre><span class="k">interface</span> Command { <span class="k">void</span> <span class="hl">execute</span>(); <span class="k">void</span> undo(); }
+<span class="k">class</span> LightOnCommand <span class="k">implements</span> Command {
+    <span class="k">private</span> Light light;                        <span class="c">// 持有接收者</span>
+    <span class="k">public void</span> execute() { light.on(); }
+    <span class="k">public void</span> undo() { light.off(); }
+}
+<span class="c">// 遥控器：按按钮 → command.execute()；撤销栈 → undo()</span></pre>
+  <div class="box green"><b>填空点：</b>execute/undo 方法；命令对象持有接收者（Receiver）。</div>
+
+  <h3>19. 备忘录 Memento</h3>
+  <div class="box orange"><b>意图：</b>在不破坏封装的前提下，捕获对象<b>内部状态</b>并保存，以便以后<b>恢复</b>。</div>
+  <div class="box blue"><b>题干信号：</b>"存档/快照""撤销恢复到之前状态"（游戏存档、编辑器 Ctrl+Z 的状态备份）。</div>
+  <pre><span class="k">class</span> Editor {
+    <span class="k">private</span> String text;
+    <span class="k">public</span> Memento <span class="hl">save</span>() { <span class="k">return new</span> Memento(text); }   <span class="c">// 存档</span>
+    <span class="k">public void</span> <span class="hl">restore</span>(Memento m) { text = m.getText(); } <span class="c">// 恢复</span>
+}</pre>
+  <div class="box green"><b>填空点：</b>save()/restore() 两个方法；备忘录对象只存状态。与命令的区别：备忘录存"状态"，命令存"操作"。</div>
+
+  <h3>20. 状态 State ★高频</h3>
+  <div class="box orange"><b>意图：</b>对象的行为随其<b>内部状态</b>改变而改变，像"切换了类"一样。</div>
+  <div class="box blue"><b>题干信号：</b>"不同状态有不同行为""状态很多、switch 臃肿"（电梯、订单流转、TCP 连接）。</div>
+  <pre><span class="k">interface</span> OrderState { <span class="k">void</span> handle(Order o); }
+<span class="k">class</span> Order {
+    <span class="k">private</span> <span class="hl">OrderState state</span>;                  <span class="c">// 持当前状态对象</span>
+    <span class="k">public void</span> request() { state.handle(<span class="hl">this</span>); }
+    <span class="k">public void</span> setState(OrderState s) { state = s; }   <span class="c">// 状态子类里切换</span>
+}</pre>
+  <div class="box green"><b>填空点：</b>环境类持状态引用；状态子类里调用 <b>o.setState(...)</b> 切换状态。与策略结构相同，区别：状态由内部<b>自动流转</b>，策略由客户<b>主动设置</b>。</div>
+
+  <h3>21. 访问者 Visitor</h3>
+  <div class="box orange"><b>意图：</b>封装作用于某结构中各元素的<b>操作</b>，可在<b>不改变元素类</b>的前提下定义新操作。</div>
+  <div class="box blue"><b>题干信号：</b>"数据结构稳定、对元素的操作经常变化""对结构施加新操作"。</div>
+  <pre><span class="k">interface</span> Visitor { <span class="k">void</span> visit(FileA f); <span class="k">void</span> visit(FileB f); }
+<span class="k">abstract class</span> Element { <span class="k">public abstract void</span> <span class="hl">accept</span>(Visitor v); }
+<span class="k">class</span> FileA <span class="k">extends</span> Element {
+    <span class="k">public void</span> accept(Visitor v) { v.<span class="hl">visit</span>(<span class="hl">this</span>); }   <span class="c">// 双分派</span>
+}</pre>
+  <div class="box green"><b>填空点：</b>accept(Visitor) 里回调 v.visit(this)——"双分派"是识别标志。</div>
+
+  <h3>22. 中介者 Mediator</h3>
+  <div class="box orange"><b>意图：</b>用一个中介对象<b>封装一系列对象的交互</b>，使各对象不需显式相互引用，松耦合且可独立变化。</div>
+  <div class="box blue"><b>题干信号：</b>"多对象之间交互复杂、网状引用""集中调度"（机场塔台、聊天室服务器、MVC 的控制器）。</div>
+  <pre><span class="k">abstract class</span> Colleague {
+    <span class="k">protected</span> <span class="hl">Mediator mediator</span>;               <span class="c">// 都只认识中介</span>
+}
+<span class="k">class</span> ChatMediator <span class="k">implements</span> Mediator {
+    <span class="k">public void</span> send(String msg, User from) {   <span class="c">// 由中介转发</span>
+        <span class="k">for</span> (User u : users) <span class="k">if</span> (u != from) u.receive(msg);
+    }
+}</pre>
+  <div class="box green"><b>填空点：</b>同事类持中介引用；交互逻辑集中在 mediator 里转发。与观察者区别：中介者是"多对多经中转"，观察者是"一对多广播"。</div>
+
+  <h3>23. 解释器 Interpreter</h3>
+  <div class="box orange"><b>意图：</b>给定一个<b>语言</b>，定义它的<b>文法表示</b>，并定义一个解释器来解释语言中的句子。</div>
+  <div class="box blue"><b>题干信号：</b>"自定义规则语言""表达式解析""文法"（正则引擎、SQL 解析、计算器表达式树）。</div>
+  <pre><span class="k">interface</span> Expr { <span class="k">int</span> <span class="hl">interpret</span>(); }
+<span class="k">class</span> Add <span class="k">implements</span> Expr {                    <span class="c">// 文法规则 = 类</span>
+    <span class="k">private</span> Expr left, right;
+    <span class="k">public int</span> interpret() { <span class="k">return</span> left.interpret() + right.interpret(); }
+}</pre>
+  <div class="box green"><b>填空点：</b>每条文法规则一个类 + interpret() 递归求值。考试认得即可，很少考填空。</div>
+</section>
+
+<!-- ============ 4 易混对比 ============ -->
+<section id="s4">
+  <h2>⑤ 易混对比：选择题陷阱全在这 <span class="tag exam">必背</span></h2>
+  <table>
+    <tr><th style="width:150px">易混组</th><th>本质区别（一句话）</th><th>题干怎么区分</th></tr>
+    <tr><td>代理 vs 装饰器</td><td>结构相同，意图不同：代理<b>控制访问</b>，装饰器<b>加职责</b></td><td>"权限/远程/延迟"→代理；"增强功能"→装饰器</td></tr>
+    <tr><td>外观 vs 适配器</td><td>外观<b>简化打包</b>多个子系统；适配器<b>转换</b>一个不兼容接口</td><td>"统一入口"→外观；"接口不匹配"→适配器</td></tr>
+    <tr><td>工厂方法 vs 抽象工厂</td><td>工厂方法一个产品；抽象工厂<b>一族产品</b></td><td>看接口里有<b>几个</b> createXxx 方法</td></tr>
+    <tr><td>状态 vs 策略</td><td>结构相同：状态<b>内部自动流转</b>；策略由客户<b>主动换</b></td><td>"状态改变行为跟着变"→状态；"算法可切换"→策略</td></tr>
+    <tr><td>命令 vs 备忘录</td><td>命令封装<b>操作</b>（能重放）；备忘录保存<b>状态快照</b></td><td>"撤销重做操作"→命令；"恢复到之前状态"→备忘录</td></tr>
+    <tr><td>桥接 vs 装饰器</td><td>桥接分离<b>两个变化维度</b>；装饰器<b>层层叠加</b>职责</td><td>"两维度独立变化"→桥接；"动态加职责"→装饰器</td></tr>
+    <tr><td>观察者 vs 中介者</td><td>观察者一对多<b>广播</b>；中介者多对多<b>经中转</b></td><td>"主题通知订阅者"→观察者；"多对象互不认识靠调度"→中介者</td></tr>
+    <tr><td>组合 vs 装饰器</td><td>组合是<b>树形聚合</b>（部分-整体）；装饰器是<b>链式包装</b></td><td>"树/文件夹"→组合；"套娃加功能"→装饰器</td></tr>
+  </table>
+  <div class="box red"><b>终极判断流程：</b>先问"管创建还是管行为还是管结构"→ 再看题干关键词对号 → 结构型优先排"访问控制(代理)/接口转换(适配)/树形(组合)" → 行为型优先排"通知(观察者)/切换(策略)/流转(状态)"。宁可对照排除，不要凭感觉。</div>
+</section>
+
+<!-- ============ 5 训练 ============ -->
+<section id="s5">
+  <h2>⑥ 训练题</h2>
+  <div id="quizArea"></div>
+</section>
+
+<!-- ============ 6 清单 ============ -->
+<section id="s6">
+  <h2>⑦ 考场执行清单</h2>
+  <div class="box purple"><b>背诵分级：</b>①能默写骨架：策略、装饰器、观察者、单例、工厂方法、状态（6 个）；②能说清意图+信号词：模板方法、代理、适配器、外观、桥接、命令、备忘录、职责链（8 个）；③认得即可：抽象工厂、建造者、原型、组合、享元、迭代器、访问者、中介者、解释器（9 个）。</div>
+  <div class="box blue"><b>做题顺序：</b>先看类图结构（接口？继承？谁持谁的引用？）→ 读题干"意图句"对照本篇各模式的意图 → 用⑤的易混表排除干扰项 → 填空时答案 90% 抄自类图和题干。</div>
+</section>
+
+<div class="foot">软考软件设计师 · 23 个设计模式全解 · 配合 05/06 篇的精讲与 07 篇真题精析使用</div>
+</div>
+
+<script>
+const QUIZ=[
+ {t:'【分类】下列全部属于"行为型"模式的一组是（　）。',
+  opts:['观察者、策略、状态、命令','单例、工厂方法、原型、建造者','适配器、外观、代理、装饰器','桥接、组合、享元、迭代器'],ans:0,
+  ex:'行为型 11 个里含<b>观察者、策略、状态、命令、模板方法、迭代器、职责链、备忘录、访问者、中介者、解释器</b>。B 全是创建型；C 全是结构型；D 前三个结构型、迭代器是行为型。'},
+ {t:'【识别】系统需要为程序提供全局唯一的配置管理器，禁止外部 new 出第二个实例。应使用（　）。',
+  opts:['单例模式','原型模式','享元模式','外观模式'],ans:0,
+  ex:'"全局唯一 + 禁止 new" = <b>单例</b>（private 构造 + static getInstance）。享元是"共享大量细粒度对象"，不是"唯一"。'},
+ {t:'【识别】系统要与已有的一批老类交互，但老类的接口与现行系统不兼容，需要做转换。应使用（　）。',
+  opts:['适配器模式','外观模式','桥接模式','代理模式'],ans:0,
+  ex:'"接口<b>不兼容</b>需要转换" = <b>适配器</b>。外观是"简化打包"，没有"转换不兼容"的含义；桥接是两维度分离。'},
+ {t:'【识别】为避免"形状×颜色"两种维度组合导致子类数量爆炸，将形状与颜色的实现分离、独立变化。应使用（　）。',
+  opts:['桥接模式','装饰器模式','组合模式','状态模式'],ans:0,
+  ex:'"<b>两个维度独立变化</b>、避免类爆炸" = <b>桥接</b>的标准描述。装饰器是"层层加职责"；组合是树形结构。'},
+ {t:'【识别】文件系统中，文件夹可以包含文件和子文件夹，打开任意一个"节点"都执行相同的显示操作。应使用（　）。',
+  opts:['组合模式','备忘录模式','职责链模式','中介者模式'],ans:0,
+  ex:'"树形<b>部分-整体</b>层次 + 单个对象与组合对象<b>一致处理</b>" = <b>组合</b>（容器持 List&lt;Component&gt; 递归调用）。'},
+ {t:'【识别】请求要经过组长→经理→总监逐级审批，上一级处理不了就交给下一级。应使用（　）。',
+  opts:['职责链模式','命令模式','中介者模式','访问者模式'],ans:0,
+  ex:'"逐级处理、处理不了<b>沿链传递</b>" = <b>职责链</b>（Handler 持有 next 引用）。中介者是"经调度中心转发"，不是链式传递。'},
+ {t:'【识别】文本编辑器需要支持撤销功能：保存每一步的编辑状态，可随时恢复到之前的某个状态。应使用（　）。',
+  opts:['备忘录模式','命令模式','状态模式','原型模式'],ans:0,
+  ex:'"保存状态快照以便<b>恢复</b>" = <b>备忘录</b>（save/restore）。命令也能撤销，但它封装的是"操作"并可重放，题干强调"保存状态"选备忘录。'},
+ {t:'【识别】电梯对象在不同状态（开门/运行/维护）下对"按键请求"的处理完全不同，且状态会自动流转。应使用（　）。',
+  opts:['状态模式','策略模式','模板方法模式','观察者模式'],ans:0,
+  ex:'"行为随<b>内部状态</b>改变而改变" = <b>状态</b>。与策略结构相同，区分点：状态由内部<b>自动流转</b>，策略由客户<b>主动设置切换</b>。'},
+ {t:'【识别】编译器需要解析自定义的"表达式规则"，每条文法规则对应一个类，表达式树递归求值。应使用（　）。',
+  opts:['解释器模式','访问者模式','迭代器模式','工厂方法模式'],ans:0,
+  ex:'"自定义语言 + <b>文法</b> + 解释句子" = <b>解释器</b>。访问者是"给稳定结构加新操作"，没有"文法/语言"含义。'},
+ {t:'【识别】公司管理系统需要支持"按部门导出""按职级统计工资"等多种互不相关的统计操作，员工类结构稳定、统计操作经常新增。应使用（　）。',
+  opts:['访问者模式','策略模式','中介者模式','命令模式'],ans:0,
+  ex:'"结构<b>稳定</b> + 操作<b>经常新增</b>、不改变元素类的前提下加新操作" = <b>访问者</b>（accept 回调 visit，双分派）。'}
+];
+const CASES=[
+ {title:'大题一：场景连模式（写出模式名 + 意图，仿真真题问法）',
+  body:`<div class="case"><b>情境：</b>某系统有以下需求：<br>
+  A. 打印任务管理器：整个系统只允许一个打印队列实例存在。<br>
+  B. 数据导出模块：支持按 JSON、XML、CSV 三种格式导出，客户可在运行时切换导出方式。<br>
+  C. 报表生成模块：生成流程固定为"取数→计算→排版→输出"，其中排版方式由各类报表自行实现。<br>
+  D. 第三方地图 SDK 的接口与本系统接口不一致，需要封装一层供系统调用。</div>
+  <p><b>问题：</b>为 A~D 分别选择合适的设计模式，并用一句话说明意图。</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  A：<b>单例</b>——保证类仅有一个实例并提供全局访问点。<br>
+  B：<b>策略</b>——封装一系列可互相替换的算法，客户端运行时切换，算法变化不影响客户。<br>
+  C：<b>模板方法</b>——父类定义算法骨架（固定步骤顺序），部分步骤延迟到子类实现。<br>
+  D：<b>适配器</b>——把已有类的接口转换成客户期望的接口，使不兼容的类可以协作。<br>
+  <span style="color:#d64545">答题格式：</span>"模式名 + 意图句"两件套，意图句抄本篇每个模式 box 里的表述即可。`},
+ {title:'大题二：组合题（新需求 + 代码结构分析）',
+  body:`<div class="case"><b>情境：</b>某云盘系统：文件夹（Folder）可以包含文件（File）和子文件夹；用户可以对任意"节点"执行"计算大小"操作，文件夹会自动汇总其内部所有节点的大小。系统还要求：用户上传文件前需要先经过"病毒扫描"，扫描失败则拒绝上传；未来可能增加"敏感词过滤"等多种前置检查，且希望检查项可以灵活增删、互相独立。</div>
+  <p><b>问题：</b>(1) "对任意节点计算大小且文件夹自动汇总"体现哪种模式？画出/描述其核心结构。(2) "灵活增删多种前置检查"应使用哪种模式？为什么不适合用继承？</p>`,
+  answer:`<b class="pt">参考答案：</b><br>
+  (1) <b>组合模式</b>。核心结构：抽象构件 Component（定义 computeSize()）；叶子 File 实现自己的大小计算；容器 Folder 继承 Component 并持有 <b>List&lt;Component&gt;</b>，computeSize() 遍历子节点求和——单个对象与组合对象<b>一致处理</b>，天然支持树形递归。<br>
+  (2) <b>装饰器模式</b>（或"装饰器 + 职责链"组合）。扫描检查（ScannedUploader）<b>继承并持有</b>同一抽象上传器引用，upload() 先扫描再委托；再加"敏感词过滤"就再包一层。不用继承的原因：每种检查组合都是一个子类会导致<b>类数量爆炸</b>，且继承是静态的、无法<b>运行时动态增删职责</b>——装饰器"委托 + 加料 + 可多层包装"正好解决。`}
+];
+(function(){
+  const area=document.getElementById('quizArea');
+  QUIZ.forEach((q,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">客观题 '+(i+1)+'　'+q.t+'</div>'+
+      q.opts.map((o,j)=>'<button class="opt" data-q="'+i+'" data-j="'+j+'">'+String.fromCharCode(65+j)+'. '+o+'</button>').join('')+
+      '<div class="explain" id="ex'+i+'"></div>';
+    area.appendChild(d);
+  });
+  CASES.forEach((c,i)=>{
+    const d=document.createElement('div'); d.className='quiz';
+    d.innerHTML='<div class="q">'+c.title+'</div>'+c.body+
+      '<div class="reveal"><button class="reveal-btn" id="rb'+i+'">显示参考答案与得分点</button>'+
+      '<div class="answer" id="ans'+i+'">'+c.answer+'</div></div>';
+    area.appendChild(d);
+  });
+  document.addEventListener('click',function(e){
+    const btn=e.target.closest('.opt');
+    if(btn){
+      const qi=+btn.dataset.q, q=QUIZ[qi];
+      const all=document.querySelectorAll('[data-q="'+qi+'"]');
+      all.forEach(b=>{b.disabled=true; if(+b.dataset.j===q.ans)b.classList.add('right');});
+      if(+btn.dataset.j!==q.ans) btn.classList.add('wrong');
+      const ex=document.getElementById('ex'+qi); ex.style.display='block'; ex.innerHTML='<b>解析：</b>'+q.ex;
+      return;
+    }
+    const rb=e.target.closest('.reveal-btn');
+    if(rb){
+      const i=rb.id.slice(2), ans=document.getElementById('ans'+i);
+      ans.style.display = ans.style.display==='block' ? 'none' : 'block';
+      rb.textContent = ans.style.display==='block' ? '收起答案' : '显示参考答案与得分点';
+    }
+  });
+})();
+</script>
+</body>
+</html>
