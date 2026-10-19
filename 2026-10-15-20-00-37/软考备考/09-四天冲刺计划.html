@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·上午题四天冲刺计划</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#d64545,#e08a1e);color:#fff;border-radius:16px;padding:30px 28px;margin-bottom:24px;}
+  header h1{margin:0 0 8px;font-size:25px;} header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:22px 26px;margin-bottom:22px;}
+  h2{margin:0 0 10px;font-size:21px;border-left:5px solid var(--red);padding-left:12px;}
+  h3{margin:20px 0 8px;font-size:16px;color:var(--purple);}
+  .box{border-radius:10px;padding:12px 15px;margin:10px 0;font-size:14px;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;} .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px;}
+  th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;} th{background:#f0f3f9;}
+  .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
+  code{background:#f0f3f9;border-radius:4px;padding:1px 6px;font-family:Consolas,monospace;font-size:13px;}
+  .days{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0;}
+  .day{flex:1 1 210px;background:#fbfcff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;min-width:200px;}
+  .day b{color:var(--red);}
+  .bar{height:10px;background:#eef1f6;border-radius:6px;overflow:hidden;margin:8px 0 4px;}
+  .bar>div{height:100%;background:linear-gradient(90deg,#e08a1e,#1a9e5c);width:0%;transition:width .3s;}
+  .pct{font-size:12px;color:var(--muted);}
+  .chk{display:flex;align-items:flex-start;gap:8px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:14px;}
+  .chk:hover{background:#f4f6fa;}
+  .chk input{margin-top:5px;accent-color:#1a9e5c;width:15px;height:15px;flex:none;}
+  .chk.done span{text-decoration:line-through;color:#9aa7bd;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+  a.a{color:var(--blue);font-weight:bold;text-decoration:none;} a.a:hover{text-decoration:underline;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>上午题四天冲刺 · 30 → 50 分抢救计划</h1>
+  <p>每天 3~4 小时 · 只抓高性价比考点 · 勾选进度自动保存（存在本机浏览器）</p>
+  <nav>
+    <a href="#d1">Day1 软件工程</a>
+    <a href="#d2">Day2 数据库+OS</a>
+    <a href="#d3">Day3 硬件+网络+送分</a>
+    <a href="#d4">Day4 数据结构+模拟</a>
+    <a href="#tips">实战技巧</a>
+  </nav>
+</header>
+
+<!-- ============ 总览 ============ -->
+<section id="plan">
+  <h2>总览：四天任务与得分目标</h2>
+  <table>
+    <tr><th>模块</th><th>卷面分值</th><th>四天预期得分</th><th>安排</th></tr>
+    <tr><td>软件工程（模型/测试/耦合内聚/管理）</td><td>10~13</td><td class="ok">6~8</td><td>Day1</td></tr>
+    <tr><td>数据库 + 操作系统</td><td>11~14</td><td class="ok">7~9</td><td>Day2</td></tr>
+    <tr><td>计算机组成 + 网络 + 知识产权 + 英语</td><td>16~22</td><td class="ok">9~12</td><td>Day3</td></tr>
+    <tr><td>数据结构 + 面向对象/模式/UML（你的强项）</td><td>14~18</td><td class="ok">8~10</td><td>Day4</td></tr>
+    <tr><td class="hl">合计</td><td>75</td><td class="hl">30 + 15~20 ≈ <b>50</b></td><td>及格线 45</td></tr>
+  </table>
+  <div class="days">
+    <div class="day"><b>Day 1</b>　软件工程日<br><span class="pct">最大分值头，纯记忆</span><div class="bar"><div id="bar-d1"></div></div><span class="pct" id="pct-d1">0%</span></div>
+    <div class="day"><b>Day 2</b>　数据库+OS 日<br><span class="pct">SQL句式+PV+页式</span><div class="bar"><div id="bar-d2"></div></div><span class="pct" id="pct-d2">0%</span></div>
+    <div class="day"><b>Day 3</b>　硬件网络送分日<br><span class="pct">4公式+子网+知识产权</span><div class="bar"><div id="bar-d3"></div></div><span class="pct" id="pct-d3">0%</span></div>
+    <div class="day"><b>Day 4</b>　数据结构+模拟日<br><span class="pct">排序表+全真掐表</span><div class="bar"><div id="bar-d4"></div></div><span class="pct" id="pct-d4">0%</span></div>
+  </div>
+  <div class="box red"><b>两条铁律：</b>①只刷近 5 年<b>真题</b>，不做模拟题；②错题只搞懂"这道题的考点"，不延伸。时间只够抢救，不够钻研。</div>
+</section>
+
+<!-- ============ Day1 ============ -->
+<section id="d1">
+  <h2>Day 1 · 软件工程日（上午 2h 背 + 下午 1.5h 刷题）</h2>
+
+  <h3>▶ 开发模型（每年 1~2 题）</h3>
+  <table>
+    <tr><th>模型</th><th>一句话特征（背）</th><th>适用</th></tr>
+    <tr><td>瀑布</td><td>线性顺序、文档驱动、阶段评审后才能进入下一阶段</td><td>需求明确且稳定</td></tr>
+    <tr><td>原型</td><td>快速构造可运行原型，用户确认后再开发</td><td>需求不明确、模糊</td></tr>
+    <tr><td>增量</td><td>分批次交付，<b>核心功能先行</b>，每个增量都可运行</td><td>需要尽早提供部分产品</td></tr>
+    <tr><td>螺旋</td><td><b>风险驱动</b>，每圈含"计划→风险分析→实施→评估"</td><td>大型复杂、高风险项目</td></tr>
+    <tr><td>敏捷</td><td>小步快跑、拥抱变化、每日站会、结对编程</td><td>需求多变、小团队</td></tr>
+  </table>
+
+  <h3>▶ 测试（每年 2~3 题）</h3>
+  <div class="box blue">
+    <b>黑盒（功能）：</b>等价类划分、边界值分析、因果图、错误推测。<br>
+    <b>白盒（结构）：</b>逻辑覆盖由弱到强：<b>语句 → 判定 → 条件 → 判定/条件 → 条件组合 → 路径覆盖</b>。<br>
+    <b>McCabe 环形复杂度：</b><span class="hl">V(G) = 边数 − 节点数 + 2</span>（或 = 判定节点数 + 1）。白盒测试用例数 ≥ V(G)。<br>
+    <b>阶段划分：</b>单元测试（程序员自测/白盒）→ 集成（接口）→ 确认（需求/用户）→ 系统 → 验收（α测试=开发方场所用户测，β=用户场所）。
+  </div>
+
+  <h3>▶ 耦合与内聚（必考排序）</h3>
+  <div class="box orange">
+    <b>耦合低→高（越好越靠前）：</b><span class="hl">数据 &lt; 标记 &lt; 控制 &lt; 外部 &lt; 公共 &lt; 内容</span><br>
+    记："<b>数标控，外公内</b>"——内容耦合最差（直接改别人内部数据）。<br>
+    <b>内聚高→低（越好越靠前）：</b><span class="hl">功能 &gt; 顺序 &gt; 通信 &gt; 过程 &gt; 时间 &gt; 逻辑 &gt; 偶然</span><br>
+    记："<b>功顺通过时逻偶</b>"——偶然内聚最差（凑一起没联系）。
+  </div>
+
+  <h3>▶ 项目管理 + CMM + 质量（每年 2~3 题）</h3>
+  <div class="box blue">
+    <b>关键路径：</b>项目中<b>最长</b>的路径，决定总工期；关键路径上活动<b>总时差为 0</b>。总时差 = 最迟开始 − 最早开始。<br>
+    <b>甘特图：</b>直观显示进度，但<b>难以反映任务间依赖</b>；PERT 图/箭线图能反映依赖。<br>
+    <b>CMM 五级：</b>初始（混乱）→ 可重复（项目级管理）→ 已定义（组织级标准过程）→ 已管理（定量管理）→ 优化（持续改进）。<br>
+    <b>McCall 质量特性：</b>功能性、可靠性、易使用性、效率、维护性、可移植性。
+  </div>
+
+  <h3>▶ Day1 清单</h3>
+  <div class="chk"><input type="checkbox" data-key="d1-1"><span>背完开发模型 5 行表（10 分钟，遮住右侧复述）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-2"><span>背测试：黑盒/白盒方法名 + 覆盖强度顺序 + McCabe 公式</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-3"><span>默写"数标控外公内" + "功顺通过时逻偶" 两句口诀</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-4"><span>背关键路径/总时差/甘特图弱点 + CMM 五级</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-5"><span>刷近 5 年真题"软件工程"全部题目，错题标注考点</span></div>
+</section>
+
+<!-- ============ Day2 ============ -->
+<section id="d2">
+  <h2>Day 2 · 数据库 + 操作系统日</h2>
+
+  <h3>▶ SQL 高频句式（每年 2~3 题）</h3>
+  <div class="box blue">
+    <b>标准查询：</b><code>SELECT 列 FROM 表 WHERE 条件 GROUP BY 分组列 HAVING 组条件 ORDER BY 排序列</code>——顺序固定：<b>WHERE 在 GROUP 前，HAVING 在 GROUP 后</b>（HAVING 配聚合函数）。<br>
+    <b>授权：</b><code>GRANT SELECT,INSERT ON 表 TO 用户 WITH GRANT OPTION</code>（可转授）；回收 <code>REVOKE</code>。<br>
+    <b>视图：</b><code>CREATE VIEW 视图名 AS SELECT ...</code>——视图是虚表，提高<b>安全性/逻辑独立性</b>。<br>
+    <b>属性函数：</b>COUNT/SUM/AVG/MAX/MIN；<code>DISTINCT</code> 去重。
+  </div>
+
+  <h3>▶ 规范化（你教程 00 篇 ⑦⑧ 节现成，30 分钟复习）</h3>
+  <div class="box orange">
+    四步：<b>分类求闭包 → 找候选码 → 找主/非主属性 → 查坏依赖</b>。口诀"一化要原子，二化消部分，三化消传递，BC 看左部"。<br>
+    关系代数送分：σ（选择/行）π（投影/列）⋈（连接）——注意"投影后同列去重"。
+  </div>
+
+  <h3>▶ PV 操作（每年 1~2 题，模板固定）</h3>
+  <div class="box blue">
+    <b>互斥：</b>一个信号量初值 = <b>1</b>；进临界区 P，出临界区 V。<br>
+    <b>同步（生产者-消费者）：</b><span class="hl">empty 初值 = 缓冲区大小 n；full 初值 = 0；mutex 初值 = 1</span>。<br>
+    生产者：P(empty) → P(mutex) → 放产品 → V(mutex) → V(full)；消费者：P(full) → P(mutex) → 取产品 → V(mutex) → V(empty)。<br>
+    <span class="hl">口诀：同步在前，互斥在后</span>（两个 P 的顺序不能颠倒，否则死锁）。
+  </div>
+
+  <h3>▶ 进程状态 + 死锁</h3>
+  <div class="box orange">
+    <b>三态转换：</b>就绪→运行（被调度）；运行→就绪（时间片到）；运行→阻塞（等资源）；阻塞→就绪（资源到位）。<span class="hl">阻塞不能直接到运行，运行不能直接到阻塞的逆</span>——选择题爱画 6 条箭头让你判断哪条不存在。<br>
+    <b>死锁四条件：</b>互斥、请求保持、不剥夺、<b>环路等待</b>（破坏任一条可预防；银行家算法是"避免"死锁）。
+  </div>
+
+  <h3>▶ 页式存储 / 磁盘（教程 00 篇现成）</h3>
+  <div class="box green">
+    复习 <a class="a" href="00-上午题-页式存储与磁盘计算.html">00 上午题教程</a>：地址转换三步法、FIFO/LRU/OPT 缺页、磁盘存取时间 = 寻道 + 旋转延迟 + 传输、位示图（字号 = 块号 ÷ 字长，位号 = 余数）。
+  </div>
+
+  <h3>▶ Day2 清单</h3>
+  <div class="chk"><input type="checkbox" data-key="d2-1"><span>SQL 句式默写一遍（GROUP/HAVING 顺序 + GRANT/REVOKE）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-2"><span>复习 00 篇候选码四步法 + 范式口诀，做配套随学随练题</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-3"><span>背生产者-消费者 PV 模板（三个信号量初值 + P/V 顺序）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-4"><span>画一遍进程三态图，标出"不存在的转换"</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-5"><span>刷真题"数据库 + 操作系统"模块，错题标注考点</span></div>
+</section>
+
+<!-- ============ Day3 ============ -->
+<section id="d3">
+  <h2>Day 3 · 硬件 + 网络 + 知识产权 + 英语（送分大日）</h2>
+
+  <h3>▶ 四个必背公式（每年 3~4 题）</h3>
+  <div class="box blue">
+    <b>① 浮点数：</b>N = 尾数 × 2^阶码。<span class="hl">范围由阶码位数决定，精度由尾数位数决定</span>（选择常考这两句的对调）。规格化：尾数最高位为 1。<br>
+    <b>② 可靠性：</b>串联 R = R1 × R2 × …；<b>并联 R = 1 − (1−R1)(1−R2)</b>；串联可靠性随部件增多<b>降低</b>，并联<b>提高</b>。<br>
+    <b>③ Cache：</b>平均访问时间 = 命中率 × Cache 时间 + (1−命中率) × 主存时间（顺序访问式）或 + (1−命中率) × (Cache+主存) 时间（同时访问式）——看清题干给哪种。<br>
+    <b>④ 流水线：</b>总时间 = <b>1 条完整指令时间 + (n−1) × 流水线周期</b>（周期 = 最长段耗时）；吞吐率 = n ÷ 总时间；加速比 = 不用流水时间 ÷ 流水时间。
+  </div>
+
+  <h3>▶ 网络基础（每年 3~5 题）</h3>
+  <div class="box orange">
+    <b>OSI 七层：</b>物理、数据链路、网络、传输、会话、表示、应用。口诀"<b>巫师忘传会赢死</b>"（物数网传会表应）。<br>
+    <b>协议对号：</b>应用层 HTTP/FTP/SMTP/DNS/DHCP；传输层 <b>TCP（面向连接、可靠、三次握手）</b>/ <b>UDP（无连接、不可靠、快）</b>；网络层 IP/ICMP/ARP；传输介质以下物理层。<br>
+    <b>子网划分：</b>子网掩码 1 的个数 = 网络位；<span class="hl">可用主机数 = 2^主机位 − 2</span>（去掉网络地址和广播地址）。/26 → 主机位 6 → 62 台；/28 → 14 台。<br>
+    <b>常用：C 类默认掩码 255.255.255.0（/24），网关是"通往其他网络的出口 IP"。</b>
+  </div>
+
+  <h3>▶ 知识产权 + 标准化（1 小时硬背，稳拿 3 分）</h3>
+  <table>
+    <tr><th>考点</th><th>必背结论</th></tr>
+    <tr><td>著作权取得</td><td><b>自动取得</b>——作品创作完成即享有，无需登记发表</td></tr>
+    <tr><td>保护期（著作权）</td><td>署名/修改/保护作品完整权：<b>无期限</b>；发表权与财产权：作者<b>终生 + 死后 50 年</b>（12.31 止）</td></tr>
+    <tr><td>软件著作权</td><td>自然人：终生 + 死后 50 年；法人：首次发表后 50 年；<b>登记不是取得前提</b></td></tr>
+    <tr><td>专利</td><td>发明 <b>20 年</b>、实用新型 <b>10 年</b>、外观设计 <b>15 年</b>（均自申请日起）；专利权需<b>申请授予</b></td></tr>
+    <tr><td>商标</td><td>注册有效 <b>10 年</b>，可无限续展（每次 10 年）</td></tr>
+    <tr><td>委托开发</td><td>无约定时，著作权/专利权归<b>受托方（创作方）</b></td></tr>
+    <tr><td>商业秘密</td><td>无保护期限，但<b>他人反向工程合法</b>（软件合法复制品所有人可逆向）</td></tr>
+    <tr><td>标准分级</td><td>国标 GB &gt; 行业 &gt; 地方 &gt; 企业；国际标准 ISO；国标代号 GB（强制）/GB/T（推荐）</td></tr>
+  </table>
+
+  <h3>▶ 专业英语（5 分，练 2 套就稳）</h3>
+  <div class="box purple">
+    套路：<b>先看选项词性</b>（名词/动词/形容词），再回原文找<b>同义复现与固定搭配</b>；高频主题是软件工程/开发方法。高频词：requirement（需求）、specification（规格说明）、maintenance（维护）、integration（集成）、interface（接口）、object-oriented（面向对象）。
+  </div>
+
+  <h3>▶ Day3 清单</h3>
+  <div class="chk"><input type="checkbox" data-key="d3-1"><span>默写四个公式（浮点/可靠性/Cache/流水线）并各做 1 道真题</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-2"><span>背 OSI 七层口诀 + TCP/UDP 区别 + 协议对号</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-3"><span>子网划分练 3 题（/26、/28、可用主机数）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-4"><span>知识产权表硬背 1 小时，做真题"知识产权"全部题</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-5"><span>英语做 2 套真题（只总结套路，不通读全文）</span></div>
+</section>
+
+<!-- ============ Day4 ============ -->
+<section id="d4">
+  <h2>Day 4 · 数据结构 + 你的强项 + 全真模拟</h2>
+
+  <h3>▶ 排序算法表（每年 2~3 题，必背）</h3>
+  <table>
+    <tr><th>算法</th><th>平均</th><th>最坏</th><th>稳定性</th></tr>
+    <tr><td>插入 / 冒泡</td><td>O(n²)</td><td>O(n²)</td><td class="ok">稳定</td></tr>
+    <tr><td>选择</td><td>O(n²)</td><td>O(n²)</td><td class="hl">不稳定</td></tr>
+    <tr><td>希尔</td><td>≈O(n^1.3)</td><td>O(n²)</td><td class="hl">不稳定</td></tr>
+    <tr><td>快速</td><td>O(n log n)</td><td class="hl">O(n²)（基本有序时最差）</td><td class="hl">不稳定</td></tr>
+    <tr><td>归并</td><td>O(n log n)</td><td>O(n log n)</td><td class="ok">稳定</td></tr>
+    <tr><td>堆排</td><td>O(n log n)</td><td>O(n log n)</td><td class="hl">不稳定</td></tr>
+  </table>
+  <div class="box orange"><b>稳定性口诀："<span class="hl">快些选堆</span>"不稳定</b>（快速、希尔、选择、堆）。其余（插入/冒泡/归并/基数）稳定。</div>
+
+  <h3>▶ 数据结构高频点</h3>
+  <div class="box blue">
+    <b>二叉树：</b>叶子数 n0 = <b>n2 + 1</b>（n1 为度 1 节点）；n 个节点的完全二叉树高度 = ⌈log₂(n+1)⌉；<b>前序+中序</b>可唯一重建二叉树（前+后不行）。<br>
+    <b>图：</b>DFS 用<b>栈</b>，BFS 用<b>队列</b>；n 顶点邻接矩阵存储空间 O(n²)。<br>
+    <b>复杂度链：</b>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ) &lt; O(n!)（教程 04 篇）。
+  </div>
+
+  <h3>▶ 强项保分：面向对象 + 模式 + UML（30 分钟速刷）</h3>
+  <div class="box green">
+    <a class="a" href="08-设计模式23式全解.html">08 模式全解</a>：只背高频 6 骨架（策略/装饰器/观察者/单例/工厂方法/状态）+ 易混对比表。<br>
+    <a class="a" href="03-UML建模.html">03 UML 篇</a>：include/extend 方向、六关系记号、试题三问题3"观察者"答法。
+  </div>
+
+  <h3>▶ 全真模拟 + 对账</h3>
+  <div class="box purple">
+    <b>掐表 150 分钟做一套近 2 年上午真题</b>（只做上午题部分约 2.5 小时），做完按模块对账：软件工程 / 数据库 / OS / 硬件网络 / 英语 / 知识产权 / 数据结构 / 面向对象，各模块实际得分 vs 预期——低于预期的模块，考前一晚只回看该模块速记卡。
+  </div>
+
+  <h3>▶ Day4 清单</h3>
+  <div class="chk"><input type="checkbox" data-key="d4-1"><span>背排序表 + "快些选堆"口诀 + 二叉树三性质</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-2"><span>DFS 栈 / BFS 队列 + 复杂度链复述一遍</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-3"><span>速刷 08 模式全解（高频 6 骨架）+ 03 UML 清单</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-4"><span>掐表做 1 套近年上午真题，按模块对账</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-5"><span>列出"低于预期"模块，考前一晚只回看这些速记卡</span></div>
+</section>
+
+<!-- ============ 技巧 ============ -->
+<section id="tips">
+  <h2>考场实战技巧（上午题专用）</h2>
+  <div class="box red">
+    <b>① 75 题必须全部做完</b>：单选 75 题 ×1 分，及格 45 分。空白 = 白丢分；不会的按"同一字母连蒙"（期望 ≥18 分）。<br>
+    <b>② 时间分配：</b>上午 150 分钟，75 题平均 2 分钟/题。计算题卡住超过 3 分钟立即标记跳过。<br>
+    <b>③ 先做记忆题</b>（软件工程/知识产权/英语/模式），再做计算题（页式/磁盘/流水线/子网），最后回头补标记题。<br>
+    <b>④ 计算题四件套</b>（Day3 的公式）在草稿纸上开考前默写一遍——开考前有几分钟，公式遗忘是最大丢分源。<br>
+    <b>⑤ 注意"不正确的是"</b>——上午题最阴的陷阱，圈出"不"字再答题。
+  </div>
+</section>
+
+<div class="foot">软考软件设计师 · 四天冲刺计划 · 进度保存在本机浏览器（同一浏览器打开才有效）</div>
+</div>
+
+<script>
+(function(){
+  const KEY='skct-09-';
+  const boxes=document.querySelectorAll('.chk input');
+  boxes.forEach(function(c){
+    c.checked = localStorage.getItem(KEY+c.dataset.key)==='1';
+    if(c.checked) c.closest('.chk').classList.add('done');
+    c.addEventListener('change',function(){
+      localStorage.setItem(KEY+c.dataset.key, c.checked?'1':'0');
+      c.closest('.chk').classList.toggle('done', c.checked);
+      update();
+    });
+  });
+  function update(){
+    ['d1','d2','d3','d4'].forEach(function(d){
+      const items=document.querySelectorAll('.chk input[data-key^="'+d+'-"]');
+      const done=document.querySelectorAll('.chk input[data-key^="'+d+'-"]:checked').length;
+      const pct=items.length? Math.round(done/items.length*100):0;
+      const bar=document.getElementById('bar-'+d), lab=document.getElementById('pct-'+d);
+      if(bar) bar.style.width=pct+'%';
+      if(lab) lab.textContent = done+'/'+items.length+' 项 · '+pct+'%';
+    });
+  }
+  update();
+})();
+</script>
+</body>
+</html>
