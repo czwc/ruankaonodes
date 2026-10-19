@@ -39,12 +39,21 @@
   .chk.done span{text-decoration:line-through;color:var(--done);}
   .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
   a.a{color:var(--blue);font-weight:bold;text-decoration:none;} a.a:hover{text-decoration:underline;}
+  details.rec{border:1px solid var(--border);border-radius:10px;padding:8px 12px;margin:8px 0;background:var(--card2);}
+  details.rec summary{cursor:pointer;font-weight:bold;color:var(--blue);font-size:14px;}
+  details.rec .ans{margin-top:8px;padding-top:8px;border-top:1px dashed var(--border);font-size:13.5px;}
+  .miss{display:inline-flex;align-items:center;gap:5px;margin-top:6px;font-size:12px;color:var(--muted);cursor:pointer;}
+  .miss input{accent-color:var(--red);width:13px;height:13px;cursor:pointer;}
+  .miss.on{color:var(--red);font-weight:bold;}
+  body.review-mode section:not(.has-miss){opacity:.25;}
+  body.review-mode section.has-miss{outline:2px solid var(--orange);border-radius:14px;}
 </style>
 </head>
 <body>
 <div class="wrap">
 
 <header>
+  <button class="theme-btn" id="reviewBtn" type="button" style="right:120px;">回看模式</button>
   <button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
   <h1>四天冲刺 · 上午抢分 + 下午保分（2026 命题预测版）</h1>
   <p>每天 3~4 小时 = 上午题背刷 2~2.5h + 下午题配练 1~1.5h · 两卷都要过 45 分线 · 勾选进度自动保存</p>
@@ -83,6 +92,7 @@
   </div>
   <div class="box red"><b>主动放弃清单（考了不亏）：</b>正规式转自动机难题、复杂数学证明题、阿姆达尔定律推导、嵌入式实时调度细节、颜色空间深问——每个只记本页"一句话结论"，见到难题直接蒙跳过。</div>
   <div class="box red"><b>两条铁律：</b>①只刷近 5 年<b>真题</b>，不做模拟题；②错题只搞懂"这道题的考点"，不延伸。时间只够抢救，不够钻研。</div>
+  <div class="box green"><b>本页学习法（为什么这样设计）：</b>①每背完一张速记卡，<b>立刻做下面的"30 秒自测"</b>——心理学检索练习效应：测 1 次 ≈ 重读 3 遍的留存率；②答错的勾"没记住"；③考前一晚点右上角<b>"回看模式"</b>——只亮出你错过题的板块，其余变暗，错题就是你的个性化复习清单；④计算题只背公式没用，Day3 有 4 道<b>带完整步骤的例题</b>，先自己算再对步骤。</div>
 </section>
 
 <!-- ============ 命题预测 ============ -->
@@ -169,6 +179,15 @@
     <b>今天任务：</b>过 01 篇大题 2 道 + 近 5 年真题试题一 1 道，对答案标评分点。
   </div>
 
+  <h3>▶ 30 秒自测（遮住答案，答错就勾"没记住"）</h3>
+  <details class="rec"><summary>① 银行大型项目，每个阶段都先做风险分析再继续 → 选什么开发模型？</summary><div class="ans"><b>螺旋模型</b>——"风险驱动/风险分析"是它独有的关键词。</div><label class="miss"><input type="checkbox" data-mkey="r1-1"> 没记住</label></details>
+  <details class="rec"><summary>② 需求模糊，先做了个界面给用户确认 → 什么模型？</summary><div class="ans"><b>原型模型</b>——关键词"先做原型给用户确认"。</div><label class="miss"><input type="checkbox" data-mkey="r1-2"> 没记住</label></details>
+  <details class="rec"><summary>③ 白盒覆盖中"每个判定和每个条件都取到真假"是哪种？</summary><div class="ans"><b>判定/条件覆盖</b>——同时满足判定覆盖和条件覆盖；最强的是路径覆盖。</div><label class="miss"><input type="checkbox" data-mkey="r1-3"> 没记住</label></details>
+  <details class="rec"><summary>④ 程序图有 10 条边、8 个节点，McCabe 复杂度 = ？</summary><div class="ans">V(G) = 10 − 8 + 2 = <b>4</b>（注意别算反：边 − 点 + 2）。</div><label class="miss"><input type="checkbox" data-mkey="r1-4"> 没记住</label></details>
+  <details class="rec"><summary>⑤ 模块 A 直接读写模块 B 内部数据 → 什么耦合？</summary><div class="ans"><b>内容耦合</b>——最差的一种；"通过参数传递记录"才是数据耦合。</div><label class="miss"><input type="checkbox" data-mkey="r1-5"> 没记住</label></details>
+  <details class="rec"><summary>⑥ 为适配 Windows 11 新环境而修改软件 → 什么维护？</summary><div class="ans"><b>适应性维护</b>——"环境/平台变了"；加新功能才是完善性（占比最大）。</div><label class="miss"><input type="checkbox" data-mkey="r1-6"> 没记住</label></details>
+  <details class="rec"><summary>⑦ 新增一种导出格式只需加子类、不改旧代码 → 什么原则？</summary><div class="ans"><b>开闭原则</b>——对扩展开放、对修改关闭，场景里看到"不改旧代码加功能"就是它。</div><label class="miss"><input type="checkbox" data-mkey="r1-7"> 没记住</label></details>
+
   <h3>▶ Day1 清单</h3>
   <div class="chk"><input type="checkbox" data-key="d1-1"><span>背完开发模型 5 行表（10 分钟，遮住右侧复述）</span></div>
   <div class="chk"><input type="checkbox" data-key="d1-2"><span>背测试：黑盒/白盒方法名 + 覆盖强度顺序 + McCabe 公式</span></div>
@@ -233,6 +252,14 @@
     <b>今天任务：</b>过 02 篇大题 + 近 5 年真题试题二 1 道。
   </div>
 
+  <h3>▶ 30 秒自测</h3>
+  <details class="rec"><summary>① 统计每个部门的平均工资，只显示平均值大于 8000 的部门 → SQL 怎么写？</summary><div class="ans"><code>GROUP BY 部门 HAVING AVG(工资)&gt;8000</code>——组条件用 HAVING，行条件才用 WHERE。</div><label class="miss"><input type="checkbox" data-mkey="r2-1"> 没记住</label></details>
+  <details class="rec"><summary>② 能唯一标识元组的<b>最小</b>属性集叫什么？</summary><div class="ans"><b>候选码</b>——去掉任一属性就不再唯一；从候选码里选一个当主键。</div><label class="miss"><input type="checkbox" data-mkey="r2-2"> 没记住</label></details>
+  <details class="rec"><summary>③ 缓冲区容量为 10 的生产者-消费者问题，三个信号量初值各是多少？</summary><div class="ans">empty = <b>10</b>、full = <b>0</b>、mutex = <b>1</b>——记住"资源数给 empty、结果数给 full、互斥给 1"。</div><label class="miss"><input type="checkbox" data-mkey="r2-3"> 没记住</label></details>
+  <details class="rec"><summary>④ 进程从"阻塞"能直接转到"运行"吗？</summary><div class="ans"><b>不能</b>——必须先进就绪队列等调度；"阻塞→运行"是最常考的不存在转换。</div><label class="miss"><input type="checkbox" data-mkey="r2-4"> 没记住</label></details>
+  <details class="rec"><summary>⑤ 转账时扣款成功但断电没入账，违反了事务哪个性质？</summary><div class="ans"><b>原子性</b>——要么全做要么全不做；"提交后永久"是持续性。</div><label class="miss"><input type="checkbox" data-mkey="r2-5"> 没记住</label></details>
+  <details class="rec"><summary>⑥ 学生表与课程表是 m:n 联系，转关系模式时怎么处理？</summary><div class="ans"><b>单独建一张"选课表"</b>，主键 = 学号+课程号组合；1:n 才并入对方模式。</div><label class="miss"><input type="checkbox" data-mkey="r2-6"> 没记住</label></details>
+
   <h3>▶ Day2 清单</h3>
   <div class="chk"><input type="checkbox" data-key="d2-1"><span>SQL 句式默写一遍（GROUP/HAVING 顺序 + GRANT/REVOKE）</span></div>
   <div class="chk"><input type="checkbox" data-key="d2-2"><span>复习 00 篇候选码四步法 + 范式口诀，做配套随学随练题</span></div>
@@ -258,6 +285,12 @@
     <b>⑥ CPU 组成：</b>运算器（ALU、累加器、状态寄存器）+ 控制器（<b>PC 程序计数器</b>、IR 指令寄存器、译码器）。<br>
     <b>⑦ 流水线三种相关：</b>资源相关、<b>数据相关</b>（后条要用前条结果）、控制相关（转移指令）——解决靠停顿/重排。
   </div>
+
+  <h3>▶ 四大公式·真题级例题（先自己算 1 分钟，再点开对步骤）</h3>
+  <details class="rec"><summary>例1【流水线】四段流水线各段耗时 1/2/3/4ns，执行 100 条指令总时间？加速比？</summary><div class="ans">周期 = 最长段 = <b>4ns</b>。总时间 = (1+2+3+4) + (100−1)×4 = 10 + 396 = <b>406ns</b>。<br>加速比 = 不流水时间 ÷ 流水时间 = (100×10) ÷ 406 ≈ <b>2.46</b>。<br><span class="hl">丢分点：</span>首条指令时间 = 各段之和，别用周期代替。</div><label class="miss"><input type="checkbox" data-mkey="r3-1"> 没记住</label></details>
+  <details class="rec"><summary>例2【Cache】命中率 90%，Cache 40ns，主存 200ns，平均访问时间？</summary><div class="ans">顺序访问式：T = 0.9×40 + 0.1×200 = 36 + 20 = <b>56ns</b>。<br><span class="hl">丢分点：</span>若题干说"同时访问"，第二项要写成 0.1×(40+200)=24，T=60ns——看清题干！</div><label class="miss"><input type="checkbox" data-mkey="r3-2"> 没记住</label></details>
+  <details class="rec"><summary>例3【可靠性】两个子系统串联，每个子系统由 2 个可靠度 0.9 的部件并联，系统可靠度？</summary><div class="ans">先并联：R = 1 − (1−0.9)² = 1 − 0.01 = <b>0.99</b>；<br>再串联：R = 0.99 × 0.99 = <b>0.9801</b>。<br><span class="hl">口诀：先小后大——先把每个子系统算成一个数，再串。</span></div><label class="miss"><input type="checkbox" data-mkey="r3-3"> 没记住</label></details>
+  <details class="rec"><summary>例4【子网】200.1.1.0/27 划分，每个子网可用主机数？能分几个子网（相对 /24）？</summary><div class="ans">/27 → 主机位 = 32−27 = 5 位 → 可用主机 = 2⁵−2 = <b>30 台</b>；<br>网络位比 /24 多 3 位 → 子网数 = 2³ = <b>8 个</b>。</div><label class="miss"><input type="checkbox" data-mkey="r3-4"> 没记住</label></details>
 
   <h3>▶ 寻址方式 + 校验码 + RAID（每年 2~3 题）</h3>
   <div class="box green">
@@ -322,6 +355,13 @@
     <b>最后一问 ≈ 设计模式（约 3 分）：</b>从场景动词定意图 → 套 6 骨架（策略/观察者/装饰器/状态/单例/工厂方法），答题模板见 <a class="a" href="08-设计模式23式全解.html">08 篇</a>。<br>
     <b>今天任务：</b>过 03 篇大题 + 真题试题三 1 道（重点练最后一问）。
   </div>
+
+  <h3>▶ 30 秒自测</h3>
+  <details class="rec"><summary>① 寻址方式里"间接寻址"和"立即寻址"谁快？为什么？</summary><div class="ans"><b>立即最快</b>——操作数就在指令里不用访存；间接要访存 2 次（取地址、取数）所以最慢但范围最大。</div><label class="miss"><input type="checkbox" data-mkey="r3-5"> 没记住</label></details>
+  <details class="rec"><summary>② 信息位 8 位，海明码需要几位校验位？</summary><div class="ans">2^k ≥ 8 + k + 1 → k = <b>4</b>（2⁴=16 ≥ 13 成立；k=3 时 8 < 12 不成立）。</div><label class="miss"><input type="checkbox" data-mkey="r3-6"> 没记住</label></details>
+  <details class="rec"><summary>③ 数字签名是"发送方公钥加密"还是"发送方私钥加密"？</summary><div class="ans"><b>发送方用自己私钥签名</b>（人人可验、且只有他有这把私钥→防抵赖）；保密才是"用接收方公钥加密"。</div><label class="miss"><input type="checkbox" data-mkey="r3-7"> 没记住</label></details>
+  <details class="rec"><summary>④ 员工离职时把公司源码卖给别人 → 侵犯了什么权？归属谁？</summary><div class="ans">侵犯<b>软件著作权</b>；职务开发的作品著作权归<b>公司</b>，离职也带不走。</div><label class="miss"><input type="checkbox" data-mkey="r3-8"> 没记住</label></details>
+  <details class="rec"><summary>⑤ 只能检错不能纠错的两种校验码是？能纠 1 位错的是？</summary><div class="ans">奇偶校验、CRC 都<b>只能检错</b>；<b>海明码</b>能纠 1 位错。</div><label class="miss"><input type="checkbox" data-mkey="r3-9"> 没记住</label></details>
 
   <h3>▶ Day3 清单</h3>
   <div class="chk"><input type="checkbox" data-key="d3-1"><span>默写四个公式（浮点/可靠性/Cache/流水线）并各做 1 道真题</span></div>
@@ -404,6 +444,15 @@
     <b>策略：</b>试题 5(C++)/6(Java) <b>只主攻 Java</b>；整卷下午题 150 分钟掐表做 1 套，用 <a class="a" href="07-仿真真题精析.html">07 篇</a>对照评分点。
   </div>
 
+  <h3>▶ 30 秒自测</h3>
+  <details class="rec"><summary>① 快速排序在什么情况下最坏？最坏复杂度？</summary><div class="ans"><b>基本有序时最坏</b>（划分极不平衡），O(n²)——"快些选堆"都不稳定。</div><label class="miss"><input type="checkbox" data-mkey="r4-1"> 没记住</label></details>
+  <details class="rec"><summary>② 二叉树 5 个叶子节点，度 2 的节点有几个？</summary><div class="ans">n0 = n2 + 1 → n2 = 5 − 1 = <b>4</b>。</div><label class="miss"><input type="checkbox" data-mkey="r4-2"> 没记住</label></details>
+  <details class="rec"><summary>③ 循环队列容量 10，front=3、rear=8，元素个数？</summary><div class="ans">(8 − 3 + 10) mod 10 = <b>5</b>——记得加容量再取模（防 rear 在 front 前面）。</div><label class="miss"><input type="checkbox" data-mkey="r4-3"> 没记住</label></details>
+  <details class="rec"><summary>④ 100 个元素的有序表二分查找，最多比较几次？</summary><div class="ans">⌈log₂(100+1)⌉ = <b>7 次</b>。</div><label class="miss"><input type="checkbox" data-mkey="r4-4"> 没记住</label></details>
+  <details class="rec"><summary>⑤ 方案A：60% 概率赚 80 万、40% 概率亏 20 万，EMV？</summary><div class="ans">EMV = 80×0.6 + (−20)×0.4 = 48 − 8 = <b>40 万</b>——与另一方案比大小取大者。</div><label class="miss"><input type="checkbox" data-mkey="r4-5"> 没记住</label></details>
+  <details class="rec"><summary>⑥ 云上只租服务器和存储、系统自己装 → IaaS/PaaS/SaaS 哪个？</summary><div class="ans"><b>IaaS</b>——租基础设施；"租环境部署代码"是 PaaS；"直接用在线软件"是 SaaS。</div><label class="miss"><input type="checkbox" data-mkey="r4-6"> 没记住</label></details>
+  <details class="rec"><summary>⑦ 观察者模式的场景关键词和两个标志性方法名？</summary><div class="ans">关键词"<b>状态变化自动通知所有依赖者</b>"；方法 <b>notify() / update()</b>——目标通知，观察者更新。</div><label class="miss"><input type="checkbox" data-mkey="r4-7"> 没记住</label></details>
+
   <h3>▶ Day4 清单</h3>
   <div class="chk"><input type="checkbox" data-key="d4-1"><span>背排序表 + "快些选堆"口诀 + 二叉树三性质</span></div>
   <div class="chk"><input type="checkbox" data-key="d4-2"><span>DFS 栈 / BFS 队列 + 复杂度链复述一遍</span></div>
@@ -476,6 +525,41 @@
     });
   }
   update();
+
+  /* 错题标记 + 回看模式 */
+  const MK='skct-09-miss-';
+  const secs=document.querySelectorAll('section');
+  function markSec(c){
+    if(c.checked){
+      const s=c.closest('section'); if(s) s.classList.add('has-miss');
+      c.closest('.miss').classList.add('on');
+    }else{
+      c.closest('.miss').classList.remove('on');
+      const s=c.closest('section');
+      if(s && !s.querySelector('.miss input:checked')) s.classList.remove('has-miss');
+    }
+  }
+  const mboxes=document.querySelectorAll('.miss input');
+  mboxes.forEach(function(c){
+    c.checked = localStorage.getItem(MK+c.dataset.mkey)==='1';
+    markSec(c);
+    c.addEventListener('change',function(){
+      localStorage.setItem(MK+c.dataset.mkey, c.checked?'1':'0');
+      markSec(c); reviewCount();
+    });
+  });
+  function reviewCount(){
+    const n=document.querySelectorAll('.miss input:checked').length;
+    reviewBtn.textContent = (reviewing?'退出回看':'回看模式') + (n?('（'+n+' 题没记住）'):'');
+  }
+  const reviewBtn=document.getElementById('reviewBtn');
+  let reviewing=false;
+  reviewBtn.addEventListener('click',function(){
+    reviewing=!reviewing;
+    document.body.classList.toggle('review-mode',reviewing);
+    reviewCount();
+  });
+  reviewCount();
 })();
 </script>
 </body>
