@@ -245,6 +245,21 @@
     <b>E-R 转关系模式：</b>每个实体一个模式；1:1 和 1:n 联系<b>并入</b>对方模式（加上对方主键）；<b>m:n 联系必须单独建表</b>，主键 = 两端主键组合。
   </div>
 
+  <h3>▶ 例9【范式判定】真题标准套路（先自己判 2 分钟，再对步骤）</h3>
+  <details class="rec"><summary>已知 R(A,B,C,D)，函数依赖 F = {A→B, B→C, A→D}。求候选码？R 最高满足第几范式？</summary>
+    <div class="ans">
+      <b>第一步：求候选码（四步法）。</b>看箭头谁只在左边：B、C、D 都被别人决定过，只有 <b>A</b> 从不做"右边"→ A 必在候选码。求 A 的闭包：A → 得 B（A→B）→ 得 C（B→C）→ 得 D（A→D），A⁺ = {A,B,C,D} = 全部属性 → <b>候选码就是 A</b>（只有一个）。<br>
+      <b>第二步：分主次。</b>主属性 = A；非主属性 = B、C、D。（范式判断只看<b>非主属性</b>对候选码的依赖）<br>
+      <b>第三步：按顺序检查坏依赖。</b><br>
+      · 判 2NF：非主属性有没有"只依赖候选码一部分"？候选码 A 是单属性，不存在部分依赖 → <b>满足 2NF</b> ✓<br>
+      · 判 3NF：有没有传递依赖？发现 A→B→C：C 不直接依赖 A，而是通过 B 传递过来 → <b>存在传递依赖，不满足 3NF</b> ✗<br>
+      <b>结论：R 最高满足 2NF。</b><br>
+      <b>第四步（若问"分解成 3NF"）：</b>把传递链拆开——R1(A,B,D) + R2(B,C)，两表内都不再有传递依赖 → 都达 3NF。<br>
+      <span class="hl">易错：</span>①判 2NF 的前提是候选码为<b>多属性</b>才有"部分依赖"可谈，单属性候选码自动满足 2NF；②"B→C 且 A→B"就叫传递依赖，别因为 A 也直接→D 就忽略 C；③问"最高满足第几范式"= 从 2NF 往上逐级查，碰到第一个不满足的就停。
+    </div>
+    <label class="miss"><input type="checkbox" data-mkey="r2-8"> 没记住</label>
+  </details>
+
   <h3>▶ PV 操作（每年 1~2 题，模板固定）</h3>
   <div class="box blue">
     <b>互斥：</b>一个信号量初值 = <b>1</b>；进临界区 P，出临界区 V。<br>
@@ -327,7 +342,7 @@
 
   <h3>▶ 更多必考计算·照步骤一步步套（先自己算再对答案）</h3>
   <details class="rec"><summary>例5【页式地址转换】页大小 1KB，逻辑地址 2500，该页装入内存帧号 4，物理地址 = ？</summary><div class="ans"><b>三步：</b>① 求页内偏移位数：1KB=2¹⁰ → 低 10 位是偏移；② 拆逻辑地址：页号 = 2500 ÷ 1024 = <b>2</b>（整除），偏移 = 2500 − 2×1024 = <b>452</b>；③ 物理地址 = 帧号 × 页大小 + 偏移 = 4×1024 + 452 = <b>4548</b>。<br><span class="hl">易错：</span>页大小换成 4KB 就用 4096 除；"页号查表得帧号"这步题干会给映射表，别拿页号当帧号用。</div><label class="miss"><input type="checkbox" data-mkey="r3-10"> 没记住</label></details>
-  <details class="rec"><summary>例6【磁盘存取】转速 6000 转/分，平均寻道 4ms，每磁道 50 扇区，读 1 个扇区总时间 = ？</summary><div class="ans"><b>三步：</b>① 转一圈 = 60000ms ÷ 6000 = <b>10ms</b>；② 平均旋转延迟 = 转半圈 = <b>5ms</b>；③ 传输时间 = 转一圈 ÷ 每道扇区数 = 10 ÷ 50 = <b>0.2ms</b>。<br>总时间 = 寻道 4 + 旋转 5 + 传输 0.2 = <b>9.2ms</b>。<br><span class="hl">易错：</span>转速单位是"转/分"要换算成 ms；平均旋转延迟永远 = 半圈；题目若问"读一整个磁道"则不用除扇区数。</div><label class="miss"><input type="checkbox" data-mkey="r3-11"> 没记住</label></details>
+  <details class="rec"><summary>例6【磁盘存取】转速 6000 转/分，平均寻道 4ms，每磁道 50 扇区，读 1 个扇区总时间 = ？</summary><div class="ans"><b>先懂原理再套数：</b>磁头读数据 = 先把臂移到对的磁道（<b>寻道</b>）→ 等盘转到目标扇区转到磁头下面（<b>旋转延迟</b>）→ 扇区从磁头下扫过（<b>传输</b>）。三段相加就是总时间。<br><b>三步：</b>① 转一圈 = 60 秒 ÷ 6000 转 = 0.01 秒 = <b>10ms</b>；② 为什么平均旋转延迟是<b>半圈</b>？——磁头不知道目标扇区此刻在哪，运气最好立刻到、最差要等一整圈，平均就是一半 = <b>5ms</b>；③ 传输 = 读一个扇区 = 一圈的 1/50 = 10 ÷ 50 = <b>0.2ms</b>。<br>总时间 = 4 + 5 + 0.2 = <b>9.2ms</b>。<br><span class="hl">易错：</span>①"转/分"要先换成每圈毫秒（60000 ÷ 转速）；②若问"读一整个磁道"，传输 = 一整圈 10ms，不用除 50。</div><label class="miss"><input type="checkbox" data-mkey="r3-11"> 没记住</label></details>
   <details class="rec"><summary>例7【位示图】字长 32 位，块号 100（从 0 编号），它在第几个字、第几位？</summary><div class="ans">字号 = 100 ÷ 32 = 3 余 4 → <b>第 3 个字（从 0 数）、位号 4</b>；若题干说"从 1 开始编号"则答案是第 4 个字、第 5 位。<br><span class="hl">易错：</span>唯一坑就是"从 0 还是从 1 编号"——题干读两遍再填。</div><label class="miss"><input type="checkbox" data-mkey="r3-12"> 没记住</label></details>
   <details class="rec"><summary>例8【图像容量】800×600 像素、16 色图像，占多少 KB？</summary><div class="ans"><b>两步：</b>① 16 色 = 2⁴ → 每像素 4 位；② 容量 = 800 × 600 × 4 ÷ 8 = 240000B ÷ 1024 ≈ <b>234KB</b>。<br><span class="hl">易错：</span>"16 色"是 4 位不是 16 位（16 位=65536 色）；音频题则用 采样率×量化位×声道×秒 ÷ 8。</div><label class="miss"><input type="checkbox" data-mkey="r3-13"> 没记住</label></details>
 
