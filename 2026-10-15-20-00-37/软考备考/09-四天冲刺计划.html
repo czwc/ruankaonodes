@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>软考软件设计师·上午题四天冲刺计划</title>
+<title>软考软件设计师·四天冲刺计划（上午+下午双卷版）</title>
 <style>
   :root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
   *{box-sizing:border-box;}
@@ -42,21 +42,22 @@
 <div class="wrap">
 
 <header>
-  <h1>上午题四天冲刺 · 30 → 50 分抢救计划（2026 命题预测版）</h1>
-  <p>每天 3~4 小时 · 覆盖上午题全部考点 + 出题概率星级预测 · 勾选进度自动保存（存在本机浏览器）</p>
+  <h1>四天冲刺 · 上午抢分 + 下午保分（2026 命题预测版）</h1>
+  <p>每天 3~4 小时 = 上午题背刷 2~2.5h + 下午题配练 1~1.5h · 两卷都要过 45 分线 · 勾选进度自动保存</p>
   <nav>
     <a href="#predict">命题预测</a>
-    <a href="#d1">Day1 软件工程+面向对象</a>
-    <a href="#d2">Day2 数据库+OS</a>
-    <a href="#d3">Day3 硬件+网络+安全</a>
-    <a href="#d4">Day4 数据结构+数学+模拟</a>
-    <a href="#tips">实战技巧</a>
+    <a href="#d1">Day1 软件工程+数据流图</a>
+    <a href="#d2">Day2 数据库+OS+库设计</a>
+    <a href="#d3">Day3 硬件安全+UML</a>
+    <a href="#d4">Day4 模拟+算法Java</a>
+    <a href="#tips">考场技巧</a>
   </nav>
 </header>
 
 <!-- ============ 总览 ============ -->
 <section id="plan">
   <h2>总览：四天任务与得分目标</h2>
+  <div class="box blue"><b>双卷结构：</b>下表是<b>上午题 75 分</b>的抢分目标；每天还有 1~1.5h <b>下午题配练</b>（试题一~五轮流练），安排在各 Day 的"下午配练"框——两卷都必须 ≥45 分才算通过。</div>
   <table>
     <tr><th>模块</th><th>卷面分值</th><th>四天预期得分</th><th>安排</th></tr>
     <tr><td>软件工程（模型/需求/测试/耦合内聚/维护/管理）</td><td>8~10</td><td class="ok">6~8</td><td>Day1</td></tr>
@@ -71,10 +72,10 @@
     <tr><td class="hl">合计</td><td>75</td><td class="hl">≈ <b>48~52</b></td><td>及格线 45</td></tr>
   </table>
   <div class="days">
-    <div class="day"><b>Day 1</b>　软件工程日<br><span class="pct">最大分值头，纯记忆</span><div class="bar"><div id="bar-d1"></div></div><span class="pct" id="pct-d1">0%</span></div>
-    <div class="day"><b>Day 2</b>　数据库+OS 日<br><span class="pct">SQL句式+PV+页式</span><div class="bar"><div id="bar-d2"></div></div><span class="pct" id="pct-d2">0%</span></div>
-    <div class="day"><b>Day 3</b>　硬件网络送分日<br><span class="pct">4公式+子网+知识产权</span><div class="bar"><div id="bar-d3"></div></div><span class="pct" id="pct-d3">0%</span></div>
-    <div class="day"><b>Day 4</b>　数据结构+模拟日<br><span class="pct">排序表+全真掐表</span><div class="bar"><div id="bar-d4"></div></div><span class="pct" id="pct-d4">0%</span></div>
+    <div class="day"><b>Day 1</b>　上午软件工程 / 下午数据流图<br><span class="pct">最大分值头，纯记忆</span><div class="bar"><div id="bar-d1"></div></div><span class="pct" id="pct-d1">上午 0%</span><div class="bar"><div id="bar-pd1"></div></div><span class="pct" id="pct-pd1">下午 0%</span></div>
+    <div class="day"><b>Day 2</b>　上午数据库+OS / 下午库设计<br><span class="pct">SQL句式+PV+页式</span><div class="bar"><div id="bar-d2"></div></div><span class="pct" id="pct-d2">上午 0%</span><div class="bar"><div id="bar-pd2"></div></div><span class="pct" id="pct-pd2">下午 0%</span></div>
+    <div class="day"><b>Day 3</b>　上午硬件网络安全 / 下午UML<br><span class="pct">4公式+子网+知识产权</span><div class="bar"><div id="bar-d3"></div></div><span class="pct" id="pct-d3">上午 0%</span><div class="bar"><div id="bar-pd3"></div></div><span class="pct" id="pct-pd3">下午 0%</span></div>
+    <div class="day"><b>Day 4</b>　上午模拟 / 下午整卷掐表<br><span class="pct">排序表+双卷全真</span><div class="bar"><div id="bar-d4"></div></div><span class="pct" id="pct-d4">上午 0%</span><div class="bar"><div id="bar-pd4"></div></div><span class="pct" id="pct-pd4">下午 0%</span></div>
   </div>
   <div class="box red"><b>主动放弃清单（考了不亏）：</b>正规式转自动机难题、复杂数学证明题、阿姆达尔定律推导、嵌入式实时调度细节、颜色空间深问——每个只记本页"一句话结论"，见到难题直接蒙跳过。</div>
   <div class="box red"><b>两条铁律：</b>①只刷近 5 年<b>真题</b>，不做模拟题；②错题只搞懂"这道题的考点"，不延伸。时间只够抢救，不够钻研。</div>
@@ -107,7 +108,7 @@
 
 <!-- ============ Day1 ============ -->
 <section id="d1">
-  <h2>Day 1 · 软件工程 + 面向对象概念日（2h 背 + 1.5h 刷题）</h2>
+  <h2>Day 1 · 上午：软件工程 + 面向对象　|　下午：试题一数据流图</h2>
 
   <h3>▶ 开发模型（每年 1~2 题）</h3>
   <table>
@@ -157,6 +158,13 @@
     <b>七大原则一句话：</b>单一职责（一个类只干一件事）、<b>开闭（对扩展开放对修改关闭，最重要）</b>、里氏替换（子类能替换父类）、依赖倒置（面向接口编程）、接口隔离（接口要小而专）、迪米特（最少知识，只和直接朋友通信）、组合复用（优先组合而非继承）。
   </div>
 
+  <h3>▶ 下午配练 · 试题一 数据流图（配合 <a class="a" href="01-数据流图.html">01 篇</a>）</h3>
+  <div class="box purple">
+    <b>答题三件套（必背）：</b>① 补实体——看缺失数据流的起点/终点是谁（人/组织/外部系统）；② 补数据流——找"只进不出"（黑洞）和"只出不进"（奇迹）的加工；③ <b>父子平衡</b>——0 层图有的输入输出，对应子图必须有。<br>
+    <b>命名规范：</b>加工 = 动词+名词（"生成报表"，不写笼统的"处理"）；数据存储/数据流 = 名词。<br>
+    <b>今天任务：</b>过 01 篇大题 2 道 + 近 5 年真题试题一 1 道，对答案标评分点。
+  </div>
+
   <h3>▶ Day1 清单</h3>
   <div class="chk"><input type="checkbox" data-key="d1-1"><span>背完开发模型 5 行表（10 分钟，遮住右侧复述）</span></div>
   <div class="chk"><input type="checkbox" data-key="d1-2"><span>背测试：黑盒/白盒方法名 + 覆盖强度顺序 + McCabe 公式</span></div>
@@ -165,11 +173,13 @@
   <div class="chk"><input type="checkbox" data-key="d1-5"><span>背需求开发四步 + 维护四类（占比最大=完善性）+ 风险管理流程</span></div>
   <div class="chk"><input type="checkbox" data-key="d1-6"><span>背三大特征 + 七大原则一句话版（重点开闭/里氏/依赖倒置）</span></div>
   <div class="chk"><input type="checkbox" data-key="d1-7"><span>刷近 5 年真题"软件工程 + 面向对象概念"全部题目，错题标注考点</span></div>
+  <div class="chk"><input type="checkbox" data-key="pd1-1"><span>【下午】过 01 篇数据流图大题 2 道（补实体/补数据流）</span></div>
+  <div class="chk"><input type="checkbox" data-key="pd1-2"><span>【下午】真题试题一 1 道，对照评分点（实体/数据流/父子平衡）</span></div>
 </section>
 
 <!-- ============ Day2 ============ -->
 <section id="d2">
-  <h2>Day 2 · 数据库 + 操作系统日</h2>
+  <h2>Day 2 · 上午：数据库 + 操作系统　|　下午：试题二数据库设计</h2>
 
   <h3>▶ SQL 高频句式（每年 2~3 题）</h3>
   <div class="box blue">
@@ -213,6 +223,12 @@
     复习 <a class="a" href="00-上午题-页式存储与磁盘计算.html">00 上午题教程</a>：地址转换三步法、FIFO/LRU/OPT 缺页、磁盘存取时间 = 寻道 + 旋转延迟 + 传输、位示图（字号 = 块号 ÷ 字长，位号 = 余数）。
   </div>
 
+  <h3>▶ 下午配练 · 试题二 数据库设计（配合 <a class="a" href="02-数据库设计.html">02 篇</a>）</h3>
+  <div class="box purple">
+    <b>答题四步（必背）：</b>① 补 E-R 联系——从题干动词短语判断 1:n / m:n（"一个部门有多个员工"=1:n）；② 转模式——<b>m:n 必单独建表</b>，主键 = 两端主键组合；③ 标主键/外键——外键 = 对方的主键；④ 补 SQL——看 GROUP BY 定聚合列，看子查询定 IN/EXISTS。<br>
+    <b>今天任务：</b>过 02 篇大题 + 近 5 年真题试题二 1 道。
+  </div>
+
   <h3>▶ Day2 清单</h3>
   <div class="chk"><input type="checkbox" data-key="d2-1"><span>SQL 句式默写一遍（GROUP/HAVING 顺序 + GRANT/REVOKE）</span></div>
   <div class="chk"><input type="checkbox" data-key="d2-2"><span>复习 00 篇候选码四步法 + 范式口诀，做配套随学随练题</span></div>
@@ -220,11 +236,13 @@
   <div class="chk"><input type="checkbox" data-key="d2-4"><span>画一遍进程三态图，标出"不存在的转换"</span></div>
   <div class="chk"><input type="checkbox" data-key="d2-5"><span>背 ACID + S/X 锁 + 两段锁 + 磁盘调度三种算法</span></div>
   <div class="chk"><input type="checkbox" data-key="d2-6"><span>刷真题"数据库 + 操作系统"模块，错题标注考点</span></div>
+  <div class="chk"><input type="checkbox" data-key="pd2-1"><span>【下午】过 02 篇数据库设计大题（补 E-R 联系 + 转模式）</span></div>
+  <div class="chk"><input type="checkbox" data-key="pd2-2"><span>【下午】真题试题二 1 道，重点对"主外键 + SQL 填空"评分点</span></div>
 </section>
 
 <!-- ============ Day3 ============ -->
 <section id="d3">
-  <h2>Day 3 · 硬件 + 网络 + 安全 + 知识产权 + 英语（送分大日）</h2>
+  <h2>Day 3 · 上午：硬件+网络+安全+知产+英语　|　下午：试题三 UML</h2>
 
   <h3>▶ 四个必背公式（每年 3~4 题）</h3>
   <div class="box blue">
@@ -266,7 +284,6 @@
     <b>常见攻击：</b>DoS/DDoS 拒绝服务（打瘫服务）、<b>SQL 注入</b>（输入恶意 SQL 骗数据库）、<b>XSS 跨站脚本</b>（注入恶意网页脚本）、钓鱼=仿冒网站骗账号。<br>
     <b>密钥管理：</b>会话密钥（对称）常用 KDC 集中分发；公钥真伪靠<b>数字证书/CA</b> 验证。
   </div>
-  </div>
 
   <h3>▶ 多媒体（1~2 题，两个公式）</h3>
   <div class="box orange">
@@ -293,6 +310,13 @@
     套路：<b>先看选项词性</b>（名词/动词/形容词），再回原文找<b>同义复现与固定搭配</b>；高频主题是软件工程/开发方法。<br>
     <b>高频词表：</b>requirement 需求、specification 规格说明、maintenance 维护、integration 集成、interface 接口、object-oriented 面向对象、life cycle 生命周期、algorithm 算法、compile 编译、execution 执行、reliability 可靠性、security 安全性、client/server 客户端/服务器、developer 开发者、upgrade 升级、encapsulate 封装。
   </div>
+
+  <h3>▶ 下午配练 · 试题三 UML（配合 <a class="a" href="03-UML建模.html">03 篇</a>）</h3>
+  <div class="box purple">
+    <b>必背记号：</b>泛化/实现 = 三角箭头（实现是虚线）；依赖 = 虚线箭头；聚合 = 空心菱形、组合 = 实心菱形（整体端）；include 虚线箭头指向被包含用例（必选），extend 方向相反（可选）。<br>
+    <b>状态图三要素：</b>状态（圆角矩形）、转换（箭头 + 事件[条件]/动作）、初始/终止伪状态；<b>活动图：</b>分叉/汇合粗横条、泳道按角色划分。<br>
+    <b>最后一问 ≈ 设计模式（约 3 分）：</b>从场景动词定意图 → 套 6 骨架（策略/观察者/装饰器/状态/单例/工厂方法），答题模板见 <a class="a" href="08-设计模式23式全解.html">08 篇</a>。<br>
+    <b>今天任务：</b>过 03 篇大题 + 真题试题三 1 道（重点练最后一问）。
   </div>
 
   <h3>▶ Day3 清单</h3>
@@ -304,11 +328,13 @@
   <div class="chk"><input type="checkbox" data-key="d3-7"><span>图像/音频容量公式各算 1 道真题 + 背常用端口号</span></div>
   <div class="chk"><input type="checkbox" data-key="d3-8"><span>知识产权表硬背 1 小时，做真题"知识产权"全部题</span></div>
   <div class="chk"><input type="checkbox" data-key="d3-9"><span>英语做 2 套真题（只总结套路，不通读全文）</span></div>
+  <div class="chk"><input type="checkbox" data-key="pd3-1"><span>【下午】过 03 篇 UML 大题（用例图/类图/状态图各 1）</span></div>
+  <div class="chk"><input type="checkbox" data-key="pd3-2"><span>【下午】真题试题三 1 道，最后一问套 6 骨架写完整答案</span></div>
 </section>
 
 <!-- ============ Day4 ============ -->
 <section id="d4">
-  <h2>Day 4 · 数据结构 + 数学 + 强项速刷 + 全真模拟</h2>
+  <h2>Day 4 · 上午：数据结构+数学+模拟　|　下午：试题四五 + 整卷掐表</h2>
 
   <h3>▶ 排序算法表（每年 2~3 题，必背）</h3>
   <table>
@@ -367,6 +393,13 @@
     <b>掐表 150 分钟做一套近 2 年上午真题</b>（只做上午题部分约 2.5 小时），做完按模块对账：软件工程 / 数据库 / OS / 硬件网络 / 英语 / 知识产权 / 数据结构 / 面向对象，各模块实际得分 vs 预期——低于预期的模块，考前一晚只回看该模块速记卡。
   </div>
 
+  <h3>▶ 下午配练 · 试题四五 算法 + Java（配合 <a class="a" href="04-算法策略.html">04 篇</a> / <a class="a" href="05-Java设计模式.html">05 篇</a>）</h3>
+  <div class="box purple">
+    <b>算法题套路：</b>填空先看"空在循环里还是返回语句里"→ 看上下文变量名 → 常考填边界值（<code>i&lt;n</code>、<code>i+1</code>）和递归出口；DP 题先在草稿写"状态含义"再套表。<br>
+    <b>Java 模式填空三步：</b>① 读场景定模式名；② 看类图空位类型（接口/父类/成员变量/方法体）；③ 套骨架关键词（策略=接口+多实现类、观察者=notify/update、装饰器=持有同类型成员）。<br>
+    <b>策略：</b>试题 5(C++)/6(Java) <b>只主攻 Java</b>；整卷下午题 150 分钟掐表做 1 套，用 <a class="a" href="07-仿真真题精析.html">07 篇</a>对照评分点。
+  </div>
+
   <h3>▶ Day4 清单</h3>
   <div class="chk"><input type="checkbox" data-key="d4-1"><span>背排序表 + "快些选堆"口诀 + 二叉树三性质</span></div>
   <div class="chk"><input type="checkbox" data-key="d4-2"><span>DFS 栈 / BFS 队列 + 复杂度链复述一遍</span></div>
@@ -376,21 +409,30 @@
   <div class="chk"><input type="checkbox" data-key="d4-6"><span>程序语言一句话（编译vs解释、传值vs传地址）复述一遍</span></div>
   <div class="chk"><input type="checkbox" data-key="d4-7"><span>背新技术卡：云计算三模式 + 4V + AI 三类学习 + 微服务/DevOps/区块链一句话</span></div>
   <div class="chk"><input type="checkbox" data-key="d4-8"><span>列出"低于预期"模块，考前一晚只回看这些速记卡</span></div>
+  <div class="chk"><input type="checkbox" data-key="pd4-1"><span>【下午】过 04 算法填空套路 + 05 Java 模式填空三步</span></div>
+  <div class="chk"><input type="checkbox" data-key="pd4-2"><span>【下午】掐表 150 分钟做 1 套下午真题，用 07 篇对评分点</span></div>
 </section>
 
 <!-- ============ 技巧 ============ -->
 <section id="tips">
-  <h2>考场实战技巧（上午题专用）</h2>
+  <h2>考场实战技巧（上午 + 下午）</h2>
   <div class="box red">
-    <b>① 75 题必须全部做完</b>：单选 75 题 ×1 分，及格 45 分。空白 = 白丢分；不会的按"同一字母连蒙"（期望 ≥18 分）。<br>
+    <b>【上午】① 75 题必须全部做完</b>：单选 75 题 ×1 分，及格 45 分。空白 = 白丢分；不会的按"同一字母连蒙"（期望 ≥18 分）。<br>
     <b>② 时间分配：</b>上午 150 分钟，75 题平均 2 分钟/题。计算题卡住超过 3 分钟立即标记跳过。<br>
     <b>③ 先做记忆题</b>（软件工程/知识产权/英语/模式），再做计算题（页式/磁盘/流水线/子网），最后回头补标记题。<br>
     <b>④ 计算题四件套</b>（Day3 的公式）在草稿纸上开考前默写一遍——开考前有几分钟，公式遗忘是最大丢分源。<br>
     <b>⑤ 注意"不正确的是"</b>——上午题最阴的陷阱，圈出"不"字再答题。
   </div>
+  <div class="box orange">
+    <b>【下午】① 先通读全部 5 道题再动笔</b>，按把握度排序做（一般：数据库 → 数据流图 → UML → 算法 → Java）；<br>
+    <b>② 评分按点给分</b>：不确定也要把术语写全（如"此处为 include 关系，因为…是必选复用"），空白必 0 分，写了就有机会；<br>
+    <b>③ 图题先数个数再画</b>：实体几个、联系几个、消息几条——画完用题干逐句回验，每句描述都应对应图上一个元素；<br>
+    <b>④ 算法题 15 分钟没思路就先放</b>：先把前 3 道大题拿满，回头攻填空（填空按空给分，蒙边界值也有得分机会）；<br>
+    <b>⑤ 下午 150 分钟 5 道大题</b>，每道约 28 分钟，超时立即跳下一道——下午的敌人不是难度，是时间。
+  </div>
 </section>
 
-<div class="foot">软考软件设计师 · 四天冲刺计划 · 进度保存在本机浏览器（同一浏览器打开才有效）</div>
+<div class="foot">软考软件设计师 · 四天冲刺计划（上午+下午双卷版） · 进度保存在本机浏览器（同一浏览器打开才有效）</div>
 </div>
 
 <script>
@@ -407,7 +449,7 @@
     });
   });
   function update(){
-    ['d1','d2','d3','d4'].forEach(function(d){
+    ['d1','d2','d3','d4','pd1','pd2','pd3','pd4'].forEach(function(d){
       const items=document.querySelectorAll('.chk input[data-key^="'+d+'-"]');
       const done=document.querySelectorAll('.chk input[data-key^="'+d+'-"]:checked').length;
       const pct=items.length? Math.round(done/items.length*100):0;
