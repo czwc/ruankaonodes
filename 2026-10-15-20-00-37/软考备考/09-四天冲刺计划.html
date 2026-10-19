@@ -43,12 +43,12 @@
 
 <header>
   <h1>上午题四天冲刺 · 30 → 50 分抢救计划</h1>
-  <p>每天 3~4 小时 · 只抓高性价比考点 · 勾选进度自动保存（存在本机浏览器）</p>
+  <p>每天 3~4 小时 · 覆盖上午题 75 题全部考点模块（13 大块）· 勾选进度自动保存（存在本机浏览器）</p>
   <nav>
-    <a href="#d1">Day1 软件工程</a>
+    <a href="#d1">Day1 软件工程+面向对象</a>
     <a href="#d2">Day2 数据库+OS</a>
-    <a href="#d3">Day3 硬件+网络+送分</a>
-    <a href="#d4">Day4 数据结构+模拟</a>
+    <a href="#d3">Day3 硬件+网络+安全</a>
+    <a href="#d4">Day4 数据结构+数学+模拟</a>
     <a href="#tips">实战技巧</a>
   </nav>
 </header>
@@ -58,11 +58,16 @@
   <h2>总览：四天任务与得分目标</h2>
   <table>
     <tr><th>模块</th><th>卷面分值</th><th>四天预期得分</th><th>安排</th></tr>
-    <tr><td>软件工程（模型/测试/耦合内聚/管理）</td><td>10~13</td><td class="ok">6~8</td><td>Day1</td></tr>
-    <tr><td>数据库 + 操作系统</td><td>11~14</td><td class="ok">7~9</td><td>Day2</td></tr>
-    <tr><td>计算机组成 + 网络 + 知识产权 + 英语</td><td>16~22</td><td class="ok">9~12</td><td>Day3</td></tr>
-    <tr><td>数据结构 + 面向对象/模式/UML（你的强项）</td><td>14~18</td><td class="ok">8~10</td><td>Day4</td></tr>
-    <tr><td class="hl">合计</td><td>75</td><td class="hl">30 + 15~20 ≈ <b>50</b></td><td>及格线 45</td></tr>
+    <tr><td>软件工程（模型/需求/测试/耦合内聚/维护/管理）</td><td>8~10</td><td class="ok">6~8</td><td>Day1</td></tr>
+    <tr><td>面向对象（概念/UML/设计模式/七原则）——你的强项</td><td>6~8</td><td class="ok">5~6</td><td>Day1/4</td></tr>
+    <tr><td>数据库（E-R/关系代数/SQL/范式/事务并发）</td><td>5~7</td><td class="ok">4~5</td><td>Day2</td></tr>
+    <tr><td>操作系统（PV/状态/死锁/存储/文件/磁盘调度）</td><td>4~6</td><td class="ok">3~4</td><td>Day2</td></tr>
+    <tr><td>计算机组成（四公式/寻址/校验码/RAID）</td><td>5~7</td><td class="ok">4~5</td><td>Day3</td></tr>
+    <tr><td>网络 + 信息安全 + 多媒体</td><td>9~12</td><td class="ok">7~9</td><td>Day3</td></tr>
+    <tr><td>数据结构 + 程序语言（排序/二叉树/图/编译常识）</td><td>8~10</td><td class="ok">6~7</td><td>Day4</td></tr>
+    <tr><td>数学与经济管理（图论/决策/统筹/计数）</td><td>4~6</td><td class="ok">2~3</td><td>Day4</td></tr>
+    <tr><td>知识产权 + 标准化 + 专业英语</td><td>8~10</td><td class="ok">7~8</td><td>Day3/4</td></tr>
+    <tr><td class="hl">合计</td><td>75</td><td class="hl">≈ <b>48~52</b></td><td>及格线 45</td></tr>
   </table>
   <div class="days">
     <div class="day"><b>Day 1</b>　软件工程日<br><span class="pct">最大分值头，纯记忆</span><div class="bar"><div id="bar-d1"></div></div><span class="pct" id="pct-d1">0%</span></div>
@@ -70,12 +75,13 @@
     <div class="day"><b>Day 3</b>　硬件网络送分日<br><span class="pct">4公式+子网+知识产权</span><div class="bar"><div id="bar-d3"></div></div><span class="pct" id="pct-d3">0%</span></div>
     <div class="day"><b>Day 4</b>　数据结构+模拟日<br><span class="pct">排序表+全真掐表</span><div class="bar"><div id="bar-d4"></div></div><span class="pct" id="pct-d4">0%</span></div>
   </div>
+  <div class="box red"><b>主动放弃清单（考了不亏）：</b>正规式转自动机难题、复杂数学证明题、阿姆达尔定律推导、嵌入式实时调度细节、颜色空间深问——每个只记本页"一句话结论"，见到难题直接蒙跳过。</div>
   <div class="box red"><b>两条铁律：</b>①只刷近 5 年<b>真题</b>，不做模拟题；②错题只搞懂"这道题的考点"，不延伸。时间只够抢救，不够钻研。</div>
 </section>
 
 <!-- ============ Day1 ============ -->
 <section id="d1">
-  <h2>Day 1 · 软件工程日（上午 2h 背 + 下午 1.5h 刷题）</h2>
+  <h2>Day 1 · 软件工程 + 面向对象概念日（2h 背 + 1.5h 刷题）</h2>
 
   <h3>▶ 开发模型（每年 1~2 题）</h3>
   <table>
@@ -111,12 +117,28 @@
     <b>McCall 质量特性：</b>功能性、可靠性、易使用性、效率、维护性、可移植性。
   </div>
 
+  <h3>▶ 需求 / 维护 / 风险（每年 2~3 题）</h3>
+  <div class="box orange">
+    <b>需求分类：</b>功能需求（做什么）/ 非功能需求（性能、安全性等约束）/ 设计约束；<b>需求开发</b> = 获取 → 分析 → 定义（写规格说明书）→ 确认；<b>需求管理</b> = 变更控制 + 需求跟踪。<br>
+    <b>软件维护四类：</b>改正性（修 bug）、适应性（环境变了）、<span class="hl">完善性（加功能，占比最大约 50%）</span>、预防性（防患未然）——考"占比最大"答完善性。<br>
+    <b>风险管理流程：</b>风险识别 → 风险预测/评估 → 风险控制；风险暴露 = 风险损失 × 概率。
+  </div>
+
+  <h3>▶ 面向对象概念 + 七大原则（每年 2~3 题）</h3>
+  <div class="box green">
+    <b>三大特征：</b>封装（隐藏实现）、继承（复用）、<b>多态</b>（同一消息不同对象不同响应，重载=编译时绑定、重写=运行时绑定）。<br>
+    <b>类与对象：</b>类是对象的抽象模板，对象是类的实例；接口 = 只含抽象方法规范。<br>
+    <b>七大原则一句话：</b>单一职责（一个类只干一件事）、<b>开闭（对扩展开放对修改关闭，最重要）</b>、里氏替换（子类能替换父类）、依赖倒置（面向接口编程）、接口隔离（接口要小而专）、迪米特（最少知识，只和直接朋友通信）、组合复用（优先组合而非继承）。
+  </div>
+
   <h3>▶ Day1 清单</h3>
   <div class="chk"><input type="checkbox" data-key="d1-1"><span>背完开发模型 5 行表（10 分钟，遮住右侧复述）</span></div>
   <div class="chk"><input type="checkbox" data-key="d1-2"><span>背测试：黑盒/白盒方法名 + 覆盖强度顺序 + McCabe 公式</span></div>
   <div class="chk"><input type="checkbox" data-key="d1-3"><span>默写"数标控外公内" + "功顺通过时逻偶" 两句口诀</span></div>
   <div class="chk"><input type="checkbox" data-key="d1-4"><span>背关键路径/总时差/甘特图弱点 + CMM 五级</span></div>
-  <div class="chk"><input type="checkbox" data-key="d1-5"><span>刷近 5 年真题"软件工程"全部题目，错题标注考点</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-5"><span>背需求开发四步 + 维护四类（占比最大=完善性）+ 风险管理流程</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-6"><span>背三大特征 + 七大原则一句话版（重点开闭/里氏/依赖倒置）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-7"><span>刷近 5 年真题"软件工程 + 面向对象概念"全部题目，错题标注考点</span></div>
 </section>
 
 <!-- ============ Day2 ============ -->
@@ -151,6 +173,14 @@
     <b>死锁四条件：</b>互斥、请求保持、不剥夺、<b>环路等待</b>（破坏任一条可预防；银行家算法是"避免"死锁）。
   </div>
 
+  <h3>▶ 事务 + 并发控制 + 文件管理（每年 2~3 题）</h3>
+  <div class="box purple">
+    <b>事务 ACID：</b><span class="hl">原子性</span>（全做或全不做）、一致性（一致态到一致态）、隔离性（并发互不干扰）、持续性（提交后永久生效）。<br>
+    <b>并发三类问题：</b>丢失修改、读脏数据、不可重复读；解决 = 封锁协议：<b>S 锁（读锁）可共享、X 锁（写锁）独占</b>；<b>两段锁协议保证可串行化</b>。<br>
+    <b>位示图：</b>字号 = ⌈块号 ÷ 字长⌉，位号 = 块号 mod 字长（看清从 0 还是 1 编号）。<br>
+    <b>磁盘调度：</b>FCFS 先来先服务；<b>SSTF 找最近请求（可能饿死远端）</b>；SCAN 电梯算法沿一个方向扫到头再折返。
+  </div>
+
   <h3>▶ 页式存储 / 磁盘（教程 00 篇现成）</h3>
   <div class="box green">
     复习 <a class="a" href="00-上午题-页式存储与磁盘计算.html">00 上午题教程</a>：地址转换三步法、FIFO/LRU/OPT 缺页、磁盘存取时间 = 寻道 + 旋转延迟 + 传输、位示图（字号 = 块号 ÷ 字长，位号 = 余数）。
@@ -161,12 +191,13 @@
   <div class="chk"><input type="checkbox" data-key="d2-2"><span>复习 00 篇候选码四步法 + 范式口诀，做配套随学随练题</span></div>
   <div class="chk"><input type="checkbox" data-key="d2-3"><span>背生产者-消费者 PV 模板（三个信号量初值 + P/V 顺序）</span></div>
   <div class="chk"><input type="checkbox" data-key="d2-4"><span>画一遍进程三态图，标出"不存在的转换"</span></div>
-  <div class="chk"><input type="checkbox" data-key="d2-5"><span>刷真题"数据库 + 操作系统"模块，错题标注考点</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-5"><span>背 ACID + S/X 锁 + 两段锁 + 磁盘调度三种算法</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-6"><span>刷真题"数据库 + 操作系统"模块，错题标注考点</span></div>
 </section>
 
 <!-- ============ Day3 ============ -->
 <section id="d3">
-  <h2>Day 3 · 硬件 + 网络 + 知识产权 + 英语（送分大日）</h2>
+  <h2>Day 3 · 硬件 + 网络 + 安全 + 知识产权 + 英语（送分大日）</h2>
 
   <h3>▶ 四个必背公式（每年 3~4 题）</h3>
   <div class="box blue">
@@ -176,12 +207,37 @@
     <b>④ 流水线：</b>总时间 = <b>1 条完整指令时间 + (n−1) × 流水线周期</b>（周期 = 最长段耗时）；吞吐率 = n ÷ 总时间；加速比 = 不用流水时间 ÷ 流水时间。
   </div>
 
+  <h3>▶ 寻址方式 + 校验码 + RAID（每年 2~3 题）</h3>
+  <div class="box green">
+    <b>寻址速度：</b><span class="hl">立即 &gt; 寄存器 &gt; 直接 &gt; 间接</span>（立即最快不用访存；间接访存两次最慢，但寻址范围最大）。<br>
+    <b>校验码：</b>奇偶校验——只能检 1 位错，<b>不能纠错</b>；CRC 循环冗余——<b>只能检错不能纠错</b>（模 2 除法）；<b>海明码——能纠 1 位错</b>，公式 2^k ≥ n + k + 1（n 数据位、k 校验位）。<br>
+    <b>RAID：</b>RAID0 条带无冗余（快但坏一块全丢）；RAID1 镜像（利用率 50%）；<b>RAID5 分布式奇偶校验（坏一块可恢复，n 块盘可用 n−1）</b>。
+  </div>
+
   <h3>▶ 网络基础（每年 3~5 题）</h3>
   <div class="box orange">
     <b>OSI 七层：</b>物理、数据链路、网络、传输、会话、表示、应用。口诀"<b>巫师忘传会赢死</b>"（物数网传会表应）。<br>
     <b>协议对号：</b>应用层 HTTP/FTP/SMTP/DNS/DHCP；传输层 <b>TCP（面向连接、可靠、三次握手）</b>/ <b>UDP（无连接、不可靠、快）</b>；网络层 IP/ICMP/ARP；传输介质以下物理层。<br>
     <b>子网划分：</b>子网掩码 1 的个数 = 网络位；<span class="hl">可用主机数 = 2^主机位 − 2</span>（去掉网络地址和广播地址）。/26 → 主机位 6 → 62 台；/28 → 14 台。<br>
-    <b>常用：C 类默认掩码 255.255.255.0（/24），网关是"通往其他网络的出口 IP"。</b>
+    <b>常用：C 类默认掩码 255.255.255.0（/24），网关是"通往其他网络的出口 IP"；IPv6 地址长度 <span class="hl">128 位</span>。</b><br>
+    <b>端口：</b>FTP 20/21、SSH 22、Telnet 23、SMTP 25、DNS 53、HTTP 80、HTTPS 443。
+  </div>
+
+  <h3>▶ 信息安全（每年 3~4 题，纯背）</h3>
+  <div class="box blue">
+    <b>对称加密：</b>加解密<b>同一把密钥</b>，速度快，适合大数据——DES、3DES、<b>AES</b>、RC4；缺点：<b>密钥分发难</b>。<br>
+    <b>非对称加密：</b>公钥加密、私钥解密（公钥可公开），慢，适合小数据——<b>RSA</b>、ECC、DSA。<br>
+    <b>混合加密：</b>用<b>非对称加密传对称密钥</b>，再用对称加密传数据（HTTPS 的思路）。<br>
+    <b>信息摘要（MD5/SHA）：</b>保证<b>完整性</b>防篡改；<b>数字签名 = 发送方用自己私钥签名，接收方用对方公钥验证</b>——完整性 + <b>防抵赖</b>（本身不加密）。<br>
+    <b>数字证书：</b>CA 颁发，把公钥和身份绑定，防"假冒公钥"。<br>
+    <b>防火墙：</b>部署在内网与外网之间，按规则过滤；<b>IDS 只检测报警、IPS 能阻断</b>；病毒=寄生传播，木马=后门被控，蠕虫=独立自我复制。
+  </div>
+
+  <h3>▶ 多媒体（1~2 题，两个公式）</h3>
+  <div class="box orange">
+    <b>采样定理：</b>采样频率 ≥ 信号最高频率 × 2。<br>
+    <b>图像容量（字节）= 水平像素 × 垂直像素 × 颜色位深 ÷ 8</b>；<b>音频容量（字节）= 采样频率 × 量化位数 × 声道数 × 秒 ÷ 8</b>。<br>
+    <b>JPEG</b> 静态图像<b>有损</b>压缩；MPEG 视频压缩；PNG/GZIP 无损。
   </div>
 
   <h3>▶ 知识产权 + 标准化（1 小时硬背，稳拿 3 分）</h3>
@@ -206,13 +262,16 @@
   <div class="chk"><input type="checkbox" data-key="d3-1"><span>默写四个公式（浮点/可靠性/Cache/流水线）并各做 1 道真题</span></div>
   <div class="chk"><input type="checkbox" data-key="d3-2"><span>背 OSI 七层口诀 + TCP/UDP 区别 + 协议对号</span></div>
   <div class="chk"><input type="checkbox" data-key="d3-3"><span>子网划分练 3 题（/26、/28、可用主机数）</span></div>
-  <div class="chk"><input type="checkbox" data-key="d3-4"><span>知识产权表硬背 1 小时，做真题"知识产权"全部题</span></div>
-  <div class="chk"><input type="checkbox" data-key="d3-5"><span>英语做 2 套真题（只总结套路，不通读全文）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-5"><span>背寻址顺序（立即&gt;寄存器&gt;直接&gt;间接）+ 三种校验码谁纠错 + RAID5</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-6"><span>背信息安全：对称/非对称代表算法、数字签名方向（私钥签公钥验）、CA/IDS/IPS</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-7"><span>图像/音频容量公式各算 1 道真题 + 背常用端口号</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-8"><span>知识产权表硬背 1 小时，做真题"知识产权"全部题</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-9"><span>英语做 2 套真题（只总结套路，不通读全文）</span></div>
 </section>
 
 <!-- ============ Day4 ============ -->
 <section id="d4">
-  <h2>Day 4 · 数据结构 + 你的强项 + 全真模拟</h2>
+  <h2>Day 4 · 数据结构 + 数学 + 强项速刷 + 全真模拟</h2>
 
   <h3>▶ 排序算法表（每年 2~3 题，必背）</h3>
   <table>
@@ -230,7 +289,17 @@
   <div class="box blue">
     <b>二叉树：</b>叶子数 n0 = <b>n2 + 1</b>（n1 为度 1 节点）；n 个节点的完全二叉树高度 = ⌈log₂(n+1)⌉；<b>前序+中序</b>可唯一重建二叉树（前+后不行）。<br>
     <b>图：</b>DFS 用<b>栈</b>，BFS 用<b>队列</b>；n 顶点邻接矩阵存储空间 O(n²)。<br>
-    <b>复杂度链：</b>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ) &lt; O(n!)（教程 04 篇）。
+    <b>复杂度链：</b>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ) &lt; O(n!)（教程 04 篇）。<br>
+    <b>程序语言一句话：</b><span class="hl">编译</span>=先整体翻译成目标程序再执行（报错在编译期）；<span class="hl">解释</span>=逐句翻译边执行、不生成目标程序；<b>传值调用</b>形参变化不影响实参，<b>传地址/引用</b>会改变实参。
+  </div>
+
+  <h3>▶ 数学与经济管理（4~6 分，只练套路题）</h3>
+  <div class="box purple">
+    <b>图论：</b>最小生成树——Prim（加点）/ Kruskal（加边，先按权排序）；<b>Dijkstra 求最短路（不能有负权边）</b>；拓扑排序每次取<b>入度为 0</b> 的顶点。<br>
+    <b>决策四法：</b>乐观（大中取大）、悲观（小中取大）、<b>后悔值</b>（每列最大减该值→再小中取大）、EMV 期望值（概率加权平均）。<br>
+    <b>盈亏平衡：</b>利润 = (单价 − 单位变动成本) × 销量 − 固定成本，平衡点令利润 = 0。<br>
+    <b>计数与容斥：</b>分类相加、分步相乘；A∪B = A + B − A∩B；全排列 n!，从 n 个取 m 个 A(n,m)=n!/(n−m)!。<br>
+    <b>统筹图：</b>关键路径 = 最长路 = 总工期；总时差 = 最迟 − 最早（与 Day1 呼应）。
   </div>
 
   <h3>▶ 强项保分：面向对象 + 模式 + UML（30 分钟速刷）</h3>
@@ -249,7 +318,9 @@
   <div class="chk"><input type="checkbox" data-key="d4-2"><span>DFS 栈 / BFS 队列 + 复杂度链复述一遍</span></div>
   <div class="chk"><input type="checkbox" data-key="d4-3"><span>速刷 08 模式全解（高频 6 骨架）+ 03 UML 清单</span></div>
   <div class="chk"><input type="checkbox" data-key="d4-4"><span>掐表做 1 套近年上午真题，按模块对账</span></div>
-  <div class="chk"><input type="checkbox" data-key="d4-5"><span>列出"低于预期"模块，考前一晚只回看这些速记卡</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-5"><span>数学套路各练 1 题：最小生成树/Dijkstra/决策四法/盈亏平衡</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-6"><span>程序语言一句话（编译vs解释、传值vs传地址）复述一遍</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-7"><span>列出"低于预期"模块，考前一晚只回看这些速记卡</span></div>
 </section>
 
 <!-- ============ 技巧 ============ -->
