@@ -265,8 +265,11 @@
     <b>互斥：</b>一个信号量初值 = <b>1</b>；进临界区 P，出临界区 V。<br>
     <b>同步（生产者-消费者）：</b><span class="hl">empty 初值 = 缓冲区大小 n；full 初值 = 0；mutex 初值 = 1</span>。<br>
     生产者：P(empty) → P(mutex) → 放产品 → V(mutex) → V(full)；消费者：P(full) → P(mutex) → 取产品 → V(mutex) → V(empty)。<br>
-    <span class="hl">口诀：同步在前，互斥在后</span>（两个 P 的顺序不能颠倒，否则死锁）。
+    <span class="hl">口诀：同步在前，互斥在后</span>（两个 P 的顺序不能颠倒，否则死锁）。<br>
+    <b>为什么顺序不能反？</b>若先 P(mutex) 再 P(empty)：缓冲区满时生产者拿着 mutex 却等不到 empty，消费者想取产品又进不了 mutex → 互相等死。
   </div>
+
+  <details class="rec"><summary>例10【PV 填空】真题套路：生产者-消费者，缓冲区容量 n，把 P/V 填进空格</summary><div class="ans">生产者：<b>P(empty) → P(mutex) → 放产品 → V(mutex) → V(full)</b><br>消费者：<b>P(full) → P(mutex) → 取产品 → V(mutex) → V(empty)</b><br><b>填空技巧：</b>①看到"申请空缓冲"→ P(empty)；"申请产品"→ P(full)；②进临界区前 P(mutex)、出来立刻 V(mutex)——<b>mutex 的 P/V 永远成对夹住操作</b>；③信号量命名规律：资源名（empty/full）管同步、mutex 管互斥；④选项里若有"P(mutex) 在 P(empty) 之前"就是错误答案（顺序反了会死锁）。<br><span class="hl">变体：</span>两个生产者共享 m 个缓冲 → empty 初值 m；一次放 k 个 → 申请 k 个空位（P(empty) k 次）。</div><label class="miss"><input type="checkbox" data-mkey="r2-9"> 没记住</label></details>
 
   <h3>▶ 进程状态 + 死锁</h3>
   <div class="box orange">
@@ -451,9 +454,17 @@
   </table>
   <div class="box orange"><b>稳定性口诀："<span class="hl">快些选堆</span>"不稳定</b>（快速、希尔、选择、堆）。其余（插入/冒泡/归并/基数）稳定。</div>
 
+  <details class="rec"><summary>例11【排序一趟】真题套路：序列 45,23,12,9，各种排序"第一趟"后各是什么？</summary><div class="ans"><b>关键是每种的"一趟"含义不同：</b><br>
+    · <b>冒泡</b>：从头两两比较，逆序就换 → 最大数 45 沉底 → <b>23,12,9,45</b><br>
+    · <b>插入</b>：把第 2 个元素 23 插到前面有序区 → <b>23,45,12,9</b>（只有前两个有序）<br>
+    · <b>选择</b>：从头到尾找最小值 9，与第 1 个位置交换 → <b>9,23,12,45</b><br>
+    · <b>快排</b>（以 45 为枢轴）：比 45 小的都挪左边，45 落到最终位置 → <b>9,23,12,45</b><br>
+    <span class="hl">做题技巧：</span>①冒泡/选择一趟后必有 1 个元素就最终位；②插入一趟后只有前 2 个元素有序；③快排一趟后枢轴必在最终位——用这三条反推选项。<br><span class="hl">易错：</span>希尔排序的一趟是"按增量分组各排"，和上面完全不同，看到希尔直接回忆"分组插入"。</div><label class="miss"><input type="checkbox" data-mkey="r4-8"> 没记住</label></details>
+
   <h3>▶ 数据结构高频点</h3>
   <div class="box blue">
     <b>二叉树：</b>叶子数 n0 = <b>n2 + 1</b>（n1 为度 1 节点）；n 个节点的完全二叉树高度 = ⌈log₂(n+1)⌉；<b>前序+中序</b>可唯一重建二叉树（前+后不行）。<br>
+    <b>三种遍历口诀：</b>都是"根的时机"不同——<b>前序=根左右、中序=左根右、后序=左右根</b>（先中后说的是根的位置）。<br>
     <b>图：</b>DFS 用<b>栈</b>，BFS 用<b>队列</b>；n 顶点邻接矩阵存储空间 O(n²)。<br>
     <b>复杂度链：</b>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(2ⁿ) &lt; O(n!)（教程 04 篇）。<br>
     <b>栈与队列：</b>栈先进后出（递归、表达式求值用栈）、队列先进先出；<span class="hl">循环队列元素个数 = (rear − front + 容量) mod 容量</span>。<br>
@@ -463,6 +474,13 @@
     <b>程序语言一句话：</b><span class="hl">编译</span>=先整体翻译成目标程序再执行（报错在编译期）；<span class="hl">解释</span>=逐句翻译边执行、不生成目标程序；<b>传值调用</b>形参变化不影响实参，<b>传地址/引用</b>会改变实参。<br>
     <b>编译六阶段：</b>词法分析（拆单词）→ 语法分析（句子结构）→ 语义分析（含义检查）→ 中间代码 → 优化 → 目标代码；<b>语法错误编译期报，逻辑错误编译器查不出</b>。
   </div>
+
+  <details class="rec"><summary>例12【遍历重建】真题套路：前序 ABDECF、中序 DBEAFC，求后序</summary><div class="ans"><b>核心原理：前序第一个永远是根，拿根去中序里切两半。</b><br>
+    ① 前序首 = <b>A</b> = 根；去中序 DBEAFC 里找 A → 左半 DBE、右半 FC；<br>
+    ② 左子树：前序 BDE + 中序 DBE → 根 = B，中序左 D 右 E → B 的左孩子 D、右孩子 E；<br>
+    ③ 右子树：前序 CF + 中序 FC → 根 = C，中序里 F 在 C 左边 → F 是 C 的左孩子；<br>
+    ④ 树画出来：A(B(D,E), C(F))。后序 = 左右根：<b>DEBFCA</b>。<br>
+    <span class="hl">易错：</span>每层都要"回前序找根、回中序切左右"，别一口气瞎猜；考试一般 3~5 个节点，两步就出答案。</div><label class="miss"><input type="checkbox" data-mkey="r4-9"> 没记住</label></details>
 
   <h3>▶ 数学与经济管理（4~6 分，只练套路题）</h3>
   <div class="box purple">
