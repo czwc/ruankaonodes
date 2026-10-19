@@ -47,6 +47,11 @@
   .miss.on{color:var(--red);font-weight:bold;}
   body.review-mode section:not(.has-miss){opacity:.25;}
   body.review-mode section.has-miss{outline:2px solid var(--orange);border-radius:14px;}
+  .search-box{width:100%;padding:9px 14px;border:2px solid var(--blue);border-radius:10px;font-size:14px;font-family:inherit;background:var(--card);color:var(--ink);margin:8px 0 4px;}
+  .search-box:focus{outline:none;border-color:var(--orange);}
+  tr.grp td{background:var(--thead);font-weight:bold;color:var(--purple);font-size:13.5px;}
+  .km th:first-child,.km td:first-child{width:46%;}
+  .km td{font-size:13px;}
 </style>
 </head>
 <body>
@@ -64,6 +69,7 @@
     <a href="#d3">Day3 硬件安全+UML</a>
     <a href="#d4">Day4 模拟+算法Java</a>
     <a href="#exam">考前必读</a>
+    <a href="#keymap">题眼反查表</a>
     <a href="#tips">考场技巧</a>
   </nav>
 </header>
@@ -467,6 +473,117 @@
   <div class="chk"><input type="checkbox" data-key="pd4-2"><span>【下午】掐表 150 分钟做 1 套下午真题，用 07 篇对评分点</span></div>
 </section>
 
+<!-- ============ 题眼反查表 ============ -->
+<section id="keymap">
+  <h2>题眼反查表 · 看到字眼 → 秒选答案</h2>
+  <div class="box green"><b>怎么用：</b>上午题 70% 的题干埋着"信号词"，认字眼 = 直接出答案。目标不是考场上查（考场没这表），而是<b>每天背完速记卡后扫一遍对应模块，把字眼练成条件反射</b>。搜索框可按关键词过滤。</div>
+  <input class="search-box" id="kmSearch" type="text" placeholder="输入字眼搜索，如：风险 / 私钥 / m:n / 完善性 …">
+  <table class="km" id="kmTable">
+    <tr><th>题干里看到…</th><th>直接选</th><th>防坑提醒</th></tr>
+    <tr class="grp"><td colspan="3">开发模型</td></tr>
+    <tr><td>风险分析 / 风险驱动</td><td class="ok">螺旋模型</td><td>唯一带"风险"关键词的模型</td></tr>
+    <tr><td>需求不明 / 先做原型给用户确认</td><td class="ok">原型模型</td><td>不是增量——增量是"分批上线"</td></tr>
+    <tr><td>分批交付 / 核心功能先行</td><td class="ok">增量模型</td><td></td></tr>
+    <tr><td>文档驱动 / 阶段评审通过才进下阶段</td><td class="ok">瀑布模型</td><td>需求"明确且稳定"才适用</td></tr>
+    <tr><td>每日站会 / 结对编程 / 拥抱变化</td><td class="ok">敏捷</td><td></td></tr>
+    <tr class="grp"><td colspan="3">测试</td></tr>
+    <tr><td>覆盖"由弱到强"排序</td><td class="ok">语句＜判定＜条件＜判定/条件＜条件组合＜路径</td><td>最强=路径，最弱=语句</td></tr>
+    <tr><td>等价类 / 边界值 / 因果图</td><td class="ok">黑盒测试</td><td>黑盒=功能，不看代码</td></tr>
+    <tr><td>环形复杂度 / 独立路径数</td><td class="ok">V(G)=边−点+2</td><td>用例数 ≥ V(G)</td></tr>
+    <tr><td>α 测试 / β 测试</td><td class="ok">α=开发方场所；β=用户场所</td><td>都属验收测试</td></tr>
+    <tr class="grp"><td colspan="3">耦合内聚（"数标控外公内 / 功顺通过时逻偶"）</td></tr>
+    <tr><td>直接读写别人内部数据</td><td class="ok">内容耦合（最差）</td><td>问"最差/最高"选它</td></tr>
+    <tr><td>通过参数传简单数据</td><td class="ok">数据耦合（最好）</td><td>问"最好/最低"选它</td></tr>
+    <tr><td>一个模块只干一件事</td><td class="ok">功能内聚（最好）</td><td></td></tr>
+    <tr><td>凑在一起毫无关系</td><td class="ok">偶然内聚（最差）</td><td></td></tr>
+    <tr class="grp"><td colspan="3">软件维护</td></tr>
+    <tr><td>修 bug / 纠正错误</td><td class="ok">改正性</td><td></td></tr>
+    <tr><td>环境变了 / 新平台 / 新操作系统</td><td class="ok">适应性</td><td>不是"完善"</td></tr>
+    <tr><td>加功能 / 用户提新需求</td><td class="ok">完善性</td><td>考"占比最大"也是它</td></tr>
+    <tr><td>为将来 / 提高可维护性提前做</td><td class="ok">预防性</td><td></td></tr>
+    <tr class="grp"><td colspan="3">七大原则</td></tr>
+    <tr><td>不改旧代码加新功能</td><td class="ok">开闭原则</td><td>最高频的原则题</td></tr>
+    <tr><td>子类替换父类不出错</td><td class="ok">里氏替换</td><td></td></tr>
+    <tr><td>面向接口 / 面向抽象编程</td><td class="ok">依赖倒置</td><td></td></tr>
+    <tr><td>只和直接朋友通信 / 最少知识</td><td class="ok">迪米特法则</td><td></td></tr>
+    <tr><td>一个类只干一件事</td><td class="ok">单一职责</td><td>别和功能内聚混淆（那是模块级）</td></tr>
+    <tr class="grp"><td colspan="3">设计模式（信号词必背）</td></tr>
+    <tr><td>唯一实例 / 全局唯一访问点</td><td class="ok">单例</td><td></td></tr>
+    <tr><td>状态变化自动通知所有依赖者</td><td class="ok">观察者</td><td>方法 notify()/update()</td></tr>
+    <tr><td>动态加职责 / 不加子类加功能</td><td class="ok">装饰器</td><td>"包装"字眼</td></tr>
+    <tr><td>算法可替换 / 独立封装算法</td><td class="ok">策略</td><td>"不同算法随意切换"</td></tr>
+    <tr><td>行为随内部状态改变</td><td class="ok">状态</td><td>别和策略混淆——状态是"自己变"</td></tr>
+    <tr><td>创建对象延迟到子类决定</td><td class="ok">工厂方法</td><td></td></tr>
+    <tr><td>控制访问 / 中转保护</td><td class="ok">代理</td><td></td></tr>
+    <tr><td>按步骤执行且步骤固定 / 骨架</td><td class="ok">模板方法</td><td></td></tr>
+    <tr><td>接口不兼容需要转换</td><td class="ok">适配器</td><td>"转接头"</td></tr>
+    <tr class="grp"><td colspan="3">操作系统</td></tr>
+    <tr><td>缓冲区容量 n</td><td class="ok">empty=n</td><td>full=0，mutex=1</td></tr>
+    <tr><td>时间片用完</td><td class="ok">运行→就绪</td><td></td></tr>
+    <tr><td>等待资源 / 等待 I/O</td><td class="ok">运行→阻塞</td><td>阻塞→运行不存在！</td></tr>
+    <tr><td>银行家算法</td><td class="ok">避免死锁</td><td>不是"预防"也不是"解除"</td></tr>
+    <tr><td>破坏"环路等待"等条件</td><td class="ok">预防死锁</td><td></td></tr>
+    <tr class="grp"><td colspan="3">数据库</td></tr>
+    <tr><td>唯一标识元组的最小属性集</td><td class="ok">候选码</td><td>"最小"二字是钥匙</td></tr>
+    <tr><td>部分函数依赖</td><td class="ok">没到 2NF</td><td>消部分→2NF</td></tr>
+    <tr><td>传递函数依赖</td><td class="ok">没到 3NF</td><td>消传递→3NF</td></tr>
+    <tr><td>m:n 联系转关系模式</td><td class="ok">单独建表</td><td>主键=两端主键组合</td></tr>
+    <tr><td>虚表</td><td class="ok">视图</td><td>提高安全性/逻辑独立性</td></tr>
+    <tr><td>组条件 / 对分组后筛选</td><td class="ok">HAVING</td><td>行条件才是 WHERE</td></tr>
+    <tr class="grp"><td colspan="3">网络</td></tr>
+    <tr><td>面向连接 / 可靠 / 三次握手</td><td class="ok">TCP</td><td></td></tr>
+    <tr><td>无连接 / 实时 / 快但不可靠</td><td class="ok">UDP</td><td>视频/语音用 UDP</td></tr>
+    <tr><td>域名 ↔ IP</td><td class="ok">DNS</td><td></td></tr>
+    <tr><td>自动分配 IP 地址</td><td class="ok">DHCP</td><td></td></tr>
+    <tr><td>可用主机数</td><td class="ok">2^主机位 − 2</td><td>去掉网络地址+广播地址</td></tr>
+    <tr><td>本机回环地址</td><td class="ok">127.0.0.1</td><td></td></tr>
+    <tr><td>IP → MAC 地址</td><td class="ok">ARP</td><td></td></tr>
+    <tr class="grp"><td colspan="3">信息安全</td></tr>
+    <tr><td>防抵赖 / 不可否认</td><td class="ok">数字签名</td><td>发送方<b>私钥</b>签，对方公钥验</td></tr>
+    <tr><td>完整性 / 防篡改</td><td class="ok">信息摘要（MD5/SHA）</td><td>摘要不加密、不防抵赖</td></tr>
+    <tr><td>同一把密钥 / 密钥分发难</td><td class="ok">对称加密</td><td>AES/DES</td></tr>
+    <tr><td>公钥私钥成对</td><td class="ok">非对称加密</td><td>RSA</td></tr>
+    <tr><td>仿冒网站骗账号</td><td class="ok">钓鱼</td><td></td></tr>
+    <tr><td>海量请求打瘫服务</td><td class="ok">DoS/DDoS</td><td></td></tr>
+    <tr><td>输入恶意 SQL 骗数据库</td><td class="ok">SQL 注入</td><td></td></tr>
+    <tr><td>只检测报警 / 能阻断</td><td class="ok">IDS / IPS</td><td>防火墙=按规则过滤内外网边界</td></tr>
+    <tr><td>寄生 / 后门被控 / 自我复制</td><td class="ok">病毒 / 木马 / 蠕虫</td><td>按顺序对号</td></tr>
+    <tr class="grp"><td colspan="3">知识产权</td></tr>
+    <tr><td>委托开发无约定 → 归谁</td><td class="ok">受托方（创作方）</td><td>有约定按约定</td></tr>
+    <tr><td>创作完成即享有 / 无需登记</td><td class="ok">著作权自动取得</td><td>专利才要"申请授予"</td></tr>
+    <tr><td>20 年 / 10 年 / 15 年</td><td class="ok">发明 / 实用新型 / 外观设计</td><td>均自申请日起</td></tr>
+    <tr><td>10 年且可无限续展</td><td class="ok">商标</td><td></td></tr>
+    <tr><td>反向工程合法</td><td class="ok">商业秘密</td><td>无保护期限</td></tr>
+    <tr class="grp"><td colspan="3">决策与图论</td></tr>
+    <tr><td>大中取大</td><td class="ok">乐观法</td><td></td></tr>
+    <tr><td>小中取大</td><td class="ok">悲观法</td><td></td></tr>
+    <tr><td>每列最大值减去该值再小中取大</td><td class="ok">后悔值法</td><td></td></tr>
+    <tr><td>概率加权平均</td><td class="ok">EMV 期望值</td><td></td></tr>
+    <tr><td>最短路且无负权</td><td class="ok">Dijkstra</td><td>"负权"出现=排除它</td></tr>
+    <tr><td>取入度为 0 的顶点</td><td class="ok">拓扑排序</td><td></td></tr>
+    <tr><td>加点法 / 加边法（先排序）</td><td class="ok">Prim / Kruskal</td><td>都求最小生成树</td></tr>
+    <tr class="grp"><td colspan="3">数据结构</td></tr>
+    <tr><td>先进后出 / 后进先出</td><td class="ok">栈</td><td>递归、表达式求值</td></tr>
+    <tr><td>先进先出</td><td class="ok">队列</td><td>BFS 用它</td></tr>
+    <tr><td>没有度为 1 的节点 / 前缀码</td><td class="ok">哈夫曼树/编码</td><td>n 叶子 → 2n−1 节点</td></tr>
+    <tr><td>顺序存储且有序</td><td class="ok">二分查找前提</td><td>最多 ⌈log₂(n+1)⌉ 次</td></tr>
+    <tr><td>n0 与 n2</td><td class="ok">n0 = n2 + 1</td><td></td></tr>
+    <tr class="grp"><td colspan="3">硬件</td></tr>
+    <tr><td>范围 / 精度 由谁决定</td><td class="ok">范围→阶码；精度→尾数</td><td>最爱对调着考</td></tr>
+    <tr><td>不占用 CPU 传送数据</td><td class="ok">DMA</td><td>轮询最慢、中断次之</td></tr>
+    <tr><td>程序计数器 PC</td><td class="ok">控制器</td><td>ALU 在运算器</td></tr>
+    <tr><td>能纠 1 位错</td><td class="ok">海明码</td><td>奇偶/CRC 只能检错</td></tr>
+    <tr><td>镜像 / 分布式奇偶校验</td><td class="ok">RAID1 / RAID5</td><td>RAID1 利用率 50%，RAID5 可用 n−1</td></tr>
+    <tr class="grp"><td colspan="3">新技术</td></tr>
+    <tr><td>租服务器和存储</td><td class="ok">IaaS</td><td>租环境=PaaS，用成品=SaaS</td></tr>
+    <tr><td>去中心化 / 智能合约</td><td class="ok">区块链</td><td></td></tr>
+    <tr><td>持续集成 / 自动化流水线</td><td class="ok">DevOps</td><td></td></tr>
+    <tr><td>就近处理 / 低延迟</td><td class="ok">边缘计算</td><td></td></tr>
+    <tr><td>物理实体的虚拟实时映射</td><td class="ok">数字孪生</td><td></td></tr>
+  </table>
+  <div class="box purple"><b>配套动作：</b>每天背完当日模块 → 扫一遍上表对应分组（30 秒）→ 做该 Day 的 30 秒自测。"看字眼→出答案"练到不过脑，上午题就稳了一大半。</div>
+</section>
+
 <!-- ============ 考前必读 ============ -->
 <section id="exam">
   <h2>考前必读 · 政策 + 机考 + 考前一晚流程</h2>
@@ -587,6 +704,28 @@
     reviewCount();
   });
   reviewCount();
+
+  /* 题眼反查表搜索过滤 */
+  const kmSearch=document.getElementById('kmSearch'), kmTable=document.getElementById('kmTable');
+  if(kmSearch && kmTable){
+    kmSearch.addEventListener('input',function(){
+      const q=kmSearch.value.trim().toLowerCase();
+      kmTable.querySelectorAll('tbody tr, tr').forEach(function(tr){
+        if(tr.classList.contains('grp')){ return; }
+        const head=tr.querySelector('th');
+        if(head){ tr.style.display = q? 'none' : ''; return; }
+        tr.style.display = tr.textContent.toLowerCase().includes(q) ? '' : 'none';
+      });
+      kmTable.querySelectorAll('tr.grp').forEach(function(gr){
+        let el=gr.nextElementSibling, visible=false;
+        while(el && !el.classList.contains('grp')){
+          if(el.style.display!=='none' && !el.querySelector('th')){ visible=true; break; }
+          el=el.nextElementSibling;
+        }
+        gr.style.display = (q && !visible) ? 'none' : '';
+      });
+    });
+  }
 })();
 </script>
 </body>
