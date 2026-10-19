@@ -316,6 +316,14 @@
   <details class="rec"><summary>例3【可靠性】两个子系统串联，每个子系统由 2 个可靠度 0.9 的部件并联，系统可靠度？</summary><div class="ans">先并联：R = 1 − (1−0.9)² = 1 − 0.01 = <b>0.99</b>；<br>再串联：R = 0.99 × 0.99 = <b>0.9801</b>。<br><span class="hl">口诀：先小后大——先把每个子系统算成一个数，再串。</span></div><label class="miss"><input type="checkbox" data-mkey="r3-3"> 没记住</label></details>
   <details class="rec"><summary>例4【子网】200.1.1.0/27 划分，每个子网可用主机数？能分几个子网（相对 /24）？</summary><div class="ans">/27 → 主机位 = 32−27 = 5 位 → 可用主机 = 2⁵−2 = <b>30 台</b>；<br>网络位比 /24 多 3 位 → 子网数 = 2³ = <b>8 个</b>。</div><label class="miss"><input type="checkbox" data-mkey="r3-4"> 没记住</label></details>
 
+  <div class="box red"><b>计算题分值地图（每年约 10 分，全在这页里）：</b>流水线/Cache/可靠性（3~4 分，见上面例 1~3）+ 子网划分（1 分，例 4）+ 页式地址转换/磁盘/位示图（2~3 分，见下面例 5~7）+ 多媒体容量（1 分，例 8）+ 零散小计算（海明 k 值、循环队列、二分次数、EMV——都在各 Day 的 30 秒自测里）。<b>计算题是"套模板"不是"想思路"</b>：认出题型 → 代对应模板 → 每步一个动作。</div>
+
+  <h3>▶ 更多必考计算·照步骤一步步套（先自己算再对答案）</h3>
+  <details class="rec"><summary>例5【页式地址转换】页大小 1KB，逻辑地址 2500，该页装入内存帧号 4，物理地址 = ？</summary><div class="ans"><b>三步：</b>① 求页内偏移位数：1KB=2¹⁰ → 低 10 位是偏移；② 拆逻辑地址：页号 = 2500 ÷ 1024 = <b>2</b>（整除），偏移 = 2500 − 2×1024 = <b>452</b>；③ 物理地址 = 帧号 × 页大小 + 偏移 = 4×1024 + 452 = <b>4548</b>。<br><span class="hl">易错：</span>页大小换成 4KB 就用 4096 除；"页号查表得帧号"这步题干会给映射表，别拿页号当帧号用。</div><label class="miss"><input type="checkbox" data-mkey="r3-10"> 没记住</label></details>
+  <details class="rec"><summary>例6【磁盘存取】转速 6000 转/分，平均寻道 4ms，每磁道 50 扇区，读 1 个扇区总时间 = ？</summary><div class="ans"><b>三步：</b>① 转一圈 = 60000ms ÷ 6000 = <b>10ms</b>；② 平均旋转延迟 = 转半圈 = <b>5ms</b>；③ 传输时间 = 转一圈 ÷ 每道扇区数 = 10 ÷ 50 = <b>0.2ms</b>。<br>总时间 = 寻道 4 + 旋转 5 + 传输 0.2 = <b>9.2ms</b>。<br><span class="hl">易错：</span>转速单位是"转/分"要换算成 ms；平均旋转延迟永远 = 半圈；题目若问"读一整个磁道"则不用除扇区数。</div><label class="miss"><input type="checkbox" data-mkey="r3-11"> 没记住</label></details>
+  <details class="rec"><summary>例7【位示图】字长 32 位，块号 100（从 0 编号），它在第几个字、第几位？</summary><div class="ans">字号 = 100 ÷ 32 = 3 余 4 → <b>第 3 个字（从 0 数）、位号 4</b>；若题干说"从 1 开始编号"则答案是第 4 个字、第 5 位。<br><span class="hl">易错：</span>唯一坑就是"从 0 还是从 1 编号"——题干读两遍再填。</div><label class="miss"><input type="checkbox" data-mkey="r3-12"> 没记住</label></details>
+  <details class="rec"><summary>例8【图像容量】800×600 像素、16 色图像，占多少 KB？</summary><div class="ans"><b>两步：</b>① 16 色 = 2⁴ → 每像素 4 位；② 容量 = 800 × 600 × 4 ÷ 8 = 240000B ÷ 1024 ≈ <b>234KB</b>。<br><span class="hl">易错：</span>"16 色"是 4 位不是 16 位（16 位=65536 色）；音频题则用 采样率×量化位×声道×秒 ÷ 8。</div><label class="miss"><input type="checkbox" data-mkey="r3-13"> 没记住</label></details>
+
   <h3>▶ 寻址方式 + 校验码 + RAID（每年 2~3 题）</h3>
   <div class="box green">
     <b>寻址速度：</b><span class="hl">立即 &gt; 寄存器 &gt; 直接 &gt; 间接</span>（立即最快不用访存；间接访存两次最慢，但寻址范围最大）。<br>
