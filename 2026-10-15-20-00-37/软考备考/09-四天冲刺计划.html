@@ -531,6 +531,14 @@
     <tr><td>面向接口 / 面向抽象编程</td><td class="ok">依赖倒置</td><td></td></tr>
     <tr><td>只和直接朋友通信 / 最少知识</td><td class="ok">迪米特法则</td><td></td></tr>
     <tr><td>一个类只干一件事</td><td class="ok">单一职责</td><td>别和功能内聚混淆（那是模块级）</td></tr>
+    <tr class="grp"><td colspan="3">UML（看记号认关系）</td></tr>
+    <tr><td>三角箭头，实线</td><td class="ok">泛化（继承）</td><td>子 → 父</td></tr>
+    <tr><td>三角箭头，虚线</td><td class="ok">实现（接口）</td><td>类 → 接口</td></tr>
+    <tr><td>虚线箭头（普通）</td><td class="ok">依赖</td><td>临时使用一下</td></tr>
+    <tr><td>空心菱形 / 实心菱形</td><td class="ok">聚合 / 组合</td><td>菱形画在"整体"那端；空心=可分离，实心=同生共死</td></tr>
+    <tr><td>include（虚线指向被包含用例）</td><td class="ok">必选复用</td><td>extend 方向相反、是可选扩展</td></tr>
+    <tr><td>泳道</td><td class="ok">活动图（按角色分区）</td><td></td></tr>
+    <tr><td>圆角矩形 + 箭头上写事件</td><td class="ok">状态图</td><td>活动图是普通圆角框+分叉横条</td></tr>
     <tr class="grp"><td colspan="3">设计模式（信号词必背）</td></tr>
     <tr><td>唯一实例 / 全局唯一访问点</td><td class="ok">单例</td><td></td></tr>
     <tr><td>状态变化自动通知所有依赖者</td><td class="ok">观察者</td><td>方法 notify()/update()</td></tr>
@@ -547,6 +555,9 @@
     <tr><td>等待资源 / 等待 I/O</td><td class="ok">运行→阻塞</td><td>阻塞→运行不存在！</td></tr>
     <tr><td>银行家算法</td><td class="ok">避免死锁</td><td>不是"预防"也不是"解除"</td></tr>
     <tr><td>破坏"环路等待"等条件</td><td class="ok">预防死锁</td><td></td></tr>
+    <tr><td>淘汰"未来最久不使用"的页</td><td class="ok">OPT 最佳置换</td><td>要预知未来，现实中做不到、理论最优</td></tr>
+    <tr><td>淘汰"最近最少使用"的页</td><td class="ok">LRU</td><td>往回看最近谁没用</td></tr>
+    <tr><td>淘汰"最先进入"的页</td><td class="ok">FIFO</td><td>先进先出队列</td></tr>
     <tr class="grp"><td colspan="3">数据库</td></tr>
     <tr><td>唯一标识元组的最小属性集</td><td class="ok">候选码</td><td>"最小"二字是钥匙</td></tr>
     <tr><td>部分函数依赖</td><td class="ok">没到 2NF</td><td>消部分→2NF</td></tr>
@@ -554,6 +565,7 @@
     <tr><td>m:n 联系转关系模式</td><td class="ok">单独建表</td><td>主键=两端主键组合</td></tr>
     <tr><td>虚表</td><td class="ok">视图</td><td>提高安全性/逻辑独立性</td></tr>
     <tr><td>组条件 / 对分组后筛选</td><td class="ok">HAVING</td><td>行条件才是 WHERE</td></tr>
+    <tr><td>允许他再把权限授给别人</td><td class="ok">WITH GRANT OPTION</td><td>回收权限用 REVOKE</td></tr>
     <tr class="grp"><td colspan="3">网络</td></tr>
     <tr><td>面向连接 / 可靠 / 三次握手</td><td class="ok">TCP</td><td></td></tr>
     <tr><td>无连接 / 实时 / 快但不可靠</td><td class="ok">UDP</td><td>视频/语音用 UDP</td></tr>
@@ -596,6 +608,9 @@
     <tr><td>范围 / 精度 由谁决定</td><td class="ok">范围→阶码；精度→尾数</td><td>最爱对调着考</td></tr>
     <tr><td>不占用 CPU 传送数据</td><td class="ok">DMA</td><td>轮询最慢、中断次之</td></tr>
     <tr><td>程序计数器 PC</td><td class="ok">控制器</td><td>ALU 在运算器</td></tr>
+    <tr><td>"流水线周期"</td><td class="ok">取最长的那一段耗时</td><td>总时间 = 各段之和 + (n−1)×周期</td></tr>
+    <tr><td>"同时访问"（Cache 题干）</td><td class="ok">第二项要含 Cache 时间</td><td>0.1×(Cache+主存)，别用顺序式</td></tr>
+    <tr><td>部件"串联" / "并联"</td><td class="ok">串联相乘 / 并联 1−∏(1−R)</td><td>混联先算小的子系统再串</td></tr>
     <tr><td>能纠 1 位错</td><td class="ok">海明码</td><td>奇偶/CRC 只能检错</td></tr>
     <tr><td>镜像 / 分布式奇偶校验</td><td class="ok">RAID1 / RAID5</td><td>RAID1 利用率 50%，RAID5 可用 n−1</td></tr>
     <tr class="grp"><td colspan="3">新技术</td></tr>
@@ -604,6 +619,10 @@
     <tr><td>持续集成 / 自动化流水线</td><td class="ok">DevOps</td><td></td></tr>
     <tr><td>就近处理 / 低延迟</td><td class="ok">边缘计算</td><td></td></tr>
     <tr><td>物理实体的虚拟实时映射</td><td class="ok">数字孪生</td><td></td></tr>
+    <tr class="grp"><td colspan="3">多媒体</td></tr>
+    <tr><td>采样频率 ≥ 最高频率的 2 倍</td><td class="ok">采样定理</td><td></td></tr>
+    <tr><td>JPEG</td><td class="ok">静态图像、有损压缩</td><td>PNG/GZIP 无损</td></tr>
+    <tr><td>MPEG</td><td class="ok">视频压缩</td><td></td></tr>
   </table>
   <div class="box purple"><b>配套动作：</b>每天背完当日模块 → 扫一遍上表对应分组（30 秒）→ 做该 Day 的 30 秒自测。"看字眼→出答案"练到不过脑，上午题就稳了一大半。</div>
 </section>
