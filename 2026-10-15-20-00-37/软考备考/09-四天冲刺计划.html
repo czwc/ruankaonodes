@@ -5,11 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>软考软件设计师·四天冲刺计划（上午+下午双卷版）</title>
 <style>
-  :root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  :root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;--card2:#fbfcff;--barbg:#eef1f6;--thead:#f0f3f9;--codebg:#f0f3f9;--hover:#f4f6fa;--done:#9aa7bd;--blue-bd:#c9dbfb;--green-bd:#bfe8d2;--red-bd:#f3c8c8;--orange-bd:#f5dfb8;--purple-bd:#dccdf7;}
+  :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;--card2:#232a3a;--barbg:#2c3446;--thead:#252c3c;--codebg:#252c3c;--hover:#252c3c;--done:#7d879c;--blue-bd:#2f4470;--green-bd:#28543c;--red-bd:#5a2e2e;--orange-bd:#5c451c;--purple-bd:#453367;}
   *{box-sizing:border-box;}
   body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
   .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
-  header{background:linear-gradient(135deg,#d64545,#e08a1e);color:#fff;border-radius:16px;padding:30px 28px;margin-bottom:24px;}
+  header{position:relative;background:linear-gradient(135deg,#d64545,#e08a1e);color:#fff;border-radius:16px;padding:30px 28px;margin-bottom:24px;}
+  .theme-btn{position:absolute;top:18px;right:20px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;font-family:inherit;}
+  .theme-btn:hover{background:rgba(255,255,255,.32);}
   header h1{margin:0 0 8px;font-size:25px;} header p{margin:0;opacity:.92;}
   nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 6px;}
   nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
@@ -18,22 +21,22 @@
   h2{margin:0 0 10px;font-size:21px;border-left:5px solid var(--red);padding-left:12px;}
   h3{margin:20px 0 8px;font-size:16px;color:var(--purple);}
   .box{border-radius:10px;padding:12px 15px;margin:10px 0;font-size:14px;}
-  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
-  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;} .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
+  .box.blue{background:var(--blue-bg);border:1px solid var(--blue-bd);} .box.orange{background:var(--orange-bg);border:1px solid var(--orange-bd);}
+  .box.green{background:var(--green-bg);border:1px solid var(--green-bd);} .box.purple{background:var(--purple-bg);border:1px solid var(--purple-bd);} .box.red{background:var(--red-bg);border:1px solid var(--red-bd);}
   table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px;}
-  th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;} th{background:#f0f3f9;}
+  th,td{border:1px solid var(--border);padding:7px 10px;text-align:left;} th{background:var(--thead);}
   .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
-  code{background:#f0f3f9;border-radius:4px;padding:1px 6px;font-family:Consolas,monospace;font-size:13px;}
+  code{background:var(--codebg);border-radius:4px;padding:1px 6px;font-family:Consolas,monospace;font-size:13px;}
   .days{display:flex;flex-wrap:wrap;gap:12px;margin:12px 0;}
-  .day{flex:1 1 210px;background:#fbfcff;border:1px solid var(--border);border-radius:12px;padding:14px 16px;min-width:200px;}
+  .day{flex:1 1 210px;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:14px 16px;min-width:200px;}
   .day b{color:var(--red);}
-  .bar{height:10px;background:#eef1f6;border-radius:6px;overflow:hidden;margin:8px 0 4px;}
+  .bar{height:10px;background:var(--barbg);border-radius:6px;overflow:hidden;margin:8px 0 4px;}
   .bar>div{height:100%;background:linear-gradient(90deg,#e08a1e,#1a9e5c);width:0%;transition:width .3s;}
   .pct{font-size:12px;color:var(--muted);}
   .chk{display:flex;align-items:flex-start;gap:8px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:14px;}
-  .chk:hover{background:#f4f6fa;}
+  .chk:hover{background:var(--hover);}
   .chk input{margin-top:5px;accent-color:#1a9e5c;width:15px;height:15px;flex:none;}
-  .chk.done span{text-decoration:line-through;color:#9aa7bd;}
+  .chk.done span{text-decoration:line-through;color:var(--done);}
   .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
   a.a{color:var(--blue);font-weight:bold;text-decoration:none;} a.a:hover{text-decoration:underline;}
 </style>
@@ -42,6 +45,7 @@
 <div class="wrap">
 
 <header>
+  <button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
   <h1>四天冲刺 · 上午抢分 + 下午保分（2026 命题预测版）</h1>
   <p>每天 3~4 小时 = 上午题背刷 2~2.5h + 下午题配练 1~1.5h · 两卷都要过 45 分线 · 勾选进度自动保存</p>
   <nav>
@@ -436,6 +440,19 @@
 </div>
 
 <script>
+(function(){
+  const root=document.documentElement, tbtn=document.getElementById('themeBtn');
+  function applyTheme(t){
+    if(t==='dark'){root.setAttribute('data-theme','dark'); tbtn.textContent='白天模式';}
+    else{root.removeAttribute('data-theme'); tbtn.textContent='黑夜模式';}
+  }
+  applyTheme(localStorage.getItem('sk09-theme'));
+  tbtn.addEventListener('click',function(){
+    const t = root.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    localStorage.setItem('sk09-theme', t);
+    applyTheme(t);
+  });
+})();
 (function(){
   const KEY='skct-09-';
   const boxes=document.querySelectorAll('.chk input');
