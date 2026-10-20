@@ -287,10 +287,22 @@
 
   <h3>▶ 页式存储 + 缺页 + 磁盘 + 位示图（每年 3~4 题，计算大户）</h3>
   <div class="box green">
-    <b>① 页式地址转换三步：</b>页大小定偏移位数（1KB=2¹⁰ → 低 10 位）→ 逻辑地址 ÷ 页大小 = 页号（商）+ 页内偏移（余数）→ 物理地址 = 帧号 × 页大小 + 偏移（帧号查题干给的映射表）。<b>完整例题见上方例 5。</b><br>
-    <b>② 缺页置换三算法：</b>FIFO=淘汰最先进入的（排队思想）；LRU=淘汰最近最久没用的（往回看访问历史）；OPT=淘汰未来最久不用的（上帝视角，缺页最少，是理论下界，无法实现）。<b>手算见 Day2 自测⑦。</b><br>
-    <b>③ 磁盘存取时间 = 寻道时间 + 旋转延迟（半圈）+ 传输时间（一圈 ÷ 每道扇区数）</b>。<b>完整例题见上方例 6。</b><br>
-    <b>④ 位示图：</b>每个字 32 位代表 32 个块的使用情况；字号 = 块号 ÷ 字长（取整），位号 = 余数。<b>完整例题见上方例 7。</b><br>
+    <b>① 页式地址转换三步：</b>页大小定偏移位数（1KB=2¹⁰ → 低 10 位）→ 逻辑地址 ÷ 页大小 = 页号（商）+ 页内偏移（余数）→ 物理地址 = 帧号 × 页大小 + 偏移（帧号查题干给的映射表）。
+  </div>
+  <details class="rec"><summary>例5【页式地址转换】页大小 1KB，逻辑地址 2500，该页装入内存帧号 4，物理地址 = ？</summary><div class="ans"><b>三步：</b>① 求页内偏移位数：1KB=2¹⁰ → 低 10 位是偏移；② 拆逻辑地址：页号 = 2500 ÷ 1024 = <b>2</b>（整除），偏移 = 2500 − 2×1024 = <b>452</b>；③ 物理地址 = 帧号 × 页大小 + 偏移 = 4×1024 + 452 = <b>4548</b>。<br><span class="hl">易错：</span>页大小换成 4KB 就用 4096 除；"页号查表得帧号"这步题干会给映射表，别拿页号当帧号用。</div><label class="miss"><input type="checkbox" data-mkey="r3-10"> 没记住</label></details>
+  <div class="box green">
+    <b>② 缺页置换三算法：</b>FIFO=淘汰最先进入的（排队思想）；LRU=淘汰最近最久没用的（往回看访问历史）；OPT=淘汰未来最久不用的（上帝视角，缺页最少，是理论下界，无法实现）。
+  </div>
+  <details class="rec"><summary>例5b【缺页手算】内存 3 帧，访问序列 1、2、3、1、4——FIFO 和 LRU 各淘汰谁？</summary><div class="ans"><b>FIFO：</b>只看进入顺序。4 到来时内存里是 {1,2,3}，最先进入的是 <b>1</b> → 淘汰 1，换成 4。<br><b>LRU：</b>往回看历史。4 到来前刚用过 1（上一步就是访问 1），最近最久没用的是 <b>2</b> → 淘汰 2。<br><span class="hl">易错：</span>FIFO 看进队顺序、LRU 看最近使用记录——同一个序列两者答案可能不同；OPT 是"未来最久不用"，考试让你手算的只有 FIFO 和 LRU。</div><label class="miss"><input type="checkbox" data-mkey="r2-10"> 没记住</label></details>
+  <div class="box green">
+    <b>③ 磁盘存取时间 = 寻道时间 + 旋转延迟（半圈）+ 传输时间（一圈 ÷ 每道扇区数）</b>——原理：磁头先移臂到对的磁道 → 等盘转到目标扇区 → 扇区扫过磁头。
+  </div>
+  <details class="rec"><summary>例6【磁盘存取】转速 6000 转/分，平均寻道 4ms，每磁道 50 扇区，读 1 个扇区总时间 = ？</summary><div class="ans"><b>三步：</b>① 转一圈 = 60 秒 ÷ 6000 转 = 0.01 秒 = <b>10ms</b>；② 为什么平均旋转延迟是<b>半圈</b>？——磁头不知道目标扇区此刻在哪，运气最好立刻到、最差要等一整圈，平均就是一半 = <b>5ms</b>；③ 传输 = 读一个扇区 = 一圈的 1/50 = 10 ÷ 50 = <b>0.2ms</b>。<br>总时间 = 4 + 5 + 0.2 = <b>9.2ms</b>。<br><span class="hl">易错：</span>①"转/分"要先换成每圈毫秒（60000 ÷ 转速）；②若问"读一整个磁道"，传输 = 一整圈 10ms，不用除 50。</div><label class="miss"><input type="checkbox" data-mkey="r3-11"> 没记住</label></details>
+  <div class="box green">
+    <b>④ 位示图：</b>每个字 32 位代表 32 个块的使用情况；字号 = 块号 ÷ 字长（取整），位号 = 余数。
+  </div>
+  <details class="rec"><summary>例7【位示图】字长 32 位，块号 100（从 0 编号），它在第几个字、第几位？</summary><div class="ans">字号 = 100 ÷ 32 = 3 余 4 → <b>第 3 个字（从 0 数）、位号 4</b>；若题干说"从 1 开始编号"则答案是第 4 个字、第 5 位。<br><span class="hl">易错：</span>唯一坑就是"从 0 还是从 1 编号"——题干读两遍再填。</div><label class="miss"><input type="checkbox" data-mkey="r3-12"> 没记住</label></details>
+  <div class="box green">
     <b>⑤ 页式 vs 段式 vs 段页式：</b>页 = <b>定长</b>（有内部碎片）；段 = <b>变长</b>按逻辑单元（有外部碎片）；段页式 = 先分段再分页，取长补短。
   </div>
 
@@ -324,30 +336,27 @@
 <section id="d3">
   <h2>Day 3 · 上午：硬件+网络+安全+知产+英语　|　下午：试题三 UML</h2>
 
-  <h3>▶ 四个必背公式（每年 3~4 题）</h3>
+  <h3>▶ 四个必背公式 + 紧贴例题（每年 3~4 题）</h3>
   <div class="box blue">
     <b>① 浮点数：</b>N = 尾数 × 2^阶码。<span class="hl">范围由阶码位数决定，精度由尾数位数决定</span>（选择常考这两句的对调）。规格化：尾数最高位为 1。<br>
-    <b>② 可靠性：</b>串联 R = R1 × R2 × …；<b>并联 R = 1 − (1−R1)(1−R2)</b>；串联可靠性随部件增多<b>降低</b>，并联<b>提高</b>。<br>
-    <b>③ Cache：</b>平均访问时间 = 命中率 × Cache 时间 + (1−命中率) × 主存时间（顺序访问式）或 + (1−命中率) × (Cache+主存) 时间（同时访问式）——看清题干给哪种。<br>
-    <b>④ 流水线：</b>总时间 = <b>1 条完整指令时间 + (n−1) × 流水线周期</b>（周期 = 最长段耗时）；吞吐率 = n ÷ 总时间；加速比 = 不用流水时间 ÷ 流水时间。<br>
     <b>⑤ I/O 方式：</b>程序查询（CPU 轮询干等，最慢）→ 中断（设备就绪才打断 CPU）→ <b>DMA（数据直接进内存，基本不占 CPU，块设备主流方式）</b>。<br>
     <b>⑥ CPU 组成：</b>运算器（ALU、累加器、状态寄存器）+ 控制器（<b>PC 程序计数器</b>、IR 指令寄存器、译码器）。<br>
     <b>⑦ 流水线三种相关：</b>资源相关、<b>数据相关</b>（后条要用前条结果）、控制相关（转移指令）——解决靠停顿/重排。
   </div>
-
-  <h3>▶ 四大公式·真题级例题（先自己算 1 分钟，再点开对步骤）</h3>
-  <details class="rec"><summary>例1【流水线】四段流水线各段耗时 1/2/3/4ns，执行 100 条指令总时间？加速比？</summary><div class="ans">周期 = 最长段 = <b>4ns</b>。总时间 = (1+2+3+4) + (100−1)×4 = 10 + 396 = <b>406ns</b>。<br>加速比 = 不流水时间 ÷ 流水时间 = (100×10) ÷ 406 ≈ <b>2.46</b>。<br><span class="hl">丢分点：</span>首条指令时间 = 各段之和，别用周期代替。</div><label class="miss"><input type="checkbox" data-mkey="r3-1"> 没记住</label></details>
+  <div class="box blue">
+    <b>② 可靠性：</b>串联 R = R1 × R2 × …；<b>并联 R = 1 − (1−R1)(1−R2)</b>；串联可靠性随部件增多<b>降低</b>，并联<b>提高</b>。
+  </div>
+  <details class="rec"><summary>例1【可靠性】两个子系统串联，每个子系统由 2 个可靠度 0.9 的部件并联，系统可靠度？</summary><div class="ans">先并联：R = 1 − (1−0.9)² = 1 − 0.01 = <b>0.99</b>；<br>再串联：R = 0.99 × 0.99 = <b>0.9801</b>。<br><span class="hl">口诀：先小后大——先把每个子系统算成一个数，再串。</span></div><label class="miss"><input type="checkbox" data-mkey="r3-3"> 没记住</label></details>
+  <div class="box blue">
+    <b>③ Cache：</b>平均访问时间 = 命中率 × Cache 时间 + (1−命中率) × 主存时间（顺序访问式）或 + (1−命中率) × (Cache+主存) 时间（同时访问式）——看清题干给哪种。
+  </div>
   <details class="rec"><summary>例2【Cache】命中率 90%，Cache 40ns，主存 200ns，平均访问时间？</summary><div class="ans">顺序访问式：T = 0.9×40 + 0.1×200 = 36 + 20 = <b>56ns</b>。<br><span class="hl">丢分点：</span>若题干说"同时访问"，第二项要写成 0.1×(40+200)=24，T=60ns——看清题干！</div><label class="miss"><input type="checkbox" data-mkey="r3-2"> 没记住</label></details>
-  <details class="rec"><summary>例3【可靠性】两个子系统串联，每个子系统由 2 个可靠度 0.9 的部件并联，系统可靠度？</summary><div class="ans">先并联：R = 1 − (1−0.9)² = 1 − 0.01 = <b>0.99</b>；<br>再串联：R = 0.99 × 0.99 = <b>0.9801</b>。<br><span class="hl">口诀：先小后大——先把每个子系统算成一个数，再串。</span></div><label class="miss"><input type="checkbox" data-mkey="r3-3"> 没记住</label></details>
-  <details class="rec"><summary>例4【子网】200.1.1.0/27 划分，每个子网可用主机数？能分几个子网（相对 /24）？</summary><div class="ans">/27 → 主机位 = 32−27 = 5 位 → 可用主机 = 2⁵−2 = <b>30 台</b>；<br>网络位比 /24 多 3 位 → 子网数 = 2³ = <b>8 个</b>。</div><label class="miss"><input type="checkbox" data-mkey="r3-4"> 没记住</label></details>
+  <div class="box blue">
+    <b>④ 流水线：</b>总时间 = <b>1 条完整指令时间 + (n−1) × 流水线周期</b>（周期 = 最长段耗时）；吞吐率 = n ÷ 总时间；加速比 = 不用流水时间 ÷ 流水时间。
+  </div>
+  <details class="rec"><summary>例3【流水线】四段流水线各段耗时 1/2/3/4ns，执行 100 条指令总时间？加速比？</summary><div class="ans">周期 = 最长段 = <b>4ns</b>。总时间 = (1+2+3+4) + (100−1)×4 = 10 + 396 = <b>406ns</b>。<br>加速比 = 不流水时间 ÷ 流水时间 = (100×10) ÷ 406 ≈ <b>2.46</b>。<br><span class="hl">丢分点：</span>首条指令时间 = 各段之和，别用周期代替。</div><label class="miss"><input type="checkbox" data-mkey="r3-1"> 没记住</label></details>
 
-  <div class="box red"><b>计算题分值地图（每年约 10 分，全在这页里）：</b>流水线/Cache/可靠性（3~4 分，见上面例 1~3）+ 子网划分（1 分，例 4）+ 页式地址转换/磁盘/位示图（2~3 分，见下面例 5~7）+ 多媒体容量（1 分，例 8）+ 零散小计算（海明 k 值、循环队列、二分次数、EMV——都在各 Day 的 30 秒自测里）。<b>计算题是"套模板"不是"想思路"</b>：认出题型 → 代对应模板 → 每步一个动作。</div>
-
-  <h3>▶ 更多必考计算·照步骤一步步套（先自己算再对答案）</h3>
-  <details class="rec"><summary>例5【页式地址转换】页大小 1KB，逻辑地址 2500，该页装入内存帧号 4，物理地址 = ？</summary><div class="ans"><b>三步：</b>① 求页内偏移位数：1KB=2¹⁰ → 低 10 位是偏移；② 拆逻辑地址：页号 = 2500 ÷ 1024 = <b>2</b>（整除），偏移 = 2500 − 2×1024 = <b>452</b>；③ 物理地址 = 帧号 × 页大小 + 偏移 = 4×1024 + 452 = <b>4548</b>。<br><span class="hl">易错：</span>页大小换成 4KB 就用 4096 除；"页号查表得帧号"这步题干会给映射表，别拿页号当帧号用。</div><label class="miss"><input type="checkbox" data-mkey="r3-10"> 没记住</label></details>
-  <details class="rec"><summary>例6【磁盘存取】转速 6000 转/分，平均寻道 4ms，每磁道 50 扇区，读 1 个扇区总时间 = ？</summary><div class="ans"><b>先懂原理再套数：</b>磁头读数据 = 先把臂移到对的磁道（<b>寻道</b>）→ 等盘转到目标扇区转到磁头下面（<b>旋转延迟</b>）→ 扇区从磁头下扫过（<b>传输</b>）。三段相加就是总时间。<br><b>三步：</b>① 转一圈 = 60 秒 ÷ 6000 转 = 0.01 秒 = <b>10ms</b>；② 为什么平均旋转延迟是<b>半圈</b>？——磁头不知道目标扇区此刻在哪，运气最好立刻到、最差要等一整圈，平均就是一半 = <b>5ms</b>；③ 传输 = 读一个扇区 = 一圈的 1/50 = 10 ÷ 50 = <b>0.2ms</b>。<br>总时间 = 4 + 5 + 0.2 = <b>9.2ms</b>。<br><span class="hl">易错：</span>①"转/分"要先换成每圈毫秒（60000 ÷ 转速）；②若问"读一整个磁道"，传输 = 一整圈 10ms，不用除 50。</div><label class="miss"><input type="checkbox" data-mkey="r3-11"> 没记住</label></details>
-  <details class="rec"><summary>例7【位示图】字长 32 位，块号 100（从 0 编号），它在第几个字、第几位？</summary><div class="ans">字号 = 100 ÷ 32 = 3 余 4 → <b>第 3 个字（从 0 数）、位号 4</b>；若题干说"从 1 开始编号"则答案是第 4 个字、第 5 位。<br><span class="hl">易错：</span>唯一坑就是"从 0 还是从 1 编号"——题干读两遍再填。</div><label class="miss"><input type="checkbox" data-mkey="r3-12"> 没记住</label></details>
-  <details class="rec"><summary>例8【图像容量】800×600 像素、16 色图像，占多少 KB？</summary><div class="ans"><b>两步：</b>① 16 色 = 2⁴ → 每像素 4 位；② 容量 = 800 × 600 × 4 ÷ 8 = 240000B ÷ 1024 ≈ <b>234KB</b>。<br><span class="hl">易错：</span>"16 色"是 4 位不是 16 位（16 位=65536 色）；音频题则用 采样率×量化位×声道×秒 ÷ 8。</div><label class="miss"><input type="checkbox" data-mkey="r3-13"> 没记住</label></details>
+  <div class="box red"><b>计算题分值地图（每年约 10 分，全部"方法+例题"贴在一起）：</b>可靠性/Cache/流水线（3~4 分，例 1~3 就在各公式正下方）+ 子网划分（1 分，例 4 在网络框后）+ 页式地址转换/缺页/磁盘/位示图（2~3 分，例 5~7 在 Day2 各方法后）+ 图像容量（1 分，例 8 在多媒体框后）+ 零散小计算（海明 k 值、循环队列、二分次数、EMV——在各 Day 的 30 秒自测里）。<b>计算题是"套模板"不是"想思路"</b>：认出题型 → 代对应模板 → 每步一个动作。</div>
 
   <h3>▶ 寻址方式 + 校验码 + RAID（每年 2~3 题）</h3>
   <div class="box green">
@@ -371,6 +380,7 @@
     <b>设备对号（常考！）：</b>中继器/集线器 → <b>物理层</b>；网桥/交换机 → <b>数据链路层</b>；路由器 → <b>网络层</b>；网关 → 高层（应用层）。<br>
     <b>CSMA/CD：</b>共享式以太网的介质访问控制——先听后发、边发边听、冲突停发。
   </div>
+  <details class="rec"><summary>例4【子网】200.1.1.0/27 划分，每个子网可用主机数？能分几个子网（相对 /24）？</summary><div class="ans">/27 → 主机位 = 32−27 = 5 位 → 可用主机 = 2⁵−2 = <b>30 台</b>；<br>网络位比 /24 多 3 位 → 子网数 = 2³ = <b>8 个</b>。</div><label class="miss"><input type="checkbox" data-mkey="r3-4"> 没记住</label></details>
 
   <h3>▶ 信息安全（每年 3~4 题，纯背）</h3>
   <div class="box blue">
@@ -390,6 +400,7 @@
     <b>图像容量（字节）= 水平像素 × 垂直像素 × 颜色位深 ÷ 8</b>；<b>音频容量（字节）= 采样频率 × 量化位数 × 声道数 × 秒 ÷ 8</b>。<br>
     <b>JPEG</b> 静态图像<b>有损</b>压缩；MPEG 视频压缩；PNG/GZIP 无损。
   </div>
+  <details class="rec"><summary>例8【图像容量】800×600 像素、16 色图像，占多少 KB？</summary><div class="ans"><b>两步：</b>① 16 色 = 2⁴ → 每像素 4 位；② 容量 = 800 × 600 × 4 ÷ 8 = 240000B ÷ 1024 ≈ <b>234KB</b>。<br><span class="hl">易错：</span>"16 色"是 4 位不是 16 位（16 位=65536 色）；音频题则用 采样率×量化位×声道×秒 ÷ 8。</div><label class="miss"><input type="checkbox" data-mkey="r3-13"> 没记住</label></details>
 
   <h3>▶ 知识产权 + 标准化（1 小时硬背，稳拿 3 分）</h3>
   <table>
