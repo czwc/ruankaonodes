@@ -29,7 +29,7 @@
   .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
   .quiz{border:1px solid var(--border);border-radius:10px;padding:16px 18px;margin:14px 0;}
   .quiz .q{font-weight:bold;margin-bottom:10px;}
-  .opt{display:block;width:100%;text-align:left;background:#fafbfe;border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:14px;font-family:inherit;}
+  .opt{display:block;width:100%;text-align:left;background:#fafbfe;color:var(--ink);border:1px solid var(--border);border-radius:8px;padding:9px 12px;margin:6px 0;cursor:pointer;font-size:14px;font-family:inherit;}
   .opt:hover{border-color:var(--blue);}
   .opt.right{background:var(--green-bg);border-color:var(--green);color:var(--green);font-weight:bold;}
   .opt.wrong{background:var(--red-bg);border-color:var(--red);color:var(--red);} .opt:disabled{cursor:default;}
@@ -43,7 +43,7 @@
   /* ==== 黑夜模式 ==== */
   :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;}
   :root[data-theme="dark"] th{background:#252c3c;}
-  :root[data-theme="dark"] .opt{background:#232a3a;}
+  :root[data-theme="dark"] .opt{background:#232a3a;color:var(--ink);}
   :root[data-theme="dark"] .case{background:#232a3a;border-color:#2c3446;}
   :root[data-theme="dark"] .box.blue{border-color:#2f4470;}
   :root[data-theme="dark"] .box.orange{border-color:#5c451c;}
