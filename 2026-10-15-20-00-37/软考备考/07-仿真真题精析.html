@@ -35,7 +35,19 @@
   table{border-collapse:collapse;width:100%;margin:12px 0;font-size:14px;}
   th,td{border:1px solid var(--border);padding:8px 10px;text-align:left;} th{background:#f0f3f9;}
   .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
-</style>
+  /* ==== 黑夜模式 ==== */
+  :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;}
+  :root[data-theme="dark"] th{background:#252c3c;}
+  :root[data-theme="dark"] .opt{background:#232a3a;}
+  :root[data-theme="dark"] .case{background:#232a3a;border-color:#2c3446;}
+  :root[data-theme="dark"] .box.blue{border-color:#2f4470;}
+  :root[data-theme="dark"] .box.orange{border-color:#5c451c;}
+  :root[data-theme="dark"] .box.green{border-color:#28543c;}
+  :root[data-theme="dark"] .box.purple{border-color:#453367;}
+  :root[data-theme="dark"] .box.red{border-color:#5a2e2e;}
+  :root[data-theme="dark"] .answer{border-color:#28543c;}
+  .theme-btn{position:fixed;top:14px;right:16px;z-index:99;background:var(--card);border:1px solid var(--border);color:var(--ink);border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .theme-btn:hover{border-color:var(--blue);color:var(--blue);}</style>
 </head>
 <body>
 <div class="wrap">
@@ -331,5 +343,20 @@
   });
 })();
 </script>
-</body>
+<button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  function apply(t){
+    if(t==='dark'){root.setAttribute('data-theme','dark');btn.textContent='白天模式';}
+    else{root.removeAttribute('data-theme');btn.textContent='黑夜模式';}
+  }
+  apply(localStorage.getItem('sk09-theme'));
+  btn.addEventListener('click',function(){
+    var t=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    localStorage.setItem('sk09-theme',t);
+    apply(t);
+  });
+})();
+</script></body>
 </html>
