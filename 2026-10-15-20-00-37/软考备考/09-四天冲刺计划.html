@@ -162,7 +162,7 @@
   <div class="box blue">
     <b>黑盒（功能）：</b>等价类划分、边界值分析、因果图、错误推测。<br>
     <b>白盒（结构）：</b>逻辑覆盖由弱到强：<b>语句 → 判定 → 条件 → 判定/条件 → 条件组合 → 路径覆盖</b>。<br>
-    <b>McCabe 环形复杂度：</b><span class="hl">V(G) = 边数 − 节点数 + 2</span>（或 = 判定节点数 + 1）。白盒测试用例数 ≥ V(G)。<br>
+    <b>McCabe 环形复杂度：</b><span class="hl">V(G) = 边数 − 节点数 + 2</span>（或 = 判定节点数 + 1）。白盒测试用例数 ≥ V(G)。例：程序图 10 条边、8 个节点 → V(G) = 10−8+2 = <b>4</b>，设计用例至少 4 个。<br>
     <b>阶段划分：</b>单元测试（程序员自测/白盒）→ 集成（接口）→ 确认（需求/用户）→ 系统 → 验收（α测试=开发方场所用户测，β=用户场所）。
   </div>
 
@@ -177,7 +177,10 @@
 
   <h3>▶ 项目管理 + CMM + 质量（每年 2~3 题）</h3>
   <div class="box blue">
-    <b>关键路径：</b>项目中<b>最长</b>的路径，决定总工期；关键路径上活动<b>总时差为 0</b>。总时差 = 最迟开始 − 最早开始。<br>
+    <b>关键路径：</b>项目中<b>最长</b>的路径，决定总工期；关键路径上活动<b>总时差为 0</b>。总时差 = 最迟开始 − 最早开始。
+  </div>
+  <details class="rec"><summary>例13【关键路径】活动 A(3天)→B(5天)，另一条 C(2天)→D(4天)，总工期？关键路径？C 的总时差？</summary><div class="ans">① 两条路分别累加：A→B = 3+5 = <b>8 天</b>；C→D = 2+4 = <b>6 天</b>；<br>② 关键路径 = 最长的 <b>A→B</b>，总工期 = <b>8 天</b>；<br>③ C、D 不在关键路径 → 这条链的总时差 = 8−6 = <b>2 天</b>（拖 2 天不影响工期）。<br><span class="hl">易错：</span>总工期<b>不是</b>所有活动相加（3+5+2+4=14 是错的）——并行活动取最长路；问"关键活动"就答关键路径上的 A、B。</div><label class="miss"><input type="checkbox" data-mkey="r1-8"> 没记住</label></details>
+  <div class="box blue">
     <b>甘特图：</b>直观显示进度，但<b>难以反映任务间依赖</b>；PERT 图/箭线图能反映依赖。<br>
     <b>CMM 五级：</b>初始（混乱）→ 可重复（项目级管理）→ 已定义（组织级标准过程）→ 已管理（定量管理）→ 优化（持续改进）；<b>CMMI</b> = CMM 升级版，有阶段式（五级同上）和连续式两种表示。<br>
     <b>McCall 质量特性：</b>功能性、可靠性、易使用性、效率、维护性、可移植性。
@@ -232,6 +235,7 @@
   <h3>▶ SQL 高频句式（每年 2~3 题）</h3>
   <div class="box blue">
     <b>标准查询：</b><code>SELECT 列 FROM 表 WHERE 条件 GROUP BY 分组列 HAVING 组条件 ORDER BY 排序列</code>——顺序固定：<b>WHERE 在 GROUP 前，HAVING 在 GROUP 后</b>（HAVING 配聚合函数）。<br>
+    <b>整句示例（照着感受顺序）：</b><code>SELECT 部门, COUNT(*) FROM 员工 WHERE 年龄&gt;30 GROUP BY 部门 HAVING COUNT(*)&gt;5 ORDER BY 部门</code>——先 WHERE 筛行 → 再 GROUP 分组 → 再 HAVING 筛组 → 最后排序。<br>
     <b>授权：</b><code>GRANT SELECT,INSERT ON 表 TO 用户 WITH GRANT OPTION</code>（可转授）；回收 <code>REVOKE</code>。<br>
     <b>视图：</b><code>CREATE VIEW 视图名 AS SELECT ...</code>——视图是虚表，提高<b>安全性/逻辑独立性</b>。<br>
     <b>属性函数：</b>COUNT/SUM/AVG/MAX/MIN；<code>DISTINCT</code> 去重。
@@ -497,7 +501,7 @@
   <div class="box purple">
     <b>图论：</b>最小生成树——Prim（加点）/ Kruskal（加边，先按权排序）；<b>Dijkstra 求最短路（不能有负权边）</b>；拓扑排序每次取<b>入度为 0</b> 的顶点。<br>
     <b>决策四法：</b>乐观（大中取大）、悲观（小中取大）、<b>后悔值</b>（每列最大减该值→再小中取大）、EMV 期望值（概率加权平均）。<br>
-    <b>盈亏平衡：</b>利润 = (单价 − 单位变动成本) × 销量 − 固定成本，平衡点令利润 = 0。<br>
+    <b>盈亏平衡：</b>利润 = (单价 − 单位变动成本) × 销量 − 固定成本，平衡点令利润 = 0。例：固定成本 10 万、单价 50、单位变动 30 → 平衡销量 = 100000 ÷ (50−30) = <b>5000 件</b>。<br>
     <b>计数与容斥：</b>分类相加、分步相乘；A∪B = A + B − A∩B；全排列 n!，从 n 个取 m 个 A(n,m)=n!/(n−m)!。<br>
     <b>统筹图：</b>关键路径 = 最长路 = 总工期；总时差 = 最迟 − 最早（与 Day1 呼应）。<br>
     <b>线性规划：</b>列约束 → 画可行域（凸多边形）→ 最优解必在<b>顶点</b>取到（代入各顶点比大小）。<br>
