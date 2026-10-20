@@ -18,7 +18,7 @@
   h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
   h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
   .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
-  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);} .tag.easy{background:var(--green-bg);color:var(--green);}
   .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
   .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
   .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
@@ -77,6 +77,7 @@
 <!-- ============ 0 识别表 ============ -->
 <section id="s0">
   <h2>① 一眼认策略：四句话特征表 <span class="tag exam">先背这张表</span></h2>
+  <div class="box green"><b>小白拿分指南（15 分按好拿程度抢）：</b><br>· 第 1 好拿：<b>策略识别题</b>——"每步局部最优"=贪心、"子问题+最优子结构"=动态规划，背第①节四句话就得分；<br>· 第 2 好拿：<b>时间复杂度</b>——看循环层数：单层 n、双层 n²、每次对半 log n；<br>· 第 3 好拿：<b>0-1 背包填表</b>（下午）——递推式固定，照第④节表格抄格式；<br>· 最后：代码填空——先看空在循环边界还是递归出口，蒙 i&lt;n、i+1 也有分；大段没思路的伪代码放最后。</div>
   <table>
     <tr><th style="width:110px">策略</th><th>识别特征（题干/代码里找这些词）</th><th>经典题目</th></tr>
     <tr><td><b>分治</b></td><td>"分成两半""分别求解""再合并"；代码有<b>递归调用自己 + 合并</b></td><td>归并排序、快速排序、二分查找、大整数乘法</td></tr>
@@ -206,7 +207,7 @@ cnt = 1; last = act[<span class="hl">0</span>].end;
 
 <!-- ============ 复杂度 ============ -->
 <section id="s4b">
-  <h2>⑥ 时间复杂度：代码填空后的必问 <span class="tag exam">必考</span></h2>
+  <h2>⑥ 时间复杂度：代码填空后的必问 <span class="tag exam">必考</span><span class="tag easy">小白先拿</span></h2>
   <table>
     <tr><th>代码形态 / 递归式</th><th style="width:130px">复杂度</th><th>典型题目</th></tr>
     <tr><td>T(n) = T(n/2) + O(1)（每次砍一半，只递归一边）</td><td><b>O(log n)</b></td><td>二分查找</td></tr>

@@ -18,7 +18,7 @@
   h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
   h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
   .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
-  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);} .tag.easy{background:var(--green-bg);color:var(--green);}
   .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
   .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
   .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
@@ -73,6 +73,7 @@
 <!-- ============ 用例图 ============ -->
 <section id="s1">
   <h2>① 用例图：谁用系统、能做什么 <span class="tag exam">include/extend 必考</span></h2>
+  <div class="box green"><b>小白拿分指南（15 分按好拿程度抢）：</b><br>· 第 1 好拿：<b>类图六关系填箭头</b>——三角=泛化/实现、菱形=聚合/组合，背记号就能画；<br>· 第 2 好拿：<b>用例图 include/extend</b>——必选复用指向被包含、可选扩展方向相反，两句话拿满；<br>· 第 3 好拿：<b>状态图/活动图填元素名</b>——答案基本是题干名词的搬运；<br>· 第 4 好拿：<b>最后一问设计模式（约 3 分）</b>——套 09 页 6 骨架，写模式名+理由就有分；<br>· 最后：顺序图消息排序、活动图并发分叉——需要理解流程，放后面。</div>
   <svg viewBox="0 0 680 340" xmlns="http://www.w3.org/2000/svg">
     <defs><marker id="uc" markerWidth="10" markerHeight="10" refX="8" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8" fill="none" stroke="#5b6474" stroke-width="1.5"/></marker></defs>
     <rect x="230" y="16" width="300" height="270" fill="#fbfcff" stroke="#c3ccdc" rx="12"/>
@@ -109,7 +110,7 @@
 
 <!-- ============ 类图 ============ -->
 <section id="s2">
-  <h2>② 类图：六种关系一张表 <span class="tag exam">必考（填箭头/菱形）</span></h2>
+  <h2>② 类图：六种关系一张表 <span class="tag exam">必考（填箭头/菱形）</span><span class="tag easy">小白先拿</span></h2>
   <table>
     <tr><th style="width:110px">关系</th><th>语义</th><th style="width:190px">UML 记号</th><th>例子</th></tr>
     <tr><td><b>泛化</b></td><td>继承"is-a"</td><td><b>实线 + 空心三角箭头</b>指向父类</td><td>学生 → 人</td></tr>

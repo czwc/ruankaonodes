@@ -18,7 +18,7 @@
   h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--orange);padding-left:12px;}
   h3{margin:26px 0 8px;font-size:17px;color:var(--purple);border-bottom:1px dashed var(--border);padding-bottom:6px;}
   .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
-  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);} .tag.easy{background:var(--green-bg);color:var(--green);}
   .box{border-radius:10px;padding:12px 15px;margin:10px 0;font-size:14px;}
   .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
   .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;} .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
@@ -73,6 +73,7 @@
 <!-- ============ 0 总览 ============ -->
 <section id="s0">
   <h2>① 总览：23 式一张地图 <span class="tag core">先背分类</span></h2>
+  <div class="box green"><b>小白拿分指南（23 式不要全背！按优先级）：</b><br>· 必背（出题约 80%）：★标 6 骨架——策略/工厂方法/观察者/装饰器/单例/状态，只背"识别字眼+骨架关键词"；<br>· 认识即可（能选对就行）：模板方法/代理/适配器/外观/迭代器——记住一句话意图；<br>· 放弃（4 天内别碰）：桥接/建造者/原型/访问者/中介者/解释器等其余——考了就用 09 题眼反查表蒙；<br>· 过关标准：遮住左侧模式名，看到场景描述能说出模式名 = 过关。</div>
   <table>
     <tr><th style="width:110px">类别</th><th>解决什么问题</th><th>模式（23 个）</th></tr>
     <tr><td><b>创建型 5</b></td><td>对象怎么<b>创建</b>（把 new 藏起来）</td><td>单例、工厂方法、抽象工厂、建造者、原型</td></tr>
@@ -371,7 +372,7 @@
 
 <!-- ============ 4 易混对比 ============ -->
 <section id="s4">
-  <h2>⑤ 易混对比：选择题陷阱全在这 <span class="tag exam">必背</span></h2>
+  <h2>⑤ 易混对比：选择题陷阱全在这 <span class="tag exam">必背</span><span class="tag easy">小白先拿</span></h2>
   <table>
     <tr><th style="width:150px">易混组</th><th>本质区别（一句话）</th><th>题干怎么区分</th></tr>
     <tr><td>代理 vs 装饰器</td><td>结构相同，意图不同：代理<b>控制访问</b>，装饰器<b>加职责</b></td><td>"权限/远程/延迟"→代理；"增强功能"→装饰器</td></tr>

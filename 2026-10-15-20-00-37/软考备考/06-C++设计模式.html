@@ -18,7 +18,7 @@
   h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
   h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
   .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
-  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);} .tag.easy{background:var(--green-bg);color:var(--green);}
   .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
   .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
   .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
@@ -72,6 +72,7 @@
 <!-- ============ 0 语法速览 ============ -->
 <section id="s0">
   <h2>① C++ 语法速览：与 Java 的关键差异 <span class="tag core">基础</span></h2>
+  <div class="box green"><b>小白策略（与 05 二选一）：</b>主攻 Java（05）的话，本页只看第③节对照表——C++ 差异就三点：<b>virtual</b> 虚函数、<b>=0</b> 纯虚（=Java 抽象方法）、指针用 <b>-&gt;</b> 访问。考场上直接选试题六（Java），本页考前 30 分钟扫一遍即可。</div>
   <table>
     <tr><th style="width:160px">概念</th><th>C++ 写法</th><th>考试挖空点</th></tr>
     <tr><td>抽象方法</td><td><span class="hl">virtual void pay(int) = 0;</span></td><td>virtual 和 = 0 是双挖空重灾区</td></tr>

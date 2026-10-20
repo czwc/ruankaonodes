@@ -18,7 +18,7 @@
   h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
   h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
   .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
-  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);} .tag.easy{background:var(--green-bg);color:var(--green);}
   .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
   .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
   .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
@@ -74,6 +74,7 @@
 <!-- ============ 0 语法速览 ============ -->
 <section id="s0">
   <h2>① Java 语法速览：读代码够用就行 <span class="tag core">基础</span></h2>
+  <div class="box green"><b>小白拿分指南（15 分按好拿程度抢）：</b><br>· 第 1 好拿：<b>模式识别填空</b>——读场景定模式（策略/观察者/装饰器/单例/工厂方法/状态六高频），再对号类图空位；<br>· 第 2 好拿：<b>Java 语法题</b>——接口 implements、继承 extends、多态向上转型，写法固定；<br>· 第 3 好拿：<b>骨架默写</b>——单例三件套（私有静态实例+私有构造+getInstance）、观察者 notify/update；<br>· 最后：全新模式的代码填空——先抄类图里的方法名，再按"接口→实现类→调用"顺序补。</div>
   <table>
     <tr><th style="width:150px">语法</th><th>写法</th><th>考试挖空点</th></tr>
     <tr><td>接口</td><td><span class="ok">interface</span> Strategy { void pay(int x); }</td><td>填 interface</td></tr>
@@ -117,7 +118,7 @@
 
 <!-- ============ 2 速查表 ============ -->
 <section id="s2">
-  <h2>③ 高频设计模式速查表（近十年真题覆盖）<span class="tag exam">必须全认识</span></h2>
+  <h2>③ 高频设计模式速查表（近十年真题覆盖）<span class="tag exam">必须全认识</span><span class="tag easy">小白先拿</span></h2>
   <table>
     <tr><th style="width:110px">模式</th><th>一句话意图（题目问"该模式是？"就按这个选）</th><th style="width:210px">代码/类图识别标志</th></tr>
     <tr><td><b>策略</b> Strategy</td><td>封装一系列可互相替换的算法</td><td>接口 + 多个实现类 + 环境类持有接口引用</td></tr>
