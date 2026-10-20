@@ -18,7 +18,7 @@
   h2{margin:0 0 6px;font-size:21px;border-left:5px solid var(--blue);padding-left:12px;}
   h3{margin:22px 0 8px;font-size:17px;color:var(--blue);}
   .tag{display:inline-block;font-size:12px;padding:2px 10px;border-radius:10px;margin-left:8px;vertical-align:middle;}
-  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);}
+  .tag.exam{background:var(--red-bg);color:var(--red);} .tag.core{background:var(--orange-bg);color:var(--orange);} .tag.easy{background:var(--green-bg);color:var(--green);}
   .box{border-radius:10px;padding:14px 16px;margin:12px 0;}
   .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
   .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.purple{background:var(--purple-bg);border:1px solid #dccdf7;}
@@ -73,6 +73,13 @@
 
 <section id="s1">
   <h2>① E-R 图三要素 <span class="tag core">基础</span></h2>
+  <div class="box green"><b>小白拿分指南（这 15 分里最容易拿的分，按顺序抢）：</b><br>
+    · 第 1 好拿：<b>转关系模式</b>（第③节）——答案格式完全固定，背下三条规则就能写满分，先抢这 5~6 分；<br>
+    · 第 2 好拿：<b>联系类型判断</b>（第②节）——一句口诀"两边各问一次"，每空 2~3 分；<br>
+    · 第 3 好拿：<b>联系属性</b>——看到"成绩/数量/金额/日期"八成挂联系上，1~2 分；<br>
+    · 第 4 好拿：E-R 符号题（矩形=实体、菱形=联系、椭圆=属性），客观题送分；<br>
+    · 最后才是：<b>补 E-R 图缺的实体/联系</b>——需要读长题干，做不完就先写前三类。
+  </div>
   <div class="box blue"><b>先框架后细节——数据库设计四阶段（上午也考）：</b>需求分析（文字说明/数据字典）→ <b>概念结构设计</b>（画出 E-R 图，独立于 DBMS）→ <b>逻辑结构设计</b>（E-R 转关系模式 + 规范化）→ 物理设计（存储结构/索引）。下午这道题考的就是中间两步，答题时写出"概念→逻辑"的字眼也算得分点。</div>
   <svg viewBox="0 0 680 300" xmlns="http://www.w3.org/2000/svg">
     <defs><marker id="er" markerWidth="8" markerHeight="8" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6" fill="#5b6474"/></marker></defs>
@@ -112,7 +119,7 @@
 </section>
 
 <section id="s2">
-  <h2>② 联系类型判断：从两边各看一眼 <span class="tag exam">必考</span></h2>
+  <h2>② 联系类型判断：从两边各看一眼 <span class="tag exam">必考</span><span class="tag easy">小白先拿</span></h2>
   <table>
     <tr><th style="width:90px">类型</th><th>判断方法（站在每端各问一次）</th><th style="width:200px">典型例子</th></tr>
     <tr><td><b>1 : 1</b></td><td>A 的一个只对应 B 的一个，B 的一个也只对应 A 的一个</td><td>部门 ←管理→ 经理（一个部门一个正经理）</td></tr>
@@ -120,17 +127,29 @@
     <tr><td><b>m : n</b></td><td>两边都能对应多个</td><td>学生 ←选修→ 课程（一人选多课，一课被多人选）</td></tr>
   </table>
   <div class="box orange"><b>判断口诀：</b>先固定 A 端一个，问"它对应几个 B"，再固定 B 端一个，问"它对应几个 A"。两个答案一拼就是联系类型（两边都答"多个"就是 m:n）。</div>
+  <div class="case"><b>10 秒示范（照这个问法答题）：</b>题干"一个<b>班级</b>有多名<b>班长</b>？不对——重读：一个班只有一名班长，一名班长只管一个班。"<br>
+    · 站班级端问：一个班级对应几个班长？→ 1 个<br>
+    · 站班长端问：一个班长对应几个班级？→ 1 个<br>
+    · 两边都是 1 → <b>1:1</b>，完事。<br>
+    若题干是"一个班级多名班干部，一名班干部只在一个班" → 1:n；"学生在多个社团，社团有多名学生" → m:n。<b>答题时把这两问写出来（"固定 X 端，对应…个"），本身就是得分点。</b>
+  </div>
   <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s2"></div>
 </section>
 
 <section id="s3">
-  <h2>③ E-R 转关系模式：三条铁规则 <span class="tag exam">必考（答题要默写）</span></h2>
+  <h2>③ E-R 转关系模式：三条铁规则 <span class="tag exam">必考（答题要默写）</span><span class="tag easy">最好拿</span></h2>
   <table>
-    <tr><th>联系类型</th><th>转换方法</th><th>主键 / 外键</th></tr>
-    <tr><td><b>1:1</b></td><td>联系可并入任意一端的关系中（作为若干属性）</td><td>并入端需要加上另一端的主键作<b>外键</b></td></tr>
-    <tr><td><b>1:n</b></td><td>联系并入 <span class="hl">n 端</span>的关系中</td><td>n 端加 1 端主键作<b>外键</b>；主键仍是 n 端自己的码</td></tr>
-    <tr><td><b>m:n</b></td><td><span class="hl">必须独立成一个关系模式</span>，不能并入</td><td>主键 = <b>两端主键的组合</b>；两端主键都是外键</td></tr>
+    <tr><th>联系类型</th><th>转换方法</th><th>主键 / 外键</th><th style="width:180px">10 秒例子</th></tr>
+    <tr><td><b>1:1</b></td><td>联系可并入任意一端的关系中（作为若干属性）</td><td>并入端需要加上另一端的主键作<b>外键</b></td><td>部门-经理 → 部门表加(工号)</td></tr>
+    <tr><td><b>1:n</b></td><td>联系并入 <span class="hl">n 端</span>的关系中</td><td>n 端加 1 端主键作<b>外键</b>；主键仍是 n 端自己的码</td><td>系-学生 → 学生表加(系号)</td></tr>
+    <tr><td><b>m:n</b></td><td><span class="hl">必须独立成一个关系模式</span>，不能并入</td><td>主键 = <b>两端主键的组合</b>；两端主键都是外键</td><td>学生-课程 → 独立建 选修(学号,课程号,成绩)</td></tr>
   </table>
+  <div class="case"><b>照抄模板——考场答案就写这三行（以"顾客-商品"m:n 下单为例）：</b><br>
+    · 1:1 时：<span class="mono">经理(<b>工号</b>, 姓名, <u>部门号</u>)</span> ← 部门号是外键<br>
+    · 1:n 时：<span class="mono">学生(<b>学号</b>, 姓名, <u>系号</u>)</span> ← 系号是外键<br>
+    · m:n 时：<span class="mono">下单(<b>顾客号, 商品号</b>, 数量, 下单日期)</span> ← 主键(顾客号,商品号)，两者都是外键，"数量/日期"是联系属性<br>
+    <b>小白提醒：</b>m:n 建表题的三个必写点——①独立成表 ②联合主键 ③两端都是外键，漏一个扣一分。
+  </div>
   <div class="box green">
     <b>为什么要这么转（理解）：</b>1:n 时如果独立建表，n 端每个学生都要多查一次表，冗余且麻烦，所以并入 n 端；而 m:n 时如果并入任何一端，都会出现"一个格子装多个值"（违反 1NF），所以必须独立建表。
   </div>
@@ -140,7 +159,7 @@
 </section>
 
 <section id="s4">
-  <h2>④ 完整案例：教务系统（系-学生-课程）<span class="tag core">手把手</span></h2>
+  <h2>④ 完整案例：教务系统（系-学生-课程）<span class="tag core">手把手</span><span class="tag easy">照抄即得分</span></h2>
   <div class="case">
     <b>题干（自拟仿真）：</b>学校有若干<b>系</b>（系号、系名、办公地点），每个系有多名学生，每名学生只属于一个系。学生（学号、姓名、性别）可以选修多门<b>课程</b>（课程号、课程名、学分），每门课程可被多名学生选修，学生选修每门课程后有一个<b>成绩</b>。
   </div>
