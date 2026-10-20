@@ -237,8 +237,42 @@ cnt = 1; last = act[<span class="hl">0</span>].end;
   <p><b>空(3) —— 排序主循环的条件。</b>for(i=n; (3); i--)：从最后走到第 1 → <span class="hl">i&gt;=1</span>（同款倒序套路）。</p>
   <p><b>空(4) —— 交换三连的最后一行。</b>R[0]=R[i]（暂存末尾值）→ R[i]=R[1]（冠军放末尾）→ 差一步：暂存值放回堆顶 → <span class="hl">R[1]=R[0]</span>，然后 Heapify(R,1,i−1) 调整剩余。</p>
   <div class="box orange">
-    <b>问题2（2分）复杂度 = O(nlog₂n)：</b>外层 n 次 × 每次 Heapify 走树高 log₂n 层。口诀：<b>一层循环套"每次只走树高"的调整 = nlogn</b>。<br>
-    <b>问题3（5分）手算：</b>R=(7,10,13,15,4,20,19,8)。<b>建初始堆</b>：从 4 号节点倒着调——4 号(15)的孩子 8：不动；3 号(13)的孩子 20：20 上浮 13 下沉；2 号(10)的孩子 15：15 上浮；1 号(7)的孩子 15、20：20 上浮，7 沉下去继续和 13 比……最终 (6) = <b>20,15,19,10,4,13,7,8</b>。<b>第一趟</b>：20 与 8 交换出堆，8 从顶下沉重排 → (7) = <b>19,15,13,10,4,8,7</b>。<br>
+  </div>
+  <h3>▶ 先看图：数组是怎么变成"树"的（看懂这张图，代码就懂一半）</h3>
+  <svg viewBox="0 0 760 330" xmlns="http://www.w3.org/2000/svg">
+    <line x1="300" y1="58" x2="185" y2="120" stroke="#8b95a8" stroke-width="2"/>
+    <line x1="320" y1="58" x2="430" y2="120" stroke="#8b95a8" stroke-width="2"/>
+    <line x1="150" y1="150" x2="105" y2="212" stroke="#8b95a8" stroke-width="2"/>
+    <line x1="170" y1="150" x2="235" y2="212" stroke="#8b95a8" stroke-width="2"/>
+    <line x1="440" y1="150" x2="385" y2="212" stroke="#8b95a8" stroke-width="2"/>
+    <line x1="460" y1="150" x2="515" y2="212" stroke="#8b95a8" stroke-width="2"/>
+    <line x1="90" y1="242" x2="55" y2="296" stroke="#8b95a8" stroke-width="2" stroke-dasharray="5,3"/>
+    <rect x="258" y="26" width="84" height="34" rx="6" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="300" y="49" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">20 ①</text>
+    <rect x="142" y="118" width="84" height="34" rx="6" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="184" y="141" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">15 ②</text>
+    <rect x="388" y="118" width="84" height="34" rx="6" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="430" y="141" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">19 ③</text>
+    <rect x="62" y="180" width="84" height="34" rx="6" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="104" y="203" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">10 ④</text>
+    <rect x="192" y="180" width="84" height="34" rx="6" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="234" y="203" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">4 ⑤</text>
+    <rect x="342" y="180" width="84" height="34" rx="6" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="384" y="203" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">13 ⑥</text>
+    <rect x="472" y="180" width="84" height="34" rx="6" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="514" y="203" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">7 ⑦</text>
+    <rect x="12" y="264" width="84" height="34" rx="6" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="54" y="287" text-anchor="middle" font-size="15" font-weight="bold" fill="#e08a1e">8 ⑧</text>
+    <text x="608" y="49" font-size="13" fill="#5b6474">← ①号是根：全场最大</text>
+    <text x="608" y="141" font-size="13" fill="#5b6474">②③是①的孩子</text>
+    <text x="608" y="203" font-size="13" fill="#5b6474">④⑤是②的孩子</text>
+    <text x="608" y="265" font-size="13" fill="#5b6474">⑥⑦是③的孩子</text>
+    <text x="608" y="287" font-size="13" fill="#e08a1e">⑧是④的孩子（叶子）</text>
+    <text x="380" y="322" text-anchor="middle" font-size="13" fill="#d64545" font-weight="bold">规律：i 号节点的两个孩子 = 2i 号和 2i+1 号（这就是代码里 j=2*i 的来历）</text>
+  </svg>
+  <div class="box orange">
+    <b>问题2（2分）复杂度 = O(nlog₂n)：</b>外层 n 次 × 每次 Heapify 走树高 log₂n 层。口诀：<b>一层循环套"每次只走树高"的调整 = nlogn</b>。<br><br>
+    <b>问题3（5分）手算全过程（R=7,10,13,15,4,20,19,8，对照上图编号看）：</b><br>
+    <table>
+      <tr><th>步骤</th><th>检查谁</th><th>和谁比（取大的孩子）</th><th>数组变成</th></tr>
+      <tr><td>i=4</td><td>④号:15</td><td>孩子⑧:8 → 15 大，不动</td><td>7,10,13,15,4,20,19,8（不变）</td></tr>
+      <tr><td>i=3</td><td>③号:13</td><td>孩子 ⑥:20、⑦:19 → 大的 20 上浮，13 沉到⑥</td><td>7,10,<b>20</b>,15,4,<b>13</b>,19,8</td></tr>
+      <tr><td>i=2</td><td>②号:10</td><td>孩子 ④:15、⑤:4 → 大的 15 上浮，10 沉到④</td><td>7,<b>15</b>,20,<b>10</b>,4,13,19,8</td></tr>
+      <tr><td>i=1</td><td>①号:7</td><td>孩子 15、20 → 20 上浮，7 沉到③；7 的孩子变 13、19 → 19 大，7 再沉到⑦</td><td><b>20,15,19,10,4,13,7,8</b> ✓ 建堆完成 = 答案(6)</td></tr>
+      <tr><td>第一趟</td><td>20 与末尾 8 交换</td><td>20 出堆，8 从顶下沉：和 19 换、再和 13 换</td><td><b>19,15,13,10,4,8,7</b> | 20 出堆 = 答案(7)</td></tr>
+    </table>
     <b>考场实话：</b>(6)(7) 手算 5 分性价比一般——先把前面 6 个空稳稳拿掉，最后再回来算；卡住就按"全场最大放 R[1]"写 (6)。
   </div>
   <div class="box red"><b>看不懂代码时的四条保命规则：</b>①注释写"建堆/调整"+倒序循环（i--, i&gt;=1）→ 循环体多半是抄那个调整函数名；②交换三连 R[0]=R[i]、R[i]=R[1]、___ → 凑 R[1]=R[0]；③if 条件题 → 往题干规则（父≥子/非递减）上套；④复杂度 → 循环层数相乘，树形调整一律 log n。</div>

@@ -252,7 +252,8 @@
     (3) = <b>new ConcretePatient("name")</b>——Patient 是接口不能 new，只能 new 实现它的具体类；<br>
     (4) = <b>Facade</b>——f 后面要调外观的方法，按类图 f 是 Facade 类型；<br>
     (5) = <b>new Facade(patient)</b>——构造函数要传患者进去；<br>
-    (6) = <b>f.dispose()</b>——启动接待员流程，完事。
+    (6) = <b>f.dispose()</b>——启动接待员流程，完事。<br><br>
+    <b>为什么左边写接口（Patient）、右边写实现类（new ConcretePatient）？这就是"多态"，爱考：</b>main 主程序只需要"一个患者"，具体是谁无所谓——用约定类型（Patient）接住具体对象（ConcretePatient）。考试就爱考这个形状：<b>左边接口、右边 new 实现类</b>。看到"左边是接口名"的空，右边一定填 <code>new 某实现类(...)</code>。
   </div>
   <div class="box orange"><b>三步法复盘（考场就按这个顺序）：</b>①读场景第一句定模式——"提供一致接口简化访问"=<b>外观 Facade</b>；②接口的空 = 抄实现类里被调用的方法签名（分号结尾）；new 类的空 = new 实现接口的<b>具体类</b>；③最后的空 = 把对象串起来调用。<b>6 分 = 两个接口空（2 分）+ new 对象（2 分）+ 类型与调用（2 分），全程不用懂"模式理论"，照着代码上下文对号即可。</b></div>
   <div class="box red"><b>坑：</b>①接口方法<b>必须分号结尾</b>，写成大括号就错；②new 的只能是<b>具体类</b>（ConcretePatient），不能 new 接口 Patient；③(4)(5) 两空联合想："f 能调 dispose"倒推出 f 的类型是 Facade；④别被 Disposer/Patient 这些生词吓住——它们只是约定名字，照抄类图即可。</div>
