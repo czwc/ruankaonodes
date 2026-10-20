@@ -211,13 +211,52 @@
 
 <!-- ============ 训练 ============ -->
 <section id="s5">
-  <h2>⑥ 综合大题训练（客观题已随各章节"随学随练"分发）</h2>
+  <h2>⑥ 真题实战 · 2022下 试题六：医院挂号（外观模式 · 前端人逐行翻译）<span class="tag easy">目标 6 分</span></h2>
+  <div class="box green">
+    <b>给前端人的 Java 速成表（10 分钟）——这道题用到的 Java 你全都会，只是名字不同：</b>
+    <table>
+      <tr><th>Java 写法</th><th>你熟悉的 JS / TS 等价物</th></tr>
+      <tr><td>interface Disposer { void dispose(Patient p); }</td><td>TS 的 <code>interface Disposer { dispose(p: Patient): void; }</code>——纯约定清单，没有实现体</td></tr>
+      <tr><td>class Registry implements Disposer { ... }</td><td><code>class Registry implements Disposer</code>——和 TS 一模一样</td></tr>
+      <tr><td>public void dispose(Patient patient) { ... }</td><td><code>dispose(patient) { ... }</code>——public=公开方法</td></tr>
+      <tr><td>System.out.println("..." + name)</td><td><code>console.log("..." + name)</code></td></tr>
+      <tr><td>private String name;</td><td>私有字段（JS 的 <code>#name</code>）</td></tr>
+      <tr><td>public ConcretePatient(String name) { this.name = name; }</td><td><code>constructor(name) { this.name = name }</code></td></tr>
+      <tr><td>Patient patient = new ConcretePatient("...")</td><td><code>const patient = new ConcretePatient("...")</code>——用接口类型接住实现类实例（多态）</td></tr>
+      <tr><td>接口里写 String getName();（分号结尾！）</td><td>TS 接口方法也分号结尾——一模一样</td></tr>
+    </table>
+  </div>
+  <div class="box blue"><b>场景大白话：</b>患者看病要跑三个部门——挂号处 Registry、门诊 Doctor、药房 Pharmacy，太麻烦。于是设一个<b>接待员（Facade，外观）</b>：患者只跟接待员说话，接待员替他挨个跑腿。这就是<b>外观模式</b>——"为一堆复杂子系统提供一个统一入口"。看类图：Patient（患者接口）← ConcretePatient 实现；Disposer（部门接口）← 三个部门实现；Facade 持有一个患者、依次调三个部门。</div>
+  <img src="_图/2022下_图6-1.png" alt="2022下试题六图6-1类图" style="max-width:100%;background:#fff;border:1px solid var(--border);border-radius:8px;padding:4px;margin:8px 0;">
+  <div class="case">
+    <b>题目代码（已清理）+ 逐空讲解：</b><br><br>
+    <span class="mono">interface Patient { <span class="hl">(1)</span> }</span><br>
+    接口=约定清单。后面三个部门都调用了 <code>patient.getName()</code>，约定里就必须有它。接口方法<b>不写方法体、以分号结尾</b> → (1) = <b>String getName();</b><br><br>
+    <span class="mono">interface Disposer { <span class="hl">(2)</span> }</span><br>
+    三个部门类都实现了 <code>public void dispose(Patient patient)</code>，约定里要有 → (2) = <b>void dispose(Patient patient);</b><br><br>
+    <span class="mono">class Registry implements Disposer { public void dispose(Patient patient){ System.out.println("I am registering..." + patient.getName()); } }</span>（挂号处）<br>
+    <span class="mono">class Doctor implements Disposer { ...同形状... }</span>（门诊）　<span class="mono">class Pharmacy implements Disposer { ... }</span>（药房）<br><br>
+    <span class="mono">class Facade {<br>
+    　private Patient patient;<br>
+    　public Facade(Patient patient){ this.patient = patient; }<br>
+    　public void dispose(){ registry.dispose(patient); doctor.dispose(patient); ph.dispose(patient); }<br>
+    }</span>——接待员依次跑三个部门，患者无感。<br><br>
+    <span class="mono">main 方法：Patient patient = <span class="hl">(3)</span>;　<span class="hl">(4)</span> f = <span class="hl">(5)</span>;　<span class="hl">(6)</span>;</span><br>
+    (3) = <b>new ConcretePatient("name")</b>——Patient 是接口不能 new，只能 new 实现它的具体类；<br>
+    (4) = <b>Facade</b>——f 后面要调外观的方法，按类图 f 是 Facade 类型；<br>
+    (5) = <b>new Facade(patient)</b>——构造函数要传患者进去；<br>
+    (6) = <b>f.dispose()</b>——启动接待员流程，完事。
+  </div>
+  <div class="box orange"><b>三步法复盘（考场就按这个顺序）：</b>①读场景第一句定模式——"提供一致接口简化访问"=<b>外观 Facade</b>；②接口的空 = 抄实现类里被调用的方法签名（分号结尾）；new 类的空 = new 实现接口的<b>具体类</b>；③最后的空 = 把对象串起来调用。<b>6 分 = 两个接口空（2 分）+ new 对象（2 分）+ 类型与调用（2 分），全程不用懂"模式理论"，照着代码上下文对号即可。</b></div>
+  <div class="box red"><b>坑：</b>①接口方法<b>必须分号结尾</b>，写成大括号就错；②new 的只能是<b>具体类</b>（ConcretePatient），不能 new 接口 Patient；③(4)(5) 两空联合想："f 能调 dispose"倒推出 f 的类型是 Facade；④别被 Disposer/Patient 这些生词吓住——它们只是约定名字，照抄类图即可。</div>
+
+  <h2>⑦ 综合大题训练（客观题已随各章节"随学随练"分发）</h2>
   <div id="quizArea"></div>
 </section>
 
 <!-- ============ 清单 ============ -->
 <section id="s6">
-  <h2>⑦ 考场执行清单</h2>
+  <h2>⑧ 考场执行清单</h2>
   <div class="step"><div class="n">1</div><div>先看题给的 UML 类图：接口？抽象类？谁持有谁的引用？——结构定模式。</div></div>
   <div class="step"><div class="n">2</div><div>读题干"意图描述"句，与速查表逐一匹配确定模式名（第一空通常就问模式）。</div></div>
   <div class="step"><div class="n">3</div><div>代码填空顺着"多态三件套"找：成员类型 = 抽象父类/接口；this./super. 别漏；委托调用用成员变量名。</div></div>
