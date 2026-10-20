@@ -211,6 +211,13 @@
 
 <!-- ============ 训练 ============ -->
 <section id="s5">
+  <h3>▶ 状态模式 State（识别词：Context 持有 State 引用 + 状态类里 setState 切换）</h3>
+  <div class="box blue"><b>骨架（背这 4 块）：</b><br>
+    <span class="mono">interface State { <span class="hl">void handle(Context c);</span> }</span>——状态接口，行为入口<br>
+    <span class="mono">class Context { private State state; <span class="hl">public void setState(State s){ this.state = s; }</span> public void request(){ state.handle(this); } }</span>——环境类：持有当前状态，行为委托给状态对象<br>
+    <span class="mono">class ConcreteStateA implements State { public void handle(Context c){ /*A状态的行为*/ <span class="hl">c.setState(new ConcreteStateB());</span> } }</span>——状态子类：干活 + <b>自己切换下一个状态</b><br>
+    <b>填空眼：</b>①空在 Context→持有 State 引用；②空在状态类→setState(下一个状态)；③空在 request→state.handle(this)。<b>与策略唯一的区别：</b>策略是"外部换算法"，状态是"对象内部自动切换状态类"。</div>
+
   <h2>⑥ 真题实战 · 2022下 试题六：医院挂号（外观模式 · 前端人逐行翻译）<span class="tag easy">目标 6 分</span></h2>
   <div class="box green">
     <b>给前端人的 Java 速成表（10 分钟）——这道题用到的 Java 你全都会，只是名字不同：</b>
