@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·百分百必考点（考前最后过目）</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--card2:#fbfcff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.7;}
+  .wrap{max-width:1060px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#d64545,#7b52d6);color:#fff;border-radius:16px;padding:28px 26px;margin-bottom:22px;}
+  header h1{margin:0 0 8px;font-size:25px;} header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px;}
+  nav a{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;padding:5px 13px;border-radius:20px;font-size:13px;}
+  nav a:hover{background:rgba(255,255,255,.3);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:20px;}
+  h2{margin:0 0 10px;font-size:20px;border-left:5px solid var(--red);padding-left:12px;}
+  .box{border-radius:10px;padding:11px 14px;margin:10px 0;font-size:14px;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
+  .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(310px,1fr));gap:12px;margin-top:10px;}
+  .card{background:var(--card2);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:10px;padding:11px 14px;cursor:pointer;transition:opacity .2s;}
+  .card:hover{border-color:var(--blue);}
+  .card h4{margin:0 0 5px;font-size:15px;color:var(--ink);}
+  .card h4 .star{color:var(--red);font-size:12px;margin-right:4px;}
+  .card h4 .pts{color:var(--muted);font-size:12px;font-weight:normal;margin-left:6px;}
+  .card p{margin:0;font-size:13.5px;}
+  .card p b{color:var(--red);}
+  .card.done{opacity:.42;border-left-color:var(--green);}
+  .card.done h4::after{content:" ✓ 已过目";color:var(--green);font-size:12px;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:26px;}
+  a.a{color:var(--blue);font-weight:bold;text-decoration:none;} a.a:hover{text-decoration:underline;}
+  .theme-btn{position:fixed;top:14px;right:16px;z-index:99;background:var(--card);border:1px solid var(--border);color:var(--ink);border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .theme-btn:hover{border-color:var(--blue);color:var(--blue);}
+  /* ==== 黑夜模式 ==== */
+  :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--card2:#232a3a;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;}
+  .theme-btn{background:var(--card);border-color:var(--border);color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>百分百必考点 · 考前最后过目（26 张卡）</h1>
+  <p>近 10 年真题每年必出的"铁打考点"+ 近 5 年连出的高频点 + 下午四大题的必答套路——考前 60 分钟看这一页</p>
+  <nav>
+    <a href="#am">上午·铁打必考</a>
+    <a href="#hf">上午·高频必出</a>
+    <a href="#pm">下午·必答套路</a>
+    <a href="#flow">考前 60 分钟流程</a>
+    <a href="09-四天冲刺计划.html">← 回冲刺计划</a>
+    <a href="00-总览与计划.html">← 回总览</a>
+  </nav>
+</header>
+
+<section id="overview">
+  <h2>这张页面的逻辑</h2>
+  <div class="box blue"><b>来源：</b>从 09 冲刺页的命题预测表里，抽出"近 10 年每年都考"的铁打必考（14 个上午模块 + 下午四大题）和"近 5 年连出"的高频点（8 个）。<b>这 26 张卡覆盖的命题面 ≈ 35~42 分（上午）+ 下午 60 分中的送分部分</b>——及格线 45 分的弹药库。</div>
+  <div class="box orange"><b>用法：</b>考前一晚 + 进考场前 60 分钟各过一遍。每张卡<b>点一下 = 标记已过目</b>（变绿）；全亮了就踏实进场。答案直接印在卡上，不用点击展开——这一页要的是"扫一眼就再确认一遍"，不是做题。</div>
+  <div style="margin:4px 0 2px;"><b>过目进度</b><div class="bar" style="height:10px;background:var(--border);border-radius:6px;overflow:hidden;margin:6px 0 2px;"><div id="bar-all" style="height:100%;background:linear-gradient(90deg,#e08a1e,#1a9e5c);width:0%;transition:width .3s;"></div></div><span style="font-size:12px;color:var(--muted);" id="pct-all">0/26 张已过目</span></div>
+  <div class="box red"><b>诚实声明：</b>世上没有真正的 100%，但下面这些考点近 10 年真题<b>每一年都出现</b>，出题形态也基本固定（题眼见 09 题眼反查表）。这是概率意义上最接近 100% 的集合。</div>
+</section>
+
+<section id="am">
+  <h2>上午 · 铁打必考（14 张，近 10 年年年出）</h2>
+  <div class="cards">
+    <div class="card" data-c="1"><h4><span class="star">★必</span>开发模型选型<span class="pts">1~2 分</span></h4><p>"风险分析"→<b>螺旋</b>；"需求不明先做原型"→<b>原型</b>；"分批交付核心先行"→<b>增量</b>；"文档驱动阶段评审"→<b>瀑布</b>。</p></div>
+    <div class="card" data-c="2"><h4><span class="star">★必</span>白盒覆盖 + McCabe<span class="pts">1~2 分</span></h4><p>覆盖由弱到强：<b>语句＜判定＜条件＜判定/条件＜条件组合＜路径</b>；V(G) = <b>边 − 点 + 2</b>（10 边 8 点 = 4）。</p></div>
+    <div class="card" data-c="3"><h4><span class="star">★必</span>耦合内聚排序<span class="pts">1~2 分</span></h4><p>耦合：<b>数标控外公内</b>（内容最差）；内聚：<b>功顺通过时逻偶</b>（偶然最差）。</p></div>
+    <div class="card" data-c="4"><h4><span class="star">★必</span>设计模式<span class="pts">固定 2~3 分</span></h4><p>唯一实例→<b>单例</b>；通知依赖者→<b>观察者</b>；动态加职责→<b>装饰器</b>；算法可换→<b>策略</b>；状态变行为→<b>状态</b>；延迟到子类→<b>工厂方法</b>。</p></div>
+    <div class="card" data-c="5"><h4><span class="star">★必</span>流水线<span class="pts">1~2 分</span></h4><p>总时间 = <b>各段之和 + (n−1) × 最长段</b>；加速比 = 不流水 ÷ 流水。首条 = 各段之和！</p></div>
+    <div class="card" data-c="6"><h4><span class="star">★必</span>Cache 平均访问时间<span class="pts">1 分</span></h4><p>T = H×t(Cache) + (1−H)×t(主存)；题干说<b>"同时访问"</b>则第二项为 (1−H)×(Cache+主存)。</p></div>
+    <div class="card" data-c="7"><h4><span class="star">★必</span>可靠性<span class="pts">1 分</span></h4><p>串联<b>相乘</b>；并联 <b>1−∏(1−R)</b>；混联<b>先算小系统再串</b>。</p></div>
+    <div class="card" data-c="8"><h4><span class="star">★必</span>页式地址转换<span class="pts">1~2 分</span></h4><p>页大小定偏移位数（1KB=2¹⁰）→ 页号=地址÷页大小（商），偏移=余数 → 物理 = <b>帧号×页大小+偏移</b>。</p></div>
+    <div class="card" data-c="9"><h4><span class="star">★必</span>排序<span class="pts">1~2 分</span></h4><p>不稳定口诀<b>"快些选堆"</b>；一趟后：插入只有前 2 个有序、冒泡/选择 1 个就位、快排枢轴到位。</p></div>
+    <div class="card" data-c="10"><h4><span class="star">★必</span>二叉树<span class="pts">1~2 分</span></h4><p><b>n0 = n2 + 1</b>；前序+中序重建：前序首=根，回中序切两半；哈夫曼 2n−1 无度 1。</p></div>
+    <div class="card" data-c="11"><h4><span class="star">★必</span>子网划分<span class="pts">1 分</span></h4><p>可用主机 = <b>2^主机位 − 2</b>；/26→62 台、/28→14 台；127.0.0.1 回环。</p></div>
+    <div class="card" data-c="12"><h4><span class="star">★必</span>TCP/UDP + 协议端口<span class="pts">1~2 分</span></h4><p>面向连接可靠三次握手=<b>TCP</b>；无连接快=<b>UDP</b>；FTP21 / SMTP25 / DNS53 / HTTP80 / HTTPS443。</p></div>
+    <div class="card" data-c="13"><h4><span class="star">★必</span>PV 操作<span class="pts">1~2 分</span></h4><p>生产者消费者：empty=n、full=0、mutex=1；<b>同步在前互斥在后</b>；mutex 的 P/V 成对夹住操作。</p></div>
+    <div class="card" data-c="14"><h4><span class="star">★必</span>知识产权<span class="pts">2~3 分</span></h4><p>委托开发无约定归<b>受托方</b>；著作权<b>自动取得</b>（登记不是前提）；发明 20 / 实用新型 10 / 外观 15 / 商标 10 可续；著作权财产权终生+50。</p></div>
+  </div>
+</section>
+
+<section id="hf">
+  <h2>上午 · 高频必出（8 张，近 5 年每年出）</h2>
+  <div class="cards">
+    <div class="card" data-c="15"><h4><span class="star">★高频</span>进程三态<span class="pts">1 分</span></h4><p><b>阻塞不能直达运行</b>（要先回就绪）；时间片到 = 运行→就绪。</p></div>
+    <div class="card" data-c="16"><h4><span class="star">★高频</span>范式判定<span class="pts">1~2 分</span></h4><p>部分依赖挡 2NF、传递依赖挡 3NF；<b>单属性候选码自动满足 2NF</b>；BC=决定因素全是候选码。</p></div>
+    <div class="card" data-c="17"><h4><span class="star">★高频</span>信息安全<span class="pts">1~2 分</span></h4><p><b>私钥签名防抵赖</b>、公钥加密保密；摘要=完整性；AES/DES 对称、RSA 非对称；IDS 报警、IPS 阻断。</p></div>
+    <div class="card" data-c="18"><h4><span class="star">★高频</span>新技术<span class="pts">1~3 分</span></h4><p>租硬件=IaaS、租环境=PaaS、用成品=SaaS；大数据 4V；去中心化智能合约=区块链；CI/CD=DevOps。</p></div>
+    <div class="card" data-c="19"><h4><span class="star">★高频</span>SQL 关键字<span class="pts">1 分</span></h4><p>组条件用 <b>HAVING</b>（配聚合）；可转授 = <b>WITH GRANT OPTION</b>；视图=虚表保安全。</p></div>
+    <div class="card" data-c="20"><h4><span class="star">★高频</span>校验码 + 海明<span class="pts">1 分</span></h4><p>奇偶/CRC <b>只能检错</b>；<b>海明能纠 1 位错</b>：2^k ≥ n+k+1（8 位数据 → k=4）。</p></div>
+    <div class="card" data-c="21"><h4><span class="star">★高频</span>死锁<span class="pts">1 分</span></h4><p>四条件：互斥/请求保持/不剥夺/<b>环路等待</b>；银行家算法 = <b>避免</b>死锁（不是预防）。</p></div>
+    <div class="card" data-c="22"><h4><span class="star">★高频</span>专业英语<span class="pts">固定 5 分</span></h4><p>先看选项<b>词性</b>再回原文找搭配；主题多为软件工程；词表见 09 Day3。</p></div>
+  </div>
+</section>
+
+<section id="pm">
+  <h2>下午 · 必答套路（4 张，三大题送分部分）</h2>
+  <div class="cards">
+    <div class="card" data-c="23"><h4><span class="star">★必</span>试题一 数据流图<span class="pts">15 分送分段</span></h4><p>补数据流找<b>黑洞（只进不出）/奇迹（只出不进）</b>；父子平衡逐条对账；加工命名=动词+名词。<b>答案是找出来的，不是想出来的。</b></p></div>
+    <div class="card" data-c="24"><h4><span class="star">★必</span>试题二 数据库设计<span class="pts">15 分送分段</span></h4><p><b>m:n 必独立建表</b>（主键=两端主键组合，都是外键）；1:n 并入 n 端；"成绩/数量"挂联系上；E-R 转模式格式固定=纯送分。</p></div>
+    <div class="card" data-c="25"><h4><span class="star">★必</span>试题三 UML<span class="pts">15 分送分段</span></h4><p>三角=泛化/实现（虚线）；空心菱形=聚合、实心=组合；include 必选、extend 可选；<b>最后一问设计模式：模式名+理由+类名</b>。</p></div>
+    <div class="card" data-c="26"><h4><span class="star">★必</span>试题六 Java（选答）<span class="pts">15 分</span></h4><p>填空三步：<b>读场景定模式 → 看类图空位（接口/成员/方法）→ 套骨架关键词</b>；只主攻 Java，放弃 C++。</p></div>
+  </div>
+</section>
+
+<section id="flow">
+  <h2>考前 60 分钟流程（照这个走）</h2>
+  <div class="box green">
+    <b>进考场前 60 分钟：</b>① 本页 26 张卡快速过一遍（点亮的跳过，没亮的重点看）→ ② 草稿纸默写：流水线/Cache/可靠性三公式 + "数标控外公内" + PV 三信号量 + "快些选堆" → ③ 开考前最后 5 分钟只看<b>自己标过"没记住"的</b>（09 页回看模式）。<br>
+    <b>开考后：</b>上午先做记忆题（本页卡 1~4、14、22 都是直接对号入座），计算题套模板卡 5~8；下午先做试题一、二（送分段），Java 填空按卡 26 三步走。
+  </div>
+  <div class="box blue"><b>本页与 09 的分工：</b>09 = 四天复习的总控（背卡/自测/题眼/配练）；本页 = 考前最后的"浓缩弹药"，只装必考答案。两页都在 GitHub 上，主题同步。</div>
+</section>
+
+<div class="foot">软考软件设计师 · 百分百必考点 · 过目进度保存在本机浏览器 · 配合 09 冲刺计划使用</div>
+</div>
+
+<button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
+<script>
+(function(){
+  var KEY='skct-10-card';
+  var cards=document.querySelectorAll('.card');
+  var all=cards.length;
+  function refresh(){
+    var done=document.querySelectorAll('.card.done').length;
+    var bar=document.getElementById('bar-all'), lab=document.getElementById('pct-all');
+    if(bar) bar.style.width=(done/all*100)+'%';
+    if(lab) lab.textContent=done+'/'+all+' 张已过目';
+  }
+  cards.forEach(function(c){
+    if(localStorage.getItem(KEY+c.dataset.c)==='1') c.classList.add('done');
+    c.addEventListener('click',function(){
+      var on=c.classList.toggle('done');
+      localStorage.setItem(KEY+c.dataset.c, on?'1':'0');
+      refresh();
+    });
+  });
+  refresh();
+})();
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  function apply(t){
+    if(t==='dark'){root.setAttribute('data-theme','dark');btn.textContent='白天模式';}
+    else{root.removeAttribute('data-theme');btn.textContent='黑夜模式';}
+  }
+  apply(localStorage.getItem('sk09-theme'));
+  btn.addEventListener('click',function(){
+    var t=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    localStorage.setItem('sk09-theme',t);
+    apply(t);
+  });
+})();
+</script>
+</body>
+</html>
