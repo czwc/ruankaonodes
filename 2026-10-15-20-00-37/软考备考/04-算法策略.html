@@ -225,6 +225,20 @@ cnt = 1; last = act[<span class="hl">0</span>].end;
 <section id="s5">
   <h2>⑦ 真题实战 · 2022下 试题四：堆排序（零基础逐行拆解）<span class="tag easy">目标 5 分</span></h2>
   <div class="box green"><b>先消除恐惧——这段 C 代码你完全有能力读懂：</b>它没有指针花活，只用了 <b>数组 R[]、while 循环、if 判断、赋值</b>——这四样你在 JavaScript 里天天写。C 和 JS 只差两点：①变量要声明类型（int i = 5 就是 let i = 5）；②数据放在 R[1]~R[n]，从 1 开始（不是 0）。其他一模一样。</div>
+  <div class="box blue"><b>C 语言 5 分钟对照表（试题四会出现的 C 成分全在这，逐条对号）：</b>
+    <table>
+      <tr><th>C 写法</th><th>翻译成你懂的</th></tr>
+      <tr><td>int i = 0;</td><td><code>let i = 0</code>——int 就是"整数类型"</td></tr>
+      <tr><td>#define MAXITEM 100</td><td>定义常量 MAX=100——当成一个数字看就行</td></tr>
+      <tr><td>void Heapify(int R[], int v, int n)</td><td>定义函数 Heapify(数组R, 参数v, 参数n)——void=不返回值</td></tr>
+      <tr><td>for(i=n/2; i&gt;=1; i--)</td><td><code>for(let i=n/2; i&gt;=1; i--)</code>——一模一样</td></tr>
+      <tr><td>while(j&lt;=n) { ... }</td><td>一模一样</td></tr>
+      <tr><td>if(j&lt;n &amp;&amp; R[j]&lt;R[j+1])</td><td>一模一样（&amp;&amp; 就是且）</td></tr>
+      <tr><td>R[0]=R[i]</td><td>数组赋值——同 JS；这是"暂存"技巧</td></tr>
+      <tr><td>printf / scanf</td><td>输出 / 输入——<b>读题时直接跳过这两行</b>，不影响解题</td></tr>
+      <tr><td class="hl">struct Node { ... struct Node *next }</td><td class="hl">链表/指针——<b>放弃区</b>：出现这个就只做概念问答题，代码填空蒙边界值</td></tr>
+    </table>
+  </div>
   <h3>▶ 第一步：不看代码，用人话搞懂堆排序（锦标赛模型）</h3>
   <div class="box blue">
     <b>堆排序 = 打锦标赛。</b>①先打一轮小组赛，把<b>最大值</b>顶到最上面——这叫"建大顶堆"，堆顶 R[1] 就是全场最大；②把冠军拿走放到<b>数组最后面</b>，剩下的人快速重赛一轮，新冠军又浮到顶；③重复"拿冠军→再比"，直到比完——数组从小到大排好。<br>
