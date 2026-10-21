@@ -97,6 +97,25 @@
     </table>
     <b>读 Java 题三句话：</b>①大括号圈出每个 class；②每个 class 里有啥方法照抄；③main 里 new 了谁、调了谁——所有空都在这三样里打转。
   </div>
+  <div class="box purple"><b>黑话翻译表（整页出现过的"说法"全在这，看不懂就回来查）：</b>
+    <table>
+      <tr><th style="width:130px">黑话</th><th>人话</th><th style="width:240px">你的 JS 对应</th></tr>
+      <tr><td><b>接口</b> interface</td><td>一张<b>合同</b>：写明"凡是签我的类，必须有这些方法"，只列名单不写实现</td><td>TS 的 interface，一模一样</td></tr>
+      <tr><td><b>实现接口</b> implements</td><td>签合同：承诺把合同上的方法都写出来</td><td>class X implements Y</td></tr>
+      <tr><td><b>继承</b> extends</td><td>儿子自动拥有爹的属性方法，还可以改写</td><td>class Son extends Father</td></tr>
+      <tr><td><b>多态</b></td><td>左边写合同类型、右边 new 具体类——<b>调用时执行的是右边那个类的版本</b>（同一句话，不同人干不同的事）</td><td>const p: 约定 = new 具体() 后 p.f() 走具体实现</td></tr>
+      <tr><td><b>持有引用</b></td><td>在自己的类里存一个变量指向别的对象，方便随时调它</td><td>this.strategy = 某对象</td></tr>
+      <tr><td><b>委托</b></td><td>自己不干活，转手调别人的方法干</td><td>handle(){ this.worker.do() }</td></tr>
+      <tr><td><b>封装</b></td><td>把一段逻辑塞进独立的类，外面不用管内部怎么写</td><td>把逻辑抽成函数/模块</td></tr>
+      <tr><td><b>抽象类</b> abstract</td><td><b>半成品模板</b>：有的方法没写完，不能 new，只能被继承</td><td>没有直接对应（≈ 只被 extends 的基类）</td></tr>
+      <tr><td><b>构造函数</b></td><td>new 的时候自动执行、用来装初始数据的</td><td>constructor</td></tr>
+      <tr><td><b>static 静态</b></td><td>挂在类本身上，不属于任何单个对象</td><td>静态方法/类属性</td></tr>
+      <tr><td><b>private 公有私有</b></td><td>private=只有本类能碰；public=谁都能碰</td><td>#field / 普通属性</td></tr>
+      <tr><td><b>环境类 / Context / 客户端</b></td><td>环境类="调度员"，自己不干活、把活转给策略/状态对象；客户端=调用这些类的代码（通常就是 main）</td><td>调用方代码</td></tr>
+      <tr><td><b>重写 / 覆写</b></td><td>儿子把爹的方法重新写一遍，调用时走儿子的</td><td>子类同名方法覆盖</td></tr>
+      <tr><td><b>new 一个对象</b></td><td>照着类造一个实例出来</td><td>new Object() 一样</td></tr>
+    </table>
+  </div>
   <div class="box blue"><b>读题套路：</b>代码里出现 <b>interface</b> = 大概率是策略/装饰器/适配器这类"多态替换"结构；出现 <b>abstract class + 若干子类</b> = 模板方法/工厂；出现 <b>private 构造 + static getInstance</b> = 单例。</div>
   <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s0"></div>
 </section>
@@ -132,6 +151,15 @@
 <!-- ============ 2 速查表 ============ -->
 <section id="s2">
   <h2>③ 高频设计模式速查表（近十年真题覆盖）<span class="tag exam">必须全认识</span><span class="tag easy">小白先拿</span></h2>
+  <div class="box purple"><b>六模式人话版（先把"教材腔意图"翻译成大白话，再看表）：</b><br>
+    · <b>策略</b> = 把"可替换的做法"每种写一个类，用的时候挑一个塞进去（≈ 主题换肤、支付方式切换）<br>
+    · <b>观察者</b> = 一个东西变了，<b>订阅过它的都收到消息</b>（≈ JS 的 addEventListener / 发布订阅 EventEmitter）<br>
+    · <b>装饰器</b> = 不改原来的类，<b>外面套一层加功能</b>（≈ 把函数包一层 wrapper 再返回）<br>
+    · <b>单例</b> = 全局<b>只允许存在一个</b>实例（≈ 你的全局 store / 单例模块）<br>
+    · <b>工厂方法</b> = 把"new 谁"这件事交给子类决定（≈ 按配置返回不同实现）<br>
+    · <b>状态</b> = 同一个对象在不同状态下行为不同，<b>状态类自己会切换</b>（≈ 组件按 state 走不同分支，只是把每个分支抽成类）<br>
+    · <b>外观</b> = 给一堆复杂调用<b>包一个简单入口</b>（≈ 把 5 个 API 调用封装成 1 个函数）<br>
+    <b>读法：先记人话 → 再扫右边"场景字眼"列对号 → 考试就是"场景套人话"。</b></div>
   <table>
     <tr><th style="width:105px">模式</th><th style="width:250px">场景字眼（题干里看到就选它）</th><th>一句话意图</th><th style="width:200px">代码/类图识别标志</th></tr>
     <tr><td><b>策略</b> Strategy</td><td>算法可替换 / 不同算法随意切换</td><td>封装一系列可互相替换的算法</td><td>接口 + 多个实现类 + 环境类持有接口引用</td></tr>
