@@ -84,6 +84,19 @@
     <tr><td>访问控制</td><td>public（到处可见）> protected（子类+同包）> private（仅本类）</td><td>成员变量常填 protected/private</td></tr>
     <tr><td>多态调用</td><td>Person p = new Student(); p.f() → 执行 Student 的 f</td><td>理解"父类引用指向子类对象"</td></tr>
   </table>
+  <div class="box purple"><b>前端速读对照（你会 JS，Java 只是"带了类型声明的 JS"）：</b>
+    <table>
+      <tr><th>Java</th><th>你熟悉的</th></tr>
+      <tr><td>interface Strategy { void pay(int x); }</td><td>TS 的 <code>interface Strategy { pay(x: number): void }</code>——纯约定</td></tr>
+      <tr><td>class AliPay implements Strategy</td><td>TS 的 <code>class AliPay implements Strategy</code>——一样</td></tr>
+      <tr><td>class Student extends Person</td><td><code>class Student extends Person</code>——一样</td></tr>
+      <tr><td>System.out.println("hi" + x)</td><td><code>console.log("hi" + x)</code></td></tr>
+      <tr><td>public ConcretePatient(String name){ this.name = name; }</td><td><code>constructor(name){ this.name = name }</code></td></tr>
+      <tr><td>Patient p = new ConcretePatient(...)</td><td><code>const p = new ConcretePatient(...)</code>——左边写约定类型（多态）</td></tr>
+      <tr><td>方法结尾没有分号（类里），接口里<b>必须分号</b></td><td>TS 接口同理</td></tr>
+    </table>
+    <b>读 Java 题三句话：</b>①大括号圈出每个 class；②每个 class 里有啥方法照抄；③main 里 new 了谁、调了谁——所有空都在这三样里打转。
+  </div>
   <div class="box blue"><b>读题套路：</b>代码里出现 <b>interface</b> = 大概率是策略/装饰器/适配器这类"多态替换"结构；出现 <b>abstract class + 若干子类</b> = 模板方法/工厂；出现 <b>private 构造 + static getInstance</b> = 单例。</div>
   <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s0"></div>
 </section>
