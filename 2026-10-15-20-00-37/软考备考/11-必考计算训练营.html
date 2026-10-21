@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师 · 必考计算训练营（互动演算）</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--card2:#fbfcff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.75;}
+  .wrap{max-width:960px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#2f6fed,#1a9e5c);color:#fff;border-radius:16px;padding:26px;margin-bottom:20px;}
+  header h1{margin:0 0 8px;font-size:24px;} header p{margin:0;opacity:.92;font-size:14px;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;}
+  nav a{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;padding:4px 12px;border-radius:20px;font-size:12.5px;}
+  nav a:hover{background:rgba(255,255,255,.3);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 22px;margin-bottom:18px;}
+  h2{margin:0 0 8px;font-size:19px;border-left:5px solid var(--blue);padding-left:12px;}
+  .frm{display:inline-block;background:var(--blue-bg);color:var(--blue);font-weight:bold;border-radius:6px;padding:3px 12px;font-size:14px;margin:2px 0 10px;}
+  .ctl{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin:8px 0;}
+  .ctl label{font-size:13.5px;color:var(--muted);}
+  .ctl input,.ctl select{border:1px solid var(--border);border-radius:6px;padding:6px 9px;font-size:14px;width:110px;background:var(--card);color:var(--ink);font-family:inherit;}
+  .btn{background:var(--blue);color:#fff;border:none;border-radius:8px;padding:8px 20px;font-size:14px;cursor:pointer;font-family:inherit;font-weight:bold;}
+  .btn:hover{opacity:.88;}
+  .res{background:var(--green-bg);border:1px solid #bfe8d2;border-radius:10px;padding:10px 14px;margin-top:10px;font-size:13.5px;display:none;}
+  .res b{color:var(--green);}
+  .pit{background:var(--red-bg);border:1px solid #f3c8c8;border-radius:8px;padding:7px 12px;font-size:13px;margin-top:8px;}
+  details.pra{background:var(--card2);border:1px solid var(--border);border-left:4px solid var(--purple);border-radius:8px;padding:8px 12px;margin-top:10px;font-size:13.5px;}
+  details.pra summary{cursor:pointer;font-weight:bold;color:var(--purple);}
+  details.pra[open] summary{margin-bottom:6px;}
+  .mono{font-family:Consolas,monospace;}
+  .step{display:block;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:24px;}
+  a.a{color:var(--blue);font-weight:bold;text-decoration:none;} a.a:hover{text-decoration:underline;}
+  .theme-btn{position:fixed;top:14px;right:16px;z-index:99;background:var(--card);border:1px solid var(--border);color:var(--ink);border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--card2:#232a3a;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;}
+  .theme-btn{background:var(--card);border-color:var(--border);color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>必考计算训练营 · 动手算（11 个互动演算器）</h1>
+  <p>填数字 → 点演算 → <b>逐步显示算式过程</b>（不是只给答案）。每个都预填了教程里的经典例题，先点一遍看过程，再改数字自己算，最后做"练一练"验收。</p>
+  <nav>
+    <a href="#jl-pipe">流水线</a><a href="#jl-cache">Cache</a><a href="#jl-rel">可靠性</a><a href="#jl-subnet">子网</a><a href="#jl-page">页式转换</a><a href="#jl-hamming">海明</a><a href="#jl-disk">磁盘</a><a href="#jl-media">多媒体</a><a href="#jl-mini">三连小计算</a><a href="#jl-emv">EMV/盈亏</a>
+    <a href="09-四天冲刺计划.html">← 冲刺计划</a>
+    <a href="00-上午题-页式存储与磁盘计算.html">← 计算总集教程</a>
+    <a href="../../index.html">← 门户</a>
+  </nav>
+</header>
+
+<section id="jl-pipe">
+  <h2>1. 流水线</h2>
+  <span class="frm">总时间 = 各段之和 + (n−1)×周期　周期 = 最长段　加速比 = n×各段和 ÷ 总时间</span>
+  <div class="ctl">
+    <label>各段耗时(ns)，逗号分隔：</label><input id="p_seg" value="1,2,3,4" style="width:150px;">
+    <label>指令条数 n：</label><input id="p_n" value="100">
+    <button class="btn" onclick="calcPipe()">开始演算</button>
+  </div>
+  <div class="res" id="p_res"></div>
+  <div class="pit"><b>坑：</b>第一条指令 = 各段之和（不是周期×1）；周期取<b>最长段</b>；加速比不是"段数"倍。</div>
+  <details class="pra"><summary>练一练：五段 2/2/3/4/4ns，跑 200 条指令，总时间与加速比？</summary><div class="ans">各段和 = 15；周期 = 4；总时间 = 15 + 199×4 = <b class="ok">811ns</b>；加速比 = 200×15÷811 ≈ <b class="ok">3.70</b></div></details>
+</section>
+
+<section id="jl-cache">
+  <h2>2. Cache 平均访问时间</h2>
+  <span class="frm">顺序式 T = H×t1 + (1−H)×t2　同时式 T = H×t1 + (1−H)×(t1+t2)</span>
+  <div class="ctl">
+    <label>命中率 H(%)：</label><input id="c_h" value="90">
+    <label>Cache 时间：</label><input id="c_t1" value="40">
+    <label>主存时间：</label><input id="c_t2" value="200">
+    <button class="btn" onclick="calcCache()">开始演算</button>
+  </div>
+  <div class="res" id="c_res"></div>
+  <div class="pit"><b>坑：</b>题干出现"<b>同时访问</b>"四个字必须用同时式（未命中那次把 Cache 时间也算进去）；两种答案差 t1×(1−H)。</div>
+  <details class="pra"><summary>练一练：H=96%，Cache 20ns，主存 500ns，同时访问式？</summary><div class="ans">0.96×20 + 0.04×(20+500) = 19.2 + 20.8 = <b class="ok">40ns</b>（顺序式则是 39.2ns）</div></details>
+</section>
+
+<section id="jl-rel">
+  <h2>3. 可靠性（串联 / 相同并联 / 混联）</h2>
+  <span class="frm">串联 R = 各 R 相乘　并联 R = 1−(1−R)^n　混联先算每组再串联</span>
+  <div class="ctl">
+    <label>模式：</label>
+    <select id="r_mode"><option value="s">串联（输入各部件 R）</option><option value="p">并联（n 个相同 R）</option><option value="m">混联：两组各 m 个 R 并联再串联</option></select>
+    <label>数值(逗号分隔或单值)：</label><input id="r_val" value="0.9,0.9" style="width:150px;">
+    <label>每组个数 m：</label><input id="r_m" value="2" style="width:70px;">
+    <button class="btn" onclick="calcRel()">开始演算</button>
+  </div>
+  <div class="res" id="r_res"></div>
+  <div class="pit"><b>坑：</b>混联口诀"<b>先小后大</b>"——先把每组并联算成一个数，再串联相乘；并联结果一定高于组内任何一个。</div>
+  <details class="pra"><summary>练一练：系统 = A(0.95) 串联 [B、C 两个 0.9 并联]，整体可靠度？</summary><div class="ans">BC 组 = 1−0.1² = 0.99；整体 = 0.95×0.99 = <b class="ok">0.9405</b></div></details>
+</section>
+
+<section id="jl-subnet">
+  <h2>4. 子网划分</h2>
+  <span class="frm">可用主机 = 2^(32−新前缀) − 2　子网数 = 2^(新前缀−原前缀)　广播地址 = 网络地址 | 主机位全 1</span>
+  <div class="ctl">
+    <label>IP：</label><input id="s_ip" value="192.168.1.100">
+    <label>原前缀：</label><input id="s_n1" value="24" style="width:70px;">
+    <label>新前缀：</label><input id="s_n2" value="26" style="width:70px;">
+    <button class="btn" onclick="calcSubnet()">开始演算</button>
+  </div>
+  <div class="res" id="s_res"></div>
+  <div class="pit"><b>坑：</b>可用主机必须<b>减 2</b>（网络地址+广播地址）；每段范围 = 块大小一段（如 /26 每段 64 个地址：0~63、64~127…）。</div>
+  <details class="pra"><summary>练一练：10.0.0.0/24 借 3 位划分子网（/27），子网数？每个可用主机？</summary><div class="ans">子网数 = 2³ = <b class="ok">8 个</b>；主机位 = 5 → 可用 = 2⁵−2 = <b class="ok">30 台</b>；每段 32 个地址（0~31、32~63…）</div></details>
+</section>
+
+<section id="jl-page">
+  <h2>5. 页式地址转换</h2>
+  <span class="frm">页号 = 地址 ÷ 页大小(取商)　偏移 = 余数　物理地址 = 帧号 × 页大小 + 偏移</span>
+  <div class="ctl">
+    <label>页大小：</label>
+    <select id="g_ps"><option value="1024">1KB</option><option value="2048">2KB</option><option value="4096">4KB</option></select>
+    <label>逻辑地址：</label><input id="g_addr" value="2500">
+    <label>该页帧号：</label><input id="g_frame" value="4" style="width:70px;">
+    <button class="btn" onclick="calcPage()">开始演算</button>
+  </div>
+  <div class="res" id="g_res"></div>
+  <div class="pit"><b>坑：</b>帧号查题干映射表，<b>别把页号当帧号</b>；偏移位数 = log₂(页大小)（1KB→低 10 位）。</div>
+  <details class="pra"><summary>练一练：4KB 页、逻辑地址 10000、帧号 6 → 物理地址？</summary><div class="ans">10000÷4096：页号 2、偏移 1808；物理 = 6×4096+1808 = <b class="ok">26384</b></div></details>
+</section>
+
+<section id="jl-hamming">
+  <h2>6. 海明码校验位数</h2>
+  <span class="frm">2^k ≥ n + k + 1（n 数据位，k 校验位，取最小 k）</span>
+  <div class="ctl">
+    <label>数据位数 n：</label><input id="h_n" value="8">
+    <button class="btn" onclick="calcHamming()">开始演算</button>
+  </div>
+  <div class="res" id="h_res"></div>
+  <div class="pit"><b>坑：</b>能纠 1 位错的只有海明；奇偶校验/CRC 只能检错（CRC 检错强≠能纠错）。</div>
+  <details class="pra"><summary>练一练：16 位数据需要几位校验位？</summary><div class="ans">k=5：2⁵=32 ≥ 16+5+1=22 ✓（k=4 时 16＜21 ✗）→ <b class="ok">5 位</b></div></details>
+</section>
+
+<section id="jl-disk">
+  <h2>7. 磁盘平均存取时间</h2>
+  <span class="frm">平均存取 = 平均寻道 + 平均旋转延迟(60/转速÷2) + 传输时间</span>
+  <div class="ctl">
+    <label>平均寻道(ms)：</label><input id="d_seek" value="6">
+    <label>转速(rpm)：</label><input id="d_rpm" value="7200">
+    <label>传输时间(ms)：</label><input id="d_tr" value="4">
+    <button class="btn" onclick="calcDisk()">开始演算</button>
+  </div>
+  <div class="res" id="d_res"></div>
+  <div class="pit"><b>坑：</b>旋转延迟取<b>半圈</b>时间（平均转到目标扇区要等半圈）；题目给"每分钟转数 rpm"先换算成每圈毫秒 = 60000÷rpm。</div>
+  <details class="pra"><summary>练一练：寻道 8ms、6000rpm、传输 3ms → 平均存取？</summary><div class="ans">每圈 10ms → 半圈 5ms；8+5+3 = <b class="ok">16ms</b></div></details>
+</section>
+
+<section id="jl-media">
+  <h2>8. 多媒体容量</h2>
+  <span class="frm">图像 = 宽×高×位深÷8　音频 = 采样率×量化位×声道×秒÷8</span>
+  <div class="ctl">
+    <label>图像 宽：</label><input id="m_w" value="800" style="width:80px;">
+    <label>高：</label><input id="m_h" value="600" style="width:80px;">
+    <label>颜色：</label>
+    <select id="m_c"><option value="4">16 色（4 位）</option><option value="8">256 色（8 位）</option><option value="16">65536 色（16 位）</option><option value="24">真彩（24 位）</option></select>
+    <button class="btn" onclick="calcMedia()">开始演算</button>
+  </div>
+  <div class="res" id="m_res"></div>
+  <div class="pit"><b>坑：</b>"16 色"= 每像素 <b>4 位</b>（不是 16 位）；采样定理：采样频率 ≥ 最高频率×2。</div>
+  <details class="pra"><summary>练一练：44.1kHz、16 位、双声道、60 秒 WAV 多大？</summary><div class="ans">44100×16×2×60÷8 = 10584000B ≈ <b class="ok">10.1MB</b></div></details>
+</section>
+
+<section id="jl-mini">
+  <h2>9. 三连小计算（循环队列 / 二分 / 对称矩阵）</h2>
+  <div class="ctl">
+    <label>循环队列 front：</label><input id="q_f" value="3" style="width:70px;">
+    <label>rear：</label><input id="q_r" value="8" style="width:70px;">
+    <label>容量：</label><input id="q_m" value="10" style="width:70px;">
+    <label>二分 n：</label><input id="b_n" value="100" style="width:70px;">
+    <label>对称矩阵 n：</label><input id="x_n" value="10" style="width:70px;">
+    <button class="btn" onclick="calcMini()">开始演算</button>
+  </div>
+  <div class="res" id="mi_res"></div>
+  <div class="pit"><b>坑：</b>循环队列必须 (rear−front+容量) mod 容量（可能绕圈）；二分前提 = <b>有序 + 顺序存储</b>；对称矩阵存 n(n+1)/2 个。</div>
+  <details class="pra"><summary>练一练：front=7、rear=3、容量 10 → 队列几个元素？（绕圈场景）</summary><div class="ans">(3−7+10)%10 = <b class="ok">6 个</b>——不加容量会是 −4，错！</div></details>
+</section>
+
+<section id="jl-emv">
+  <h2>10. EMV 期望值与盈亏平衡</h2>
+  <span class="frm">EMV = Σ 结果×概率（选 EMV 大的方案）　盈亏平衡件数 = 固定成本 ÷ (单价 − 单位变动成本)</span>
+  <div class="ctl">
+    <label>方案A 好结果：</label><input id="e_a1" value="80" style="width:70px;">
+    <label>概率：</label><input id="e_ap" value="0.6" style="width:70px;">
+    <label>坏结果：</label><input id="e_a2" value="-20" style="width:70px;">
+    <label>概率：</label><input id="e_ap2" value="0.4" style="width:70px;">
+    <label>方案B 稳拿：</label><input id="e_b" value="40" style="width:70px;">
+    <button class="btn" onclick="calcEmv()">开始演算</button>
+  </div>
+  <div class="res" id="e_res"></div>
+  <div class="pit"><b>坑：</b>坏结果要带<b>负号</b>；概率和必须=1；盈亏平衡里"单位变动成本"是每件的成本，别填固定成本。</div>
+  <details class="pra"><summary>练一练：固定成本 30 万，单价 100 元，单位变动 60 元 → 盈亏平衡？</summary><div class="ans">300000 ÷ (100−60) = <b class="ok">7500 件</b></div></details>
+</section>
+
+<div class="foot">软考软件设计师 · 必考计算训练营 · 配合 00 篇计算总集与 10 必考点使用 · 黑夜模式全站同步</div>
+</div>
+
+<button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  function apply(t){
+    if(t==='dark'){root.setAttribute('data-theme','dark');btn.textContent='白天模式';}
+    else{root.removeAttribute('data-theme');btn.textContent='黑夜模式';}
+  }
+  apply(localStorage.getItem('sk09-theme'));
+  btn.addEventListener('click',function(){
+    var t=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    localStorage.setItem('sk09-theme',t); apply(t);
+  });
+})();
+function show(id, html){ var el=document.getElementById(id); el.innerHTML=html; el.style.display='block'; }
+function st(t){ return '<span class="step">'+t+'</span>'; }
+function calcPipe(){
+  var segs=document.getElementById('p_seg').value.split(',').map(Number);
+  var n=+document.getElementById('p_n').value;
+  var sum=segs.reduce(function(a,b){return a+b;},0);
+  var cyc=Math.max.apply(null,segs);
+  var total=sum+(n-1)*cyc, speed=(n*sum/total), tp=n/total;
+  show('p_res','<b>逐步：</b>'+st('各段之和 = '+segs.join(' + ')+' = '+sum)
+    +st('周期 = 最长段 = '+cyc+'ns')
+    +st('总时间 = '+sum+' + ('+n+'−1)×'+cyc+' = '+sum+' + '+((n-1)*cyc)+' = <b>'+total+'ns</b>')
+    +st('加速比 = '+n+'×'+sum+' ÷ '+total+' = <b>'+speed.toFixed(2)+'</b>')
+    +st('吞吐率 = '+n+'÷'+total+' ≈ '+tp.toFixed(4)+' 条/ns'));
+}
+function calcCache(){
+  var h=+document.getElementById('c_h').value/100, t1=+document.getElementById('c_t1').value, t2=+document.getElementById('c_t2').value;
+  var seq=h*t1+(1-h)*t2, sim=h*t1+(1-h)*(t1+t2);
+  show('c_res','<b>逐步：</b>'+st('顺序式 = '+h+'×'+t1+' + '+(1-h).toFixed(2)+'×'+t2+' = '+(h*t1).toFixed(1)+' + '+((1-h)*t2).toFixed(1)+' = <b>'+seq.toFixed(1)+'ns</b>')
+    +st('同时式 = '+h+'×'+t1+' + '+(1-h).toFixed(2)+'×('+t1+'+'+t2+') = <b>'+sim.toFixed(1)+'ns</b>')
+    +st('题干说"同时访问"→ 答 <b>'+sim.toFixed(1)+'ns</b>；没说 → 顺序式 <b>'+seq.toFixed(1)+'ns</b>'));
+}
+function calcRel(){
+  var mode=document.getElementById('r_mode').value, v=document.getElementById('r_val').value, m=+document.getElementById('r_m').value;
+  var out='';
+  if(mode==='s'){
+    var rs=v.split(',').map(Number), p=1, ex=[];
+    rs.forEach(function(r){ p*=r; ex.push(r); });
+    out=st('串联 = '+ex.join(' × ')+' = <b>'+p.toFixed(4)+'</b>');
+  }else if(mode==='p'){
+    var r=+v, p=1-Math.pow(1-r,m);
+    out=st('并联 n='+m+' 个 '+r+'：1−(1−'+r+')^'+m+' = 1−'+Math.pow(1-r,m).toFixed(4)+' = <b>'+p.toFixed(4)+'</b>');
+  }else{
+    var r=+v, g=1-Math.pow(1-r,m), tot=g*g;
+    out=st('第一步（每组并联）= 1−(1−'+r+')^'+m+' = <b>'+g.toFixed(4)+'</b>')
+       +st('第二步（两组串联）= '+g.toFixed(4)+' × '+g.toFixed(4)+' = <b>'+tot.toFixed(4)+'</b>');
+  }
+  show('r_res','<b>逐步：</b>'+out);
+}
+function ipToInt(s){ var p=s.split('.').map(Number); return ((p[0]<<24)|(p[1]<<16)|(p[2]<<8)|p[3])>>>0; }
+function intToIp(n){ return [(n>>>24)&255,(n>>>16)&255,(n>>>8)&255,n&255].join('.'); }
+function maskOf(pre){ return pre===0?0:(0xFFFFFFFF<<(32-pre))>>>0; }
+function calcSubnet(){
+  var ip=ipToInt(document.getElementById('s_ip').value.trim());
+  var n1=+document.getElementById('s_n1').value, n2=+document.getElementById('s_n2').value;
+  var host=32-n2, usable=Math.pow(2,host)-2, subs=Math.pow(2,n2-n1), block=Math.pow(2,host);
+  var net=(ip&maskOf(n2))>>>0, bc=(net|(maskOf(n2)^0xFFFFFFFF))>>>0;
+  show('s_res','<b>逐步：</b>'+st('主机位 = 32−'+n2+' = '+host+' 位')
+    +st('可用主机 = 2^'+host+' − 2 = <b>'+usable+' 台</b>（去掉网络地址和广播地址）')
+    +st('借位数 = '+n2+'−'+n1+' = '+(n2-n1)+' → 子网数 = 2^'+(n2-n1)+' = <b>'+subs+' 个</b>')
+    +st('该 IP 所在子网：网络地址 = <b>'+intToIp(net)+'</b>，广播地址 = <b>'+intToIp(bc)+'</b>')
+    +st('可用范围 = '+intToIp(net+1)+' ~ '+intToIp(bc-1)+'，每段块大小 = '+block+' 个地址'));
+}
+function calcPage(){
+  var ps=+document.getElementById('g_ps').value, addr=+document.getElementById('g_addr').value, fr=+document.getElementById('g_frame').value;
+  var pg=Math.floor(addr/ps), off=addr%ps, phy=fr*ps+off;
+  show('g_res','<b>逐步：</b>'+st('页号 = '+addr+' ÷ '+ps+' = <b>'+pg+'</b>（取商），偏移 = <b>'+off+'</b>（余数）')
+    +st('物理地址 = 帧号×页大小 + 偏移 = '+fr+'×'+ps+' + '+off+' = <b>'+phy+'</b>')
+    +st('检查：偏移必须小于页大小 '+ps+' ✓'));
+}
+function calcHamming(){
+  var n=+document.getElementById('h_n').value, k=0;
+  while(Math.pow(2,k) < n+k+1) k++;
+  show('h_res','<b>逐步：</b>'+st('找最小 k 使 2^k ≥ '+n+'+k+1')
+    +st('k='+k+'：2^'+k+' = '+Math.pow(2,k)+' ≥ '+n+'+'+k+'+1 = '+(n+k+1)+' ✓')
+    +(k>0?st('k='+(k-1)+'：2^'+(k-1)+' = '+Math.pow(2,k-1)+' < '+(n+k-1+1)+' ✗ 不够'):'')
+    +st('答案 = <b>'+k+' 位</b>校验位'));
+}
+function calcDisk(){
+  var seek=+document.getElementById('d_seek').value, rpm=+document.getElementById('d_rpm').value, tr=+document.getElementById('d_tr').value;
+  var rev=60000/rpm, rot=rev/2, tot=seek+rot+tr;
+  show('d_res','<b>逐步：</b>'+st('每圈时间 = 60000÷'+rpm+' = '+rev.toFixed(3)+'ms')
+    +st('平均旋转延迟 = 半圈 = '+rev.toFixed(3)+'÷2 = <b>'+rot.toFixed(2)+'ms</b>')
+    +st('平均存取 = 寻道 '+seek+' + 旋转 '+rot.toFixed(2)+' + 传输 '+tr+' = <b>'+tot.toFixed(2)+'ms</b>'));
+}
+function calcMedia(){
+  var w=+document.getElementById('m_w').value, h=+document.getElementById('m_h').value, bits=+document.getElementById('m_c').value;
+  var bytes=w*h*bits/8, kb=bytes/1024;
+  show('m_res','<b>逐步：</b>'+st('位深 = '+bits+' 位/像素')
+    +st('容量 = '+w+'×'+h+'×'+bits+'÷8 = '+w*h*bits+'÷8 = '+bytes+' 字节 = <b>'+kb.toFixed(1)+'KB</b>'));
+}
+function calcMini(){
+  var f=+document.getElementById('q_f').value, r=+document.getElementById('q_r').value, mm=+document.getElementById('q_m').value;
+  var cnt=((r-f+mm)%mm+mm)%mm;
+  var bn=+document.getElementById('b_n').value, cmp=Math.ceil(Math.log2(bn+1));
+  var xn=+document.getElementById('x_n').value, half=xn*(xn+1)/2;
+  show('mi_res','<b>逐步：</b>'
+    +st('循环队列 = ('+r+'−'+f+'+'+mm+') mod '+mm+' = <b>'+cnt+' 个</b>')
+    +st('二分查找 '+bn+' 个 → ⌈log₂('+bn+'+1)⌉ = <b>'+cmp+' 次</b>（前提：有序+顺序存储）')
+    +st('对称矩阵压缩 = '+xn+'×('+xn+'+1)÷2 = <b>'+half+' 个</b>'));
+}
+function calcEmv(){
+  var a1=+document.getElementById('e_a1').value, ap=+document.getElementById('e_ap').value;
+  var a2=+document.getElementById('e_a2').value, ap2=+document.getElementById('e_ap2').value;
+  var b=+document.getElementById('e_b').value;
+  var ea=a1*ap+a2*ap2;
+  show('e_res','<b>逐步：</b>'+st('方案A EMV = '+a1+'×'+ap+' + ('+a2+')×'+ap2+' = '+(a1*ap).toFixed(1)+' + '+(a2*ap2).toFixed(1)+' = <b>'+ea.toFixed(1)+'</b>')
+    +st('方案B EMV = <b>'+b+'</b>（稳拿）')
+    +st('结论：选 EMV <b>'+(ea>=b?'A（'+ea.toFixed(1)+' ≥ '+b+'）':'B（'+b+' ≥ '+ea.toFixed(1)+'）')+'</b>')
+    +st('盈亏平衡小公式：件数 = 固定成本 ÷ (单价−单位变动)'));
+}
+</script>
+</body>
+</html>
