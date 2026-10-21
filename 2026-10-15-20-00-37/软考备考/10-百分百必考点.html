@@ -20,20 +20,20 @@
   .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;} .box.orange{background:var(--orange-bg);border:1px solid #f5dfb8;}
   .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
   .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
-  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(430px,1fr));gap:14px;margin-top:10px;}
-  .card{background:var(--card2);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:10px;padding:12px 15px;cursor:pointer;transition:opacity .2s;}
+  .cards{display:flex;flex-direction:column;gap:14px;margin:10px auto 0;max-width:940px;}
+  .card{background:var(--card2);border:1px solid var(--border);border-left:4px solid var(--red);border-radius:10px;padding:12px 16px;cursor:pointer;transition:opacity .2s;display:flex;flex-direction:column;gap:7px;}
   .card:hover{border-color:var(--blue);}
-  .card h4{margin:0 0 6px;font-size:15px;color:var(--ink);}
+  .card h4{margin:0;font-size:15px;color:var(--ink);padding-bottom:7px;border-bottom:1px dashed var(--border);}
   .card h4 .star{color:var(--red);font-size:12px;margin-right:4px;}
   .card h4 .pts{color:var(--muted);font-size:12px;font-weight:normal;margin-left:6px;}
-  .card p{margin:0 0 6px;font-size:13.5px;}
-  .card p:last-child{margin-bottom:0;}
-  .card p b{color:var(--red);}
-  .card p .lbl{display:inline-block;font-size:11.5px;font-weight:bold;border-radius:4px;padding:0 6px;margin-right:4px;}
-  .lbl{background:var(--blue-bg);color:var(--blue);}
-  .lbl.u{background:var(--purple-bg);color:var(--purple);}
-  .lbl.s{background:var(--orange-bg);color:var(--orange);}
-  .lbl.t{background:var(--red-bg);color:var(--red);}
+  .card p{margin:0;font-size:13.5px;}
+  .seg{display:flex;gap:10px;align-items:flex-start;}
+  .seg .chip{flex:0 0 36px;text-align:center;font-size:13px;font-weight:bold;border-radius:6px;padding:3px 0;}
+  .seg p{flex:1;}
+  .chip.k{background:var(--blue-bg);color:var(--blue);}
+  .chip.u{background:var(--purple-bg);color:var(--purple);}
+  .chip.s{background:var(--orange-bg);color:var(--orange);}
+  .chip.t{background:var(--red-bg);color:var(--red);}
   .card.done{opacity:.42;border-left-color:var(--green);}
   .card.done h4::after{content:" ✓ 已过目";color:var(--green);font-size:12px;}
   .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:26px;}
@@ -74,101 +74,101 @@
   <div class="cards">
     <div class="card" data-c="1">
       <h4><span class="star">★必</span>开发模型选型<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>题干描述一个项目的特点，问"最适合采用哪种开发模型"。</p>
-      <p><span class="lbl u">懂</span>各种模型的本质区别是"怎么应对需求变化和风险"：<b>瀑布</b>假设需求从不变一路到底；<b>原型</b>先做个样品让用户看清楚自己要什么再正式开发；<b>增量</b>把系统切成几块，每次交付一块能用的；<b>螺旋</b>每一圈都先做风险分析，风险大就调整方向；<b>敏捷</b>小步快跑拥抱变化。</p>
-      <p><span class="lbl s">算</span>看到"风险分析/风险驱动"→螺旋；"需求不明确，先开发一个样给用户确认"→原型；"分批交付、核心功能先上线"→增量；"文档驱动、评审通过才进下一阶段"→瀑布；"每日站会、结对编程"→敏捷。</p>
-      <p><span class="lbl t">坑</span>增量 vs 原型：增量交付的是"真正能用的功能分批上线"，原型交付的是"用来确认需求的样品（看完可能扔掉）"。</p>
+      <div class="seg"><span class="chip k">考</span><p>题干描述一个项目的特点，问"最适合采用哪种开发模型"。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>各种模型的本质区别是"怎么应对需求变化和风险"：<b>瀑布</b>假设需求从不变一路到底；<b>原型</b>先做个样品让用户看清楚自己要什么再正式开发；<b>增量</b>把系统切成几块，每次交付一块能用的；<b>螺旋</b>每一圈都先做风险分析，风险大就调整方向；<b>敏捷</b>小步快跑拥抱变化。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>看到"风险分析/风险驱动"→螺旋；"需求不明确，先开发一个样给用户确认"→原型；"分批交付、核心功能先上线"→增量；"文档驱动、评审通过才进下一阶段"→瀑布；"每日站会、结对编程"→敏捷。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>增量 vs 原型：增量交付的是"真正能用的功能分批上线"，原型交付的是"用来确认需求的样品（看完可能扔掉）"。</p></div>
     </div>
     <div class="card" data-c="2">
       <h4><span class="star">★必</span>白盒覆盖 + McCabe<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>①给几种覆盖问强弱排序；②给程序图数边和节点求 V(G)。</p>
-      <p><span class="lbl u">懂</span>白盒测试是"把代码里所有可能的执行路线尽量走一遍"。覆盖越强=走的路线越全=找 bug 越彻底，但设计用例成本也越高。语句覆盖只要求每行代码被执行一次（最弱）；路径覆盖要求每条完整路线都走（最强）。V(G) 的含义是"程序里独立路线的条数"，也就是覆盖全部独立路线所需的最少用例数。</p>
-      <p><span class="lbl s">算</span>排序：<b>语句＜判定＜条件＜判定/条件＜条件组合＜路径</b>。V(G) = <b>边 − 节点 + 2</b>：程序图 10 条边 8 个节点 → 10−8+2 = 4 → 至少 4 个用例。另一公式：判定（if/while）节点数+1。</p>
-      <p><span class="lbl t">坑</span>排序别背反（最强是路径、最弱是语句）；公式方向是"边−点"，不是"点−边"。</p>
+      <div class="seg"><span class="chip k">考</span><p>①给几种覆盖问强弱排序；②给程序图数边和节点求 V(G)。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>白盒测试是"把代码里所有可能的执行路线尽量走一遍"。覆盖越强=走的路线越全=找 bug 越彻底，但设计用例成本也越高。语句覆盖只要求每行代码被执行一次（最弱）；路径覆盖要求每条完整路线都走（最强）。V(G) 的含义是"程序里独立路线的条数"，也就是覆盖全部独立路线所需的最少用例数。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>排序：<b>语句＜判定＜条件＜判定/条件＜条件组合＜路径</b>。V(G) = <b>边 − 节点 + 2</b>：程序图 10 条边 8 个节点 → 10−8+2 = 4 → 至少 4 个用例。另一公式：判定（if/while）节点数+1。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>排序别背反（最强是路径、最弱是语句）；公式方向是"边−点"，不是"点−边"。</p></div>
     </div>
     <div class="card" data-c="3">
       <h4><span class="star">★必</span>耦合内聚排序<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>描述两个模块怎么交互，问属于什么耦合/内聚；或直接问"耦合最差/内聚最好的是"。</p>
-      <p><span class="lbl u">懂</span>耦合=模块之间联系的紧密程度（越松越好——改一个模块不影响另一个）；内聚=模块内部各元素配合的紧密程度（越紧越好——一个模块只干一件相关的事）。好的设计就是八个字"<b>高内聚、低耦合</b>"。</p>
-      <p><span class="lbl s">算</span>耦合从好到差"<b>数标控外公内</b>"：只传一个数值=数据；传结构/记录=标记；传开关命令操纵别人=控制；共享软件环境=外部；共享全局数据=公共；直接读写别人内部数据=内容。内聚从好到差"<b>功顺通过时逻偶</b>"：一件事干到底=功能；上一步输出是下一步输入=顺序；围绕同一数据集=通信；按固定流程=过程；同一时段凑一起=时间；靠参数挑着执行=逻辑；毫无关系=偶然。</p>
-      <p><span class="lbl t">坑</span>逻辑内聚：一个模块干好几件事、靠传入的参数决定执行哪个——考题爱拿它和功能内聚混淆。</p>
+      <div class="seg"><span class="chip k">考</span><p>描述两个模块怎么交互，问属于什么耦合/内聚；或直接问"耦合最差/内聚最好的是"。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>耦合=模块之间联系的紧密程度（越松越好——改一个模块不影响另一个）；内聚=模块内部各元素配合的紧密程度（越紧越好——一个模块只干一件相关的事）。好的设计就是八个字"<b>高内聚、低耦合</b>"。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>耦合从好到差"<b>数标控外公内</b>"：只传一个数值=数据；传结构/记录=标记；传开关命令操纵别人=控制；共享软件环境=外部；共享全局数据=公共；直接读写别人内部数据=内容。内聚从好到差"<b>功顺通过时逻偶</b>"：一件事干到底=功能；上一步输出是下一步输入=顺序；围绕同一数据集=通信；按固定流程=过程；同一时段凑一起=时间；靠参数挑着执行=逻辑；毫无关系=偶然。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>逻辑内聚：一个模块干好几件事、靠传入的参数决定执行哪个——考题爱拿它和功能内聚混淆。</p></div>
     </div>
     <div class="card" data-c="4">
       <h4><span class="star">★必</span>设计模式<span class="pts">固定 2~3 分</span></h4>
-      <p><span class="lbl">考</span>给一段业务场景描述选模式（下午还考代码填空）。</p>
-      <p><span class="lbl u">懂</span>设计模式是前人总结的"代码套路"，考试核心是"从场景描述识别套路"。策略=把几种算法各自封装成类，运行时随便换；观察者=一个对象状态变了，自动通知所有关注它的对象；装饰器=不改原类、像穿衣服一样层层叠加新功能；单例=全局只允许一个实例；工厂方法=把"new 哪个类"推迟给子类决定；状态=对象的行为随内部状态自动切换。</p>
-      <p><span class="lbl s">算</span>"系统只有一份/全局访问点"→单例；"状态变化通知所有依赖者"→观察者；"动态加职责、不增加子类"→装饰器；"算法可替换"→策略；"行为随状态改变"→状态；"由子类决定创建哪个"→工厂方法。</p>
-      <p><span class="lbl t">坑</span>状态 vs 策略结构几乎一样（都是接口+一组实现类），区别在"谁来换"：外部换算法=策略，对象自己随状态切换=状态。</p>
+      <div class="seg"><span class="chip k">考</span><p>给一段业务场景描述选模式（下午还考代码填空）。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>设计模式是前人总结的"代码套路"，考试核心是"从场景描述识别套路"。策略=把几种算法各自封装成类，运行时随便换；观察者=一个对象状态变了，自动通知所有关注它的对象；装饰器=不改原类、像穿衣服一样层层叠加新功能；单例=全局只允许一个实例；工厂方法=把"new 哪个类"推迟给子类决定；状态=对象的行为随内部状态自动切换。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>"系统只有一份/全局访问点"→单例；"状态变化通知所有依赖者"→观察者；"动态加职责、不增加子类"→装饰器；"算法可替换"→策略；"行为随状态改变"→状态；"由子类决定创建哪个"→工厂方法。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>状态 vs 策略结构几乎一样（都是接口+一组实现类），区别在"谁来换"：外部换算法=策略，对象自己随状态切换=状态。</p></div>
     </div>
     <div class="card" data-c="5">
       <h4><span class="star">★必</span>流水线<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>给各段耗时和指令条数，求总时间/加速比/吞吐率。</p>
-      <p><span class="lbl u">懂</span>流水线像工厂装配线：第一条指令要完整走完所有段（所以第一条=各段之和）；之后每过一个"周期"就有一条指令完工——因为各段同时都在干活，节奏由<b>最慢的那段</b>决定（木桶效应）。</p>
-      <p><span class="lbl s">算</span>总时间 = <b>各段之和 + (n−1)×周期</b>。例：四段 1/2/3/4ns 跑 100 条 → 第一条 10ns，之后 99 条每 4ns 出一条 → 10+99×4 = <b>406ns</b>；加速比 = 不流水时间÷流水时间 = 100×10 ÷ 406 ≈ <b>2.46</b>；吞吐率 = 100÷406ns。</p>
-      <p><span class="lbl t">坑</span>周期 = 最长的那段（短板）；加速比不是"段数"倍。</p>
+      <div class="seg"><span class="chip k">考</span><p>给各段耗时和指令条数，求总时间/加速比/吞吐率。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>流水线像工厂装配线：第一条指令要完整走完所有段（所以第一条=各段之和）；之后每过一个"周期"就有一条指令完工——因为各段同时都在干活，节奏由<b>最慢的那段</b>决定（木桶效应）。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>总时间 = <b>各段之和 + (n−1)×周期</b>。例：四段 1/2/3/4ns 跑 100 条 → 第一条 10ns，之后 99 条每 4ns 出一条 → 10+99×4 = <b>406ns</b>；加速比 = 不流水时间÷流水时间 = 100×10 ÷ 406 ≈ <b>2.46</b>；吞吐率 = 100÷406ns。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>周期 = 最长的那段（短板）；加速比不是"段数"倍。</p></div>
     </div>
     <div class="card" data-c="6">
       <h4><span class="star">★必</span>Cache 平均访问时间<span class="pts">1 分</span></h4>
-      <p><span class="lbl">考</span>给命中率、Cache 时间、主存时间，求平均访问时间。</p>
-      <p><span class="lbl u">懂</span>CPU 要数据先问 Cache（快而小），命中就直接拿（用 t1）；没命中（概率 1−H）只能去慢的主存拿（用 t2）。平均时间就是两种情况的加权平均。"同时访问"式是指 Cache 和主存<b>同时开始</b>查，命中就丢掉主存的结果——所以未命中时主存那段时间里其实还搭进去了一次 Cache 时间。</p>
-      <p><span class="lbl s">算</span>顺序式：T = H×t1 + (1−H)×t2 = 0.9×40 + 0.1×200 = <b>56ns</b>。同时访问式：T = 0.9×40 + 0.1×(40+200) = <b>60ns</b>。</p>
-      <p><span class="lbl t">坑</span>题干有没有"<b>同时访问</b>"四个字决定用哪个公式，差 4ns 就是两个选项。</p>
+      <div class="seg"><span class="chip k">考</span><p>给命中率、Cache 时间、主存时间，求平均访问时间。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>CPU 要数据先问 Cache（快而小），命中就直接拿（用 t1）；没命中（概率 1−H）只能去慢的主存拿（用 t2）。平均时间就是两种情况的加权平均。"同时访问"式是指 Cache 和主存<b>同时开始</b>查，命中就丢掉主存的结果——所以未命中时主存那段时间里其实还搭进去了一次 Cache 时间。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>顺序式：T = H×t1 + (1−H)×t2 = 0.9×40 + 0.1×200 = <b>56ns</b>。同时访问式：T = 0.9×40 + 0.1×(40+200) = <b>60ns</b>。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>题干有没有"<b>同时访问</b>"四个字决定用哪个公式，差 4ns 就是两个选项。</p></div>
     </div>
     <div class="card" data-c="7">
       <h4><span class="star">★必</span>可靠性<span class="pts">1 分</span></h4>
-      <p><span class="lbl">考</span>给串并联结构图和各部件可靠度，求系统整体可靠度。</p>
-      <p><span class="lbl u">懂</span>串联=一个坏全坏（所有部件都必须活着系统才活着，所以可靠度相乘，越串越低）；并联=坏一个还有备份（只要不是全坏系统就活着，用"全坏的概率"算：1−∏(1−R)，越并越高）。</p>
-      <p><span class="lbl s">算</span>混联口诀"<b>先小后大</b>"：先把每个并联小组算成一个数，再串联。例：两个子系统串联，各由 2 个 0.9 并联 → 每组 = 1−0.1² = 0.99 → 系统 = 0.99×0.99 = <b>0.9801</b>。</p>
-      <p><span class="lbl t">坑</span>并联结果一定比组内任何一个部件都高；别把混联一笔相乘。</p>
+      <div class="seg"><span class="chip k">考</span><p>给串并联结构图和各部件可靠度，求系统整体可靠度。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>串联=一个坏全坏（所有部件都必须活着系统才活着，所以可靠度相乘，越串越低）；并联=坏一个还有备份（只要不是全坏系统就活着，用"全坏的概率"算：1−∏(1−R)，越并越高）。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>混联口诀"<b>先小后大</b>"：先把每个并联小组算成一个数，再串联。例：两个子系统串联，各由 2 个 0.9 并联 → 每组 = 1−0.1² = 0.99 → 系统 = 0.99×0.99 = <b>0.9801</b>。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>并联结果一定比组内任何一个部件都高；别把混联一笔相乘。</p></div>
     </div>
     <div class="card" data-c="8">
       <h4><span class="star">★必</span>页式地址转换<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>给页大小、逻辑地址、页帧映射表，求物理地址。</p>
-      <p><span class="lbl u">懂</span>分页把内存切成一样大的小方块。逻辑地址由"页号 + 页内偏移"拼成：页号说明在哪个页，偏移说明在页内第几个字节。页大小都是 2 的幂（1KB=2¹⁰），所以地址的<b>低 k 位天然就是偏移</b>，高位就是页号。页在内存里被放到哪个帧由映射表决定；同一页搬到哪里，页内偏移都不变。</p>
-      <p><span class="lbl s">算</span>三步：①偏移位数 = log₂(页大小)，1KB→10 位；②页号 = 逻辑地址 ÷ 页大小（取商），偏移 = 余数。例：2500÷1024 → 页号 2、偏移 452；③物理地址 = 帧号×页大小+偏移 = 4×1024+452 = <b>4548</b>。</p>
-      <p><span class="lbl t">坑</span>帧号必须查题干给的映射表，别拿页号直接当帧号；4KB 页就用 4096 除。</p>
+      <div class="seg"><span class="chip k">考</span><p>给页大小、逻辑地址、页帧映射表，求物理地址。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>分页把内存切成一样大的小方块。逻辑地址由"页号 + 页内偏移"拼成：页号说明在哪个页，偏移说明在页内第几个字节。页大小都是 2 的幂（1KB=2¹⁰），所以地址的<b>低 k 位天然就是偏移</b>，高位就是页号。页在内存里被放到哪个帧由映射表决定；同一页搬到哪里，页内偏移都不变。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>三步：①偏移位数 = log₂(页大小)，1KB→10 位；②页号 = 逻辑地址 ÷ 页大小（取商），偏移 = 余数。例：2500÷1024 → 页号 2、偏移 452；③物理地址 = 帧号×页大小+偏移 = 4×1024+452 = <b>4548</b>。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>帧号必须查题干给的映射表，别拿页号直接当帧号；4KB 页就用 4096 除。</p></div>
     </div>
     <div class="card" data-c="9">
       <h4><span class="star">★必</span>排序<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>①问稳定性/复杂度；②给序列问"第一趟之后"的样子。</p>
-      <p><span class="lbl u">懂</span>"一趟"的含义每种排序不同：插入=把下一个元素插进前面已排好的部分（一趟后只有前 2 个有序）；冒泡=从头两两比较，把最大数顶到末尾（一趟后 1 个就位）；选择=全表找最小换到首位（一趟后 1 个就位）；快排=枢轴归位（一趟后枢轴一定在最终位置）。稳定性=相等的元素排完序后先后次序是否保持。</p>
-      <p><span class="lbl s">算</span>45,23,12,9：插入→<b>23,45,12,9</b>；冒泡→<b>23,12,9,45</b>；选择→<b>9,23,12,45</b>；快排（枢轴45）→45 落最终位。不稳定口诀<b>"快些选堆"</b>（快排/希尔/选择/堆）。</p>
-      <p><span class="lbl t">坑</span>希尔的一趟是"按增量分组各排"，与其他完全不同，别套上面的判断。</p>
+      <div class="seg"><span class="chip k">考</span><p>①问稳定性/复杂度；②给序列问"第一趟之后"的样子。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>"一趟"的含义每种排序不同：插入=把下一个元素插进前面已排好的部分（一趟后只有前 2 个有序）；冒泡=从头两两比较，把最大数顶到末尾（一趟后 1 个就位）；选择=全表找最小换到首位（一趟后 1 个就位）；快排=枢轴归位（一趟后枢轴一定在最终位置）。稳定性=相等的元素排完序后先后次序是否保持。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>45,23,12,9：插入→<b>23,45,12,9</b>；冒泡→<b>23,12,9,45</b>；选择→<b>9,23,12,45</b>；快排（枢轴45）→45 落最终位。不稳定口诀<b>"快些选堆"</b>（快排/希尔/选择/堆）。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>希尔的一趟是"按增量分组各排"，与其他完全不同，别套上面的判断。</p></div>
     </div>
     <div class="card" data-c="10">
       <h4><span class="star">★必</span>二叉树<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>①给叶子数求度 2 节点数；②给前序+中序求后序。</p>
-      <p><span class="lbl u">懂</span>n0=n2+1 的来历：二叉树所有边的条数 = 节点数−1 = n1+2n2，又是 n0+n1+n2−1，两边消掉 n1 得 n0=n2+1。遍历重建的原理：前序第一个一定是根；在中序里，根左边全部属于左子树、右边全部属于右子树——拿根把中序切成两半，再递归处理。</p>
-      <p><span class="lbl s">算</span>5 个叶子 → n2 = 4。重建：前序 ABDECF + 中序 DBEAFC → 根 A，左半 DBE、右半 FC → 左子树根 B（D、E 是它的左右孩子）→ 右子树根 C（F 是左孩子）→ 后序（左右根）= <b>DEBFCA</b>。</p>
-      <p><span class="lbl t">坑</span>前序+后序不能唯一重建（分不出左右）；哈夫曼树 n 叶子共 2n−1 个节点、没有度 1 节点。</p>
+      <div class="seg"><span class="chip k">考</span><p>①给叶子数求度 2 节点数；②给前序+中序求后序。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>n0=n2+1 的来历：二叉树所有边的条数 = 节点数−1 = n1+2n2，又是 n0+n1+n2−1，两边消掉 n1 得 n0=n2+1。遍历重建的原理：前序第一个一定是根；在中序里，根左边全部属于左子树、右边全部属于右子树——拿根把中序切成两半，再递归处理。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>5 个叶子 → n2 = 4。重建：前序 ABDECF + 中序 DBEAFC → 根 A，左半 DBE、右半 FC → 左子树根 B（D、E 是它的左右孩子）→ 右子树根 C（F 是左孩子）→ 后序（左右根）= <b>DEBFCA</b>。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>前序+后序不能唯一重建（分不出左右）；哈夫曼树 n 叶子共 2n−1 个节点、没有度 1 节点。</p></div>
     </div>
     <div class="card" data-c="11">
       <h4><span class="star">★必</span>子网划分<span class="pts">1 分</span></h4>
-      <p><span class="lbl">考</span>给 IP 和掩码（或 /n 写法），求可用主机数或子网数。</p>
-      <p><span class="lbl u">懂</span>掩码里二进制 1 的部分是"网络号"（小区名），0 的部分是"主机号"（门牌号），/n 写法就是"1 有 n 个"。主机位有 h 位就有 2^h 个地址，但全 0 代表"网络本身"、全 1 是"广播地址"，都不能分给主机——所以要减 2。</p>
-      <p><span class="lbl s">算</span>/27 → 主机位 = 32−27 = 5 → 可用 = 2⁵−2 = <b>30 台</b>；比 /24 多借 3 位 → 子网数 = 2³ = <b>8 个</b>。</p>
-      <p><span class="lbl t">坑</span>必须减 2；/26→62、/28→14 是高频数字；127.0.0.1 是本机回环。</p>
+      <div class="seg"><span class="chip k">考</span><p>给 IP 和掩码（或 /n 写法），求可用主机数或子网数。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>掩码里二进制 1 的部分是"网络号"（小区名），0 的部分是"主机号"（门牌号），/n 写法就是"1 有 n 个"。主机位有 h 位就有 2^h 个地址，但全 0 代表"网络本身"、全 1 是"广播地址"，都不能分给主机——所以要减 2。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>/27 → 主机位 = 32−27 = 5 → 可用 = 2⁵−2 = <b>30 台</b>；比 /24 多借 3 位 → 子网数 = 2³ = <b>8 个</b>。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>必须减 2；/26→62、/28→14 是高频数字；127.0.0.1 是本机回环。</p></div>
     </div>
     <div class="card" data-c="12">
       <h4><span class="star">★必</span>TCP/UDP + 协议端口<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>给特征选协议、给应用选端口。</p>
-      <p><span class="lbl u">懂</span>TCP 像打电话：先拨号确认接通（三次握手），说话有确认重发——可靠但慢；UDP 像广播喊话：不确认、丢了就丢——快但不可靠。端口是同一台电脑上不同服务的"门牌号"，常用端口是硬背的。</p>
-      <p><span class="lbl s">算</span>可靠+面向连接→TCP（网页、邮件、文件传输）；实时要快→UDP（视频、语音、DNS 查询）。端口：FTP 20/21、SMTP 25、DNS 53、HTTP 80、HTTPS 443。</p>
-      <p><span class="lbl t">坑</span>"视频会议/直播"选 UDP（要快不要重发）；DHCP 是自动分配 IP，不是域名解析。</p>
+      <div class="seg"><span class="chip k">考</span><p>给特征选协议、给应用选端口。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>TCP 像打电话：先拨号确认接通（三次握手），说话有确认重发——可靠但慢；UDP 像广播喊话：不确认、丢了就丢——快但不可靠。端口是同一台电脑上不同服务的"门牌号"，常用端口是硬背的。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>可靠+面向连接→TCP（网页、邮件、文件传输）；实时要快→UDP（视频、语音、DNS 查询）。端口：FTP 20/21、SMTP 25、DNS 53、HTTP 80、HTTPS 443。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>"视频会议/直播"选 UDP（要快不要重发）；DHCP 是自动分配 IP，不是域名解析。</p></div>
     </div>
     <div class="card" data-c="13">
       <h4><span class="star">★必</span>PV 操作<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>给伪代码挖空填 P/V，或问信号量初值。</p>
-      <p><span class="lbl u">懂</span>P=申请资源（没有就等着），V=释放资源（叫醒等待的人）。互斥用一把锁（初值 1）；同步用"资源计数"（empty=还能放几个、full=已有几个）。两个 P 的顺序错会死锁：生产者先拿锁再等空位，缓冲区满时它抱着锁睡觉，消费者想取货却进不了锁——互相等死，这就是"<b>同步在前、互斥在后</b>"的原因。</p>
-      <p><span class="lbl s">算</span>生产者：<b>P(empty)→P(mutex)→放→V(mutex)→V(full)</b>；消费者对称。初值：empty=n（缓冲区大小）、full=0、mutex=1。</p>
-      <p><span class="lbl t">坑</span>mutex 的 P/V 必须成对夹住操作；选项里出现"P(mutex) 在 P(empty) 之前"直接判错。</p>
+      <div class="seg"><span class="chip k">考</span><p>给伪代码挖空填 P/V，或问信号量初值。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>P=申请资源（没有就等着），V=释放资源（叫醒等待的人）。互斥用一把锁（初值 1）；同步用"资源计数"（empty=还能放几个、full=已有几个）。两个 P 的顺序错会死锁：生产者先拿锁再等空位，缓冲区满时它抱着锁睡觉，消费者想取货却进不了锁——互相等死，这就是"<b>同步在前、互斥在后</b>"的原因。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>生产者：<b>P(empty)→P(mutex)→放→V(mutex)→V(full)</b>；消费者对称。初值：empty=n（缓冲区大小）、full=0、mutex=1。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>mutex 的 P/V 必须成对夹住操作；选项里出现"P(mutex) 在 P(empty) 之前"直接判错。</p></div>
     </div>
     <div class="card" data-c="14">
       <h4><span class="star">★必</span>知识产权<span class="pts">2~3 分</span></h4>
-      <p><span class="lbl">考</span>情境题：问著作权归谁、是否侵权、保护期多久。</p>
-      <p><span class="lbl u">懂</span>三类权利的取得方式不同：著作权=作品完成那一刻<b>自动</b>拥有（登记只是举证方便）；专利=必须向国家<b>申请</b>、审查通过才授予（所以有审查期）；商标=<b>注册</b>才有效、10 年一续可无限续展。委托开发在没约定时归"实际干活的一方"（受托方）。</p>
-      <p><span class="lbl s">算</span>职务开发→归公司；委托无约定→受托方；自然人著作权 = 终生 + 死后 50 年（当年 12.31 止）；法人软件 = 首次发表后 50 年；专利：发明 20、实用新型 10、外观设计 15（自申请日起）。</p>
-      <p><span class="lbl t">坑</span>"有登记证书"≠登记才取得著作权；专利期限自<b>申请日</b>起算，不是授权日。</p>
+      <div class="seg"><span class="chip k">考</span><p>情境题：问著作权归谁、是否侵权、保护期多久。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>三类权利的取得方式不同：著作权=作品完成那一刻<b>自动</b>拥有（登记只是举证方便）；专利=必须向国家<b>申请</b>、审查通过才授予（所以有审查期）；商标=<b>注册</b>才有效、10 年一续可无限续展。委托开发在没约定时归"实际干活的一方"（受托方）。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>职务开发→归公司；委托无约定→受托方；自然人著作权 = 终生 + 死后 50 年（当年 12.31 止）；法人软件 = 首次发表后 50 年；专利：发明 20、实用新型 10、外观设计 15（自申请日起）。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>"有登记证书"≠登记才取得著作权；专利期限自<b>申请日</b>起算，不是授权日。</p></div>
     </div>
   </div>
 </section>
@@ -178,59 +178,59 @@
   <div class="cards">
     <div class="card" data-c="15">
       <h4><span class="star">★高频</span>进程三态<span class="pts">1 分</span></h4>
-      <p><span class="lbl">考</span>画 6 条箭头的状态图，问"哪条转换不存在"。</p>
-      <p><span class="lbl u">懂</span>三态是"有没有 CPU 资格"和"是否正在跑"的组合：就绪=有资格但排队等 CPU；运行=正在 CPU 上跑；阻塞=连资格都没有（在等磁盘/网络等资源）。阻塞的进程不可能直接跳到运行——必须先等资源到位变回就绪，再排队被调度。</p>
-      <p><span class="lbl s">算</span>不存在的转换：<b>阻塞→运行</b>。存在的：就绪⇄运行（调度上去/时间片到下来）、运行→阻塞（主动等 I/O）。</p>
-      <p><span class="lbl t">坑</span>"运行→阻塞"可以直接发生（运行中主动等资源），别误判它不存在。</p>
+      <div class="seg"><span class="chip k">考</span><p>画 6 条箭头的状态图，问"哪条转换不存在"。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>三态是"有没有 CPU 资格"和"是否正在跑"的组合：就绪=有资格但排队等 CPU；运行=正在 CPU 上跑；阻塞=连资格都没有（在等磁盘/网络等资源）。阻塞的进程不可能直接跳到运行——必须先等资源到位变回就绪，再排队被调度。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>不存在的转换：<b>阻塞→运行</b>。存在的：就绪⇄运行（调度上去/时间片到下来）、运行→阻塞（主动等 I/O）。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>"运行→阻塞"可以直接发生（运行中主动等资源），别误判它不存在。</p></div>
     </div>
     <div class="card" data-c="16">
       <h4><span class="star">★高频</span>范式判定<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>给关系模式和函数依赖，判最高满足第几范式。</p>
-      <p><span class="lbl u">懂</span>范式是"消除冗余和异常"的等级：2NF 管"非主属性只依赖联合主键的一部分"（部分依赖）；3NF 管"非主属性通过其他非主属性间接依赖候选码"（传递依赖）。判定的前提是先求候选码、分清主属性（在候选码里的）和非主属性。</p>
-      <p><span class="lbl s">算</span>例 R(A,B,C,D)，A→B、B→C、A→D：①只有 A 从不做右边 → 候选码 A，A⁺=全部属性；②非主属性 B/C/D，候选码是单属性 → 无部分依赖 → 2NF ✓；③A→B→C 是传递依赖 → 不满足 3NF → <b>最高 2NF</b>；分解 R1(A,B,D)+R2(B,C) 达 3NF。</p>
-      <p><span class="lbl t">坑</span>单属性候选码自动满足 2NF（没有"部分"可言）；"最高满足第几范式"=从 2NF 往上查，第一个不满足的停。</p>
+      <div class="seg"><span class="chip k">考</span><p>给关系模式和函数依赖，判最高满足第几范式。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>范式是"消除冗余和异常"的等级：2NF 管"非主属性只依赖联合主键的一部分"（部分依赖）；3NF 管"非主属性通过其他非主属性间接依赖候选码"（传递依赖）。判定的前提是先求候选码、分清主属性（在候选码里的）和非主属性。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>例 R(A,B,C,D)，A→B、B→C、A→D：①只有 A 从不做右边 → 候选码 A，A⁺=全部属性；②非主属性 B/C/D，候选码是单属性 → 无部分依赖 → 2NF ✓；③A→B→C 是传递依赖 → 不满足 3NF → <b>最高 2NF</b>；分解 R1(A,B,D)+R2(B,C) 达 3NF。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>单属性候选码自动满足 2NF（没有"部分"可言）；"最高满足第几范式"=从 2NF 往上查，第一个不满足的停。</p></div>
     </div>
     <div class="card" data-c="17">
       <h4><span class="star">★高频</span>信息安全<span class="pts">1~2 分</span></h4>
-      <p><span class="lbl">考</span>给场景问"用什么技术/保证了什么性质"。</p>
-      <p><span class="lbl u">懂</span>四个工具各管一件事：<b>摘要</b>（MD5/SHA）管完整性（数据没被改过）；<b>数字签名</b>=完整+防抵赖（用只有自己才有的私钥签，人人可验但无法伪造）；<b>对称加密</b>管保密（快，但密钥怎么安全给对方是难题）；<b>非对称加密</b>管保密+密钥分发（公钥随便给，私钥自己留，但慢）。所以实际系统混合用：非对称传对称密钥，对称加密大数据。</p>
-      <p><span class="lbl s">算</span>"确保文件没被篡改"→摘要；"确保对方不能赖账"→数字签名；"既保密又防抵赖"→签名+加密。算法对号：AES/DES/RC4=对称，RSA/ECC=非对称；IDS 只报警、IPS 能阻断。</p>
-      <p><span class="lbl t">坑</span>签名<b>不保密</b>、加密<b>不防抵赖</b>——两个"保证"别混；摘要本身也不是加密。</p>
+      <div class="seg"><span class="chip k">考</span><p>给场景问"用什么技术/保证了什么性质"。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>四个工具各管一件事：<b>摘要</b>（MD5/SHA）管完整性（数据没被改过）；<b>数字签名</b>=完整+防抵赖（用只有自己才有的私钥签，人人可验但无法伪造）；<b>对称加密</b>管保密（快，但密钥怎么安全给对方是难题）；<b>非对称加密</b>管保密+密钥分发（公钥随便给，私钥自己留，但慢）。所以实际系统混合用：非对称传对称密钥，对称加密大数据。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>"确保文件没被篡改"→摘要；"确保对方不能赖账"→数字签名；"既保密又防抵赖"→签名+加密。算法对号：AES/DES/RC4=对称，RSA/ECC=非对称；IDS 只报警、IPS 能阻断。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>签名<b>不保密</b>、加密<b>不防抵赖</b>——两个"保证"别混；摘要本身也不是加密。</p></div>
     </div>
     <div class="card" data-c="18">
       <h4><span class="star">★高频</span>新技术<span class="pts">1~3 分</span></h4>
-      <p><span class="lbl">考</span>给一句话描述选名词，或给名词问特征。</p>
-      <p><span class="lbl u">懂</span>云计算三层按"用户管多少"划分：IaaS 只租硬件（虚拟机/存储），操作系统以上自己管；PaaS 租"装好环境的平台"，只管写代码；SaaS 连软件都是现成的，打开就用。层级越高用户管得越少。大数据 4V 描述特征：大量/高速/多样/价值密度低。</p>
-      <p><span class="lbl s">算</span>"租服务器和存储，系统自己装"→IaaS；"只管写代码，环境平台管"→PaaS；"打开浏览器直接用"→SaaS。区块链=去中心化+不可篡改+智能合约；CI/CD=DevOps；就近处理=边缘计算。</p>
-      <p><span class="lbl t">坑</span>区块链的"去中心化"指没有中央管理机构，不是没有服务器。</p>
+      <div class="seg"><span class="chip k">考</span><p>给一句话描述选名词，或给名词问特征。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>云计算三层按"用户管多少"划分：IaaS 只租硬件（虚拟机/存储），操作系统以上自己管；PaaS 租"装好环境的平台"，只管写代码；SaaS 连软件都是现成的，打开就用。层级越高用户管得越少。大数据 4V 描述特征：大量/高速/多样/价值密度低。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>"租服务器和存储，系统自己装"→IaaS；"只管写代码，环境平台管"→PaaS；"打开浏览器直接用"→SaaS。区块链=去中心化+不可篡改+智能合约；CI/CD=DevOps；就近处理=边缘计算。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>区块链的"去中心化"指没有中央管理机构，不是没有服务器。</p></div>
     </div>
     <div class="card" data-c="19">
       <h4><span class="star">★高频</span>SQL 关键字<span class="pts">1 分</span></h4>
-      <p><span class="lbl">考</span>给需求选子句，或给语句问功能。</p>
-      <p><span class="lbl u">懂</span>SELECT 的执行顺序：FROM→WHERE（筛原始行）→GROUP BY（分组）→HAVING（筛统计后的组）→SELECT（投影）→ORDER BY（排序）。WHERE 在分组<b>前</b>筛行，HAVING 在分组<b>后</b>筛组——所以聚合函数只能出现在 HAVING 里。</p>
-      <p><span class="lbl s">算</span>"每个部门平均工资&gt;8000"→GROUP BY 部门 HAVING AVG(工资)&gt;8000；"允许对方再把权限授给别人"→WITH GRANT OPTION；收回权限→REVOKE；虚表→视图。</p>
-      <p><span class="lbl t">坑</span>WHERE 里写 AVG() 直接错；视图不存数据，作用是安全和逻辑独立性。</p>
+      <div class="seg"><span class="chip k">考</span><p>给需求选子句，或给语句问功能。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>SELECT 的执行顺序：FROM→WHERE（筛原始行）→GROUP BY（分组）→HAVING（筛统计后的组）→SELECT（投影）→ORDER BY（排序）。WHERE 在分组<b>前</b>筛行，HAVING 在分组<b>后</b>筛组——所以聚合函数只能出现在 HAVING 里。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>"每个部门平均工资&gt;8000"→GROUP BY 部门 HAVING AVG(工资)&gt;8000；"允许对方再把权限授给别人"→WITH GRANT OPTION；收回权限→REVOKE；虚表→视图。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>WHERE 里写 AVG() 直接错；视图不存数据，作用是安全和逻辑独立性。</p></div>
     </div>
     <div class="card" data-c="20">
       <h4><span class="star">★高频</span>校验码 + 海明<span class="pts">1 分</span></h4>
-      <p><span class="lbl">考</span>求海明码校验位数，或问哪种码能纠错。</p>
-      <p><span class="lbl u">懂</span>k 个校验位要能指出"错在哪"：需要区分 n 个数据位+k 个校验位各自出错、外加 1 种"没错"的情况，共 n+k+1 种状态，所以 2^k ≥ n+k+1。奇偶校验只能发现"奇数个位出错"（不能定位）；CRC 用模 2 除法生成校验串，检错能力强但不能定位（因此不能纠）。</p>
-      <p><span class="lbl s">算</span>n=8：k=4（2⁴=16 ≥ 8+4+1=13 ✓；k=3 时 8＜12 ✗）。</p>
-      <p><span class="lbl t">坑</span>"能纠 1 位错"的只有海明码；CRC 检错强≠能纠错。</p>
+      <div class="seg"><span class="chip k">考</span><p>求海明码校验位数，或问哪种码能纠错。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>k 个校验位要能指出"错在哪"：需要区分 n 个数据位+k 个校验位各自出错、外加 1 种"没错"的情况，共 n+k+1 种状态，所以 2^k ≥ n+k+1。奇偶校验只能发现"奇数个位出错"（不能定位）；CRC 用模 2 除法生成校验串，检错能力强但不能定位（因此不能纠）。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>n=8：k=4（2⁴=16 ≥ 8+4+1=13 ✓；k=3 时 8＜12 ✗）。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>"能纠 1 位错"的只有海明码；CRC 检错强≠能纠错。</p></div>
     </div>
     <div class="card" data-c="21">
       <h4><span class="star">★高频</span>死锁<span class="pts">1 分</span></h4>
-      <p><span class="lbl">考</span>四条件辨析、给措施问属于预防/避免/检测。</p>
-      <p><span class="lbl u">懂</span>死锁=互相抱着资源等对方。四个必要条件缺一个都不成立：互斥（资源一次一人用）、请求保持（抱着旧资源要新的）、不剥夺（不能抢别人的）、环路等待（形成等待圈）。对策分三层：<b>预防</b>=提前破坏某个条件（如一次性申请全部资源）；<b>避免</b>=运行时判断这次分配是否安全（银行家算法）；<b>检测恢复</b>=先放任发生再解除。</p>
-      <p><span class="lbl s">算</span>银行家算法→避免；"一次性申请所有资源"→预防（破坏请求保持）；"资源按序分配"→预防（破坏环路等待）。</p>
-      <p><span class="lbl t">坑</span>预防/避免/检测恢复三层考题爱混——银行家是"避免"不是"预防"。</p>
+      <div class="seg"><span class="chip k">考</span><p>四条件辨析、给措施问属于预防/避免/检测。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>死锁=互相抱着资源等对方。四个必要条件缺一个都不成立：互斥（资源一次一人用）、请求保持（抱着旧资源要新的）、不剥夺（不能抢别人的）、环路等待（形成等待圈）。对策分三层：<b>预防</b>=提前破坏某个条件（如一次性申请全部资源）；<b>避免</b>=运行时判断这次分配是否安全（银行家算法）；<b>检测恢复</b>=先放任发生再解除。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>银行家算法→避免；"一次性申请所有资源"→预防（破坏请求保持）；"资源按序分配"→预防（破坏环路等待）。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>预防/避免/检测恢复三层考题爱混——银行家是"避免"不是"预防"。</p></div>
     </div>
     <div class="card" data-c="22">
       <h4><span class="star">★高频</span>专业英语<span class="pts">固定 5 分</span></h4>
-      <p><span class="lbl">考</span>150~200 词技术短文挖 5 空，四选一。</p>
-      <p><span class="lbl u">懂</span>5 空几乎全考"词性+固定搭配"，不考文章深度理解。名词前常有 the/of/for；动词前常有 to/can/must；形容词后跟名词。主题固定在软件工程领域（需求/测试/维护/面向对象），高频词就是那些术语的英文名。</p>
-      <p><span class="lbl s">算</span>三步：①判断空格需要什么词性 → ②排除词性不符的选项 → ③剩下的按搭配和句意选。高频词：requirement、specification、maintenance、integration、interface、object-oriented。</p>
-      <p><span class="lbl t">坑</span>别通读全文浪费时间；每个空只看前后一句就够。</p>
+      <div class="seg"><span class="chip k">考</span><p>150~200 词技术短文挖 5 空，四选一。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>5 空几乎全考"词性+固定搭配"，不考文章深度理解。名词前常有 the/of/for；动词前常有 to/can/must；形容词后跟名词。主题固定在软件工程领域（需求/测试/维护/面向对象），高频词就是那些术语的英文名。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>三步：①判断空格需要什么词性 → ②排除词性不符的选项 → ③剩下的按搭配和句意选。高频词：requirement、specification、maintenance、integration、interface、object-oriented。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>别通读全文浪费时间；每个空只看前后一句就够。</p></div>
     </div>
   </div>
 </section>
@@ -240,31 +240,31 @@
   <div class="cards">
     <div class="card" data-c="23">
       <h4><span class="star">★必</span>试题一 数据流图<span class="pts">15 分送分段</span></h4>
-      <p><span class="lbl">考</span>补数据流/补实体/补加工名，或问父子图是否平衡。</p>
-      <p><span class="lbl u">懂</span>数据流图的所有答案都藏在题干文字和图里：加工="动词+名词"的动作；实体=数据的源头或终点（人/组织/外部系统）；数据流=名词性的传输内容。<b>黑洞</b>=只进不出的加工（数据进去没产出）；<b>奇迹</b>=只出不进（凭空产出）。</p>
-      <p><span class="lbl s">算</span>三步：①逐个加工检查输入输出是否齐全（找黑洞/奇迹）→②对照题干把每句话标注到图上元素→③父子图逐条对账（0 层有的输入输出子图必须有）。命名规范=动词+名词（"生成报表"），不写笼统的"处理"。</p>
-      <p><span class="lbl t">坑</span>答案是从题干"找"出来的，写题干原词最稳；父子平衡漏一条扣一分。</p>
+      <div class="seg"><span class="chip k">考</span><p>补数据流/补实体/补加工名，或问父子图是否平衡。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>数据流图的所有答案都藏在题干文字和图里：加工="动词+名词"的动作；实体=数据的源头或终点（人/组织/外部系统）；数据流=名词性的传输内容。<b>黑洞</b>=只进不出的加工（数据进去没产出）；<b>奇迹</b>=只出不进（凭空产出）。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>三步：①逐个加工检查输入输出是否齐全（找黑洞/奇迹）→②对照题干把每句话标注到图上元素→③父子图逐条对账（0 层有的输入输出子图必须有）。命名规范=动词+名词（"生成报表"），不写笼统的"处理"。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>答案是从题干"找"出来的，写题干原词最稳；父子平衡漏一条扣一分。</p></div>
     </div>
     <div class="card" data-c="24">
       <h4><span class="star">★必</span>试题二 数据库设计<span class="pts">15 分送分段</span></h4>
-      <p><span class="lbl">考</span>补 E-R 图联系及类型、转关系模式并标主外键。</p>
-      <p><span class="lbl u">懂</span>联系类型判断=两边各问一次"一个对应几个"。转换规则的本质：1:n 时 n 端每个对象本来就只关联一个 1 端对象，把 1 端主键塞进 n 端当外键即可；m:n 时塞进谁都会出现"一格多个值"（违反 1NF），只能独立建表，主键用两端主键组合。</p>
-      <p><span class="lbl s">算</span>四步：①圈名词定实体 →②两边各问定联系类型 →③"成绩/数量/金额"这类挂联系上 →④转模式：1:n 并 n 端、m:n 独立建表、1:1 随便并（并入端加对方主键）。</p>
-      <p><span class="lbl t">坑</span>1:n 别独立建表（那是 m:n 的待遇）；m:n 表要写"两端主键都是外键"；新需求题先判断数据挂在谁身上。</p>
+      <div class="seg"><span class="chip k">考</span><p>补 E-R 图联系及类型、转关系模式并标主外键。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>联系类型判断=两边各问一次"一个对应几个"。转换规则的本质：1:n 时 n 端每个对象本来就只关联一个 1 端对象，把 1 端主键塞进 n 端当外键即可；m:n 时塞进谁都会出现"一格多个值"（违反 1NF），只能独立建表，主键用两端主键组合。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>四步：①圈名词定实体 →②两边各问定联系类型 →③"成绩/数量/金额"这类挂联系上 →④转模式：1:n 并 n 端、m:n 独立建表、1:1 随便并（并入端加对方主键）。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>1:n 别独立建表（那是 m:n 的待遇）；m:n 表要写"两端主键都是外键"；新需求题先判断数据挂在谁身上。</p></div>
     </div>
     <div class="card" data-c="25">
       <h4><span class="star">★必</span>试题三 UML<span class="pts">15 分送分段</span></h4>
-      <p><span class="lbl">考</span>填类图关系箭头、补用例图，最后一问常考设计模式。</p>
-      <p><span class="lbl u">懂</span>六关系靠记号区分：泛化/实现都是三角箭头（实线=继承父类、虚线=实现接口），三角指向父/接口；依赖=虚线箭头（临时用一下）；关联=实线（长期持有）；聚合=空心菱形（整体-部分可分离，菱形画在整体端）；组合=实心菱形（同生共死）。用例图：include=必选复用（虚线指向被包含用例）；extend=可选扩展（方向相反）。</p>
-      <p><span class="lbl s">算</span>最后一问三句话模板："采用<b>观察者模式</b>"+"因为××状态变化时需要自动通知所有依赖它的对象"+"图中 Subject 对应××类、Observer 对应××类"。</p>
-      <p><span class="lbl t">坑</span>extend 箭头方向与 include 相反；菱形别画在"部分"那端。</p>
+      <div class="seg"><span class="chip k">考</span><p>填类图关系箭头、补用例图，最后一问常考设计模式。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>六关系靠记号区分：泛化/实现都是三角箭头（实线=继承父类、虚线=实现接口），三角指向父/接口；依赖=虚线箭头（临时用一下）；关联=实线（长期持有）；聚合=空心菱形（整体-部分可分离，菱形画在整体端）；组合=实心菱形（同生共死）。用例图：include=必选复用（虚线指向被包含用例）；extend=可选扩展（方向相反）。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>最后一问三句话模板："采用<b>观察者模式</b>"+"因为××状态变化时需要自动通知所有依赖它的对象"+"图中 Subject 对应××类、Observer 对应××类"。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>extend 箭头方向与 include 相反；菱形别画在"部分"那端。</p></div>
     </div>
     <div class="card" data-c="26">
       <h4><span class="star">★必</span>试题六 Java（选答）<span class="pts">15 分</span></h4>
-      <p><span class="lbl">考</span>给场景描述+类图+不完整框架代码，填 3~5 个空。</p>
-      <p><span class="lbl u">懂</span>下午 Java 题的骨架固定：单例=私有静态实例+私有构造+public static getInstance()；观察者=目标持观察者列表+notify 循环调 update；装饰器=实现组件接口并<b>持有同类型成员变量</b>（套娃包装）；策略=接口+多实现类+上下文调用。空里填的无非是"接口名/成员变量/方法调用"三类。</p>
-      <p><span class="lbl s">算</span>三步：①读场景第一句定模式 → ②看每个空在类图中的位置（接口名/成员/方法体）→ ③从骨架搬关键词，方法体里的调用照类图方法名抄。</p>
-      <p><span class="lbl t">坑</span>先抄类图再写代码；只主攻 Java，考场上直接选试题六放弃 C++。</p>
+      <div class="seg"><span class="chip k">考</span><p>给场景描述+类图+不完整框架代码，填 3~5 个空。</p></div>
+      <div class="seg"><span class="chip u">懂</span><p>下午 Java 题的骨架固定：单例=私有静态实例+私有构造+public static getInstance()；观察者=目标持观察者列表+notify 循环调 update；装饰器=实现组件接口并<b>持有同类型成员变量</b>（套娃包装）；策略=接口+多实现类+上下文调用。空里填的无非是"接口名/成员变量/方法调用"三类。</p></div>
+      <div class="seg"><span class="chip s">算</span><p>三步：①读场景第一句定模式 → ②看每个空在类图中的位置（接口名/成员/方法体）→ ③从骨架搬关键词，方法体里的调用照类图方法名抄。</p></div>
+      <div class="seg"><span class="chip t">坑</span><p>先抄类图再写代码；只主攻 Java，考场上直接选试题六放弃 C++。</p></div>
     </div>
   </div>
 </section>
