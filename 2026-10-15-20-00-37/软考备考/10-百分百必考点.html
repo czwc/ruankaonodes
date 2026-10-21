@@ -43,6 +43,12 @@
   /* ==== 黑夜模式 ==== */
   :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--card2:#232a3a;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;}
   .theme-btn{background:var(--card);border-color:var(--border);color:var(--ink);}
+  details.rec{background:var(--card2);border:1px solid var(--border);border-left:4px solid var(--blue);border-radius:8px;padding:8px 12px;margin:0;font-size:13.5px;}
+  details.rec summary{cursor:pointer;font-weight:bold;color:var(--blue);}
+  details.rec[open] summary{margin-bottom:6px;}
+  .qgrid{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+  @media(max-width:820px){.qgrid{grid-template-columns:1fr;}}
+  .ok{color:var(--green);font-weight:bold;}
 </style>
 </head>
 <body>
@@ -56,6 +62,7 @@
     <a href="#hf">上午·高频必出</a>
     <a href="#pm">下午·必答套路</a>
     <a href="#flow">考前 60 分钟流程</a>
+    <a href="#selftest">30 秒自测</a>
     <a href="09-四天冲刺计划.html">← 回冲刺计划</a>
     <a href="00-总览与计划.html">← 回总览</a>
   </nav>
@@ -64,7 +71,7 @@
 <section id="overview">
   <h2>这张页面的逻辑</h2>
   <div class="box blue"><b>来源：</b>从 09 冲刺页命题预测表抽出"近 10 年每年都考"的铁打必考（14 个上午模块）+"近 5 年连出"高频点（8 个）+ 下午四大题必答套路（4 个）。<b>命题面 ≈ 35~42 分（上午）+ 下午送分段</b>——及格线 45 分的弹药库。</div>
-  <div class="box orange"><b>每张卡四段（看不懂就先读"懂"段）：</b><span class="hl">【考】</span>真题怎么出这道题 → <span class="hl">【懂】</span>大白话原理，解释"为什么是这样" → <span class="hl">【算】</span>具体步骤和数字演算 → <span class="hl">【坑】</span>出题人埋的陷阱。考前一晚 + 进场前 60 分钟各过一遍，点卡片标记"已过目"（进度自动保存）。</div>
+  <div class="box orange"><b>每张卡四段（看不懂就先读"懂"段）：</b><span class="hl">【考】</span>真题怎么出这道题 → <span class="hl">【懂】</span>大白话原理，解释"为什么是这样" → <span class="hl">【算】</span>具体步骤和数字演算 → <span class="hl">【坑】</span>出题人埋的陷阱。考前一晚 + 进场前 60 分钟各过一遍，点卡片标记"已过目"（进度自动保存）。<b>过完卡必做页尾"30 秒自测"验收——会做题才算学会。</b></div>
   <div style="margin:4px 0 2px;"><b>过目进度</b><div style="height:10px;background:var(--border);border-radius:6px;overflow:hidden;margin:6px 0 2px;"><div id="bar-all" style="height:100%;background:linear-gradient(90deg,#e08a1e,#1a9e5c);width:0%;transition:width .3s;"></div></div><span style="font-size:12px;color:var(--muted);" id="pct-all">0/26 张已过目</span></div>
   <div class="box red"><b>诚实声明：</b>世上没有真 100%，但下面考点近 10 年真题<b>每一年都出现</b>且形态固定。配合 09 页题眼反查表使用效果最佳。</div>
 </section>
@@ -267,6 +274,36 @@
       <div class="seg"><span class="chip t">坑</span><p>先抄类图再写代码；只主攻 Java，考场上直接选试题六放弃 C++。</p></div>
     </div>
   </div>
+</section>
+
+<section id="selftest">
+  <h2>30 秒自测 · 一卡一题（看完必须验收）<span class="tag easy">会做题才算学会</span></h2>
+  <div class="box green"><b>用法：</b>先过卡片 → 再做这 22 题（每题都埋了<b>题干字眼</b>，考的就是"看到什么选什么"）→ 点开对答案 → <b>错的那题回对应卡片重读【懂】【算】</b>，并把该字眼记进 09 页题眼反查表。全对才算过。</div>
+  <div class="qgrid">
+    <details class="rec"><summary>Q1 "需求不明确，先做个样品给用户确认" → 用什么模型？</summary><div class="ans"><b class="ok">原型模型</b>（样品=原型；"分批交付"才是增量）</div></details>
+    <details class="rec"><summary>Q2 程序图 10 条边、8 个节点，环形复杂度 V(G) = ?</summary><div class="ans"><b class="ok">4</b>（公式：边−点+2 = 10−8+2）</div></details>
+    <details class="rec"><summary>Q3 两个模块共享一份全局数据，属于什么耦合？</summary><div class="ans"><b class="ok">公共耦合</b>（直接改对方内部数据才是内容耦合=最差）</div></details>
+    <details class="rec"><summary>Q4 题干"对象状态变化时自动通知所有依赖它的对象" → 什么模式？</summary><div class="ans"><b class="ok">观察者模式</b>（识别词：attach / notify / update）</div></details>
+    <details class="rec"><summary>Q5 流水线四段 1/2/3/4ns，跑 100 条指令总时间？</summary><div class="ans"><b class="ok">406ns</b>（各段之和 10 + 99×周期 4；周期=最长段）</div></details>
+    <details class="rec"><summary>Q6 Cache 命中率 90%，Cache 40ns、主存 200ns（顺序访问），平均时间？</summary><div class="ans"><b class="ok">56ns</b>（0.9×40+0.1×200；题干若说"同时访问"则 60）</div></details>
+    <details class="rec"><summary>Q7 两个子系统串联，各由 2 个 0.9 并联组成，系统可靠度？</summary><div class="ans"><b class="ok">0.9801</b>（先小后大：每组 1−0.1²=0.99，再 0.99²）</div></details>
+    <details class="rec"><summary>Q8 页大小 1KB，逻辑地址 2500，该页帧号 4 → 物理地址？</summary><div class="ans"><b class="ok">4548</b>（2500÷1024：页号 2 偏移 452；4×1024+452）</div></details>
+    <details class="rec"><summary>Q9 序列 45,23,12,9 做冒泡排序，第一趟之后？</summary><div class="ans"><b class="ok">23,12,9,45</b>（冒泡把最大值顶到末尾；插入则是 23,45,12,9）</div></details>
+    <details class="rec"><summary>Q10 二叉树有 5 个叶子节点，度 2 节点几个？</summary><div class="ans"><b class="ok">4</b>（n0 = n2 + 1）</div></details>
+    <details class="rec"><summary>Q11 子网掩码 /26，每个子网可用主机数？</summary><div class="ans"><b class="ok">62 台</b>（主机位 6 → 2⁶−2；减 2 别忘）</div></details>
+    <details class="rec"><summary>Q12 应用"实时视频会议传输"，选 TCP 还是 UDP？</summary><div class="ans"><b class="ok">UDP</b>（要快不要重发；网页/邮件/文件才用 TCP）</div></details>
+    <details class="rec"><summary>Q13 生产者消费者问题，P 操作的正确顺序？</summary><div class="ans"><b class="ok">P(empty) → P(mutex)</b>（同步在前互斥在后，反了会死锁）</div></details>
+    <details class="rec"><summary>Q14 委托开发软件，合同未约定著作权归属 → 归谁？</summary><div class="ans"><b class="ok">受托方</b>（实际开发的一方；职务开发归公司）</div></details>
+    <details class="rec"><summary>Q15 进程三态图中，哪条转换不存在？</summary><div class="ans"><b class="ok">阻塞 → 运行</b>（必须先回就绪再被调度）</div></details>
+    <details class="rec"><summary>Q16 R(A,B,C,D)，A→B、B→C、A→D，最高满足第几范式？</summary><div class="ans"><b class="ok">2NF</b>（A→B→C 传递依赖挡 3NF；单属性候选码自动 2NF）</div></details>
+    <details class="rec"><summary>Q17 需求"确保对方不能抵赖" → 用什么技术？</summary><div class="ans"><b class="ok">数字签名</b>（发送方<b>私钥</b>签；保密才用对方公钥加密）</div></details>
+    <details class="rec"><summary>Q18 "租服务器和存储，操作系统以上自己装" → 哪种云？</summary><div class="ans"><b class="ok">IaaS</b>（租环境=PaaS、用成品=SaaS）</div></details>
+    <details class="rec"><summary>Q19 SQL："每个部门平均工资 &gt; 8000"，条件该写在哪？</summary><div class="ans"><b class="ok">HAVING</b>（聚合函数只能进 HAVING；WHERE 筛原始行）</div></details>
+    <details class="rec"><summary>Q20 8 位数据用海明码校验，需要几位校验位？</summary><div class="ans"><b class="ok">4 位</b>（2^k ≥ n+k+1：16 ≥ 13 ✓）</div></details>
+    <details class="rec"><summary>Q21 银行家算法属于死锁对策中的哪一层？</summary><div class="ans"><b class="ok">避免</b>（预防=提前破坏条件；检测恢复=事后处理）</div></details>
+    <details class="rec"><summary>Q22 下午题问"补缺失数据流及其起点终点"，怎么定？</summary><div class="ans"><b class="ok">按数据身份</b>：规则/记录类从 <b>D 存储读出</b>、结果类从 <b>P 加工发出</b>、请求类从 <b>E 实体进来</b>；名字抄题干原词，写"名称（起点→终点）"</div></details>
+  </div>
+  <div class="box orange"><b>验收标准：</b>≥20 对 → 这页过关，安心进 09/真题模拟；15~19 对 → 错题对应卡片重读【懂】；&lt;15 对 → 今天别往下走，把 14 张铁打必考卡重新过一遍再测。</div>
 </section>
 
 <section id="flow">
