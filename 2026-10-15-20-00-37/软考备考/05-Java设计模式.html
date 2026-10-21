@@ -133,19 +133,19 @@
 <section id="s2">
   <h2>③ 高频设计模式速查表（近十年真题覆盖）<span class="tag exam">必须全认识</span><span class="tag easy">小白先拿</span></h2>
   <table>
-    <tr><th style="width:110px">模式</th><th>一句话意图（题目问"该模式是？"就按这个选）</th><th style="width:210px">代码/类图识别标志</th></tr>
-    <tr><td><b>策略</b> Strategy</td><td>封装一系列可互相替换的算法</td><td>接口 + 多个实现类 + 环境类持有接口引用</td></tr>
-    <tr><td><b>观察者</b> Observer</td><td>对象状态变化时<b>自动通知</b>所有依赖者</td><td>attach/detach/notify + 子类列表 + update()</td></tr>
-    <tr><td><b>装饰器</b> Decorator</td><td><b>动态地给对象添加职责</b>，比继承灵活</td><td>装饰类<b>继承并持有</b>同一抽象类型的引用</td></tr>
-    <tr><td><b>工厂方法</b> Factory Method</td><td>定义创建对象的接口，让子类决定实例化哪个类</td><td>abstract Creator + factoryMethod() 返回产品</td></tr>
-    <tr><td><b>抽象工厂</b> Abstract Factory</td><td>创建<b>一系列相关</b>产品对象（产品族）</td><td>抽象工厂接口有<b>多个</b>创建方法</td></tr>
-    <tr><td><b>单例</b> Singleton</td><td>保证一个类<b>仅有一个实例</b>并提供全局访问点</td><td>private 构造函数 + static getInstance()</td></tr>
-    <tr><td><b>适配器</b> Adapter</td><td>把一个类的接口<b>转换</b>成客户期望的另一个接口</td><td>适配类继承目标接口 + 持有被适配者</td></tr>
-    <tr><td><b>外观</b> Facade</td><td>为子系统的一组接口提供<b>统一的高层入口</b></td><td>一个类的方法里依次调用多个子系统方法</td></tr>
-    <tr><td><b>代理</b> Proxy</td><td>为其他对象提供<b>占位/控制访问</b></td><td>代理类与真实类实现同一接口，代理里 new 真实类</td></tr>
-    <tr><td><b>模板方法</b> Template Method</td><td>父类定义算法骨架，子类实现某些步骤</td><td>抽象父类 final 方法按顺序调用抽象方法</td></tr>
-    <tr><td><b>状态</b> State</td><td>对象行为随<b>内部状态</b>改变而改变</td><td>环境类持有状态引用，状态子类可切换状态</td></tr>
-    <tr><td><b>桥接</b> Bridge</td><td>把<b>抽象部分与实现部分分离</b>，独立变化</td><td>抽象类持有"实现"接口的引用</td></tr>
+    <tr><th style="width:105px">模式</th><th style="width:250px">场景字眼（题干里看到就选它）</th><th>一句话意图</th><th style="width:200px">代码/类图识别标志</th></tr>
+    <tr><td><b>策略</b> Strategy</td><td>算法可替换 / 不同算法随意切换</td><td>封装一系列可互相替换的算法</td><td>接口 + 多个实现类 + 环境类持有接口引用</td></tr>
+    <tr><td><b>观察者</b> Observer</td><td>状态变化<b>自动通知</b>所有依赖者</td><td>对象状态变化时自动通知所有依赖者</td><td>attach/detach/notify + 子类列表 + update()</td></tr>
+    <tr><td><b>装饰器</b> Decorator</td><td>动态加职责 / 不增加子类</td><td>动态地给对象添加职责，比继承灵活</td><td>装饰类继承并持有同一抽象类型的引用</td></tr>
+    <tr><td><b>工厂方法</b> Factory Method</td><td>创建对象<b>延迟到子类</b>决定</td><td>定义创建对象的接口，让子类决定实例化哪个类</td><td>abstract Creator + factoryMethod() 返回产品</td></tr>
+    <tr><td><b>抽象工厂</b> Abstract Factory</td><td>创建一系列<b>相关产品（产品族）</b></td><td>创建一系列相关产品对象</td><td>抽象工厂接口有多个创建方法</td></tr>
+    <tr><td><b>单例</b> Singleton</td><td><b>唯一实例</b> / 全局访问点</td><td>保证一个类仅有一个实例并提供全局访问点</td><td>private 构造函数 + static getInstance()</td></tr>
+    <tr><td><b>适配器</b> Adapter</td><td>接口<b>转换</b> / 兼容旧接口</td><td>把一个类的接口转换成客户期望的另一个接口</td><td>适配类继承目标接口 + 持有被适配者</td></tr>
+    <tr><td><b>外观</b> Facade</td><td>统一入口 / <b>简化访问</b>子系统</td><td>为子系统的一组接口提供统一的高层入口</td><td>一个类的方法里依次调用多个子系统方法</td></tr>
+    <tr><td><b>代理</b> Proxy</td><td>占位 / <b>控制访问</b> / 间接访问</td><td>为其他对象提供代理以控制对它的访问</td><td>代理类与真实类实现同一接口，代理里 new 真实类</td></tr>
+    <tr><td><b>模板方法</b> Template Method</td><td>固定步骤骨架 / 子类填步骤</td><td>父类定义算法骨架，子类实现某些步骤</td><td>抽象父类 final 方法按顺序调用抽象方法</td></tr>
+    <tr><td><b>状态</b> State</td><td>行为随<b>内部状态</b>改变而改变</td><td>对象行为随内部状态改变而改变</td><td>环境类持有状态引用，状态子类可切换状态</td></tr>
+    <tr><td><b>桥接</b> Bridge</td><td>抽象与实现分离 / 两个维度独立变化</td><td>把抽象部分与实现部分分离，独立变化</td><td>抽象类持有"实现"接口的引用</td></tr>
   </table>
   <div class="box purple"><b>易混三组（选择题陷阱）：</b>① 代理 vs 装饰器：代理控制<b>访问</b>（远程/权限），装饰器<b>加职责</b>；② 外观 vs 适配器：外观是"简化打包一堆子系统"，适配器是"接口转换"；③ 工厂方法 vs 抽象工厂：一个产品用工厂方法，<b>一族产品</b>用抽象工厂。</div>
   <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s2"></div>
@@ -230,6 +230,14 @@
     <span class="mono">class Context { private State state; <span class="hl">public void setState(State s){ this.state = s; }</span> public void request(){ state.handle(this); } }</span>——环境类：持有当前状态，行为委托给状态对象<br>
     <span class="mono">class ConcreteStateA implements State { public void handle(Context c){ /*A状态的行为*/ <span class="hl">c.setState(new ConcreteStateB());</span> } }</span>——状态子类：干活 + <b>自己切换下一个状态</b><br>
     <b>填空眼：</b>①空在 Context→持有 State 引用；②空在状态类→setState(下一个状态)；③空在 request→state.handle(this)。<b>与策略唯一的区别：</b>策略是"外部换算法"，状态是"对象内部自动切换状态类"。</div>
+
+  <div class="box purple"><b>六骨架速背卡（学完本节最后过目用，不用再去 08 篇）：</b><br>
+    · <b>策略</b>：接口 Strategy + 多个实现类 + Context 持接口引用 → context.pay()；字眼"<b>算法可替换</b>"<br>
+    · <b>观察者</b>：Subject.attach(观察者列表) + <b>notify() 循环调 update()</b>；字眼"<b>状态变化自动通知</b>"<br>
+    · <b>装饰器</b>：实现组件接口 + <b>持有同类型成员变量</b>（套娃包装）；字眼"<b>动态加职责不加了类</b>"<br>
+    · <b>单例</b>：private static 实例 + private 构造 + public static getInstance()；字眼"<b>唯一实例</b>"<br>
+    · <b>工厂方法</b>：抽象 factoryMethod() + 子类里 new 具体产品；字眼"<b>创建延迟到子类</b>"<br>
+    · <b>状态</b>：Context 持 State 引用 + 状态类 handle() 里 setState 切换；字眼"<b>行为随内部状态变</b>"</div>
 
   <h2>⑥ 真题实战 · 2022下 试题六：医院挂号（外观模式 · 前端人逐行翻译）<span class="tag easy">目标 6 分</span></h2>
   <div class="box green">
