@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师·两天极限抢救计划（30 → 45+）</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;--card2:#fbfcff;--barbg:#eef1f6;--thead:#f0f3f9;--hover:#f4f6fa;--done:#9aa7bd;--blue-bd:#c9dbfb;--green-bd:#bfe8d2;--red-bd:#f3c8c8;--orange-bd:#f5dfb8;--purple-bd:#dccdf7;}
+  :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;--card2:#232a3a;--barbg:#2c3446;--thead:#252c3c;--hover:#252c3c;--done:#7d879c;--blue-bd:#2f4470;--green-bd:#28543c;--red-bd:#5a2e2e;--orange-bd:#5c451c;--purple-bd:#453367;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.8;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#d64545,#e08a1e);color:#fff;border-radius:16px;padding:28px 26px;margin-bottom:22px;}
+  .theme-btn{position:absolute;top:18px;right:20px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;font-family:inherit;}
+  .theme-btn:hover{background:rgba(255,255,255,.32);}
+  header{position:relative;}
+  header h1{margin:0 0 8px;font-size:24px;} header p{margin:0;opacity:.92;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:20px;}
+  h2{margin:0 0 10px;font-size:20px;border-left:5px solid var(--red);padding-left:12px;}
+  h3{margin:18px 0 8px;font-size:15.5px;color:var(--purple);}
+  .box{border-radius:10px;padding:11px 14px;margin:10px 0;font-size:14px;}
+  .box.blue{background:var(--blue-bg);border:1px solid var(--blue-bd);} .box.orange{background:var(--orange-bg);border:1px solid var(--orange-bd);}
+  .box.green{background:var(--green-bg);border:1px solid var(--green-bd);} .box.purple{background:var(--purple-bg);border:1px solid var(--purple-bd);} .box.red{background:var(--red-bg);border:1px solid var(--red-bd);}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px;}
+  th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;} th{background:var(--thead);}
+  tr.grp td{background:var(--thead);font-weight:bold;color:var(--purple);font-size:13.5px;}
+  .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
+  .bar{height:10px;background:var(--barbg);border-radius:6px;overflow:hidden;margin:8px 0 4px;}
+  .bar>div{height:100%;background:linear-gradient(90deg,#e08a1e,#1a9e5c);width:0%;transition:width .3s;}
+  .pct{font-size:12px;color:var(--muted);}
+  .chk{display:flex;align-items:flex-start;gap:8px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:14px;}
+  .chk:hover{background:var(--hover);}
+  .chk input{margin-top:5px;accent-color:#1a9e5c;width:15px;height:15px;flex:none;}
+  .chk.done span{text-decoration:line-through;color:var(--done);}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+  @media(max-width:640px){table{display:block;overflow-x:auto;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
+  <h1>两天极限抢救 · 只背能换分的（30 → 45+）</h1>
+  <p>不学新原理 · 不钻难题 · 每背一条都明码标价几分 · 勾选进度自动保存</p>
+  <nav>
+    <a href="#math">先算账</a><a href="#d1">今天 Day1</a><a href="#d2">明天 Day2</a>
+    <a href="#core" style="background:var(--red);color:#fff;border-color:var(--red);">★ 必背 40 条总表</a>
+    <a href="13-树零基础专讲.html" style="background:var(--purple);color:#fff;border-color:var(--purple);">树不会？点这专讲</a>
+    <a href="#pm">下午保底</a><a href="#tips">考场策略</a>
+    <a href="09-四天冲刺计划.html">完整版计划</a>
+  </nav>
+</header>
+
+<!-- ============ 算账 ============ -->
+<section id="math">
+  <h2>先算账：差 15 题，从哪里抢</h2>
+  <div class="box red"><b>现状 → 目标：</b>30 分 → 45 分，<b>只差 15 道选择题</b>。下面是"背了就得分"的清单，全部是<b>纯记忆、每年必考、不需要懂原理</b>的送分模块——意思是你不用理解它为什么这样，只要"看到什么词→选什么"就够：</div>
+  <table>
+    <tr><th>抢分模块（纯背）</th><th>能抢几分</th><th>要花多久</th></tr>
+    <tr><td>知识产权（专利保护几年、东西归谁）</td><td class="ok">2~3</td><td>30 分钟</td></tr>
+    <tr><td>专业英语（词表 + 固定搭配）</td><td class="ok">3~4</td><td>40 分钟</td></tr>
+    <tr><td>开发模型 + 测试 + 维护 + 耦合内聚（口诀）</td><td class="ok">4~6</td><td>60 分钟</td></tr>
+    <tr><td>设计模式 9 个题眼（看到什么字→选什么模式）</td><td class="ok">2~3</td><td>30 分钟</td></tr>
+    <tr><td>计算四件套（4 个公式套模板，照抄照算）</td><td class="ok">3~4</td><td>75 分钟</td></tr>
+    <tr><td>信息安全方向题 + 网络（谁加密谁解密、端口号）</td><td class="ok">3~5</td><td>60 分钟</td></tr>
+    <tr><td>数据结构送分三条（背 3 句话）</td><td class="ok">2~3</td><td>30 分钟</td></tr>
+    <tr><td>新技术名词卡（云计算/AI/区块链，认词就行）</td><td class="ok">1~3</td><td>20 分钟</td></tr>
+    <tr><td class="hl">合计（取下限）</td><td class="hl">≈ 20 分</td><td class="hl">两天足够</td></tr>
+  </table>
+  <div class="box green"><b>使用方法：</b>①把你做的那张真题<b>错题按上表数一遍</b>（5 分钟）——哪个模块错得多，下面 Day1/Day2 清单里就多花时间；②每背完一块，回"必背 40 条总表"遮住右列自己考自己；③考前一晚<b>不背新的</b>，只重背总表里你还记不住的几条。</div>
+  <div class="box orange"><b>阅读须知：</b>本页每个专业词第一次出现都带了（白话解释）。先看白话再看答案——看不懂答案时，是白话没看，不是你笨。</div>
+</section>
+
+<!-- ============ Day1 ============ -->
+<section id="d1">
+  <h2>今天 Day1 · 纯记忆日（上午 3h + 晚 1h）</h2>
+
+  <h3>▶ 第 1 块：知识产权（30 分钟 → 2~3 分，性价比之王）</h3>
+  <div class="box orange">
+    这类题就是"一个发明/一段代码，保护几年？归谁？"，答案全是法条定的，背就完事：<br>
+    <b>① 你出钱找人写软件，没约定归谁 → 归"写的人"（受托方）</b>。白话：付钱≠拥有，除非合同写了。<br>
+    <b>② 上班时间做出来的作品 → 归公司（职务作品）</b>。白话：拿工资干的活，成果是老板的。<br>
+    <b>③ 著作权自动取得</b>——写完那一刻权利就是你的，不用去登记，登记不是拿到权利的前提。<br>
+    <b>④ 专利保护期（从申请那天起算）：</b>发明 <b>20 年</b>、实用新型 <b>10 年</b>、外观设计 <b>15 年</b>。记法："发明最值钱保最久 20；实用新型打折 10；外观 15 居中"。<br>
+    <b>⑤ 商标 10 年，到期可以一直续</b>（无限续展）——所以老字号商标能用一百年。<br>
+    <b>⑥ 作者的财产权 = 活着 + 死后 50 年</b>；署名权（作品署谁的名）永远有效没期限。<br>
+    <b>⑦ 商业秘密没有保护期限</b>（保密多久保多久），而且别人自己"反向破解"出来是合法的——所以可口可乐配方靠保密不靠专利。
+  </div>
+
+  <h3>▶ 第 2 块：软件工程四小件（60 分钟 → 4~6 分）</h3>
+  <div class="box blue">
+    <b>【开发模型】"这个项目该按什么流程做"——题干描述往场景上套：</b><br>
+    · 提到"风险分析" → <b>螺旋模型</b>（每转一圈先做一次风险评估）<br>
+    · "需求不清楚，先做个样品给用户看" → <b>原型模型</b>（装修先出效果图）<br>
+    · "分批上线、一期二期" → <b>增量模型</b>（分栋交房）<br>
+    · "按文档一步步来、每个阶段评审签字" → <b>瀑布模型</b>（一步到底不回头）<br>
+    · "每日站会、随时改需求" → <b>敏捷</b><br>
+    <b>【软件测试】分两种：</b>黑盒 = 不看代码，只喂输入看输出对不对（像点外卖不看厨房）；白盒 = 打开代码，检查代码被执行得多仔细。白盒考"由弱到强的顺序"：<br>
+    <b>语句 → 判定 → 条件 → 判定/条件 → 条件组合 → 路径</b>（路径最强=每条路都走到）。黑盒的三个方法：等价类 / 边界值 / 因果图（认词即可）。<br>
+    <b>【McCabe 复杂度】衡量代码有多绕的一个数，公式 = 边 − 点 + 2</b>（"边"=流程图里的箭头，"点"=圆圈，数一数代入就行）。<br>
+    <b>【软件维护四种】软件交付后还要改，改的原因不同、名字不同：</b>修 bug = <b>改正性</b>；换了新系统/新环境要跟着改 = <b>适应性</b>；<b>加新功能 = 完善性（占全部维护的一半左右，最大头）</b>；提前埋伏笔防患未然 = <b>预防性</b>。<br>
+    <b>【耦合 & 内聚】</b>耦合 = 模块（功能块）之间互相缠得多紧，<b>越松越好</b>；内聚 = 一个模块内部是不是干同一件事，<b>越齐越好</b>。考排序/判断：<br>
+    耦合从最好到最差：<b>数、标、控、公、内</b>（数<b>据</b>→标<b>记</b>→<b>控</b>制→<b>公</b>共→<b>内</b>容）。判断题口诀：题干说"直接改别人模块里的数据" = 内容耦合（最差）；说"只传一个数值过去" = 数据耦合（最好）。<br>
+    内聚从最好到最差：<b>功、顺、通、过、时、逻、偶</b>（<b>功</b>能→顺<b>序</b>→通<b>信</b>→过<b>程</b>→<b>时</b>间→逻<b>辑</b>→<b>偶</b>然）。
+  </div>
+
+  <h3>▶ 第 3 块：设计模式 9 题眼（30 分钟 → 2~3 分）</h3>
+  <div class="box purple">
+    设计模式就是"前人总结的代码套路"，考法固定：题干描述一个场景，问你这是哪个模式。只背"看到什么词→选什么"：<br>
+    · "全局<b>只能有一个</b>"（如一个系统只允许一个打印机管理器）→ <b>单例</b>（全国只有一个主席）<br>
+    · "一个变，所有跟着它的都<b>自动收到通知</b>" → <b>观察者</b>（微信群：群主一发言全员收到）<br>
+    · "<b>不加子类</b>就给对象<b>加新功能</b>" → <b>装饰器</b>（手机壳：不换手机加功能）<br>
+    · "算法/做法<b>可以随时换一种</b>" → <b>策略</b>（导航：高速/不走高速随时切换）<br>
+    · "行为<b>跟着内部状态变</b>（同一个按钮不同状态下干不同事）" → <b>状态</b><br>
+    · "创建什么对象<b>交给子类决定</b>" → <b>工厂方法</b>（点餐下单，后厨决定做什么）<br>
+    · "<b>中转/控制访问</b>" → <b>代理</b>（明星的事经纪人挡着）<br>
+    · "步骤<b>顺序固定</b>，个别步骤子类自己定" → <b>模板方法</b>（泡面流程固定，加不加蛋你定）<br>
+    · "两个接口<b>对不上，中间转一下</b>" → <b>适配器</b>（港版插头转换头）<br>
+    另背两原则："<b>不改旧代码就能加新功能</b>" = 开闭原则；"<b>子类能顶替父类用且不出错</b>" = 里氏替换。
+  </div>
+
+  <h3>▶ 第 4 块：专业英语（40 分钟 → 3~4 分）</h3>
+  <div class="box green">
+    最后一大题是英语阅读填空（5 空），别通读全文，就两个套路：<br>
+    <b>套路① 先看选项词性</b>（这词是名词/动词/形容词？），再回原文看空格前后搭不搭——空格前是 be 动词多半填形容词/分词，空格前是 the/形容词多半填名词。<br>
+    <b>套路② 固定搭配直接秒：</b>be responsible <b>for</b>（负责）、be capable <b>of</b>（能够）、be applicable <b>to</b>（适用于）。介词对了就选它。<br>
+    <b>高频词 12 个（认识的跳过）：</b>requirement 需求、specification 规格说明、maintenance 维护、integration 集成、object-oriented 面向对象、life cycle 生命周期、algorithm 算法、compile 编译、reliability 可靠性、security 安全性、encapsulate 封装、implementation 实现。
+  </div>
+
+  <h3>▶ 晚上加餐 1 小时：数据结构三条 + 操作系统三条（树没把握的，先花 30 分钟过一遍 <a href="13-树零基础专讲.html" style="color:var(--purple);font-weight:bold;">13 篇·树零基础专讲</a>，再回来背这三条）</h3>
+  <div class="box orange">
+    <b>【排序】口诀"快些选堆不稳定"</b>= 快速、希尔、选择、堆这 4 种排序<b>不稳定</b>（"不稳定"= 两个相同的数排完可能换前后位置，考试只考"哪些不稳"这个分类），其余全稳定。<br>
+    <b>【树】叶子数 = 度为 2 的节点数 + 1（n0 = n2 + 1）</b>。白话：每多一个"带俩下级的"（度为 2 的节点），就必多一个"光杆员工"（叶子=没有下级的节点）。不用推导，背等式直接算。<br>
+    <b>【二分查找】前提：数据<b>已排好序</b>且<b>存在数组里</b>（不能是链表）。最多比较 <b>⌈log₂(n+1)⌉ 次</b>（⌈⌉=向上取整）。白话：猜数字游戏，每次猜中间扔一半，1000 个数最多 10 次。<br>
+    <b>【生产者消费者 · PV 操作】</b>P = 申请一个资源（没有就等着）；V = 释放一个资源（通知别人能用）。设一个缓冲区（临时仓库）容量为 n，三个信号量初始值死记：<b>empty = n</b>（仓库空格子数，一开始全空）、<b>full = 0</b>（满格子数，一开始没货）、<b>mutex = 1</b>（仓库门锁，一次一人）。顺序口诀：<b>"同步在前、互斥在后"</b>——先 P(empty) 再 P(mutex)，写反了会死锁（考这个！）<br>
+    <b>【进程三态】</b>就绪 = 排队等 CPU 叫号；运行 = 正在跑；阻塞 = 等别的东西（等输入、等资源）跑不了。最常考的一句：<b>阻塞态不能直接跳到运行态</b>——必须先回就绪排队（考"以下哪个状态转换不存在"就选它）。时间片（轮流用 CPU 的份额）用完 = 运行→就绪。<br>
+    <b>【银行家算法】= 避免<b>死锁</b></b>（死锁=几方互相卡住都不放资源）。银行家=放贷前先盘算"借出去还能不能收回"，所以是"避免"策略，不是"预防"，选项别混。
+  </div>
+
+  <h3>▶ Day1 清单</h3>
+  <div class="chk"><input type="checkbox" data-key="d1-1"><span>真题错题按模块数一遍，标出最弱 2 个模块（5 分钟）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-2"><span>背知识产权 7 句 + 总表自测</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-3"><span>背开发模型对号 + 测试排序 + McCabe + 维护四类</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-4"><span>默写"数标控外公内" + "功顺通过时逻偶"（先看白话理解）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-5"><span>背设计模式 9 题眼（看词想画面）+ 开闭/里氏</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-6"><span>背英语 3 搭配 + 12 词</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-7"><span>背排序口诀 / n0=n2+1 / 二分 / PV 三初值 / 三态 / 银行家</span></div>
+  <div class="chk"><input type="checkbox" data-key="d1-8"><span>睡前：必背 40 条总表遮右列过第 1 遍，标记记不住的</span></div>
+</section>
+
+<!-- ============ Day2 ============ -->
+<section id="d2">
+  <h2>明天 Day2 · 计算模板日（上午 3h + 晚 1h）</h2>
+
+  <h3>▶ 第 5 块：计算四件套（75 分钟 → 3~4 分，套模板不思考）</h3>
+  <div class="box blue">
+    这四个是"套公式就出答案"的题，公式带例子背：<br>
+    <b>① 流水线：</b>像洗衣机流水线——第一件衣服要走完全程，之后每 4 分钟就出一件。公式：<b>总时间 = 各段时间加起来 + (条数−1) × 最长段</b>。例：四段分别 1/2/3/4 纳秒，共 100 条指令 → 10 + 99×4 = <b>406ns</b>。注意"最长段"= 最慢那段（这里 4）。<br>
+    <b>② Cache（高速缓存）：</b>CPU 先去"小快柜"找数据，找到叫命中，找不到才去慢的大仓库（主存）。公式：<b>平均时间 = 命中率×Cache时间 + (1−命中率)×主存时间</b>。例：90%、40ns、200ns → 0.9×40 + 0.1×200 = <b>56ns</b>。例外：题干说"同时访问"→ 第二项改成 (Cache+主存)。<br>
+    <b>③ 可靠性：</b>串联（一个坏全停，像一节电池串一节）→ <b>相乘</b>：两个 0.99 串联 = 0.99×0.99 = <b>0.9801</b>；并联（有备份，两个全坏才坏）→ <b>1−(1−R)²</b>：两个 0.9 并联 = 1−0.1×0.1 = <b>0.99</b>。混联：先把小的并起来算成一个数，再串。<br>
+    <b>④ 子网（IP 地址切分）：</b>/27 的意思是 IP 的前 27 位是"楼号"（网络），剩下 32−27=5 位是"门牌"（主机）。公式：<b>可用主机数 = 2^门牌位数 − 2</b>（减 2 是因为全 0 是楼号本身、全 1 是广播，不能分给人用）。例：/27 → 5 位 → 2⁵−2 = <b>30 台</b>。
+  </div>
+
+  <h3>▶ 第 6 块：信息安全方向题 + 网络（60 分钟 → 3~5 分）</h3>
+  <div class="box red">
+    <b>先懂一句打底：每个人都有"一对钥匙"</b>——私钥（自己藏好，谁都不给）和公钥（随便发给别人）。<b>用私钥做的事，全天下只有你能做</b>（所以能证明"是我干的"）；<b>用公钥加密的东西，只有配对的私钥能解开</b>。懂了这句，方向题就是送分：<br>
+    <b>· 数字签名（防抵赖）= 发送方拿自己的私钥签，对方拿发送方的公钥验</b>——因为私钥只有发方有，赖不掉。<br>
+    <b>· 保密 = 接收方的公钥加密，接收方自己用私钥解</b>——别人拿到了也解不开。<br>
+    · 摘要（MD5/SHA，给文件算个"指纹"）= 只保证<b>完整性</b>（没被篡改），<b>既不保密也不防抵赖</b>。<br>
+    · 对称加密 = 加密解密用同一把钥匙，快，但钥匙怎么安全寄给对方是个难题，代表 <b>AES / DES</b>；非对称 = 公私钥一对，慢，代表 <b>RSA / ECC</b>。数字证书 = 权威机构 CA 盖章证明"这个公钥真是他的"。<br>
+    <b>攻击对号（看到描述选名字）：</b>海量请求把服务器挤爆 = <b>DDoS</b>；往输入框塞 SQL 代码骗数据库 = <b>SQL 注入</b>；往网页里塞脚本坑浏览的人 = <b>XSS</b>；只能发现入侵报警的 = <b>IDS</b>，还能拦截的 = <b>IPS</b>。<br>
+    <b>网络认词：</b>TCP = 可靠、要先"三次握手"（打电话先喂？在听。好，说事）；UDP = 快但不保证送到（群发短信）。DNS = 域名翻译成 IP（通讯录）；DHCP = 自动分配 IP（酒店前台发房卡）；ARP = 已知 IP 查 MAC（网卡的物理编号）。<br>
+    <b>端口（服务的门牌号，硬背）：</b>FTP 21 / SSH 22 / Telnet 23 / SMTP 25（发件）/ DNS 53 / HTTP 80 / HTTPS 443 / POP3 110（收件）。<br>
+    设备分层：交换机认 MAC = 链路层；路由器认 IP = 网络层；集线器只放大信号 = 物理层。
+  </div>
+
+  <h3>▶ 第 7 块：新技术 + 数据库送分（50 分钟 → 3~5 分）</h3>
+  <div class="box green">
+    <b>新技术（认词连线题）：</b>租服务器（光租机器自己装）= <b>IaaS</b>；租装好系统的环境 = <b>PaaS</b>；软件直接用 = <b>SaaS</b>（住出租屋/租毛坯/住酒店）。大数据 4V：量大、多样、快、价值密度低。AI 三类：有标注数据训练 = <b>监督学习</b>；没标注自己分堆 = <b>无监督（聚类）</b>；奖惩试错 = <b>强化学习</b>（训练小狗）。去中心化 + 智能合约 = <b>区块链</b>；开发运维一体化 = <b>DevOps</b>（CI/CD 是它工具链）。<br>
+    <b>数据库 5 条送分：</b><br>
+    ① 实体间"多对多"（m:n，如学生↔课程，一个学生选多门课、一门课多个学生）→ <b>必须单独建一张中间表</b>，表的主键 = 两边的主键拼起来。<br>
+    ② 候选码 = 能<b>唯一</b>认出一条记录的<b>最小</b>属性组（"学号"可以，"姓名"不行因为会重名）。<br>
+    ③ 范式（表的规整程度）一句话：<b>部分依赖</b>（主键是两个拼的，有的字段只跟其中一半有关）没解决 = 没到 2NF；<b>传递依赖</b>（A 管着 B、B 又管着 C，C 就该搬走）没解决 = 没到 3NF。<br>
+    ④ SQL 分组后的条件用 <b>HAVING</b>（"每组平均分>80 的组"），单行的条件用 WHERE。<br>
+    ⑤ 把自己的权限再转送给别人 = 授权语句末尾加 <b>WITH GRANT OPTION</b>。
+  </div>
+
+  <h3>▶ 晚上 1 小时：错题重做（最快提分动作）</h3>
+  <div class="box purple">
+    把第一天数出来的<b>错题重做一遍</b>（只重做记忆类错题，计算错题看一眼模板即可）。重做对了的画掉——这就是你明天考场上多出来的分。然后"必背 40 条总表"过第 2 遍，只背标记记不住的。
+  </div>
+
+  <h3>▶ Day2 清单</h3>
+  <div class="chk"><input type="checkbox" data-key="d2-1"><span>四件套各套公式算 1 道例题（流水线/Cache/可靠性/子网）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-2"><span>背签名/保密方向表（先懂"私钥只有自己有"那句）+ 对称非对称对号</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-3"><span>背攻击对号 + 8 个端口 + TCP/UDP/DNS/DHCP/ARP</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-4"><span>背新技术卡 + 数据库 5 条送分</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-5"><span>错题重做一遍（记忆类）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d2-6"><span>睡前：总表第 2 遍，只背标记项；不碰任何新内容</span></div>
+</section>
+
+<!-- ============ 必背40条 ============ -->
+<section id="core">
+  <h2>★ 必背 40 条总表（考前反复扫，遮住右列自测）</h2>
+  <div class="box green"><b>用法：</b>遮住"秒答"列，看左列"题眼"说答案。说不出 → 打记号 → 背完块再回来扫。考前一晚只扫打记号的。看不懂哪条，回上文对应板块看白话解释。</div>
+  <table>
+    <tr><th style="width:48%;">题眼（题干里出现…）</th><th>秒答</th><th>人话锚点（忘词时用画面想回来）</th></tr>
+    <tr class="grp"><td colspan="3">软件工程</td></tr>
+    <tr><td>风险分析 / 风险驱动</td><td class="ok">螺旋模型</td><td>每转一圈先查一次险</td></tr>
+    <tr><td>需求不明 / 先做原型确认</td><td class="ok">原型模型</td><td>装修先出效果图</td></tr>
+    <tr><td>分批交付 / 核心功能先行</td><td class="ok">增量模型</td><td>分栋交房</td></tr>
+    <tr><td>文档驱动 / 阶段评审</td><td class="ok">瀑布模型</td><td>一步到底不回头</td></tr>
+    <tr><td>每日站会 / 拥抱变化</td><td class="ok">敏捷</td><td>边住边改</td></tr>
+    <tr><td>覆盖由弱到强</td><td class="ok">语句＜判定＜条件＜判定/条件＜条件组合＜路径</td><td>路径=每条路都跑到，最强</td></tr>
+    <tr><td>环形复杂度</td><td class="ok">V(G)=边−点+2</td><td>数箭头数圆圈代入</td></tr>
+    <tr><td>等价类 / 边界值 / 因果图</td><td class="ok">黑盒测试</td><td>不看代码只喂输入</td></tr>
+    <tr><td>加功能 / 占比最大的维护</td><td class="ok">完善性（约 50%）</td><td>加功能是大头</td></tr>
+    <tr><td>环境变 / 新平台</td><td class="ok">适应性维护</td><td>跟着环境变</td></tr>
+    <tr><td>直接改别人内部数据</td><td class="ok">内容耦合（最差）</td><td>翻别人抽屉，最差</td></tr>
+    <tr><td>只传一个数值</td><td class="ok">数据耦合（最好）</td><td>递张纸条，最干净</td></tr>
+    <tr class="grp"><td colspan="3">面向对象（设计模式）</td></tr>
+    <tr><td>不改旧代码加新功能</td><td class="ok">开闭原则</td><td>不开箱能升级</td></tr>
+    <tr><td>子类替换父类不出错</td><td class="ok">里氏替换</td><td>儿子顶班不出事</td></tr>
+    <tr><td>面向接口编程</td><td class="ok">依赖倒置</td><td>认规矩不认具体人</td></tr>
+    <tr><td>唯一实例</td><td class="ok">单例模式</td><td>全国一个主席</td></tr>
+    <tr><td>状态变化通知所有依赖者</td><td class="ok">观察者（notify/update）</td><td>微信群一响全员收到</td></tr>
+    <tr><td>动态加职责 / 不加子类</td><td class="ok">装饰器</td><td>手机壳不换手机</td></tr>
+    <tr><td>算法可替换</td><td class="ok">策略</td><td>导航随时换路线</td></tr>
+    <tr><td>创建延迟到子类</td><td class="ok">工厂方法</td><td>下单后厨决定做啥</td></tr>
+    <tr><td>行为随内部状态变</td><td class="ok">状态模式</td><td>不同状态不同反应</td></tr>
+    <tr><td>接口不兼容转换</td><td class="ok">适配器</td><td>插头转换头</td></tr>
+    <tr class="grp"><td colspan="3">知识产权</td></tr>
+    <tr><td>委托开发无约定归谁</td><td class="ok">受托方</td><td>付钱≠拥有，归写的人</td></tr>
+    <tr><td>专利保护期 20/10/15</td><td class="ok">发明/实用新型/外观设计</td><td>发明最久 20</td></tr>
+    <tr><td>10 年可无限续展</td><td class="ok">商标</td><td>老字号百年不倒</td></tr>
+    <tr><td>创作完成即享有</td><td class="ok">著作权自动取得</td><td>写完就有，不用登记</td></tr>
+    <tr><td>反向工程合法</td><td class="ok">商业秘密</td><td>可乐配方靠保密</td></tr>
+    <tr class="grp"><td colspan="3">安全与网络</td></tr>
+    <tr><td>防抵赖 / 数字签名用谁的钥匙</td><td class="ok">发送方私钥签，公钥验</td><td>私钥只有自己有，赖不掉</td></tr>
+    <tr><td>保密用什么钥匙</td><td class="ok">接收方公钥加密</td><td>公钥上锁，只有他的私钥能开</td></tr>
+    <tr><td>摘要（MD5/SHA）保证什么</td><td class="ok">完整性（不保密不防抵赖）</td><td>只是"指纹"，管篡改不管泄露</td></tr>
+    <tr><td>AES/DES vs RSA</td><td class="ok">对称 vs 非对称</td><td>同一把钥匙 vs 一对钥匙</td></tr>
+    <tr><td>可靠 / 三次握手</td><td class="ok">TCP</td><td>打电话先确认在听</td></tr>
+    <tr><td>域名转 IP / 自动分 IP / IP查MAC</td><td class="ok">DNS / DHCP / ARP</td><td>通讯录 / 发房卡 / 查门牌</td></tr>
+    <tr><td>可用主机数</td><td class="ok">2^主机位 − 2</td><td>减楼号减广播</td></tr>
+    <tr class="grp"><td colspan="3">OS 与数据库</td></tr>
+    <tr><td>缓冲区容量 n 的三信号量</td><td class="ok">empty=n / full=0 / mutex=1</td><td>空格满格门锁</td></tr>
+    <tr><td>阻塞 → 运行</td><td class="ok">不存在（最常考）</td><td>醒来先排队不能直接上场</td></tr>
+    <tr><td>银行家算法</td><td class="ok">避免死锁</td><td>放贷前先盘账</td></tr>
+    <tr><td>m:n 联系转模式</td><td class="ok">单独建表，主键=两端组合</td><td>学生选课中间表</td></tr>
+    <tr><td>分组后筛选条件</td><td class="ok">HAVING（行条件才 WHERE）</td><td>组条件 HAVING</td></tr>
+    <tr><td>虚表 / 唯一标识最小属性集</td><td class="ok">视图 / 候选码</td><td>候选码=学号不是姓名</td></tr>
+    <tr class="grp"><td colspan="3">数据结构与新技术</td></tr>
+    <tr><td>不稳定排序</td><td class="ok">"快些选堆"（快速/希尔/选择/堆）</td><td>口诀四字各取一种</td></tr>
+    <tr><td>叶子数与度 2 节点</td><td class="ok">n0 = n2 + 1</td><td>多一个带俩下级的必多一个光杆</td></tr>
+    <tr><td>二分查找最多比较</td><td class="ok">⌈log₂(n+1)⌉ 次</td><td>猜数字每次扔一半</td></tr>
+    <tr><td>租服务器 / 租环境 / 用成品</td><td class="ok">IaaS / PaaS / SaaS</td><td>租毛坯/带装修/住酒店</td></tr>
+    <tr><td>去中心化 / 智能合约</td><td class="ok">区块链</td><td>大家记账不靠银行</td></tr>
+  </table>
+</section>
+
+<!-- ============ 下午保底 ============ -->
+<section id="pm">
+  <h2>下午题保底（每天 1 小时，只保 3 道必答）</h2>
+  <div class="box blue">
+    <b>目标：数据流图 + 数据库 + UML 三题拿 30+，算法/Java 蒙分。每天做 1 道，按模板写：</b><br>
+    ① <b>数据流图（画"数据怎么在系统里流动"的图）三件套：</b>补<b>外部实体</b>（人/部门，画方块——看箭头从谁出发到谁结束）；补<b>数据流</b>（箭头，找"只进不出"的黑洞——一个加工只有数据进没有数据出，或反过来，必有缺）；<b>父子平衡</b>（父图=全景简图，子图=把某个加工放大细画；父图上有几条进几条出，子图加起来必须一样多）；加工名字格式 = <b>动词+名词</b>（如"审核订单"）。<br>
+    ② <b>数据库大题四步：</b>从题干动词判断关系（"一个…多个…"=1:n；"互相都能多个"=m:n）→ m:n <b>单独建表</b> → 标主键外键（外键 = 别人家的主键拿过来当联络字段）→ SQL 填空先看有没有"每组/平均"字样定用分组+聚合。<br>
+    ③ <b>UML（画类和关系的图）认线条：</b><b>三角实线</b> = 泛化（就是"继承"，猫 is-a 动物）；<b>三角虚线</b> = 实现（落实接口承诺）；<b>菱形</b>画在"整体"那端：空心菱形 = 聚合（松散集体，班级散了学生还在），实心菱形 = 组合（同生共死，人没了心脏也没了）；<b>include</b> 箭头指向被包含的（每次都必做），<b>extend</b> 方向反过来（偶尔才做，可选）。最后一问 = 设计模式，套三句话："模式名 + 场景理由 + 对应类名"。<br>
+    ④ 算法/Java：<b>按空给分 + 下拉选词</b>——循环边界、递归出口、返回值这些"顺眼空"先填；变量类型对不上的选项先排除；空着必 0 分，蒙也要选。目标抢 5~10 分。
+  </div>
+</section>
+
+<!-- ============ 考场策略 ============ -->
+<section id="tips">
+  <h2>考场策略（就 5 条）</h2>
+  <div class="box red">
+    ① <b>先做记忆题</b>（知产/英语/模式/软件工程），再做计算题，卡壳 2 分钟标记跳过——你要的 15 分全在记忆题里，别让计算题吃掉时间；<br>
+    ② <b>75 题全做完</b>，空着=白丢；不会的连蒙同一字母（期望还能捞 3~4 分）；<br>
+    ③ 两科连考共 240 分钟，基础知识最长 120 分钟——<b>做得快就是给下午大题续命</b>；<br>
+    ④ 下午先通读 5 道题，<b>数据库、数据流图、UML 先做</b>，算法放最后；按空给分，<b>空着必 0 分，蒙也要选</b>；<br>
+    ⑤ 圈出"不正确的是"——上午最阴的陷阱（问的是"哪个说法错"）。
+  </div>
+  <div class="box orange"><b>考前一晚：</b>只过总表打记号的条目；草稿纸默写四公式 + 两句口诀 + PV 三初值；身份证准考证备好；睡够 7 小时——睡眠固化这两天背的东西，比多背 10 条更值钱。</div>
+</section>
+
+<div class="foot">两天极限抢救 · 配合 09-四天冲刺计划.html 的例题与抢分卡使用 · 进度保存在本机浏览器</div>
+</div>
+
+<script>
+(function(){
+  const root=document.documentElement, tbtn=document.getElementById('themeBtn');
+  function applyTheme(t){
+    if(t==='dark'){root.setAttribute('data-theme','dark'); tbtn.textContent='白天模式';}
+    else{root.removeAttribute('data-theme'); tbtn.textContent='黑夜模式';}
+  }
+  applyTheme(localStorage.getItem('sk2d-theme'));
+  tbtn.addEventListener('click',function(){
+    const t = root.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    localStorage.setItem('sk2d-theme', t);
+    applyTheme(t);
+  });
+})();
+(function(){
+  const KEY='skct-2d-';
+  const boxes=document.querySelectorAll('.chk input');
+  boxes.forEach(function(c){
+    c.checked = localStorage.getItem(KEY+c.dataset.key)==='1';
+    if(c.checked) c.closest('.chk').classList.add('done');
+    c.addEventListener('change',function(){
+      localStorage.setItem(KEY+c.dataset.key, c.checked?'1':'0');
+      c.closest('.chk').classList.toggle('done', c.checked);
+      update();
+    });
+  });
+  function update(){
+    ['d1','d2'].forEach(function(d){
+      const items=document.querySelectorAll('.chk input[data-key^="'+d+'-"]');
+      const done=document.querySelectorAll('.chk input[data-key^="'+d+'-"]:checked').length;
+      const pct=items.length? Math.round(done/items.length*100):0;
+      if(items.length) console.log(d+': '+done+'/'+items.length);
+    });
+    const all=document.querySelectorAll('.chk input');
+    const doneA=document.querySelectorAll('.chk input:checked').length;
+    const pctA=all.length? Math.round(doneA/all.length*100):0;
+  }
+  update();
+})();
+</script>
+</body>
+</html>

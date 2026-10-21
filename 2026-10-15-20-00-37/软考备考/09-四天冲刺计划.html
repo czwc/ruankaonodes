@@ -52,6 +52,16 @@
   tr.grp td{background:var(--thead);font-weight:bold;color:var(--purple);font-size:13.5px;}
   .km th:first-child,.km td:first-child{width:46%;}
   .km td{font-size:13px;}
+  .tree{font-family:Consolas,monospace;background:var(--codebg);border-radius:8px;padding:10px 14px;line-height:1.45;font-size:13px;white-space:pre;overflow-x:auto;margin:8px 0;}
+  @media(max-width:640px){table{display:block;overflow-x:auto;}}
+  @media print{
+    .theme-btn,nav,.search-box,.foot{display:none!important;}
+    body{background:#fff;color:#000;}
+    section{border:none;page-break-inside:avoid;}
+    header{background:#d64545!important;-webkit-print-color-adjust:exact;print-color-adjust:exact;}
+    details{display:block;} details .ans{display:block;}
+    .bar{border:1px solid #ccc;}
+  }
 </style>
 </head>
 <body>
@@ -61,7 +71,7 @@
   <button class="theme-btn" id="reviewBtn" type="button" style="right:120px;">回看模式</button>
   <button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
   <h1>四天冲刺 · 上午抢分 + 下午保分（2026 命题预测版）</h1>
-  <p>每天 3~4 小时 = 上午题背刷 2~2.5h + 下午题配练 1~1.5h · 两卷都要过 45 分线 · 勾选进度自动保存</p>
+  <p>平时每天 3~4 小时（Day4 全真日约 7 小时，拆三段执行）= 上午题背刷 2~2.5h + 下午题配练 1~1.5h · 两卷都要过 45 分线 · 勾选进度自动保存</p>
   <nav>
     <a href="#predict">命题预测</a>
     <a href="#d1">Day1 软件工程+数据流图</a>
@@ -98,9 +108,9 @@
     <div class="day"><b>Day 1</b>　上午软件工程 / 下午数据流图<br><span class="pct">最大分值头，纯记忆</span><div class="bar"><div id="bar-d1"></div></div><span class="pct" id="pct-d1">上午 0%</span><div class="bar"><div id="bar-pd1"></div></div><span class="pct" id="pct-pd1">下午 0%</span></div>
     <div class="day"><b>Day 2</b>　上午数据库+OS / 下午库设计<br><span class="pct">SQL句式+PV+页式</span><div class="bar"><div id="bar-d2"></div></div><span class="pct" id="pct-d2">上午 0%</span><div class="bar"><div id="bar-pd2"></div></div><span class="pct" id="pct-pd2">下午 0%</span></div>
     <div class="day"><b>Day 3</b>　上午硬件网络安全 / 下午UML<br><span class="pct">4公式+子网+知识产权</span><div class="bar"><div id="bar-d3"></div></div><span class="pct" id="pct-d3">上午 0%</span><div class="bar"><div id="bar-pd3"></div></div><span class="pct" id="pct-pd3">下午 0%</span></div>
-    <div class="day"><b>Day 4</b>　上午模拟 / 下午整卷掐表<br><span class="pct">排序表+双卷全真</span><div class="bar"><div id="bar-d4"></div></div><span class="pct" id="pct-d4">上午 0%</span><div class="bar"><div id="bar-pd4"></div></div><span class="pct" id="pct-pd4">下午 0%</span></div>
+    <div class="day"><b>Day 4</b>　早晨速刷 / 下午双卷全真 / 晚上对账<br><span class="pct">三段式：速刷→掐表→回看</span><div class="bar"><div id="bar-d4"></div></div><span class="pct" id="pct-d4">上午 0%</span><div class="bar"><div id="bar-pd4"></div></div><span class="pct" id="pct-pd4">下午 0%</span></div>
   </div>
-  <div class="box red"><b>主动放弃清单（考了不亏）：</b>正规式转自动机难题、复杂数学证明题、阿姆达尔定律推导、嵌入式实时调度细节、颜色空间深问——每个只记本页"一句话结论"，见到难题直接蒙跳过。</div>
+  <div class="box red"><b>主动放弃清单（考了不亏，只记下面一句话结论，难题直接蒙跳过）：</b>① <b>正规式转自动机</b>——只记"无歧义每步唯一 = DFA，有 ε 边/多出口 = NFA"，转换难题一律蒙；② <b>阿姆达尔定律</b>——只记"加速比上限 = 1/(S+(1−S)/n)，S=串行占比，S 越大加处理器越没用"；③ <b>嵌入式实时调度</b>——只记"周期越短优先级越高（RMS），先满足周期短的"；④ <b>颜色空间深问</b>——只记"RGB=屏幕发光、CMYK=印刷吸光、YUV=电视传输（亮度色度分离）"。</div>
   <div class="box red"><b>两条铁律：</b>①只刷近 5 年<b>真题</b>，不做模拟题；②错题只搞懂"这道题的考点"，不延伸。时间只够抢救，不够钻研。</div>
   <div class="box green"><b>本页学习法（为什么这样设计）：</b>①每背完一张速记卡，<b>立刻做下面的"30 秒自测"</b>——心理学检索练习效应：测 1 次 ≈ 重读 3 遍的留存率；②答错的勾"没记住"；③考前一晚点右上角<b>"回看模式"</b>——只亮出你错过题的板块，其余变暗，错题就是你的个性化复习清单；④计算题只背公式没用，Day3 有 4 道<b>带完整步骤的例题</b>，先自己算再对步骤。</div>
   <div class="box orange"><b>基础不牢？生存策略（重要）：</b>①<b>不求全懂</b>——先把"题眼反查表"背熟：看到字眼→选答案，纯条件反射不需要懂原理，照样得分；②术语看不懂 → 先查下面的<b>小白词典</b>（一句话大白话）；③某个考点自测连错 3 次 → 直接背答案话术，别再钻原理；④真想搞懂某个模块 → 回对应教程页（00~08 篇），但<b>每块限 20 分钟</b>，时间永远优先给刷真题。记住：及格 = 45 分 = 75 题里做对 45 题，你不需要懂全部，只需要对 60%。</div>
@@ -160,6 +170,7 @@
   </table>
 
   <div class="box purple"><b>生活版理解（选开发模型 = 选"怎么应对需求变化"）：</b>瀑布=精装房按图纸一步到底（需求一改全抓瞎）；原型=先出效果图确认再开工；增量=分栋交房，先住进能住的那栋；螺旋=每建一层先做安全验收（风险分析）再往上盖；敏捷=边装边住边改。题干描述往场景上套，套上哪个选哪个。</div>
+  <details class="rec"><summary>例14【开发模型选择】真题套路：三句话对号入座</summary><div class="ans">①"银行系统，每阶段先评审、文档齐全才进入下一步" → <b>瀑布</b>；②"用户说不清想要什么，先做个界面给他确认" → <b>原型</b>；③"产品要抢先上线，先交付核心功能再分批扩充" → <b>增量</b>。做题技巧：圈出题干关键词——确认/看效果=原型，风险分析=螺旋，分批上线=增量，文档+评审=瀑布，每日站会=敏捷。</div><label class="miss"><input type="checkbox" data-mkey="r1-9"> 没记住</label></details>
   <h3>▶ 测试（每年 2~3 题）</h3>
   <div class="box blue">
     <b>黑盒（功能）：</b>等价类划分、边界值分析、因果图、错误推测。<br>
@@ -176,6 +187,7 @@
     口诀"<b>功顺通过时逻偶</b>"逐字拆：<b>功</b>=功能（一件事干到底，最好）→ <b>顺</b>=顺序（上一步输出是下一步输入）→ <b>通</b>=通信（围绕同一数据集干活）→ <b>过</b>=过程（按固定流程走）→ <b>时</b>=时间（同一时间段凑一起，如初始化）→ <b>逻</b>=逻辑（一堆功能靠参数挑着执行）→ <b>偶</b>=偶然（毫无关系凑一起，最差）。<br>
     <b>考试判断口诀：</b>看到"直接改内部数据"选内容（最差）；看到"只传一个数值"选数据（最好）；看到"参数决定执行哪个功能"选逻辑内聚。
   </div>
+  <details class="rec"><summary>例15【耦合内聚判断】真题套路：三个场景秒选</summary><div class="ans">①"模块 A 把一整条学生记录（含多个字段）传给 B" → <b>标记耦合</b>——传的是结构不是简单数值，别选数据耦合；②"所有模块共用一个全局数组" → <b>公共耦合</b>；③"模块里三个功能靠传入的参数挑着执行" → <b>逻辑内聚</b>。判断顺序：先看"传什么"（简单数值→数据、结构/记录→标记、开关指令→控制），再看"共什么"（环境→外部、全局数据→公共、内部数据→内容）。</div><label class="miss"><input type="checkbox" data-mkey="r1-10"> 没记住</label></details>
 
   <h3>▶ 项目管理 + CMM + 质量（每年 2~3 题）</h3>
   <div class="box blue">
@@ -207,6 +219,7 @@
     <b>答题三件套（必背）：</b>① 补实体——看缺失数据流的起点/终点是谁（人/组织/外部系统）；② 补数据流——找"只进不出"（黑洞）和"只出不进"（奇迹）的加工；③ <b>父子平衡</b>——0 层图有的输入输出，对应子图必须有。<br>
     <b>命名规范：</b>加工 = 动词+名词（"生成报表"，不写笼统的"处理"）；数据存储/数据流 = 名词。<br>
     <b>今天任务：</b>过 01 篇大题 2 道 + 近 5 年真题试题一 1 道，对答案标评分点。
+    <label class="miss"><input type="checkbox" data-mkey="rpd1-1"> 下午题没掌握</label>
   </div>
 
   <h3>▶ 30 秒自测（遮住答案，答错就勾"没记住"）</h3>
@@ -295,19 +308,19 @@
   <div class="box green">
     <b>① 页式地址转换三步：</b>页大小定偏移位数（1KB=2¹⁰ → 低 10 位）→ 逻辑地址 ÷ 页大小 = 页号（商）+ 页内偏移（余数）→ 物理地址 = 帧号 × 页大小 + 偏移（帧号查题干给的映射表）。
   </div>
-  <details class="rec"><summary>例5【页式地址转换】页大小 1KB，逻辑地址 2500，该页装入内存帧号 4，物理地址 = ？</summary><div class="ans"><b>三步：</b>① 求页内偏移位数：1KB=2¹⁰ → 低 10 位是偏移；② 拆逻辑地址：页号 = 2500 ÷ 1024 = <b>2</b>（整除），偏移 = 2500 − 2×1024 = <b>452</b>；③ 物理地址 = 帧号 × 页大小 + 偏移 = 4×1024 + 452 = <b>4548</b>。<br><span class="hl">易错：</span>页大小换成 4KB 就用 4096 除；"页号查表得帧号"这步题干会给映射表，别拿页号当帧号用。</div><label class="miss"><input type="checkbox" data-mkey="r3-10"> 没记住</label></details>
+  <details class="rec"><summary>例5【页式地址转换】页大小 1KB，逻辑地址 2500，该页装入内存帧号 4，物理地址 = ？</summary><div class="ans"><b>三步：</b>① 求页内偏移位数：1KB=2¹⁰ → 低 10 位是偏移；② 拆逻辑地址：页号 = 2500 ÷ 1024 = <b>2</b>（整除），偏移 = 2500 − 2×1024 = <b>452</b>；③ 物理地址 = 帧号 × 页大小 + 偏移 = 4×1024 + 452 = <b>4548</b>。<br><span class="hl">易错：</span>页大小换成 4KB 就用 4096 除；"页号查表得帧号"这步题干会给映射表，别拿页号当帧号用。</div><label class="miss"><input type="checkbox" data-mkey="r2-10"> 没记住</label></details>
   <div class="box green">
     <b>② 缺页置换三算法：</b>FIFO=淘汰最先进入的（排队思想）；LRU=淘汰最近最久没用的（往回看访问历史）；OPT=淘汰未来最久不用的（上帝视角，缺页最少，是理论下界，无法实现）。
   </div>
-  <details class="rec"><summary>例5b【缺页手算】内存 3 帧，访问序列 1、2、3、1、4——FIFO 和 LRU 各淘汰谁？</summary><div class="ans"><b>FIFO：</b>只看进入顺序。4 到来时内存里是 {1,2,3}，最先进入的是 <b>1</b> → 淘汰 1，换成 4。<br><b>LRU：</b>往回看历史。4 到来前刚用过 1（上一步就是访问 1），最近最久没用的是 <b>2</b> → 淘汰 2。<br><span class="hl">易错：</span>FIFO 看进队顺序、LRU 看最近使用记录——同一个序列两者答案可能不同；OPT 是"未来最久不用"，考试让你手算的只有 FIFO 和 LRU。</div><label class="miss"><input type="checkbox" data-mkey="r2-10"> 没记住</label></details>
+  <details class="rec"><summary>例5b【缺页手算】内存 3 帧，访问序列 1、2、3、1、4——FIFO 和 LRU 各淘汰谁？</summary><div class="ans"><b>FIFO：</b>只看进入顺序。4 到来时内存里是 {1,2,3}，最先进入的是 <b>1</b> → 淘汰 1，换成 4。<br><b>LRU：</b>往回看历史。4 到来前刚用过 1（上一步就是访问 1），最近最久没用的是 <b>2</b> → 淘汰 2。<br><span class="hl">易错：</span>FIFO 看进队顺序、LRU 看最近使用记录——同一个序列两者答案可能不同；OPT 是"未来最久不用"，考试让你手算的只有 FIFO 和 LRU。</div><label class="miss"><input type="checkbox" data-mkey="r2-11"> 没记住</label></details>
   <div class="box green">
     <b>③ 磁盘存取时间 = 寻道时间 + 旋转延迟（半圈）+ 传输时间（一圈 ÷ 每道扇区数）</b>——原理：磁头先移臂到对的磁道 → 等盘转到目标扇区 → 扇区扫过磁头。
   </div>
-  <details class="rec"><summary>例6【磁盘存取】转速 6000 转/分，平均寻道 4ms，每磁道 50 扇区，读 1 个扇区总时间 = ？</summary><div class="ans"><b>三步：</b>① 转一圈 = 60 秒 ÷ 6000 转 = 0.01 秒 = <b>10ms</b>；② 为什么平均旋转延迟是<b>半圈</b>？——磁头不知道目标扇区此刻在哪，运气最好立刻到、最差要等一整圈，平均就是一半 = <b>5ms</b>；③ 传输 = 读一个扇区 = 一圈的 1/50 = 10 ÷ 50 = <b>0.2ms</b>。<br>总时间 = 4 + 5 + 0.2 = <b>9.2ms</b>。<br><span class="hl">易错：</span>①"转/分"要先换成每圈毫秒（60000 ÷ 转速）；②若问"读一整个磁道"，传输 = 一整圈 10ms，不用除 50。</div><label class="miss"><input type="checkbox" data-mkey="r3-11"> 没记住</label></details>
+  <details class="rec"><summary>例6【磁盘存取】转速 6000 转/分，平均寻道 4ms，每磁道 50 扇区，读 1 个扇区总时间 = ？</summary><div class="ans"><b>三步：</b>① 转一圈 = 60 秒 ÷ 6000 转 = 0.01 秒 = <b>10ms</b>；② 为什么平均旋转延迟是<b>半圈</b>？——磁头不知道目标扇区此刻在哪，运气最好立刻到、最差要等一整圈，平均就是一半 = <b>5ms</b>；③ 传输 = 读一个扇区 = 一圈的 1/50 = 10 ÷ 50 = <b>0.2ms</b>。<br>总时间 = 4 + 5 + 0.2 = <b>9.2ms</b>。<br><span class="hl">易错：</span>①"转/分"要先换成每圈毫秒（60000 ÷ 转速）；②若问"读一整个磁道"，传输 = 一整圈 10ms，不用除 50。</div><label class="miss"><input type="checkbox" data-mkey="r2-12"> 没记住</label></details>
   <div class="box green">
     <b>④ 位示图：</b>每个字 32 位代表 32 个块的使用情况；字号 = 块号 ÷ 字长（取整），位号 = 余数。
   </div>
-  <details class="rec"><summary>例7【位示图】字长 32 位，块号 100（从 0 编号），它在第几个字、第几位？</summary><div class="ans">字号 = 100 ÷ 32 = 3 余 4 → <b>第 3 个字（从 0 数）、位号 4</b>；若题干说"从 1 开始编号"则答案是第 4 个字、第 5 位。<br><span class="hl">易错：</span>唯一坑就是"从 0 还是从 1 编号"——题干读两遍再填。</div><label class="miss"><input type="checkbox" data-mkey="r3-12"> 没记住</label></details>
+  <details class="rec"><summary>例7【位示图】字长 32 位，块号 100（从 0 编号），它在第几个字、第几位？</summary><div class="ans">字号 = 100 ÷ 32 = 3 余 4 → <b>第 3 个字（从 0 数）、位号 4</b>；若题干说"从 1 开始编号"则答案是第 4 个字、第 5 位。<br><span class="hl">易错：</span>唯一坑就是"从 0 还是从 1 编号"——题干读两遍再填。</div><label class="miss"><input type="checkbox" data-mkey="r2-13"> 没记住</label></details>
   <div class="box green">
     <b>⑤ 页式 vs 段式 vs 段页式：</b>页 = <b>定长</b>（有内部碎片）；段 = <b>变长</b>按逻辑单元（有外部碎片）；段页式 = 先分段再分页，取长补短。
   </div>
@@ -316,6 +329,7 @@
   <div class="box purple">
     <b>答题四步（必背）：</b>① 补 E-R 联系——从题干动词短语判断 1:n / m:n（"一个部门有多个员工"=1:n）；② 转模式——<b>m:n 必单独建表</b>，主键 = 两端主键组合；③ 标主键/外键——外键 = 对方的主键；④ 补 SQL——看 GROUP BY 定聚合列，看子查询定 IN/EXISTS。<br>
     <b>今天任务：</b>过 02 篇大题 + 近 5 年真题试题二 1 道。
+    <label class="miss"><input type="checkbox" data-mkey="rpd2-1"> 下午题没掌握</label>
   </div>
 
   <h3>▶ 30 秒自测</h3>
@@ -385,6 +399,7 @@
     <b>端口（服务的门牌号）：</b>FTP 20/21、SSH 22、Telnet 23、SMTP 25、DNS 53、HTTP 80、HTTPS 443、POP3 110。<br>
     <b>CSMA/CD：</b>共享式以太网防"抢话"规则——先听后发、边发边听、冲突停发。
   </div>
+  <details class="rec"><summary>例17【OSI 设备分层】真题套路：一句话定层</summary><div class="ans">"能识别 MAC 地址、按帧转发" → <b>交换机（数据链路层）</b>；"根据 IP 地址选路" → <b>路由器（网络层）</b>；"只放大信号、不认识任何地址" → <b>中继器/集线器（物理层）</b>。记忆链：集线器最笨（只管电信号）→ 交换机认门牌（MAC）→ 路由器认城市（IP）→ 网关管跨网（高层）。</div><label class="miss"><input type="checkbox" data-mkey="r3-16"> 没记住</label></details>
   <div class="box blue">
     <b>IP 地址与子网（懂了这个，子网题就是送分）：</b>一个 IP 地址= "<b>小区名（网络位）+ 门牌号（主机位）</b>"。子网掩码就是<b>围墙</b>：1 的部分圈住小区名，0 的部分留给门牌。/24=前 24 位是小区名；/26=围墙往外扩 2 位，小区切小了、每个小区门牌只剩 6 位。<br>
     <b>逐步例（2022上真题同款）：</b>200.1.1.0/27。①主机位 = 32−27 = 5 位；②可用主机 = 2⁵−2 = <b>30</b>（全 0 是"本网络"、全 1 是"广播"，不能分给人）；③子网数（相对 /24）= 多借 3 位 = 2³ = <b>8 个</b>；④每个子网的地址范围 = 0~31、32~63……（每 32 个一段），广播地址=每段最后一个（31、63…）。<br>
@@ -449,6 +464,8 @@
     套路：<b>先看选项词性</b>（名词/动词/形容词），再回原文找<b>同义复现与固定搭配</b>；高频主题是软件工程/开发方法。<br>
     <b>高频词表：</b>requirement 需求、specification 规格说明、maintenance 维护、integration 集成、interface 接口、object-oriented 面向对象、life cycle 生命周期、algorithm 算法、compile 编译、execution 执行、reliability 可靠性、security 安全性、client/server 客户端/服务器、developer 开发者、upgrade 升级、encapsulate 封装。
   </div>
+  <details class="rec"><summary>英语自测① The ___ phase turns the design document into program code.（空格缺什么词性？填什么？）</summary><div class="ans">缺<b>名词</b>（冠词 the 后、名词短语主语位置）→ 填 <b>implementation / coding（实现）</b>。套路：先判词性缩小范围，再找上下文复现（design→implementation 是固定主角搭配）。</div><label class="miss"><input type="checkbox" data-mkey="r3-14"> 没记住</label></details>
+  <details class="rec"><summary>英语自测② 固定搭配：be responsible ___、be capable ___、be applicable ___ 各配什么介词？</summary><div class="ans"><b>for / of / to</b>——be responsible <b>for</b>（负责）、be capable <b>of</b>（能够）、be applicable <b>to</b>（适用于）。英语 5 分约八成考这类固定搭配：选项先排除介词搭配不对的。</div><label class="miss"><input type="checkbox" data-mkey="r3-15"> 没记住</label></details>
 
   <h3>▶ 下午配练 · 试题三 UML（配合 <a class="a" href="03-UML建模.html">03 篇</a>）</h3>
   <div class="box purple">
@@ -456,6 +473,7 @@
     <b>状态图三要素：</b>状态（圆角矩形）、转换（箭头 + 事件[条件]/动作）、初始/终止伪状态；<b>活动图：</b>分叉/汇合粗横条、泳道按角色划分。<br>
     <b>最后一问 ≈ 设计模式（约 3 分）：</b>从场景动词定意图 → 套 6 骨架（策略/观察者/装饰器/状态/单例/工厂方法），答题模板见 <a class="a" href="08-设计模式23式全解.html">08 篇</a>。<br>
     <b>今天任务：</b>过 03 篇大题 + 真题试题三 1 道（重点练最后一问）。
+    <label class="miss"><input type="checkbox" data-mkey="rpd3-1"> 下午题没掌握</label>
   </div>
 
   <h3>▶ 30 秒自测</h3>
@@ -469,18 +487,20 @@
   <div class="chk"><input type="checkbox" data-key="d3-1"><span>默写四个公式（浮点/可靠性/Cache/流水线）并各做 1 道真题</span></div>
   <div class="chk"><input type="checkbox" data-key="d3-2"><span>背 OSI 七层口诀 + TCP/UDP 区别 + 协议对号</span></div>
   <div class="chk"><input type="checkbox" data-key="d3-3"><span>子网划分练 3 题（/26、/28、可用主机数）</span></div>
-  <div class="chk"><input type="checkbox" data-key="d3-5"><span>背寻址顺序（立即&gt;寄存器&gt;直接&gt;间接）+ 三种校验码谁纠错 + RAID5</span></div>
-  <div class="chk"><input type="checkbox" data-key="d3-6"><span>背信息安全：对称/非对称代表算法、数字签名方向（私钥签公钥验）、CA/IDS/IPS</span></div>
-  <div class="chk"><input type="checkbox" data-key="d3-7"><span>图像/音频容量公式各算 1 道真题 + 背常用端口号</span></div>
-  <div class="chk"><input type="checkbox" data-key="d3-8"><span>知识产权表硬背 1 小时，做真题"知识产权"全部题</span></div>
-  <div class="chk"><input type="checkbox" data-key="d3-9"><span>英语做 2 套真题（只总结套路，不通读全文）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-4"><span>背寻址顺序（立即&gt;寄存器&gt;直接&gt;间接）+ 三种校验码谁纠错 + RAID5</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-5"><span>背信息安全：对称/非对称代表算法、数字签名方向（私钥签公钥验）、CA/IDS/IPS</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-6"><span>图像/音频容量公式各算 1 道真题 + 背常用端口号</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-7"><span>知识产权表硬背 1 小时，做真题"知识产权"全部题</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-8"><span>英语：过 2 道自测 + 做 2 套真题（只总结套路，不通读全文）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d3-9"><span>【睡前】速背 Day4 的"新技术送分卡"第一遍（睡眠固化记忆，Day4 早晨过第二遍）</span></div>
   <div class="chk"><input type="checkbox" data-key="pd3-1"><span>【下午】过 03 篇 UML 大题（用例图/类图/状态图各 1）</span></div>
   <div class="chk"><input type="checkbox" data-key="pd3-2"><span>【下午】真题试题三 1 道，最后一问套 6 骨架写完整答案</span></div>
 </section>
 
 <!-- ============ Day4 ============ -->
 <section id="d4">
-  <h2>Day 4 · 上午：数据结构+数学+模拟　|　下午：试题四五 + 整卷掐表</h2>
+  <h2>Day 4 · 早晨：速刷收尾　|　下午：双卷全真掐表　|　晚上：对账回看</h2>
+  <div class="box orange"><b>Day4 三段式（全真日约 7 小时，量最大所以拆三段执行）：</b>① <b>早晨约 2 小时</b>——只速刷不钻：排序表 / 数据结构框 / 新技术卡 / 6 骨架各过一遍；② <b>下午约 5 小时</b>——掐表 <b>120 分钟</b>做 1 套近年<b>上午真题</b>（对应机考基础知识最长时长）→ 对账休息 → 掐表 <b>120 分钟</b>做 1 套<b>下午真题</b>（提前适应考试当天两卷连考的节奏）；③ <b>晚上约 1.5 小时</b>——数学套路练题 + 按模块对账 + 回看模式过错题。<b>时间不够的最低配：① + 上午模拟必做，下午模拟可移到考前一晚。</b></div>
 
   <h3>▶ 排序算法表（每年 2~3 题，必背）</h3>
   <table>
@@ -515,6 +535,47 @@
     <b>编译六阶段：</b>词法分析（拆单词）→ 语法分析（句子结构）→ 语义分析（含义检查）→ 中间代码 → 优化 → 目标代码；<b>语法错误编译期报，逻辑错误编译器查不出</b>。
   </div>
 
+  <h3>▶ 树零基础专讲（树基本不会的，从这里开始，40 分钟从零到会）——做完还懵？去 <a class="a" href="13-树零基础专讲.html">13 篇·树零基础专讲</a> 逐课重学+8 道自测</h3>
+  <div class="box orange">
+    <b>① 树是什么（30 秒建立图景）：</b>把树想成<b>公司组织架构图</b>——CEO 是<b>根</b>，总监是中间节点，没有下级的最底层员工是<b>叶子</b>。<b>度</b> = 一个节点的直接下级个数；<b>深度/层</b> = 离根隔几层。二叉树 = 每个主管<b>最多带 2 个下级</b>（分别叫左孩子、右孩子）。<br>
+    <b>② 满二叉树 vs 完全二叉树：</b>满 = 每层都塞满；完全 = <b>只允许最后一层从左往右缺"连续的尾巴"</b>——右边缺可以、左边不能跳空。例：缺了左孩子却留着右孩子 → 不是完全二叉树；只有左孩子的"左斜链"反而是完全的。<br>
+    <b>③ 完全二叉树两个常考数：</b>n 个节点高度 = <b>⌈log₂(n+1)⌉</b>（如 n=10 → ⌈log₂11⌉=4 层）；用<b>数组按层编号</b>存（从 1 开始），i 号节点的左孩子 = 2i、右孩子 = 2i+1、父 = ⌊i/2⌋——考"某节点孩子下标"直接代。
+  </div>
+  <div class="box blue">
+    <b>④ 三种遍历手把手（口令：前/中/后说的都是"根"被访问的时机）：</b>
+    <div class="tree">        A
+       /   \
+      B     C
+     / \     \
+    D   E     F</div>
+    · <b>前序（根左右）</b>：到 A 先输出 A → 钻左 B 输出 B → 钻左 D 输出 D（没孩子，回头）→ B 的右 E 输出 E → 回到 A → 钻右 C 输出 C → C 左边没有 → 右 F 输出 F。结果：<b>A B D E C F</b><br>
+    · <b>中序（左根右）</b>：想象把整棵树<b>垂直压扁投影到地面</b>，从左往右念出来就是中序。结果：<b>D B E A C F</b><br>
+    · <b>后序（左右根）</b>：先榨干左边（D E），再右边（F），最后才轮到根 A。结果：<b>D E B F C A</b><br>
+    <span class="hl">必背结论：</span><b>前序+中序</b>或<b>后序+中序</b>都能唯一重建整棵树（套路见下面例12）；只有前序+后序不行——分不出左右子树。
+  </div>
+  <div class="box purple">
+    <b>⑤ n0 = n2 + 1 白话推导（10 年必考）：</b>数"分支"——n1 个节点各贡献 1 条边、n2 个各贡献 2 条，总边数 = n1 + 2n2；而<b>节点数 = 边数 + 1</b>（除根以外，人人头上都有一条边连上来）。两式一消就得 <b>叶子数 n0 = n2 + 1</b>。白话记忆：<b>每多一个"带俩下级的"，就必多一个"光杆员工"</b>；度 1 的节点可有可无，不影响公式。
+  </div>
+  <div class="box green">
+    <b>⑥ 哈夫曼树手把手（必考手算，跟着走一遍就会）：</b>把权值 {2, 3, 4, 5} 建哈夫曼树，规则只有一条：<b>每次挑最小的两个合并，把和放回池子，重复到只剩一个</b>。<br>
+    第 1 步：池 {2,3,4,5} → 取最小的 2、3 合并 = 5 → 池变 {4, 5, 5}<br>
+    第 2 步：取最小的 4 和 5 合并 = 9 → 池变 {5, 9}<br>
+    第 3 步：取 5、9 合并 = 14 → 池只剩一个，完成，根 = 14。<br>
+    <div class="tree">            14
+           /    \
+          5      9
+         / \    / \
+        2   3  4   5</div>
+    <b>WPL</b> = 每个叶子的（权值 × 层数）求和 = 5×1 + 4×2 + 2×3 + 3×3 = <b>28</b>。<br>
+    <span class="hl">三个必背性质：</span>n 个叶子 → 全树共 <b>2n−1 个节点</b>（本题 2×4−1=7，数一数正好）；<b>没有度为 1 的节点</b>；左 0 右 1 得到<b>前缀码</b>（如 5→0、4→10、2→110、3→111，谁都不是谁的开头，连着写不歧义）。
+  </div>
+  <details class="rec"><summary>树自测① 某二叉树 6 个叶子、3 个度 1 节点，度 2 的有几个？总节点几个？</summary><div class="ans">n2 = n0 − 1 = <b>5</b>；总节点 = 6+3+5 = <b>14</b>。公式 n0 = n2+1 只跟"叶子"和"度 2"有关，度 1 是干扰项，直接无视。</div><label class="miss"><input type="checkbox" data-mkey="r4-10"> 没记住</label></details>
+  <details class="rec"><summary>树自测② 前序 ABDEC、中序 DEBAC，重建这棵树并写出后序</summary><div class="ans">前序首 = <b>A</b> = 根；拿 A 去中序 DEBAC 里切两半：左半 DEB、右半 AC。左子树（前序 BDE + 中序 DEB）→ 根 B，左孩子 D、右孩子 E；右子树（前序 C + 中序 AC）→ 根 C，A 在 C 左边 → A 是 C 的左孩子。后序（左右根）= 左子树 DEB + 右子树 AC + 根 A = <b>DEBAC</b>。<br><span class="hl">套路固定三步：回前序找根 → 回中序切左右 → 对两半递归。别瞎猜。</span></div><label class="miss"><input type="checkbox" data-mkey="r4-11"> 没记住</label></details>
+  <details class="rec"><summary>树自测③ 权值 {1, 2, 3, 4} 建哈夫曼树，WPL = ？</summary><div class="ans">1+2=3 → 池 {3,3,4}；3+3=6 → 池 {4,6}；4+6=10，根 = 10。WPL = 4×1 + 3×2 + 1×3 + 2×3 = 4+6+3+6 = <b>19</b>（叶子 4 在第 1 层、3 在第 2 层、1 和 2 在第 3 层）。</div><label class="miss"><input type="checkbox" data-mkey="r4-12"> 没记住</label></details>
+  <div class="box orange">
+    <b>⑦ 二叉排序树 BST（左小右大，1 分送分题）：</b>规则只有一句——<b>左子树所有值 &lt; 根 &lt; 右子树所有值</b>。插入序列 50、30、70、20、40：50 当根 → 30 比它小去左 → 70 比它大去右 → 20 比 50 小到左、比 30 小再左 → 40 比 50 小到左、比 30 大去右。查找就是从根一路往下比，<b>查找次数 = 该节点的层数</b>，最多比较 = 树的高度。中序遍历 BST 得到<b>从小到大的有序序列</b>（这个结论爱考）。
+  </div>
+
   <details class="rec"><summary>例12【遍历重建】真题套路：前序 ABDECF、中序 DBEAFC，求后序</summary><div class="ans"><b>核心原理：前序第一个永远是根，拿根去中序里切两半。</b><br>
     ① 前序首 = <b>A</b> = 根；去中序 DBEAFC 里找 A → 左半 DBE、右半 FC；<br>
     ② 左子树：前序 BDE + 中序 DBE → 根 = B，中序左 D 右 E → B 的左孩子 D、右孩子 E；<br>
@@ -532,8 +593,10 @@
     <b>线性规划：</b>列约束 → 画可行域（凸多边形）→ 最优解必在<b>顶点</b>取到（代入各顶点比大小）。<br>
     <b>抽屉原理：</b>n+1 个物品放 n 个抽屉，必有抽屉 ≥ 2 个；最不利构造题按"最倒霉情形 + 1"算。
   </div>
+  <details class="rec"><summary>例16【拓扑排序】真题套路：箭头图手算</summary><div class="ans">活动 A→B、A→C、B→D、C→D（箭头 = 必须先做前者）。每次取<b>入度为 0</b> 的顶点：第 1 步只有 A 入度为 0 → 输出 A；擦掉 A 的出边后 B、C 入度都变 0 → B、C 谁先都行（<b>拓扑序不唯一</b>）→ 最后 D。合法答案：A B C D 或 A C B D。<span class="hl">易错：</span>每输出一个点就要"擦掉它的所有出边"，千万别一次全输出。</div><label class="miss"><input type="checkbox" data-mkey="r4-13"> 没记住</label></details>
 
   <h3>▶ 新技术送分卡（近 5 年每年 1~3 分，名词认识题，20 分钟背完）</h3>
+  <div class="box blue" style="border-color:var(--purple-bd);"><b>记忆安排：</b>Day3 晚睡前背第一遍（睡眠固化记忆），Day4 早晨过第二遍——本卡是纯名词题，两遍比一遍多留一倍。</div>
   <div class="box blue">
     <b>云计算三种模式：</b><span class="hl">IaaS 基础设施即服务（租服务器/存储，如云主机）→ PaaS 平台即服务（租运行环境/中间件）→ SaaS 软件即服务（直接用成品软件，如在线文档）</span>——层级越高，用户管的越少。<br>
     <b>大数据 4V：</b>Volume 大量、Velocity 高速、Variety 多样、Value 价值密度低；Hadoop = 分布式存储 HDFS + 并行计算 MapReduce。<br>
@@ -564,15 +627,40 @@
 
   <h3>▶ 全真模拟 + 对账</h3>
   <div class="box purple">
-    <b>掐表 150 分钟做一套近 2 年上午真题</b>（只做上午题部分约 2.5 小时），做完按模块对账：软件工程 / 数据库 / OS / 硬件网络 / 英语 / 知识产权 / 数据结构 / 面向对象，各模块实际得分 vs 预期——低于预期的模块，考前一晚只回看该模块速记卡。
+    <b>掐表 120 分钟做一套近 2 年上午真题</b>（对应机考基础知识最长时长，见三段式②），做完按模块对账：软件工程 / 数据库 / OS / 硬件网络 / 英语 / 知识产权 / 数据结构 / 面向对象，各模块实际得分 vs 预期——低于预期的模块，考前一晚只回看该模块速记卡。
   </div>
 
   <h3>▶ 下午配练 · 试题四五 算法 + Java（配合 <a class="a" href="04-算法策略.html">04 篇</a> / <a class="a" href="05-Java设计模式.html">05 篇</a>）</h3>
   <div class="box purple">
     <b>算法题套路：</b>填空先看"空在循环里还是返回语句里"→ 看上下文变量名 → 常考填边界值（<code>i&lt;n</code>、<code>i+1</code>）和递归出口；DP 题先在草稿写"状态含义"再套表。<br>
     <b>Java 模式填空三步：</b>① 读场景定模式名；② 看类图空位类型（接口/父类/成员变量/方法体）；③ 套骨架关键词（策略=接口+多实现类、观察者=notify/update、装饰器=持有同类型成员）。<br>
-    <b>策略：</b>试题 5(C++)/6(Java) <b>只主攻 Java</b>；整卷下午题 150 分钟掐表做 1 套，用 <a class="a" href="07-仿真真题精析.html">07 篇</a>对照评分点。
+    <b>策略：</b>试题 5(C++)/6(Java) <b>只主攻 Java</b>；整卷下午题掐表 120 分钟做 1 套（对应连考剩余时长），用 <a class="a" href="07-仿真真题精析.html">07 篇</a>对照评分点。
+    <label class="miss"><input type="checkbox" data-mkey="rpd4-1"> 下午题没掌握</label>
   </div>
+
+  <div class="box red">
+    <b>算法题 / Java 题零基础抢分卡（不会做 ≠ 0 分：机考按空给分 + 下拉选词更好蒙）：</b><br>
+    <b>及格数学先算清：</b>必答三题（数据流图/数据库/UML）最套路、按点给分，目标 32~40 分；算法题抢 5~8；Java 题抢 8~10 → 合计 ≈ 45~58，<b>前三个拿稳就能过，这两题是"能抢多少是多少"</b>。<br>
+    <b>① 算法题（必答 15 分，目标 5~8 分）——五类高频空直接套：</b><br>
+    · <b>循环边界</b>：i&lt;n / i&lt;=n / i+1（看数组下标会不会越界）；<br>
+    · <b>递归出口</b>：if(n==0||n==1) return 1 这类"最小情况"；<br>
+    · <b>累加/最值</b>：sum += a[i]、if(a[i]&gt;max) max=a[i]；<br>
+    · <b>交换/移动</b>：t=a[i]; a[i]=a[j]; a[j]=t；<br>
+    · <b>返回值</b>：填最终变量名——题目问什么就返回什么，找不到常返回 -1。<br>
+    做题顺序：<b>先读题干文字说明</b>（算法思想往往直接写着）→ 再看代码结构 → 认出一个空填一个空。机考是<b>下拉选词</b>，选项有限：变量类型对不上、代码里没出现过的选项先排除，剩两个蒙"顺眼"的——蒙对率远高于瞎猜。<br>
+    <b>② Java 题（二选一，15 分，目标 8~10 分）——考的不是 Java 语法，是设计模式套壳：</b>空位无非五类：<b>extends/implements、成员变量类型（接口名）、方法名（notify/update）、new 具体类、方法调用</b>。三步法：读场景定模式 → 类图对空位 → 套骨架关键词（见上面 6 骨架表）。<b>哪怕整段代码看不懂，类图 + 模式名也能推出一半空。</b>
+  </div>
+  <details class="rec"><summary>例18【Java 填空零基础演示】观察者模式 4 个空怎么"蒙"出来</summary><div class="ans">场景"天气数据变化时自动通知所有公告板更新"→ 定为<b>观察者模式</b>。骨架：Subject 持 List&lt;Observer&gt;；Observer 是接口（含 update()）；具体类 WeatherBoard 实现它。逐空拆：<br>
+    空① <code>interface Observer { public void <b>update</b>(float t); }</code> —— 接口里的方法名：选项里只有 update 是观察者标志方法；<br>
+    空② <code>class WeatherBoard <b>implements</b> Observer</code> —— 具体类实现接口用 implements（extends 是继承类）；<br>
+    空③ 遍历列表逐个调 <b>update()</b>（或 subject 调 notify）—— "通知所有依赖者"；<br>
+    空④ <code>register(<b>new WeatherBoard()</b>)</code> —— 注册具体观察者，new 后面跟具体类名。<br>
+    <span class="hl">蒙分要领：先填有把握的空（implements/update/new），没把握的看上下文变量名再蒙——15 分抢 8 分就是赢。</span></div><label class="miss"><input type="checkbox" data-mkey="r4-14"> 没记住</label></details>
+  <details class="rec"><summary>例19【算法填空零基础演示】二分查找 3 个空逐空拆解</summary><div class="ans">在有序数组 a 里找 key 的下标：<code>int low=0, high=n-1;</code><br>
+    空① <code>while (low <b>&lt;=</b> high)</code> —— 二分循环条件必带等号（= 时区间还剩 1 个元素要查）；<br>
+    空② <code>int mid=(low+high)/2; if(a[mid]&gt;key) <b>high=mid-1</b>;</code> —— 中间值比 key 大 → 目标在<b>左半边</b> → high 左移；<br>
+    空③ 循环结束没找到 → <code>return <b>-1</b></code> —— "没找到"的约定返回值（题干说明里会给）。<br>
+    <span class="hl">就算不懂二分思想，记住三条也能全对：比大往左、比小往右；循环条件带等号；找不到返回 -1。</span></div><label class="miss"><input type="checkbox" data-mkey="r4-15"> 没记住</label></details>
 
   <h3>▶ 30 秒自测</h3>
   <details class="rec"><summary>① 快速排序在什么情况下最坏？最坏复杂度？</summary><div class="ans"><b>基本有序时最坏</b>（划分极不平衡），O(n²)——"快些选堆"都不稳定。</div><label class="miss"><input type="checkbox" data-mkey="r4-1"> 没记住</label></details>
@@ -583,17 +671,18 @@
   <details class="rec"><summary>⑥ 云上只租服务器和存储、系统自己装 → IaaS/PaaS/SaaS 哪个？</summary><div class="ans"><b>IaaS</b>——租基础设施；"租环境部署代码"是 PaaS；"直接用在线软件"是 SaaS。</div><label class="miss"><input type="checkbox" data-mkey="r4-6"> 没记住</label></details>
   <details class="rec"><summary>⑦ 观察者模式的场景关键词和两个标志性方法名？</summary><div class="ans">关键词"<b>状态变化自动通知所有依赖者</b>"；方法 <b>notify() / update()</b>——目标通知，观察者更新。</div><label class="miss"><input type="checkbox" data-mkey="r4-7"> 没记住</label></details>
 
-  <h3>▶ Day4 清单</h3>
-  <div class="chk"><input type="checkbox" data-key="d4-1"><span>背排序表 + "快些选堆"口诀 + 二叉树三性质</span></div>
-  <div class="chk"><input type="checkbox" data-key="d4-2"><span>DFS 栈 / BFS 队列 + 复杂度链复述一遍</span></div>
-  <div class="chk"><input type="checkbox" data-key="d4-3"><span>速刷 08 模式全解（高频 6 骨架）+ 03 UML 清单</span></div>
-  <div class="chk"><input type="checkbox" data-key="d4-4"><span>掐表做 1 套近年上午真题，按模块对账</span></div>
-  <div class="chk"><input type="checkbox" data-key="d4-5"><span>数学套路各练 1 题：最小生成树/Dijkstra/决策四法/盈亏平衡</span></div>
-  <div class="chk"><input type="checkbox" data-key="d4-6"><span>程序语言一句话（编译vs解释、传值vs传地址）复述一遍</span></div>
-  <div class="chk"><input type="checkbox" data-key="d4-7"><span>背新技术卡：云计算三模式 + 4V + AI 三类学习 + 微服务/DevOps/区块链一句话</span></div>
-  <div class="chk"><input type="checkbox" data-key="d4-8"><span>列出"低于预期"模块，考前一晚只回看这些速记卡</span></div>
-  <div class="chk"><input type="checkbox" data-key="pd4-1"><span>【下午】过 04 算法填空套路 + 05 Java 模式填空三步</span></div>
-  <div class="chk"><input type="checkbox" data-key="pd4-2"><span>【下午】掐表 150 分钟做 1 套下午真题，用 07 篇对评分点</span></div>
+  <h3>▶ Day4 清单（按三段式顺序执行）</h3>
+  <div class="chk"><input type="checkbox" data-key="d4-1"><span>【早晨①】背排序表 + "快些选堆"口诀 + 二叉树三性质</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-2"><span>【早晨①】DFS 栈 / BFS 队列 + 复杂度链 + 程序语言一句话复述一遍</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-9"><span>【早晨①】树零基础专讲：过一遍概念 + 手写 1 遍遍历 + 手算 1 遍哈夫曼（树弱必做）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-10"><span>【模拟前】过"算法/Java 零基础抢分卡" + 例18/19 各逐空走一遍（这 13~18 分是蒙回来的）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-3"><span>【早晨①】新技术卡过第二遍（昨晚睡前已背第一遍）</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-4"><span>【早晨①】速刷 08 模式全解（高频 6 骨架）+ 03 UML 六关系</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-5"><span>【模拟前】过 04 算法填空套路 + 05 Java 模式填空三步</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-6"><span>【下午②】掐表 120 分钟做 1 套近年上午真题，按模块对账</span></div>
+  <div class="chk"><input type="checkbox" data-key="pd4-1"><span>【下午②】掐表 120 分钟做 1 套下午真题，用 07 篇对评分点</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-7"><span>【晚上③】数学套路各练 1 题：最小生成树/Dijkstra/决策四法/盈亏平衡</span></div>
+  <div class="chk"><input type="checkbox" data-key="d4-8"><span>【晚上③】列出"低于预期"模块 → 点"回看模式"只过亮着的板块，不背新内容</span></div>
 </section>
 
 <!-- ============ 题眼反查表 ============ -->
@@ -729,15 +818,17 @@
 <!-- ============ 考前必读 ============ -->
 <section id="exam">
   <h2>考前必读 · 政策 + 机考 + 考前一晚流程</h2>
+  <div class="box red"><b>关键日期（2026 下半年）：</b>考试 <b>10 月 24—27 日</b>，具体批次/时间/地点以<b>准考证</b>为准——考前务必打印准考证并确认自己的批次！</div>
   <div class="box red">
     <b>成绩规则（决定你的战略）：</b>上午、下午<b>两卷必须同次考试都 ≥45 分</b>才算通过，单科过线<b>不作保留</b>——所以：①上午考完感觉砸了，下午照样全力打（上午成绩不由你控制，下午的每一分都由你控制）；②反过来下午难也别提前弃卷，上午分是能救的。
   </div>
   <div class="box blue">
-    <b>机考要点（软件设计师已全面机考）：</b><br>
-    ① 上午 75 道单选在屏幕上作答，<b>可标记跳过、系统倒计时</b>——技巧不变：先易后难；<br>
-    ② 下午图表题（数据流图/UML）多为<b>拖拽或下拉选词补全图中的元素</b> + 文字简答，<b>不是手画图</b>——按空给分，空着必 0 分，不确定也要选一个；<br>
-    ③ <b>考前一周去官方"模拟作答系统"练 30 分钟</b>（官网免费开放）——熟悉切换题号、标记、拖拽操作，考场不为操作浪费一分钟；<br>
-    ④ 草稿纸照常提供，四公式/口诀/表格默写照用；答案记得随手保存/进入下一题前确认提交。
+    <b>机考要点（2026 官方规则：两科连考）：</b><br>
+    ① <b>基础知识 + 应用技术连考、总时长 240 分钟</b>：基础知识（75 道单选）<b>最长 120 分钟、最短 90 分钟</b>，交卷后节余时间自动滚给应用技术——上午做得快 = 给下午大题续命；<br>
+    ② 选择不想考大题的，开考 2 小时后可交卷离场；考大题的考试结束前 60 分钟内交卷；<br>
+    ③ 下午图表题（数据流图/UML）多为<b>拖拽或下拉选词补全图中的元素</b> + 文字简答，<b>不是手画图</b>——按空给分，空着必 0 分，不确定也要选一个；<br>
+    ④ <b>考前务必去官方"模拟作答系统"练 30 分钟</b>（官网免费开放）——熟悉切换题号、标记、拖拽操作，考场不为操作浪费一分钟；<br>
+    ⑤ 草稿纸照常提供，四公式/口诀/表格默写照用；答案随手保存，进下一题前确认提交。
   </div>
   <div class="box orange">
     <b>考前一晚清单（按顺序过一遍）：</b><br>
@@ -748,7 +839,7 @@
     ⑤ 睡够 7 小时：睡眠是记忆固化的过程，熬夜一夜 ≈ 报废前三天。
   </div>
   <div class="box green">
-    <b>考试当天流程：</b>两卷<b>同一天</b>考。提前 60 分钟到场；开考前默写四公式；上午 150 分钟做完检查"不正确的是"类题；中午别对上午答案（考完一科扔一科，下午的心流最值钱）；下午先通读 5 道大题再动笔。
+    <b>考试当天流程（两科连考，中间不休息）：</b>提前 60 分钟到场；开考前默写四公式；基础知识做完检查"不正确的是"类题，确认后<b>果断交卷</b>——节余时间自动滚给应用技术，别在单选上磨到 120 分钟；切到大题先通读再动笔，别回头纠结上午的题（考完一科扔一科）。
   </div>
 </section>
 
@@ -757,7 +848,7 @@
   <h2>考场实战技巧（上午 + 下午）</h2>
   <div class="box red">
     <b>【上午】① 75 题必须全部做完</b>：单选 75 题 ×1 分，及格 45 分。空白 = 白丢分；不会的按"同一字母连蒙"（期望 ≥18 分）。<br>
-    <b>② 时间分配：</b>上午 150 分钟，75 题平均 2 分钟/题。计算题卡住超过 3 分钟立即标记跳过。<br>
+    <b>② 时间分配：</b>基础知识<b>最长 120 分钟</b>（两科连考共 240 分钟，节余滚给应用技术），75 题约 1.6 分钟/题。计算题卡住超过 2 分钟立即标记跳过。<br>
     <b>③ 先做记忆题</b>（软件工程/知识产权/英语/模式），再做计算题（页式/磁盘/流水线/子网），最后回头补标记题。<br>
     <b>④ 计算题四件套</b>（Day3 的公式）在草稿纸上开考前默写一遍——开考前有几分钟，公式遗忘是最大丢分源。<br>
     <b>⑤ 注意"不正确的是"</b>——上午题最阴的陷阱，圈出"不"字再答题。
@@ -767,7 +858,7 @@
     <b>② 评分按点给分</b>：不确定也要把术语写全（如"此处为 include 关系，因为…是必选复用"），空白必 0 分，写了就有机会；<br>
     <b>③ 图题先数个数再画</b>：实体几个、联系几个、消息几条——画完用题干逐句回验，每句描述都应对应图上一个元素；<br>
     <b>④ 算法题 15 分钟没思路就先放</b>：先把前 3 道大题拿满，回头攻填空（填空按空给分，蒙边界值也有得分机会）；<br>
-    <b>⑤ 下午 150 分钟 5 道大题</b>，每道约 28 分钟，超时立即跳下一道——下午的敌人不是难度，是时间。
+    <b>⑤ 应用技术约 120~150 分钟</b>（= 240 减去上午用时，上午做得快下午就越宽裕），5 道大题每道约 25 分钟，超时立即跳下一道——下午的敌人不是难度，是时间。
   </div>
 </section>
 
@@ -786,6 +877,15 @@
     const t = root.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
     localStorage.setItem('sk09-theme', t);
     applyTheme(t);
+  });
+  /* 打印时自动展开所有自测答案，打印完恢复 */
+  const printOpened=[];
+  window.addEventListener('beforeprint',function(){
+    document.querySelectorAll('details:not([open])').forEach(function(d){ d.setAttribute('open',''); printOpened.push(d); });
+  });
+  window.addEventListener('afterprint',function(){
+    printOpened.forEach(function(d){ d.removeAttribute('open'); });
+    printOpened.length=0;
   });
 })();
 (function(){
