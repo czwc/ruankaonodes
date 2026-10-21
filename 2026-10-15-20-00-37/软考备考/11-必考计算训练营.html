@@ -54,6 +54,7 @@
 <section id="jl-pipe">
   <h2>1. 流水线</h2>
   <span class="frm">总时间 = 各段之和 + (n−1)×周期　周期 = 最长段　加速比 = n×各段和 ÷ 总时间</span>
+  <div class="box purple"><b>【知识点·是什么】流水线像工厂装配线：一条指令切成多段，各段<b>同时开工</b>。第一条要完整走完全部段（所以第一条耗时=各段之和）；之后每过一个"周期"完工一条——节奏由<b>最慢的一段</b>决定（木桶效应）。</b></div><div class="box blue"><b>【怎么考】给"各段耗时+指令数"求①总时间②吞吐率③加速比；变体：反过来给总时间求指令数；或单独问"流水线周期是多少"。三问全用同一组数字。</b></div>
   <div class="ctl">
     <label>各段耗时(ns)，逗号分隔：</label><input id="p_seg" value="1,2,3,4" style="width:150px;">
     <label>指令条数 n：</label><input id="p_n" value="100">
@@ -61,12 +62,15 @@
   </div>
   <div class="res" id="p_res"></div>
   <div class="pit"><b>坑：</b>第一条指令 = 各段之和（不是周期×1）；周期取<b>最长段</b>；加速比不是"段数"倍。</div>
-  <details class="pra"><summary>练一练：五段 2/2/3/4/4ns，跑 200 条指令，总时间与加速比？</summary><div class="ans">各段和 = 15；周期 = 4；总时间 = 15 + 199×4 = <b class="ok">811ns</b>；加速比 = 200×15÷811 ≈ <b class="ok">3.70</b></div></details>
+  <details class="pra"><summary>例1（经典真题款）：四段 1/2/3/4ns，跑 100 条指令</summary><div class="ans">各段之和 = 1+2+3+4 = 10ns；周期 = 最长段 = 4ns；总时间 = 10 + 99×4 = <b>406ns</b>；加速比 = 100×10÷406 ≈ <b>2.46</b>；吞吐率 = 100÷406 ≈ 0.246 条/ns。</div></details>
+  <details class="pra"><summary>例2：五段 2/2/3/4/4ns，跑 200 条指令</summary><div class="ans">各段之和 = 15ns；周期 = 4ns；总时间 = 15 + 199×4 = <b>811ns</b>；加速比 = 200×15÷811 ≈ <b>3.70</b>。</div></details>
+  <details class="pra"><summary>练一练：六段 1/1/2/3/4/4ns，跑 500 条，总时间？</summary><div class="ans">各段和 = 15；周期 = 4；总 = 15 + 499×4 = <b>2011ns</b>。</div></details>
 </section>
 
 <section id="jl-cache">
   <h2>2. Cache 平均访问时间</h2>
   <span class="frm">顺序式 T = H×t1 + (1−H)×t2　同时式 T = H×t1 + (1−H)×(t1+t2)</span>
+  <div class="box purple"><b>【知识点·是什么】CPU 取数先问 Cache（小而快），命中直接用；没命中去慢的主存。平均时间 = 命中与未命中两种情况的<b>加权平均</b>。注意两种题型："顺序访问"（先查 Cache 不中再查主存）与"同时访问"（两级同时开查，未命中那次连 Cache 时间也搭进去）。</b></div><div class="box blue"><b>【怎么考】给 H、t1、t2 求平均时间——<b>先看题干有没有"同时访问"四个字再选公式</b>；高级变体：给平均时间反推命中率。</b></div>
   <div class="ctl">
     <label>命中率 H(%)：</label><input id="c_h" value="90">
     <label>Cache 时间：</label><input id="c_t1" value="40">
@@ -75,12 +79,15 @@
   </div>
   <div class="res" id="c_res"></div>
   <div class="pit"><b>坑：</b>题干出现"<b>同时访问</b>"四个字必须用同时式（未命中那次把 Cache 时间也算进去）；两种答案差 t1×(1−H)。</div>
-  <details class="pra"><summary>练一练：H=96%，Cache 20ns，主存 500ns，同时访问式？</summary><div class="ans">0.96×20 + 0.04×(20+500) = 19.2 + 20.8 = <b class="ok">40ns</b>（顺序式则是 39.2ns）</div></details>
+  <details class="pra"><summary>例1：H=90%，Cache 40ns，主存 200ns（顺序式）</summary><div class="ans">T = 0.9×40 + 0.1×200 = 36 + 20 = <b>56ns</b>。</div></details>
+  <details class="pra"><summary>例2：H=96%，Cache 20ns，主存 500ns（同时式）</summary><div class="ans">T = 0.96×20 + 0.04×(20+500) = 19.2 + 20.8 = <b>40ns</b>。</div></details>
+  <details class="pra"><summary>练一练：H=80%，Cache 50ns，主存 250ns（顺序式）？</summary><div class="ans">T = 0.8×50 + 0.2×250 = 40 + 50 = <b>90ns</b>。</div></details>
 </section>
 
 <section id="jl-rel">
   <h2>3. 可靠性（串联 / 相同并联 / 混联）</h2>
   <span class="frm">串联 R = 各 R 相乘　并联 R = 1−(1−R)^n　混联先算每组再串联</span>
+  <div class="box purple"><b>【知识点·是什么】串联 = 一个坏全坏（可靠度相乘，<b>越串越低</b>）；并联 = 备份，全坏才失效（1−(1−R)^n，<b>越并越高</b>）。混联口诀"<b>先小后大</b>"：先把每个并联小组算成一个数，再串联。MTBF = 1/λ（平均无故障时间）。</b></div><div class="box blue"><b>【怎么考】给结构图求整体可靠度（必画图）；或给 MTBF/λ 互求；概念题考"串联系统 MTBF 比单机短"。</b></div>
   <div class="ctl">
     <label>模式：</label>
     <select id="r_mode"><option value="s">串联（输入各部件 R）</option><option value="p">并联（n 个相同 R）</option><option value="m">混联：两组各 m 个 R 并联再串联</option></select>
@@ -90,12 +97,15 @@
   </div>
   <div class="res" id="r_res"></div>
   <div class="pit"><b>坑：</b>混联口诀"<b>先小后大</b>"——先把每组并联算成一个数，再串联相乘；并联结果一定高于组内任何一个。</div>
-  <details class="pra"><summary>练一练：系统 = A(0.95) 串联 [B、C 两个 0.9 并联]，整体可靠度？</summary><div class="ans">BC 组 = 1−0.1² = 0.99；整体 = 0.95×0.99 = <b class="ok">0.9405</b></div></details>
+  <details class="pra"><summary>例1：两组各 2 个 0.9 并联，再串联</summary><div class="ans">每组 = 1−0.1² = 0.99；整体 = 0.99×0.99 = <b>0.9801</b>。</div></details>
+  <details class="pra"><summary>例2：A(0.95) 串联 [B、C 两个 0.9 并联]</summary><div class="ans">BC 组 = 1−0.01 = 0.99；整体 = 0.95×0.99 = <b>0.9405</b>。</div></details>
+  <details class="pra"><summary>练一练：三个 0.99 并联，整体可靠度？</summary><div class="ans">1−0.01³ = 1−0.000001 ≈ <b>0.999999</b>——并联越多越接近 1。</div></details>
 </section>
 
 <section id="jl-subnet">
   <h2>4. 子网划分</h2>
   <span class="frm">可用主机 = 2^(32−新前缀) − 2　子网数 = 2^(新前缀−原前缀)　广播地址 = 网络地址 | 主机位全 1</span>
+  <div class="box purple"><b>【知识点·是什么】一个 IP = "<b>小区名（网络位）+ 门牌号（主机位）</b>"。子网掩码是围墙：1 的部分圈住小区名。主机位<b>全 0 是小区本身</b>、<b>全 1 是广播</b>——都不能分给主机，所以减 2。借位 = 把大小区切成小小区。</b></div><div class="box blue"><b>【怎么考】①给前缀求可用主机数/子网数；②求广播地址和可用范围；③反推："需要 60 台主机至少用哪个前缀"（/26，因为 /25 有 126、/26 有 62 ≥ 60）。</b></div>
   <div class="ctl">
     <label>IP：</label><input id="s_ip" value="192.168.1.100">
     <label>原前缀：</label><input id="s_n1" value="24" style="width:70px;">
@@ -104,12 +114,15 @@
   </div>
   <div class="res" id="s_res"></div>
   <div class="pit"><b>坑：</b>可用主机必须<b>减 2</b>（网络地址+广播地址）；每段范围 = 块大小一段（如 /26 每段 64 个地址：0~63、64~127…）。</div>
-  <details class="pra"><summary>练一练：10.0.0.0/24 借 3 位划分子网（/27），子网数？每个可用主机？</summary><div class="ans">子网数 = 2³ = <b class="ok">8 个</b>；主机位 = 5 → 可用 = 2⁵−2 = <b class="ok">30 台</b>；每段 32 个地址（0~31、32~63…）</div></details>
+  <details class="pra"><summary>例1：192.168.1.0/26</summary><div class="ans">主机位 = 6 → 可用 = 2⁶−2 = <b>62 台</b>；每段 64 个地址（0~63）；广播地址 = 192.168.1.<b>63</b>；可用范围 = .1 ~ .62。</div></details>
+  <details class="pra"><summary>例2：10.0.0.0/24 借 3 位（/27）</summary><div class="ans">子网数 = 2³ = <b>8 个</b>；主机位 = 5 → 可用 = <b>30 台</b>；每段 32 个地址（0~31、32~63…）。</div></details>
+  <details class="pra"><summary>练一练：需要 100 台主机的子网，前缀至少多少？</summary><div class="ans">/25：2⁷−2 = 126 ≥ 100 ✓；/26 只有 62 < 100 ✗ → <b>至少 /25</b>。</div></details>
 </section>
 
 <section id="jl-page">
   <h2>5. 页式地址转换</h2>
   <span class="frm">页号 = 地址 ÷ 页大小(取商)　偏移 = 余数　物理地址 = 帧号 × 页大小 + 偏移</span>
+  <div class="box purple"><b>【知识点·是什么】内存被切成等大的页框。逻辑地址 = "<b>页号 + 页内偏移</b>"：页号说明在第几页，偏移说明页内第几字节。页大小是 2 的幂（1KB=2¹⁰），所以地址<b>低位天然就是偏移</b>；页被装到哪个帧查映射表——<b>同一页搬去哪，页内偏移都不变</b>。</b></div><div class="box blue"><b>【怎么考】①给页大小+逻辑地址+映射表求物理地址；②问"地址怎么分位"（偏移位数 = log₂页大小）；③配缺页置换另出题（见③节）。</b></div>
   <div class="ctl">
     <label>页大小：</label>
     <select id="g_ps"><option value="1024">1KB</option><option value="2048">2KB</option><option value="4096">4KB</option></select>
@@ -119,24 +132,30 @@
   </div>
   <div class="res" id="g_res"></div>
   <div class="pit"><b>坑：</b>帧号查题干映射表，<b>别把页号当帧号</b>；偏移位数 = log₂(页大小)（1KB→低 10 位）。</div>
-  <details class="pra"><summary>练一练：4KB 页、逻辑地址 10000、帧号 6 → 物理地址？</summary><div class="ans">10000÷4096：页号 2、偏移 1808；物理 = 6×4096+1808 = <b class="ok">26384</b></div></details>
+  <details class="pra"><summary>例1：1KB 页、逻辑地址 2500、帧号 4</summary><div class="ans">2500÷1024：页号 2、偏移 452；物理 = 4×1024+452 = <b>4548</b>。</div></details>
+  <details class="pra"><summary>例2：4KB 页、逻辑地址 10000、帧号 6</summary><div class="ans">10000÷4096：页号 2、偏移 1808；物理 = 6×4096+1808 = <b>26384</b>。</div></details>
+  <details class="pra"><summary>练一练：2KB 页、逻辑地址 5000、帧号 7 → 物理地址？</summary><div class="ans">5000÷2048：页号 2、偏移 904；物理 = 7×2048+904 = <b>15240</b>。</div></details>
 </section>
 
 <section id="jl-hamming">
   <h2>6. 海明码校验位数</h2>
   <span class="frm">2^k ≥ n + k + 1（n 数据位，k 校验位，取最小 k）</span>
+  <div class="box purple"><b>【知识点·是什么】k 位校验要能区分"n+k 个位置各自出错 + 1 种没错"共 n+k+1 种状态 → 2^k ≥ n+k+1。校验位放在第 1、2、4、8…（2^i）位置。</b></div><div class="box blue"><b>【怎么考】①给数据位求校验位位数（套公式取最小 k）；②概念题"哪种码能纠错"——<b>只有海明能纠 1 位错</b>；奇偶校验/CRC 只能检错。</b></div>
   <div class="ctl">
     <label>数据位数 n：</label><input id="h_n" value="8">
     <button class="btn" onclick="calcHamming()">开始演算</button>
   </div>
   <div class="res" id="h_res"></div>
   <div class="pit"><b>坑：</b>能纠 1 位错的只有海明；奇偶校验/CRC 只能检错（CRC 检错强≠能纠错）。</div>
-  <details class="pra"><summary>练一练：16 位数据需要几位校验位？</summary><div class="ans">k=5：2⁵=32 ≥ 16+5+1=22 ✓（k=4 时 16＜21 ✗）→ <b class="ok">5 位</b></div></details>
+  <details class="pra"><summary>例1：n=8</summary><div class="ans">k=4：2⁴=16 ≥ 8+4+1=13 ✓；k=3：8 < 12 ✗ → <b>4 位</b>。</div></details>
+  <details class="pra"><summary>例2：n=16</summary><div class="ans">k=5：32 ≥ 22 ✓；k=4：16 < 21 ✗ → <b>5 位</b>。</div></details>
+  <details class="pra"><summary>练一练：4 位数据需要几位校验位？</summary><div class="ans">k=3：8 ≥ 4+3+1=8 ✓ → <b>3 位</b>。</div></details>
 </section>
 
 <section id="jl-disk">
   <h2>7. 磁盘平均存取时间</h2>
   <span class="frm">平均存取 = 平均寻道 + 平均旋转延迟(60/转速÷2) + 传输时间</span>
+  <div class="box purple"><b>【知识点·是什么】读一个扇区三步：①磁头移到目标磁道（<b>寻道</b>）；②等盘片把目标扇区转过来（<b>旋转延迟</b>，平均要等<b>半圈</b>）；③读出数据（<b>传输</b>）。三项相加 = 平均存取时间。</b></div><div class="box blue"><b>【怎么考】①给寻道+转速+传输求平均存取；②只给转速求旋转延迟（60000÷rpm÷2）；③变体"读一圈/读一个磁道"= 一整圈时间。</b></div>
   <div class="ctl">
     <label>平均寻道(ms)：</label><input id="d_seek" value="6">
     <label>转速(rpm)：</label><input id="d_rpm" value="7200">
@@ -145,12 +164,15 @@
   </div>
   <div class="res" id="d_res"></div>
   <div class="pit"><b>坑：</b>旋转延迟取<b>半圈</b>时间（平均转到目标扇区要等半圈）；题目给"每分钟转数 rpm"先换算成每圈毫秒 = 60000÷rpm。</div>
-  <details class="pra"><summary>练一练：寻道 8ms、6000rpm、传输 3ms → 平均存取？</summary><div class="ans">每圈 10ms → 半圈 5ms；8+5+3 = <b class="ok">16ms</b></div></details>
+  <details class="pra"><summary>例1：寻道 6ms、7200rpm、传输 4ms</summary><div class="ans">每圈 = 60000÷7200 ≈ 8.33ms → 旋转延迟 ≈ 4.17ms；总 = 6+4.17+4 ≈ <b>14.17ms</b>。</div></details>
+  <details class="pra"><summary>例2：寻道 8ms、6000rpm、传输 3ms</summary><div class="ans">每圈 = 10ms → 旋转延迟 = 5ms；总 = 8+5+3 = <b>16ms</b>。</div></details>
+  <details class="pra"><summary>练一练：7200rpm 的盘每圈时间？旋转延迟？</summary><div class="ans">每圈 = 60000÷7200 ≈ <b>8.33ms</b>；旋转延迟 = 半圈 ≈ <b>4.17ms</b>。</div></details>
 </section>
 
 <section id="jl-media">
   <h2>8. 多媒体容量</h2>
   <span class="frm">图像 = 宽×高×位深÷8　音频 = 采样率×量化位×声道×秒÷8</span>
+  <div class="box purple"><b>【知识点·是什么】图像容量 = 像素总数 × <b>每像素位深</b>——位深由颜色数决定：<b>16 色=4 位、256 色=8 位、65536 色=16 位、真彩=24 位</b>。音频容量 = 每秒采样次数 × 每次位数 × 声道数 × 秒。采样定理：采样频率 ≥ 最高频率×2。</b></div><div class="box blue"><b>【怎么考】①分辨率+颜色数求图像容量；②音频四参数求大小；③"采样频率至少多少"；④概念：JPEG 有损/PNG 无损、位图矢量图区别。</b></div>
   <div class="ctl">
     <label>图像 宽：</label><input id="m_w" value="800" style="width:80px;">
     <label>高：</label><input id="m_h" value="600" style="width:80px;">
@@ -160,11 +182,14 @@
   </div>
   <div class="res" id="m_res"></div>
   <div class="pit"><b>坑：</b>"16 色"= 每像素 <b>4 位</b>（不是 16 位）；采样定理：采样频率 ≥ 最高频率×2。</div>
-  <details class="pra"><summary>练一练：44.1kHz、16 位、双声道、60 秒 WAV 多大？</summary><div class="ans">44100×16×2×60÷8 = 10584000B ≈ <b class="ok">10.1MB</b></div></details>
+  <details class="pra"><summary>例1：800×600、16 色</summary><div class="ans">位深 = 4 位；容量 = 800×600×4÷8 = 240000B ≈ <b>234KB</b>。</div></details>
+  <details class="pra"><summary>例2：44.1kHz、16 位、双声道、60 秒</summary><div class="ans">44100×16×2×60÷8 = 10584000B ≈ <b>10.1MB</b>。</div></details>
+  <details class="pra"><summary>练一练：640×480 真彩 24 位 → 多大？</summary><div class="ans">640×480×24÷8 = 921600B = <b>900KB</b>。</div></details>
 </section>
 
 <section id="jl-mini">
   <h2>9. 三连小计算（循环队列 / 二分 / 对称矩阵）</h2>
+  <div class="box purple"><b>【知识点·是什么】①循环队列首尾指针<b>绕圈走</b>——rear 可能比 front 还小，所以个数公式必须加容量再取模；②二分查找每次排除一半 → 最多 ⌈log₂(n+1)⌉ 次，<b>前提：有序 + 顺序存储</b>；③对称矩阵只存下三角，共 n(n+1)/2 个元素。</b></div><div class="box blue"><b>【怎么考】三小题各 1 分：给 front/rear/容量求个数（常故意设绕圈）；给 n 问最多比较几次；给 n 问压缩后元素数。</b></div>
   <div class="ctl">
     <label>循环队列 front：</label><input id="q_f" value="3" style="width:70px;">
     <label>rear：</label><input id="q_r" value="8" style="width:70px;">
@@ -175,12 +200,15 @@
   </div>
   <div class="res" id="mi_res"></div>
   <div class="pit"><b>坑：</b>循环队列必须 (rear−front+容量) mod 容量（可能绕圈）；二分前提 = <b>有序 + 顺序存储</b>；对称矩阵存 n(n+1)/2 个。</div>
-  <details class="pra"><summary>练一练：front=7、rear=3、容量 10 → 队列几个元素？（绕圈场景）</summary><div class="ans">(3−7+10)%10 = <b class="ok">6 个</b>——不加容量会是 −4，错！</div></details>
+  <details class="pra"><summary>例1：front=3、rear=8、容量 10</summary><div class="ans">(8−3+10) mod 10 = <b>5 个</b>。</div></details>
+  <details class="pra"><summary>例2：100 个有序元素，二分查找最多几次？</summary><div class="ans">⌈log₂101⌉ = <b>7 次</b>。</div></details>
+  <details class="pra"><summary>练一练：12×12 对称矩阵压缩存储 → 多少个元素？</summary><div class="ans">12×13÷2 = <b>78 个</b>。</div></details>
 </section>
 
 <section id="jl-emv">
   <h2>10. EMV 期望值与盈亏平衡</h2>
   <span class="frm">EMV = Σ 结果×概率（选 EMV 大的方案）　盈亏平衡件数 = 固定成本 ÷ (单价 − 单位变动成本)</span>
+  <div class="box purple"><b>【知识点·是什么】EMV（期望货币值）= 每种结果的金额 × 概率再加总，<b>选 EMV 最大的方案</b>（决策树题的判据）。盈亏平衡 = 固定成本摊给每件毛利：保本件数 = 固定成本 ÷ (单价 − 单位变动成本)。</b></div><div class="box blue"><b>【怎么考】①两方案各两种结果+概率，问选哪个（算 EMV 比大小）；②给成本单价求保本件数；③概率给百分数先化小数、<b>和必须为 1</b>。</b></div>
   <div class="ctl">
     <label>方案A 好结果：</label><input id="e_a1" value="80" style="width:70px;">
     <label>概率：</label><input id="e_ap" value="0.6" style="width:70px;">
@@ -191,7 +219,9 @@
   </div>
   <div class="res" id="e_res"></div>
   <div class="pit"><b>坑：</b>坏结果要带<b>负号</b>；概率和必须=1；盈亏平衡里"单位变动成本"是每件的成本，别填固定成本。</div>
-  <details class="pra"><summary>练一练：固定成本 30 万，单价 100 元，单位变动 60 元 → 盈亏平衡？</summary><div class="ans">300000 ÷ (100−60) = <b class="ok">7500 件</b></div></details>
+  <details class="pra"><summary>例1：方案A 好赚 90（概率0.6）、亏 20（概率0.4）；方案B 稳拿 40</summary><div class="ans">A 的 EMV = 90×0.6 + (−20)×0.4 = 54 − 8 = <b>46</b> > 40 → <b>选 A</b>。</div></details>
+  <details class="pra"><summary>例2：固定成本 30 万，单价 100，单位变动 60</summary><div class="ans">保本件数 = 300000 ÷ 40 = <b>7500 件</b>。</div></details>
+  <details class="pra"><summary>练一练：EMV = 100×0.5 + (−40)×0.5 = ? 与稳拿 28 比选哪个？</summary><div class="ans">EMV = 50 − 20 = <b>30</b> > 28 → <b>选期望方案 A</b>。</div></details>
 </section>
 
 <div class="foot">软考软件设计师 · 必考计算训练营 · 配合 00 篇计算总集与 10 必考点使用 · 黑夜模式全站同步</div>
