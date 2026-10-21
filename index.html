@@ -3,128 +3,119 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="软考中级软件设计师学习系统：讲义、公式、题库、专题、英语与冲刺资料。">
-<meta name="theme-color" content="#f8fafc">
-<title>软考软件设计师学习系统</title>
+<meta name="description" content="软考软件设计师备考中心：四天冲刺、必考点、五大题教程与历年真题。">
+<title>软考软件设计师 · 备考中心</title>
 <style>
-:root{--bg:#f5f7f9;--surface:#fff;--surface-2:#eef2f5;--text:#17212b;--muted:#61707d;--line:#d9e0e5;--brand:#087f5b;--brand-dark:#066649;--blue:#2463a8;--amber:#a45c08;--red:#b23a3a;--shadow:0 12px 32px rgba(23,33,43,.08)}
-*{box-sizing:border-box}
-html{scroll-behavior:smooth}
-body{margin:0;background:var(--bg);color:var(--text);font-family:"Microsoft YaHei UI","PingFang SC",sans-serif;line-height:1.6}
-button,input{font:inherit}
-a{color:inherit}.skip{position:absolute;left:-9999px}.skip:focus{left:16px;top:16px;z-index:99;background:#fff;padding:8px;border:2px solid var(--brand)}
-.topbar{position:sticky;top:0;z-index:20;background:rgba(255,255,255,.94);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
-.topbar-inner{max-width:1240px;margin:auto;min-height:64px;padding:0 24px;display:flex;align-items:center;gap:24px}.brand{font-weight:800;text-decoration:none;white-space:nowrap}.brand small{display:block;color:var(--muted);font-size:11px;font-weight:500}
-.search{position:relative;flex:1;max-width:520px}.search input{width:100%;height:40px;border:1px solid var(--line);border-radius:6px;background:var(--bg);padding:0 42px 0 14px;color:var(--text)}.search input:focus{outline:3px solid rgba(8,127,91,.16);border-color:var(--brand)}.search kbd{position:absolute;right:10px;top:9px;border:1px solid var(--line);background:#fff;border-radius:4px;padding:1px 6px;color:var(--muted);font-size:11px}.top-link{font-size:14px;text-decoration:none;color:var(--muted)}
-.layout{max-width:1240px;margin:auto;padding:28px 24px 72px;display:grid;grid-template-columns:210px minmax(0,1fr);gap:30px}.sidebar{position:sticky;top:92px;height:max-content}.sidebar-title{font-size:12px;color:var(--muted);font-weight:700;margin:0 0 8px;text-transform:uppercase}.nav-link{display:block;text-decoration:none;padding:8px 10px;border-left:3px solid transparent;color:var(--muted);font-size:14px}.nav-link:hover,.nav-link.active{color:var(--brand);border-color:var(--brand);background:rgba(8,127,91,.06)}
-.hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:22px;border-bottom:1px solid var(--line);padding:8px 0 28px}.eyebrow{color:var(--brand);font-size:13px;font-weight:800}.hero h1{font-size:clamp(28px,4vw,44px);line-height:1.18;margin:8px 0 12px;letter-spacing:0}.hero p{max-width:720px;color:var(--muted);margin:0}.hero-actions{display:flex;gap:10px;margin-top:20px;flex-wrap:wrap}.btn{display:inline-flex;align-items:center;justify-content:center;min-height:40px;padding:0 16px;border-radius:6px;border:1px solid var(--line);background:#fff;text-decoration:none;font-weight:700;font-size:14px;cursor:pointer}.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}.btn:hover{transform:translateY(-1px)}
-.progress-panel{background:var(--surface);border:1px solid var(--line);padding:18px;border-radius:8px}.progress-panel h2{font-size:15px;margin:0 0 14px}.progress-number{font-size:34px;font-weight:800;color:var(--brand)}.bar{height:8px;border-radius:4px;background:var(--surface-2);overflow:hidden;margin:8px 0 12px}.bar span{display:block;height:100%;background:var(--brand);width:0;transition:width .4s}.progress-meta{font-size:12px;color:var(--muted)}
-.section{padding-top:34px;scroll-margin-top:78px}.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:14px}.section h2{font-size:22px;margin:0}.section-head p{margin:0;color:var(--muted);font-size:13px}.path{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line);background:var(--surface);border-radius:8px;overflow:hidden}.path-step{padding:18px;border-right:1px solid var(--line)}.path-step:last-child{border:0}.path-step b{display:block;color:var(--brand);font-size:12px;margin-bottom:5px}.path-step strong{font-size:15px}.path-step p{font-size:12px;color:var(--muted);margin:5px 0 0}
-.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.module{position:relative;display:flex;flex-direction:column;min-height:200px;background:var(--surface);border:1px solid var(--line);border-radius:8px;padding:18px;text-decoration:none;transition:border-color .18s,box-shadow .18s}.module:hover{border-color:var(--brand);box-shadow:var(--shadow)}.module-top{display:flex;align-items:start;justify-content:space-between;gap:10px}.module-code{width:38px;height:38px;border-radius:6px;display:grid;place-items:center;background:#e6f4ef;color:var(--brand);font-weight:900;font-size:12px}.tag{font-size:11px;color:var(--muted);border:1px solid var(--line);padding:2px 7px;border-radius:10px}.module h3{font-size:17px;margin:14px 0 6px}.module p{font-size:13px;color:var(--muted);margin:0 0 18px}.module-foot{margin-top:auto;display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted)}.visited{color:var(--brand);font-weight:700}.module.hidden{display:none}
-.recent-list{background:var(--surface);border:1px solid var(--line);border-radius:8px}.recent-item{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 16px;border-bottom:1px solid var(--line);text-decoration:none}.recent-item:last-child{border:0}.recent-item:hover{background:var(--surface-2)}.recent-title{font-weight:700;font-size:14px}.recent-time{font-size:12px;color:var(--muted);white-space:nowrap}.empty{padding:24px;color:var(--muted);text-align:center}.no-results{display:none;padding:30px;background:#fff;border:1px solid var(--line);text-align:center;color:var(--muted);border-radius:8px}.footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:20px}.reset{border:0;background:none;color:var(--red);cursor:pointer;padding:0}
-@media(max-width:980px){.layout{grid-template-columns:1fr}.sidebar{display:none}.hero{grid-template-columns:1fr}.progress-panel{max-width:420px}.grid{grid-template-columns:repeat(2,1fr)}.path{grid-template-columns:repeat(2,1fr)}.path-step:nth-child(2){border-right:0}.path-step:nth-child(-n+2){border-bottom:1px solid var(--line)}}
-@media(max-width:620px){.topbar-inner{padding:10px 14px;flex-wrap:wrap;gap:10px}.brand{width:100%}.search{order:3;max-width:none;width:100%}.top-link{display:none}.layout{padding:20px 14px 50px}.hero{padding-top:0}.grid{grid-template-columns:1fr}.path{grid-template-columns:1fr}.path-step{border-right:0;border-bottom:1px solid var(--line)!important}.footer{display:block}.footer .reset{margin-top:12px}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;transition:none!important}}
+  :root{--bg:#f6f7fb;--card:#fff;--card2:#fbfcff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.75;}
+  .wrap{max-width:1080px;margin:0 auto;padding:28px 20px 80px;}
+  header{background:linear-gradient(135deg,#d64545,#7b52d6);color:#fff;border-radius:16px;padding:30px 28px;margin-bottom:22px;position:relative;}
+  header h1{margin:0 0 8px;font-size:26px;} header p{margin:0;opacity:.92;font-size:14px;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 0;}
+  nav a{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;padding:5px 13px;border-radius:20px;font-size:13px;}
+  nav a:hover{background:rgba(255,255,255,.3);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:20px;}
+  h2{margin:0 0 12px;font-size:19px;border-left:5px solid var(--red);padding-left:12px;}
+  .cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:12px;}
+  a.card{display:block;background:var(--card2);border:1px solid var(--border);border-left:4px solid var(--blue);border-radius:10px;padding:12px 15px;text-decoration:none;color:var(--ink);transition:border-color .15s, transform .15s;}
+  a.card:hover{border-color:var(--blue);transform:translateY(-2px);}
+  a.card h3{margin:0 0 4px;font-size:15px;color:var(--blue);}
+  a.card p{margin:0;font-size:13px;color:var(--muted);}
+  a.card b{color:var(--red);}
+  .box{border-radius:10px;padding:11px 14px;margin:10px 0;font-size:13.5px;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:26px;}
+  .theme-btn{position:fixed;top:14px;right:16px;z-index:99;background:var(--card);border:1px solid var(--border);color:var(--ink);border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  .theme-btn:hover{border-color:var(--blue);color:var(--blue);}
+  /* ==== 黑夜模式 ==== */
+  :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--card2:#232a3a;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;}
+  .theme-btn{background:var(--card);border-color:var(--border);color:var(--ink);}
 </style>
 </head>
 <body>
-<a class="skip" href="#content">跳到主要内容</a>
-<header class="topbar">
-  <div class="topbar-inner">
-    <a class="brand" href="./">软考软件设计师<small>统一学习系统</small></a>
-    <div class="search"><label class="skip" for="search">搜索学习模块</label><input id="search" type="search" placeholder="搜索公式、题库、设计模式、英语..." autocomplete="off"><kbd>/</kbd></div>
-    <a class="top-link" href="https://github.com/czwc/ruankaonodes" target="_blank" rel="noopener">GitHub</a>
-  </div>
+<div class="wrap">
+
+<header>
+  <h1>软考软件设计师 · 备考中心</h1>
+  <p>冲刺计划 / 必考点 / 上午题 / 下午题五大题 / 历年真题——本站只收录软考备考内容</p>
+  <nav>
+    <a href="软考备考/09-四天冲刺计划.html">冲刺计划</a>
+    <a href="软考备考/10-百分百必考点.html">必考点</a>
+    <a href="软考备考/00-总览与计划.html">学习总览</a>
+    <a href="#pm">下午题</a>
+    <a href="#papers">历年真题</a>
+  </nav>
 </header>
-<div class="layout">
-  <aside class="sidebar" aria-label="页面导航">
-    <p class="sidebar-title">学习导航</p>
-    <a class="nav-link active" href="#overview">学习概览</a>
-    <a class="nav-link" href="#lectures">系统讲义</a>
-    <a class="nav-link" href="#practice">题库训练</a>
-    <a class="nav-link" href="#topics">专题工具</a>
-    <a class="nav-link" href="#sprint">冲刺中心</a>
-    <a class="nav-link" href="#recent">最近学习</a>
-  </aside>
-  <main id="content">
-    <section class="hero" id="overview">
-      <div>
-        <div class="eyebrow">SOFTWARE DESIGNER STUDY HUB</div>
-        <h1>把分散的笔记，变成一条清晰的学习路径</h1>
-        <p>从基础讲义、公式理解到分类题库、专项练习和考前冲刺。系统会在当前浏览器记录你访问过的模块和最近学习内容，不需要注册账号。</p>
-        <div class="hero-actions"><a class="btn primary" id="continueBtn" href="软考必考考点_可视化.html">开始学习</a><a class="btn" href="#practice">直接刷题</a></div>
-      </div>
-      <div class="progress-panel" aria-label="学习进度">
-        <h2>模块学习进度</h2>
-        <div class="progress-number" id="progressNumber">0%</div>
-        <div class="bar"><span id="progressBar"></span></div>
-        <div class="progress-meta" id="progressMeta">尚未开始学习</div>
-      </div>
-    </section>
 
-    <section class="section" aria-labelledby="pathTitle">
-      <div class="section-head"><div><h2 id="pathTitle">推荐学习路径</h2><p>零基础按顺序推进，冲刺阶段可直接进入第 4 步。</p></div></div>
-      <div class="path">
-        <div class="path-step"><b>STEP 01</b><strong>建立知识框架</strong><p>先读必考考点和上午、下午讲义。</p></div>
-        <div class="path-step"><b>STEP 02</b><strong>攻克计算与代码</strong><p>掌握公式、算法、设计模式和重点专题。</p></div>
-        <div class="path-step"><b>STEP 03</b><strong>分类刷题巩固</strong><p>通过分类题库和专项练习定位薄弱点。</p></div>
-        <div class="path-step"><b>STEP 04</b><strong>考前集中冲刺</strong><p>高频统计、三天速记和冲刺宝典查漏补缺。</p></div>
-      </div>
-    </section>
+<section id="sprint">
+  <h2>冲刺必备（考前必开）</h2>
+  <div class="cards">
+    <a class="card" href="软考备考/09-四天冲刺计划.html"><h3>★ 09 四天冲刺计划</h3><p>双卷作战图：命题预测星级表 + 背卡自测 + 题眼反查表 + 回看模式 + 考前必读</p></a>
+    <a class="card" href="软考备考/10-百分百必考点.html"><h3>★ 10 百分百必考点</h3><p>26 张必考卡片（考法+解法+坑）· 点击标记已过目 · 考前 60 分钟流程</p></a>
+    <a class="card" href="软考备考/00-总览与计划.html"><h3>00 总览与学习计划</h3><p>全套教程导航 + 学习顺序 + 各页完成状态</p></a>
+  </div>
+</section>
 
-    <section class="section module-section" id="lectures" data-section="lectures">
-      <div class="section-head"><div><h2>系统讲义</h2><p>从知识框架到图文细节。</p></div></div><div class="grid" data-grid></div>
-    </section>
-    <section class="section module-section" id="practice" data-section="practice">
-      <div class="section-head"><div><h2>题库训练</h2><p>分类练习、专项突破与答案解析。</p></div></div><div class="grid" data-grid></div>
-    </section>
-    <section class="section module-section" id="topics" data-section="topics">
-      <div class="section-head"><div><h2>专题工具</h2><p>公式、代码、英语和重点难题。</p></div></div><div class="grid" data-grid></div>
-    </section>
-    <section class="section module-section" id="sprint" data-section="sprint">
-      <div class="section-head"><div><h2>冲刺中心</h2><p>按考试频率和时间压缩复习范围。</p></div></div><div class="grid" data-grid></div>
-    </section>
-    <div class="no-results" id="noResults">没有找到匹配的学习模块，请换一个关键词。</div>
+<section id="pm">
+  <h2>下午题 · 五大题教程（每题都有真题实战）</h2>
+  <div class="cards">
+    <a class="card" href="软考备考/01-数据流图.html"><h3>试题一 数据流图（15分）</h3><p>四大元素 + 三大铁律 + 四板斧 + <b>5 套真题实战（含原图）</b> + 缺失流判断法</p></a>
+    <a class="card" href="软考备考/02-数据库设计.html"><h3>试题二 数据库设计（15分）</h3><p>E-R 三要素 + 转模式三规则 + 候选码四步 + <b>5 套真题实战（含原图）</b> + 小白拿分指南</p></a>
+    <a class="card" href="软考备考/03-UML建模.html"><h3>试题三 UML 建模（15分）</h3><p>用例图/类图/状态图/活动图/顺序图 + <b>3 套真题实战（含原图）</b> + 问题3 设计模式模板</p></a>
+    <a class="card" href="软考备考/04-算法策略.html"><h3>试题四 算法策略（15分）</h3><p>策略识别四句话 + 0-1 背包手把手 + 堆排序真题逐行 + <b>零基础保分系统（形状法）</b> + C 语言对照表</p></a>
+    <a class="card" href="软考备考/05-Java设计模式.html"><h3>试题六 Java 设计模式（15分·选答）</h3><p>前端速读对照表 + 高频 6 骨架 + 速查字眼表 + <b>Facade 真题逐行翻译</b> + 形状保分系统</p></a>
+    <a class="card" href="软考备考/06-C++设计模式.html"><h3>试题五 C++（与⑥二选一）</h3><p>与 05 的 Java 版逐行对照——<b>建议主攻 Java，本页考前 30 分钟扫描即可</b></p></a>
+    <a class="card" href="软考备考/07-仿真真题精析.html"><h3>07 仿真真题精析</h3><p>整卷五大题逐题拆解（评分点+丢分预警）——<b>做完真题再来对答案</b></p></a>
+    <a class="card" href="软考备考/08-设计模式23式全解.html"><h3>08 设计模式 23 式全解</h3><p>三大类 23 式逐个精讲 + 易混对比 + 训练题（深挖字典，平时备用）</p></a>
+  </div>
+</section>
 
-    <section class="section" id="recent">
-      <div class="section-head"><div><h2>最近学习</h2><p>继续上次离开的模块。</p></div></div>
-      <div class="recent-list" id="recentList"><div class="empty">访问任一学习模块后，这里会显示最近记录。</div></div>
-    </section>
-    <footer class="footer"><span>学习数据仅保存在当前浏览器的 localStorage 中。</span><button class="reset" id="resetProgress" type="button">清除本机学习记录</button></footer>
-  </main>
+<section id="am">
+  <h2>上午题 · 高频计算专题</h2>
+  <div class="cards">
+    <a class="card" href="软考备考/00-上午题-页式存储与磁盘计算.html"><h3>页式存储与磁盘计算</h3><p>地址转换三步法 + 缺页置换 + 磁盘存取时间 + 位示图——上午计算题专训</p></a>
+  </div>
+</section>
+
+<section id="papers">
+  <h2>历年真题库（2021-2024 可视化卷）</h2>
+  <div class="cards">
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2021年05月软件设计师上午真题及答案解析_可视化.html"><h3>2021上 上午卷</h3><p>真题 + 答案解析（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2021年05月软件设计师下午真题及答案解析_可视化.html"><h3>2021上 下午卷</h3><p>真题 + 答案解析（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2021年11月软件设计师上午真题+答案解析_可视化.html"><h3>2021下 上午卷</h3><p>真题 + 答案解析（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2021年11月软件设计师下午真题及答案解析_可视化.html"><h3>2021下 下午卷</h3><p>真题 + 答案解析（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2022年05月软件设计师上午真题及答案解析_可视化.html"><h3>2022上 上午卷</h3><p>真题 + 答案解析（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2022年05月软件设计师下午真题及答案解析_可视化.html"><h3>2022上 下午卷</h3><p>真题 + 答案解析（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2022年11月软件设计师上午真题及答案解析_可视化.html"><h3>2022下 上午卷</h3><p>真题 + 答案解析（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2022年11月软件设计师下午真题及答案解析_可视化.html"><h3>2022下 下午卷</h3><p>真题 + 答案解析（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2023年上半年软件设计师上午真题及答案解析_可视化.html"><h3>2023上 上午卷</h3><p>真题 + 答案解析（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2023年上半年软件设计师下午真题及参考答案_可视化.html"><h3>2023上 下午卷</h3><p>真题 + 参考答案（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2024年上半年软件设计师 综合知识 答案解析_可视化.html"><h3>2024上 综合知识·解析</h3><p>真题 + 答案解析（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2024年上半年软件设计师综合知识（空白试卷）_可视化.html"><h3>2024上 综合知识·空白卷</h3><p>掐表模拟用（可视化）</p></a>
+    <a class="card" href="2021-2024历年真题及解析/_提取文本/2024年上半年软件设计师案例分析（空白试卷）_可视化.html"><h3>2024上 案例分析·空白卷</h3><p>掐表模拟用（可视化）</p></a>
+  </div>
+  <div class="box blue"><b>用法：</b>2024 空白卷留到最后掐表模拟；其余真题配合 01/02/03/05 各页的"真题实战"对照练习。</div>
+</section>
+
+<div class="foot">软考软件设计师 · 备考中心 · 黑夜模式与其他页同步 · GitHub Pages</div>
 </div>
+
+<button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
 <script>
-const MODULES=[
-{id:'plan65',section:'lectures',code:'65D',title:'65 天每日学习计划',desc:'从 8 月 21 日到 10 月 24 日，每天一小时，按日期学习、刷题、复盘并打卡。',tag:'今日该学什么',href:'软件设计师65天学习计划.html',keywords:'计划 每日 打卡 65天 日期 两个月 一小时'},
-{id:'dailycourse',section:'lectures',code:'DAY',title:'65 天每日完整课程',desc:'每天单独一课，包含小白讲解、步骤例题、练习题、答案解析和通关验收。',tag:'打开直接学',href:'每日学习课程/index.html',keywords:'每日课程 知识点 练习题 答案 解析 小白'},
-{id:'ampre',section:'lectures',code:'AM',title:'上午题八大专题精讲',desc:'数据结构、软件工程等 8 大专题逐个吃透：白话讲解、真题演练、逐步解答，支持打卡追踪。',tag:'精讲课程',href:'上午题精讲.html',keywords:'精讲 专题 数据结构 算法 排序 二叉树 图论 复杂度 查找 哈夫曼 上午题'},
-{id:'core',section:'lectures',code:'CORE',title:'必考考点全攻略',desc:'上午与下午核心知识框架，适合零基础第一遍学习。',tag:'主干讲义',href:'软考必考考点_可视化.html',keywords:'必考 考点 上午 下午 基础 软件工程'},
-{id:'detail',section:'lectures',code:'BOOK',title:'软件设计师详细讲义',desc:'包含大量图解的完整讲义，用于系统学习和细节查阅。',tag:'图文讲义',href:'1 图像笔记一/软件设计师讲义_可视化.html',keywords:'详细 图像 计算机 操作系统 数据库 网络'},
-{id:'notes',section:'lectures',code:'NOTE',title:'图文笔记速查',desc:'压缩版图像笔记，适合复习阶段快速回顾知识点。',tag:'快速复习',href:'2 图像笔记二/软考-软件设计师-笔记_可视化.html',keywords:'笔记 图文 速查 知识点'},
-{id:'bank',section:'practice',code:'QB',title:'分类题库标准版',desc:'按上午知识模块和下午题型分类练习，附答案解析。',tag:'分类刷题',href:'分类题库/分类题库_标准版_可视化.html',keywords:'题库 选择题 下午题 答案 解析'},
-{id:'drill',section:'practice',code:'DRILL',title:'专项练习题集',desc:'PV、DFD、数据库、UML、设计模式与计算题专项突破。',tag:'专项训练',href:'考前冲刺三件套/2_专项练习题集_可视化.html',keywords:'专项 PV DFD 数据库 UML 计算题'},
-{id:'papers',section:'practice',code:'EXAM',title:'历年真题阅读器',desc:'2021-2024 十三份真题提取文本，带目录导航，含答案解析。',tag:'真题实战',href:'真题阅读器.html',keywords:'真题 历年 试卷 上午 下午 案例分析 答案 解析 充电桩'},
-{id:'mistakes',section:'practice',code:'FIX',title:'错题笔记',desc:'收录做错的题与易混淆知识点，支持重点标记、未掌握筛选和掌握度追踪。',tag:'错题复盘',href:'错题笔记.html',keywords:'错题 易错 易混淆 重点 标记 未掌握 掌握度 复盘'},
-{id:'formula',section:'topics',code:'FX',title:'高频公式可视化',desc:'公式含义、使用场景、例题解析、易错点与翻卡自测。',tag:'必考计算',href:'软件设计师高频公式可视化.html',keywords:'公式 流水线 cache 海明码 子网 PERT 计算'},
-{id:'tricolor',section:'lectures',code:'3C',title:'三色笔记阅读器',desc:'逐页阅读 130 页三色笔记，支持缩放、缩略图、页码跳转和阅读进度。',tag:'图书阅读',href:'三色笔记阅读器.html',keywords:'三色笔记 一本通 PDF 阅读器 扫描 笔记'},
-{id:'code',section:'topics',code:'CODE',title:'代码题与设计模式',desc:'C/Java 程序填空、经典算法和 23 种设计模式。',tag:'下午代码题',href:'软考代码题全攻略_可视化.html',keywords:'代码 算法 C Java 设计模式 程序填空'},
-{id:'disk',section:'topics',code:'DISK',title:'磁盘调度从零到会',desc:'六种移臂算法、旋转调度、流程图、练习和易错点。',tag:'重点专题',href:'重点专题/磁盘调度算法_小白从零到会_可视化.html',keywords:'磁盘 调度 SSTF SCAN LOOK 移臂'},
-{id:'english',section:'topics',code:'EN',title:'专业英语每日背',desc:'单词翻卡、间隔复习、发音、测验和进度导入导出。',tag:'记忆工具',href:'专业英语背诵.html',keywords:'英语 单词 翻卡 背诵 测验'},
-{id:'sprintbook',section:'sprint',code:'SPR',title:'突击冲刺宝典',desc:'高频口诀、上午选择题与下午大题答题模板。',tag:'冲刺总览',href:'软考突击冲刺宝典_可视化.html',keywords:'冲刺 口诀 模板 上午 下午'},
-{id:'frequency',section:'sprint',code:'STAT',title:'高频考点统计',desc:'根据历年考题整理高频模块和复习优先级。',tag:'考情分析',href:'考前冲刺三件套/1_高频考点统计_可视化.html',keywords:'高频 统计 历年 考情 优先级'},
-{id:'amreview',section:'sprint',code:'AMR',title:'上午题全知识点总复习',desc:'上午题全模块知识点、口诀与易错实录，含主定理速判与真题分类统计。',tag:'上午总览',href:'上午题全知识点总复习_可视化.html',keywords:'上午 总复习 知识点 口诀 易错 全模块'},
-{id:'pmreview',section:'sprint',code:'PMR',title:'下午题全题型总复习',desc:'DFD/数据库/UML/算法/Java 五大题型：解题套路、五模式骨架、真题实战与答题句式。',tag:'下午总览',href:'下午题全题型总复习_可视化.html',keywords:'下午题 DFD 数据流图 数据库 UML 算法 Java 设计模式 案例分析 套路'},
-{id:'three',section:'sprint',code:'3D',title:'考前 3 天速记',desc:'公式、口诀、下午题套路和最后三天行动清单。',tag:'临考速记',href:'考前冲刺三件套/3_考前3天速记单页_可视化.html',keywords:'考前 三天 速记 公式 口诀'}
-];
-const VISITS_KEY='ruankao_system_visits_v1';
-function getVisits(){try{return JSON.parse(localStorage.getItem(VISITS_KEY)||'{}')}catch{return{}}}
-function saveVisits(v){try{localStorage.setItem(VISITS_KEY,JSON.stringify(v))}catch(_){} }
-function moduleUrl(path){return new URL(path,document.baseURI).href}
-function moduleCard(m,visits){const seen=visits[m.id];return `<a class="module" href="${moduleUrl(m.href)}" data-id="${m.id}" data-search="${(m.title+' '+m.desc+' '+m.keywords).toLowerCase()}"><div class="module-top"><span class="module-code">${m.code}</span><span class="tag">${m.tag}</span></div><h3>${m.title}</h3><p>${m.desc}</p><div class="module-foot"><span class="${seen?'visited':''}">${seen?'已学习':'未访问'}</span><span>进入模块 →</span></div></a>`}
-function render(){const visits=getVisits();document.querySelectorAll('[data-section]').forEach(sec=>{const id=sec.dataset.section;sec.querySelector('[data-grid]').innerHTML=MODULES.filter(m=>m.section===id).map(m=>moduleCard(m,visits)).join('')});const count=MODULES.filter(m=>visits[m.id]).length;const pct=Math.round(count/MODULES.length*100);document.getElementById('progressNumber').textContent=pct+'%';document.getElementById('progressBar').style.width=pct+'%';document.getElementById('progressMeta').textContent=count?`已访问 ${count} / ${MODULES.length} 个模块`:'尚未开始学习';renderRecent(visits);bindCards(visits)}
-function bindCards(visits){document.querySelectorAll('.module').forEach(a=>a.addEventListener('click',event=>{const id=a.dataset.id;const href=a.href;visits[id]={time:Date.now(),href:MODULES.find(m=>m.id===id).href,title:a.querySelector('h3').textContent};saveVisits(visits);if(event.button===0&&!event.ctrlKey&&!event.metaKey&&!event.shiftKey&&!event.altKey){event.preventDefault();window.location.assign(href)}}))}
-function renderRecent(visits){const list=Object.values(visits).sort((a,b)=>b.time-a.time).slice(0,6);const box=document.getElementById('recentList');box.innerHTML=list.length?list.map(x=>`<a class="recent-item" href="${moduleUrl(x.href)}"><span class="recent-title">${x.title}</span><span class="recent-time">${new Date(x.time).toLocaleString('zh-CN',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'})}</span></a>`).join(''):'<div class="empty">访问任一学习模块后，这里会显示最近记录。</div>';const latest=list[0];if(latest){const btn=document.getElementById('continueBtn');btn.href=moduleUrl(latest.href);btn.textContent='继续学习：'+latest.title}}
-const search=document.getElementById('search');search.addEventListener('input',()=>{const q=search.value.trim().toLowerCase();let shown=0;document.querySelectorAll('.module').forEach(card=>{const ok=!q||card.dataset.search.includes(q);card.classList.toggle('hidden',!ok);if(ok)shown++});document.querySelectorAll('.module-section').forEach(sec=>sec.hidden=q&&!sec.querySelector('.module:not(.hidden)'));document.getElementById('noResults').style.display=shown?'none':'block'});document.addEventListener('keydown',e=>{if(e.key==='/'&&document.activeElement!==search){e.preventDefault();search.focus()}});document.getElementById('resetProgress').addEventListener('click',()=>{if(confirm('确认清除当前浏览器中的系统访问记录？英语背诵等模块自己的学习数据不会被删除。')){localStorage.removeItem(VISITS_KEY);render()}});render();
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  function apply(t){
+    if(t==='dark'){root.setAttribute('data-theme','dark');btn.textContent='白天模式';}
+    else{root.removeAttribute('data-theme');btn.textContent='黑夜模式';}
+  }
+  apply(localStorage.getItem('sk09-theme'));
+  btn.addEventListener('click',function(){
+    var t=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    localStorage.setItem('sk09-theme',t);
+    apply(t);
+  });
+})();
 </script>
 </body>
 </html>
