@@ -50,20 +50,90 @@
   <h2>① 数据结构 6 连（最大失血点，逐个补）</h2>
   <div class="box purple"><b>先说结论：这 6 题里 4 题是"背结论"，2 题（哈夫曼、三对角）是"套公式"。今天就按下面 6 张卡顺序过，每张 5 分钟。</b></div>
 
-  <details class="q" open><summary>错1【三对角矩阵压缩】A[1..100][1..100] 三对角矩阵按行优先存入 B[1..298]，A[66][65] 的位置 k=？</summary><div class="why">
-    <b>知识点：</b>三对角矩阵 = 只有主对角线及上下两条斜线非零（|i−j|≤1）。非零元素总数 = <b>3n−2</b>（n=100 → 298 ✓）。<b>每行非零个数：第 1 行 2 个、第 2~99 行各 3 个、第 n 行 2 个</b>。<br>
-    <b>逐步解：</b>A[66][65]：j=65=i−1 → 它是第 66 行的<b>第一个</b>非零元素。它前面有：第 1 行（2 个）+ 第 2~65 行（64 行 × 3 = 192 个）= 194 个 → k = 194+1 = <b class="ok">195（选 B）</b>。<br>
-    <b>通用公式（i≥2）：k = 3i − 3 + (j−i+2)。</b>验证 i=66,j=65：198−3+1 = 195 ✓<br>
-    <span class="hl">坑：</span>第 1 行和最后一行只有 2 个非零（不是 3 个）——套 3n−2 时就体现出来了；别用对称矩阵的 n(n+1)/2 公式（那是另一题型）。
+  <details class="q" open><summary>错1【三对角矩阵压缩·图解版】先看图，再数数，最后套公式（三步都走不通就直接背底部结论）</summary><div class="why">
+    <b>第 0 步：三对角矩阵长这样（n=6 的小号版，●=要存的数据，·=不存的 0）：</b>
+    <table class="mono" style="text-align:center;">
+      <tr><th style="background:var(--blue-bg);"></th><th>列1</th><th>列2</th><th>列3</th><th>列4</th><th>列5</th><th>列6</th><th style="background:var(--green-bg);">本行几个</th></tr>
+      <tr><th style="background:var(--blue-bg);">行1</th><td class="ok">●</td><td class="ok">●</td><td>·</td><td>·</td><td>·</td><td>·</td><td class="ok"><b>2 个</b></td></tr>
+      <tr><th style="background:var(--blue-bg);">行2</th><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td>·</td><td>·</td><td>·</td><td class="ok"><b>3 个</b></td></tr>
+      <tr><th style="background:var(--blue-bg);">行3</th><td>·</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td>·</td><td>·</td><td class="ok"><b>3 个</b></td></tr>
+      <tr><th style="background:var(--blue-bg);">行4</th><td>·</td><td>·</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td>·</td><td class="ok"><b>3 个</b></td></tr>
+      <tr><th style="background:var(--blue-bg);">行5</th><td>·</td><td>·</td><td>·</td><td class="ok">●</td><td class="ok">●</td><td class="ok">●</td><td class="ok"><b>3 个</b></td></tr>
+      <tr><th style="background:var(--blue-bg);">行6</th><td>·</td><td>·</td><td>·</td><td>·</td><td class="ok">●</td><td class="ok">●</td><td class="ok"><b>2 个</b></td></tr>
+    </table>
+    一眼看出：<b>绿色斜带上的才存，其余全是 0 不存</b>。首行 2 个、中间行 3 个、末行 2 个 → 总数 = 2+3×4+2 = 16 = 3×6−2（这就是 3n−2 的来历）。
+    <br><br>
+    <b>第 1 步：n=100 时怎么数 A[66][65] 前面有几个？</b>逐行累计（跟着表格数）：
+    <table>
+      <tr><th>行范围</th><th>每行个数</th><th>累计</th></tr>
+      <tr><td>第 1 行</td><td>2</td><td>2</td></tr>
+      <tr><td>第 2 ~ 65 行（共 64 行）</td><td>每行 3</td><td>2 + 64×3 = <b>194</b></td></tr>
+      <tr><td>第 66 行：A[66][65] 是该行<b>第 1 个</b>（j=65=i−1，就是斜带最左那个）</td><td>—</td><td>k = 194+1 = <b class="ok">195（选 B）</b></td></tr>
+    </table>
+    <b>第 2 步：懒得数就背公式（i≥2 的行）：k = 3i − 3 + (j − i + 2)</b>。代入 i=66、j=65：198−3+1 = <b class="ok">195</b> ✓
+    <div class="box red" style="margin-top:8px;"><b>还看不懂就背这三句（考试直接套）：</b>①三对角非零总数 = <b>3n−2</b>；②首行末行各 2 个、中间每行 3 个；③第 i 行（i≥2）第 j 列元素位置 k = <b>3i−3+(j−i+2)</b>。题目换数字也用这三句硬套。</div>
   </div></details>
 
-  <details class="q"><summary>错2【哈夫曼编码】频率 a45 b13 c12 d16 e9 f5，"bee" 的编码？解码 "110001001101"？</summary><div class="why">
-    <b>知识点：</b>哈夫曼树每次取<b>权值最小的两个</b>合并，直到只剩一棵树；左 0 右 1（约定不同答案不同，按本题约定）。<br>
-    <b>构建过程（写卷子上）：</b>①最小两权 f5+e9=14 → ②c12+b13=25 → ③14+d16=30 → ④25+30=55 → ⑤a45+55=100（根）。<br>
-    <b>编码表：</b>a=0，c=100，b=101，f=1100，e=1101，d=111。<br>
-    <b>bee</b> = 101+1101+1101 = <b class="ok">10111011101（选 A）</b><br>
-    <b>解码 110001001101：</b>从根出发，0 走左、1 走右，到叶子输出字符并回到根：1100→f，0→a，100→c，1101→e → <b class="ok">face</b>。<br>
-    <span class="hl">坑：</span>合并时永远选<b>当前最小</b>的两个；解码按前缀码走树，走到叶子就输出回根，不会歧义。
+  <details class="q"><summary>错2【哈夫曼编码·图解版】频率 a45 b13 c12 d16 e9 f5，"bee" 编码？解码 "110001001101"？</summary><div class="why">
+    <b>第 1 步：合并（像打淘汰赛，每轮把最小的两个凑成一组）：</b><br>
+    · 第 1 轮：最小的 f5 和 e9 → 合并成 <b>14</b><br>
+    · 第 2 轮：剩下最小的 c12 和 b13 → 合并成 <b>25</b><br>
+    · 第 3 轮：14 和 d16 → 合并成 <b>30</b><br>
+    · 第 4 轮：25 和 30 → 合并成 <b>55</b><br>
+    · 第 5 轮：a45 和 55 → 合并成 <b>100（根）</b>，结束。
+    <br><br>
+    <b>第 2 步：长成的树（左边 0、右边 1，字母挂在叶子上）：</b>
+    <svg viewBox="0 0 820 390" xmlns="http://www.w3.org/2000/svg" style="max-width:100%;background:var(--card);border:1px solid var(--border);border-radius:8px;">
+      <line x1="380" y1="60" x2="205" y2="130" stroke="#8b95a8" stroke-width="2"/><text x="270" y="88" font-size="14" font-weight="bold" fill="#2f6fed">0</text>
+      <line x1="400" y1="60" x2="565" y2="130" stroke="#8b95a8" stroke-width="2"/><text x="490" y="88" font-size="14" font-weight="bold" fill="#2f6fed">1</text>
+      <line x1="540" y1="150" x2="445" y2="220" stroke="#8b95a8" stroke-width="2"/><text x="475" y="180" font-size="14" font-weight="bold" fill="#2f6fed">0</text>
+      <line x1="575" y1="150" x2="685" y2="220" stroke="#8b95a8" stroke-width="2"/><text x="640" y="180" font-size="14" font-weight="bold" fill="#2f6fed">1</text>
+      <line x1="425" y1="240" x2="368" y2="290" stroke="#8b95a8" stroke-width="2"/><text x="382" y="262" font-size="14" font-weight="bold" fill="#2f6fed">0</text>
+      <line x1="455" y1="240" x2="530" y2="290" stroke="#8b95a8" stroke-width="2"/><text x="505" y="262" font-size="14" font-weight="bold" fill="#2f6fed">1</text>
+      <line x1="655" y1="240" x2="610" y2="290" stroke="#8b95a8" stroke-width="2"/><text x="618" y="262" font-size="14" font-weight="bold" fill="#2f6fed">0</text>
+      <line x1="685" y1="240" x2="755" y2="290" stroke="#8b95a8" stroke-width="2"/><text x="735" y="262" font-size="14" font-weight="bold" fill="#2f6fed">1</text>
+      <line x1="610" y1="310" x2="585" y2="350" stroke="#8b95a8" stroke-width="2"/><text x="582" y="334" font-size="14" font-weight="bold" fill="#2f6fed">0</text>
+      <line x1="630" y1="310" x2="675" y2="350" stroke="#8b95a8" stroke-width="2"/><text x="665" y="334" font-size="14" font-weight="bold" fill="#2f6fed">1</text>
+      <rect x="345" y="32" width="90" height="34" rx="6" fill="#e8f7ef" stroke="#1a9e5c" stroke-width="2"/><text x="390" y="55" text-anchor="middle" font-size="15" font-weight="bold" fill="#1a9e5c">100 根</text>
+      <rect x="160" y="112" width="90" height="34" rx="6" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="205" y="135" text-anchor="middle" font-size="15" font-weight="bold" fill="#e08a1e">a 45</text>
+      <rect x="520" y="112" width="90" height="34" rx="6" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="565" y="135" text-anchor="middle" font-size="15" font-weight="bold" fill="#2f6fed">55</text>
+      <rect x="405" y="192" width="80" height="32" rx="6" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="445" y="214" text-anchor="middle" font-size="14" font-weight="bold" fill="#2f6fed">25</text>
+      <rect x="640" y="192" width="80" height="32" rx="6" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="680" y="214" text-anchor="middle" font-size="14" font-weight="bold" fill="#2f6fed">30</text>
+      <rect x="325" y="262" width="80" height="32" rx="6" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="365" y="284" text-anchor="middle" font-size="14" font-weight="bold" fill="#e08a1e">c 12</text>
+      <rect x="488" y="262" width="80" height="32" rx="6" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="528" y="284" text-anchor="middle" font-size="14" font-weight="bold" fill="#e08a1e">b 13</text>
+      <rect x="572" y="262" width="72" height="32" rx="6" fill="#eaf1fe" stroke="#2f6fed" stroke-width="2"/><text x="608" y="284" text-anchor="middle" font-size="14" font-weight="bold" fill="#2f6fed">14</text>
+      <rect x="718" y="262" width="80" height="32" rx="6" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="758" y="284" text-anchor="middle" font-size="14" font-weight="bold" fill="#e08a1e">d 16</text>
+      <rect x="545" y="332" width="72" height="32" rx="6" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="581" y="354" text-anchor="middle" font-size="14" font-weight="bold" fill="#e08a1e">f 5</text>
+      <rect x="640" y="332" width="72" height="32" rx="6" fill="#fdf3e3" stroke="#e08a1e" stroke-width="2"/><text x="676" y="354" text-anchor="middle" font-size="14" font-weight="bold" fill="#e08a1e">e 9</text>
+      <text x="20" y="50" font-size="12.5" fill="#5b6474">从根出发：</text>
+      <text x="20" y="70" font-size="12.5" fill="#5b6474">往左走记 0</text>
+      <text x="20" y="90" font-size="12.5" fill="#5b6474">往右走记 1</text>
+      <text x="20" y="110" font-size="12.5" fill="#5b6474">走到字母（叶）</text>
+      <text x="20" y="130" font-size="12.5" fill="#5b6474">就抄下这条路的 0/1</text>
+    </svg>
+    <br><br>
+    <b>第 3 步：编码 = 从根走到字母，抄沿路的 0/1：</b>
+    <table>
+      <tr><th>字母</th><th>沿路标记</th><th>编码</th></tr>
+      <tr><td>a 45</td><td>直接左</td><td><b>0</b></td></tr>
+      <tr><td>c 12</td><td>右→左→左</td><td><b>100</b></td></tr>
+      <tr><td>b 13</td><td>右→左→右</td><td><b>101</b></td></tr>
+      <tr><td>f 5</td><td>右→右→左→左</td><td><b>1100</b></td></tr>
+      <tr><td>e 9</td><td>右→右→左→右</td><td><b>1101</b></td></tr>
+      <tr><td>d 16</td><td>右→右→右</td><td><b>111</b></td></tr>
+    </table>
+    <b>第 4 步：编码 bee</b> = b(101) + e(1101) + e(1101) = <b class="ok">10111011101（选 A）</b><br><br>
+    <b>第 5 步：解码 110001001101 = 拿着一串 0/1 从根走：</b>
+    <table>
+      <tr><th>拿的位</th><th>走的过程</th><th>输出</th></tr>
+      <tr><td>1,1,0,0</td><td>右→右→左→左</td><td class="ok">f</td></tr>
+      <tr><td>0</td><td>左（直接到叶子）</td><td class="ok">a</td></tr>
+      <tr><td>1,0,0</td><td>右→左→左</td><td class="ok">c</td></tr>
+      <tr><td>1,1,0,1</td><td>右→右→左→右</td><td class="ok">e</td></tr>
+    </table>
+    连起来 = <b class="ok">face</b>（巧记：这串解码出来就是单词 face）。<br>
+    <span class="hl">坑：</span>每轮合并<b>必须挑当前最小的两个</b>；左 0 右 1 是约定，另一份答案可能左右互换，但<b>选项里只有一种能对上 bee 的长度和内容</b>——按"bee 的位数 = 3+4+4 = 11 位"也能锁定答案 A（B 是 10 位、C 是 9 位、D 是 10 位）。
+    <div class="box red" style="margin-top:8px;"><b>还看不懂就背两句：</b>①合并=每轮挑最小两个相加；②编码位数 = 出现频率越高的字母位数越短（a45 最短=1 位，f5 最长=4 位）——考试看"频率高→码短"就能排除一半选项。</div>
   </div></details>
 
   <details class="q"><summary>错3【图的 BFS】无向图遍历，哪个不是广度优先序列？</summary><div class="why">
