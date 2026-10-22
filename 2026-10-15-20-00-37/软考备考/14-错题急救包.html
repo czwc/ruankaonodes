@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考软件设计师 · 错题急救包（13 题逐条击破）</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--card2:#fbfcff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.75;}
+  .wrap{max-width:960px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#d64545,#e08a1e);color:#fff;border-radius:16px;padding:26px;margin-bottom:20px;}
+  header h1{margin:0 0 8px;font-size:24px;} header p{margin:0;opacity:.92;font-size:14px;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0 0;}
+  nav a{background:rgba(255,255,255,.15);border:1px solid rgba(255,255,255,.4);color:#fff;text-decoration:none;padding:4px 12px;border-radius:20px;font-size:12.5px;}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px 22px;margin-bottom:18px;}
+  h2{margin:0 0 8px;font-size:19px;border-left:5px solid var(--red);padding-left:12px;}
+  .box{border-radius:10px;padding:10px 14px;margin:10px 0;font-size:13.5px;}
+  .box.purple{background:var(--purple-bg);border:1px solid #ddc9f7;} .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;} .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
+  details.q{background:var(--card2);border:1px solid var(--border);border-left:4px solid var(--orange);border-radius:8px;padding:9px 13px;margin:9px 0;font-size:13.5px;}
+  details.q summary{cursor:pointer;font-weight:bold;color:var(--ink);}
+  details.q[open] summary{margin-bottom:6px;}
+  details.q .why{margin-top:6px;padding-top:6px;border-top:1px dashed var(--border);}
+  .ok{color:var(--green);font-weight:bold;} .hl{color:var(--red);font-weight:bold;}
+  table{width:100%;border-collapse:collapse;font-size:13px;margin:8px 0;}
+  th,td{border:1px solid var(--border);padding:6px 9px;text-align:left;vertical-align:top;}
+  th{background:var(--blue-bg);color:var(--blue);}
+  .mono{font-family:Consolas,monospace;}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:24px;}
+  a.a{color:var(--blue);font-weight:bold;text-decoration:none;}
+  .theme-btn{position:fixed;top:14px;right:16px;z-index:99;background:var(--card);border:1px solid var(--border);color:var(--ink);border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--card2:#232a3a;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;}
+  .theme-btn{background:var(--card);border-color:var(--border);color:var(--ink);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>错题急救包 · 13 题逐条击破</h1>
+  <p>分布诊断：数据结构 6（最大失血）｜算法 2｜数据库 2｜软件工程 2｜面向对象 1 —— <b>补完这 13 个点 ≈ 捞回 13 分</b></p>
+  <nav>
+    <a href="#ds">① 数据结构 6 连</a><a href="#alg">② 算法 2</a><a href="#db">③ 数据库 2</a><a href="#se">④ 软件工程 2</a><a href="#oo">⑤ 面向对象 1</a>
+    <a href="09-四天冲刺计划.html">← 冲刺计划</a><a href="../../index.html">← 门户</a>
+  </nav>
+</header>
+
+<section id="ds">
+  <h2>① 数据结构 6 连（最大失血点，逐个补）</h2>
+  <div class="box purple"><b>先说结论：这 6 题里 4 题是"背结论"，2 题（哈夫曼、三对角）是"套公式"。今天就按下面 6 张卡顺序过，每张 5 分钟。</b></div>
+
+  <details class="q" open><summary>错1【三对角矩阵压缩】A[1..100][1..100] 三对角矩阵按行优先存入 B[1..298]，A[66][65] 的位置 k=？</summary><div class="why">
+    <b>知识点：</b>三对角矩阵 = 只有主对角线及上下两条斜线非零（|i−j|≤1）。非零元素总数 = <b>3n−2</b>（n=100 → 298 ✓）。<b>每行非零个数：第 1 行 2 个、第 2~99 行各 3 个、第 n 行 2 个</b>。<br>
+    <b>逐步解：</b>A[66][65]：j=65=i−1 → 它是第 66 行的<b>第一个</b>非零元素。它前面有：第 1 行（2 个）+ 第 2~65 行（64 行 × 3 = 192 个）= 194 个 → k = 194+1 = <b class="ok">195（选 B）</b>。<br>
+    <b>通用公式（i≥2）：k = 3i − 3 + (j−i+2)。</b>验证 i=66,j=65：198−3+1 = 195 ✓<br>
+    <span class="hl">坑：</span>第 1 行和最后一行只有 2 个非零（不是 3 个）——套 3n−2 时就体现出来了；别用对称矩阵的 n(n+1)/2 公式（那是另一题型）。
+  </div></details>
+
+  <details class="q"><summary>错2【哈夫曼编码】频率 a45 b13 c12 d16 e9 f5，"bee" 的编码？解码 "110001001101"？</summary><div class="why">
+    <b>知识点：</b>哈夫曼树每次取<b>权值最小的两个</b>合并，直到只剩一棵树；左 0 右 1（约定不同答案不同，按本题约定）。<br>
+    <b>构建过程（写卷子上）：</b>①最小两权 f5+e9=14 → ②c12+b13=25 → ③14+d16=30 → ④25+30=55 → ⑤a45+55=100（根）。<br>
+    <b>编码表：</b>a=0，c=100，b=101，f=1100，e=1101，d=111。<br>
+    <b>bee</b> = 101+1101+1101 = <b class="ok">10111011101（选 A）</b><br>
+    <b>解码 110001001101：</b>从根出发，0 走左、1 走右，到叶子输出字符并回到根：1100→f，0→a，100→c，1101→e → <b class="ok">face</b>。<br>
+    <span class="hl">坑：</span>合并时永远选<b>当前最小</b>的两个；解码按前缀码走树，走到叶子就输出回根，不会歧义。
+  </div></details>
+
+  <details class="q"><summary>错3【图的 BFS】无向图遍历，哪个不是广度优先序列？</summary><div class="why">
+    <b>知识点：</b>BFS = <b>队列</b>逐层扩散：起点出队 → 把它的邻接点按图中顺序<b>全部入队</b> → 队首出队 → 再把它的未访问邻接点入队……DFS 才是用栈。<br>
+    <b>判别方法（逐选项模拟到矛盾即排除）：</b>①看序列第一个 = 起点；②起点出队后，紧跟其后的一段必须"包含起点的全部邻接点"；③任何一个顶点 X 的邻接点，必须出现在"X 出队之后、下一个同层顶点出队之前"——出现更早就矛盾。<br>
+    本题用排除法逐个模拟：A 序列起点与图结构矛盾（h 一开始就访问，但 h 只与 d 相连，c 不可能在 h 后紧跟）→ <b>A 不是 BFS</b>。<br>
+    <span class="hl">坑：</span>BFS 序列里<b>同层顶点顺序可以交换</b>（取决于图中邻接点排列），所以别用"唯一正确序列"思维；用"邻接点必须在本层之后、下层之前"的约束去排除。
+  </div></details>
+
+  <details class="q"><summary>错4【图的存储与遍历复杂度】邻接矩阵 vs 邻接表</summary><div class="why">
+    <b>结论表（背）：</b>
+    <table>
+      <tr><th>操作</th><th>邻接矩阵</th><th>邻接表</th></tr>
+      <tr><td>DFS / BFS 遍历全部</td><td><b>O(n²)</b></td><td><b>O(n+e)</b></td></tr>
+      <tr><td>找所有顶点的邻接点</td><td>O(n²)（每行扫 n 个）</td><td>O(n+e)</td></tr>
+      <tr><td>判断两顶点是否相邻</td><td><b>O(1)</b>（直接查格子）</td><td>O(度数)</td></tr>
+    </table>
+    记忆：<b>矩阵方方 n²、表加边 n+e</b>。邻接表的 O(n*e) 不存在——正确表达是 n+e。<br>
+    <span class="hl">坑：</span>"与存储结构无关"的说法永远错——遍历耗时明显依赖存储结构。
+  </div></details>
+
+  <details class="q"><summary>错5【排序一趟定位置】哪些排序第一趟后一定能确定某元素的最终位置？</summary><div class="why">
+    <b>结论（背）：</b>能：<b>②冒泡（最大沉底）③简单选择（最小放头）④堆（堆顶出）⑤快排（枢轴归位）</b>。<br>
+    不能：<b>①直接插入（一趟只有前 2 个有序）⑥归并（一趟只是局部有序段）</b>。<br>
+    本题答案 = ②③④⑤ → <b class="ok">C</b>。判断口诀：<b>"这一趟有没有把某个元素放到它最终的家"</b>——插入和归并都是"逐渐变好"，没有谁一步到位。<br>
+    <span class="hl">坑：</span>希尔排序一趟是分组插入，也不保证；题目给组合编号时用排除法先删①⑥。
+  </div></details>
+
+  <details class="q"><summary>错6【连通图概念】"不正确的是"哪句？</summary><div class="why">
+    <b>概念对号：</b><b>连通</b> = 任意两顶点之间<b>存在路径</b>（绕路也算）；<b>完全图</b> = 任意两顶点之间<b>直接有边</b>。连通图的邻接矩阵<b>一定对称</b>（无向图）。<br>
+    判断：A"任意两点之间均有<b>边</b>存在"→ 那是完全图，连通图不需要 → <b class="ok">A 不正确（选 A）</b>；B"存在路径"= 连通定义 ✓；C"任意顶点出发可遍历全部顶点"= 连通的性质 ✓；D 邻接矩阵对称 ✓（无向图）。<br>
+    <span class="hl">坑：</span>"路径"和"边"是两个概念——<b>有路 ≠ 有边</b>。这类"不正确的是"题：逐项判真伪，选假的那项。
+  </div></details>
+</section>
+
+<section id="alg">
+  <h2>② 算法 2 连（纯对号题，背了就中）</h2>
+  <details class="q"><summary>错7【回溯法】避免无效搜索采取的策略是？</summary><div class="why">
+    <b>答案：<span class="ok">剪枝函数</span></b>——走一步前先判断"这条路再走下去必死"，直接不走（剪掉这根枝）。递归只是回溯的<b>实现手段</b>，不是"避免无效搜索"的策略。<br>
+    <b>策略识别速查（背）：</b>Dijkstra 最短路 = <b>贪心</b>；Prim/Kruskal 最小生成树 = <b>贪心</b>；哈夫曼 = <b>贪心</b>；0-1 背包/LCS = <b>动态规划</b>；归并/快排/二分 = <b>分治</b>；N 皇后/迷宫 = <b>回溯</b>。
+  </div></details>
+  <details class="q"><summary>错8【Dijkstra】单源最短路径按路径长度递增次序产生，本质是（ ）策略？</summary><div class="ans why">
+    <b>答案：<span class="ok">贪心</span></b>——每一步都把"当前距离最短的那个顶点"确定为最终结果，绝不回头改（局部最优 → 全局最优，这正是贪心的定义场景）。<br>
+    <b>记忆锚：</b>"每次都抓当前最好的"= 贪心家族：Dijkstra、Prim、Kruskal、哈夫曼，四个全贪心——一张表背四道题。
+  </div></details>
+</section>
+
+<section id="db">
+  <h2>③ 数据库 2 连</h2>
+  <details class="q"><summary>错9【候选码】U={A,B,C,D,E,H}，F={A→B, B→DH, A→H, C→E}，候选码？</summary><div class="why">
+    <b>逐步（00 篇⑦四步法）：①只在依赖左边出现的属性：A、C（B/D/E/H 都只做右边）→ 候选码必含 A 和 C；②求 (AC)⁺：A→B 得 B，B→DH 得 D、H，C→E 得 E，加上 A、C 本身 = 全部 {A,B,C,D,E,H} ✓；③所以候选码 = <b class="ok">AC（1 个候选码，含 2 个属性）</b>。<br>
+    <span class="hl">坑（你踩的）：</span>"候选码有（）"问的是<b>几个候选码</b>——A 单独、C 单独都推不满全属性，它们只是"候选码 AC 里的属性"。<b>"1 个候选码 AC" ≠ "2 个候选码 A 和 C"</b>，一字之差。<br>
+    <b>通用套路：</b>只在左边出现的属性必进候选码 → 求闭包验证覆盖全部 → 数"几组"。
+  </div></details>
+  <details class="q"><summary>错10【关系代数】π1,2,3,7,8( σ2='华为Mate40'(C) ⋈ EC ⋈ E ) 这类题怎么做？</summary><div class="why">
+    <b>模板四步：</b>①<b>选表</b>：条件里的属性在哪张表 → σ 作用于哪张（商品名在 C → σ2='HUWEI Mate40'(C)，2=C 表第 2 列商品名）；②<b>连接</b>：按公共属性把表连起来（C⋈EC 用商品号，再⋈E 用工号）；③<b>投影列号</b>：把最终要的列在"连接后的宽表"里<b>从 1 数</b>（E 的工号姓名、部门名 + C 的商品名 → π1,2,…）→ <b class="ok">B</b>；④验算：σ 的下标必须指向所选表的列，π 的下标指向连接结果的列。<br>
+    <span class="hl">坑（你踩的）：</span>π1,2,3 vs π1,2 的差别 = 题目最终要几列（工号、姓名、部门名、商品名 → 具体列号看连接后顺序）；σ 写错表（条件是商品名却在 EC 上选）直接 0 分。
+  </div></details>
+</section>
+
+<section id="se">
+  <h2>④ 软件工程 2 连</h2>
+  <details class="q"><summary>错11【内聚两空】A、B、C 有相同的程序块，块内语句无联系，取出形成模块 D → 内聚类型？"不正确的是"？</summary><div class="why">
+    <b>第一空：<span class="ok">偶然内聚</span></b>——"碰巧凑在一起、块内语句无任何联系" = 偶然内聚的定义，且确实是<b>最低的内聚</b>（该说法正确）。<br>
+    <b>第二空（选不正确的）：<span class="ok">D"不影响模块间的耦合关系"</span></b>——把公共程序块提取成 D，调用方式全变了，模块间的耦合关系<b>恰恰会改变（降低）</b>，说"不影响"不成立。<br>
+    <span class="hl">坑（你踩的）：</span>"不正确的是"题——你选了"正确"的陈述。<b>先在题干圈"不正确/不包括/错误的是"，再逐项打 ✓✗，选打的那个。</b>
+  </div></details>
+  <details class="q"><summary>错12【详细设计审查】详细设计结束后，重点审查的内容不包括？</summary><div class="why">
+    <b>答案：<span class="ok">数据流图（选它）</span></b>——DFD 是<b>需求分析</b>阶段的产物（画系统数据流动），到详细设计早就定稿了。详细设计审查的是：<b>算法（每个模块怎么算）、数据结构、接口、界面</b>。<br>
+    <b>阶段产物对号表（背）：</b>
+    <table>
+      <tr><th>阶段</th><th>核心产物</th></tr>
+      <tr><td>需求分析</td><td><b>数据流图 DFD</b>、数据字典、E-R 图</td></tr>
+      <tr><td>概要设计</td><td>模块结构图、层次图、接口说明</td></tr>
+      <tr><td>详细设计</td><td><b>算法</b>流程/伪码、数据结构、界面</td></tr>
+      <tr><td>测试</td><td>测试计划、测试用例</td></tr>
+    </table>
+  </div></details>
+</section>
+
+<section id="oo">
+  <h2>⑤ 面向对象 1</h2>
+  <details class="q"><summary>错13【三类对象】"系统与参与者之间的接口，从参与者收集信息并转换为实体/控制对象可用的形式" → ？</summary><div class="why">
+    <b>答案：<span class="ok">边界对象</span></b>。OO 分析把对象分三类，口诀：<b>边界管接口、控制管逻辑、实体管数据</b>：<br>
+    · <b>边界对象（Boundary）</b>：系统与参与者（人/外部系统）之间的<b>接口</b>——界面、输入输出转换（题干"接口+收集信息+转换"全是它的信号词）；<br>
+    · <b>控制对象（Control）</b>：业务逻辑、流程协调；<br>
+    · <b>实体对象（Entity）</b>：要持久保存的数据（如订单、处方）。<br>
+    <span class="hl">坑：</span>看到"接口/界面/转换"选边界；看到"计算/流程/协调"选控制；看到"存储/信息本身"选实体。
+  </div></details>
+</section>
+
+<div class="foot">错题急救包 · 13 题逐条击破 · 二刷全对后此页归档 · 黑夜模式全站同步</div>
+</div>
+
+<button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  function apply(t){
+    if(t==='dark'){root.setAttribute('data-theme','dark');btn.textContent='白天模式';}
+    else{root.removeAttribute('data-theme');btn.textContent='黑夜模式';}
+  }
+  apply(localStorage.getItem('sk09-theme'));
+  btn.addEventListener('click',function(){
+    var t=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    localStorage.setItem('sk09-theme',t); apply(t);
+  });
+})();
+</script>
+</body>
+</html>
