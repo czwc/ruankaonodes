@@ -224,6 +224,31 @@ cnt = 1; last = act[<span class="hl">0</span>].end;
   </table>
   <div class="box blue"><b>展开法示范（看一遍就会）：</b>T(n) = 2T(n/2) + n → 第 1 层合并代价 n，第 2 层两个子问题共 2×(n/2)=n，每层都是 n；要砍 log n 层才到 1 → 总代价 <b>n × log n = O(n log n)</b>。</div>
   <div class="box orange"><b>复杂度大小排序（选择题直接用）：</b>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(n³) &lt; O(2ⁿ) &lt; O(n!)。问"最高/最低复杂度"就按这条链排。</div>
+  <h3>▶ 时间复杂度专项：6 类考点 + 三步判定法 + 四大陷阱（做错的基本都栽在这）</h3>
+  <div class="box blue"><b>三步判定法：</b>①看循环变量<b>怎么变</b>：+1/+n → n，×2 或 ÷2 → log n；②多层循环<b>相互独立</b> → 复杂度相乘；③给递归式 → 套下面四模板。</div>
+  <div class="box purple"><b>考点 1：循环变量乘法增长（最大陷阱）。</b><span class="mono">for(i=1; i&lt;=n; i*=2) sum++;</span> → i 每次翻倍：1,2,4,8…走 log₂n 次就到 n → <b>O(log n)</b>。同理 <span class="mono">while(n&gt;1) n=n/2;</span> → O(log n)。看到 <b>i*=2、i/=2、i&lt;&lt;=1 就条件反射 log n</b>。</div>
+  <div class="box purple"><b>考点 2：嵌套内层依赖外层（第二陷阱）。</b><span class="mono">for(i=0;i&lt;n;i++) for(j=i;j&lt;n;j++)</span> → 执行 n+(n−1)+…+1 ≈ n²/2 次 → <b>还是 O(n²)</b>（系数丢掉）。<b>别因为"只跑一半"就选 n 或 nlogn</b>——大 O 丢常数和系数。</div>
+  <div class="box purple"><b>考点 3：递归式四模板（一字之差定生死）。</b>
+    <table>
+      <tr><th>递归式</th><th>复杂度</th><th>典型</th></tr>
+      <tr><td>T(n)=T(n/2)+O(1)</td><td><b>O(log n)</b></td><td>二分查找（砍一半只递归一边）</td></tr>
+      <tr><td>T(n)=T(n−1)+O(1)</td><td><b>O(n)</b></td><td>单层递推/顺序处理</td></tr>
+      <tr><td>T(n)=2T(n/2)+<b>O(1)</b></td><td><b>O(n)</b></td><td>二叉树遍历（每节点访问一次）</td></tr>
+      <tr><td>T(n)=2T(n/2)+<b>O(n)</b></td><td><b>O(n log n)</b></td><td>归并排序（每层合并代价 n）</td></tr>
+    </table>
+    <span class="hl">一字之差：</span>2T(n/2)+<b>O(1)</b>=O(n)，2T(n/2)+<b>O(n)</b>=O(n log n)——看"合并那一步的代价"是常数还是 n，这是年年坑人的地方。
+  </div>
+  <div class="box purple"><b>考点 4：最好 / 最坏 / 平均分开问。</b>题干出现"<b>基本有序 / 已经有序</b>"就是在提示最好情况：快排最坏 <b>O(n²)</b>（每次枢轴都选最边）、插入最好 <b>O(n)</b>、冒泡最好 O(n)（带提前退出标志）。不给提示就答平均。</div>
+  <div class="box purple"><b>考点 5：常考算法复杂度对号（背）。</b>二分 log n｜冒泡/选择/插入 n²｜快排平均 nlogn、最坏 n²｜堆排序/归并 nlogn｜建堆 n｜Dijkstra n²｜图遍历：邻接矩阵 n²、邻接表 n+e｜哈夫曼 nlogn。</div>
+  <div class="box purple"><b>考点 6：多层独立循环 = 相乘。</b><span class="mono">for(i=0;i&lt;n;i++) for(j=1;j&lt;=n;j*=2)</span> → 外层 n 次 × 内层 log n = <b>O(n log n)</b>（外层加法内层乘法，别搞反）。双层都是 +1 → O(n²)。</div>
+  <div class="box orange"><b>10 秒自测（先自己答再展开）：</b>
+    <details class="pra" style="margin-top:6px;"><summary>① for(i=1;i&lt;=n;i*=2) sum++ → ?</summary><div class="ans"><b class="ok">O(log n)</b>（乘法增长）</div></details>
+    <details class="pra"><summary>② for(i=0;i&lt;n;i++) for(j=i;j&lt;n;j++) → ?</summary><div class="ans"><b class="ok">O(n²)</b>（内层依赖外层，累计 ≈ n²/2，系数丢掉）</div></details>
+    <details class="pra"><summary>③ T(n)=2T(n/2)+O(1) → ?</summary><div class="ans"><b class="ok">O(n)</b>（合并代价是常数——二叉树遍历）</div></details>
+    <details class="pra"><summary>④ 外层 for(i=0;i&lt;n;i++)，内层 for(j=1;j&lt;=n;j*=2) → ?</summary><div class="ans"><b class="ok">O(n log n)</b>（n 次 × 每次log n）</div></details>
+    <details class="pra"><summary>⑤ 快排对"已经有序"的数组排序 → ?</summary><div class="ans"><b class="ok">O(n²)</b>（最坏情况：枢轴永远选最边）</div></details>
+    <details class="pra"><summary>⑥ while(n&gt;1) n=n/2 → ?</summary><div class="ans"><b class="ok">O(log n)</b></div></details>
+  </div>
   <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s4b"></div>
 </section>
 
