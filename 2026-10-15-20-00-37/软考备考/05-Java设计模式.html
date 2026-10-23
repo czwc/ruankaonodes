@@ -124,6 +124,11 @@
 <section id="s1">
   <h2>② 策略模式（Strategy）精讲 <span class="tag exam">出题频率第一</span></h2>
   <div class="box orange"><b>意图（背）：</b>定义一系列算法，把它们一个个封装起来，并且使它们可以<b>互相替换</b>。客户端在运行时切换算法，算法变化不影响使用算法的客户。</div>
+  <div class="box blue"><b>人话 + 执行走读（跟着代码跑一遍）：</b>策略模式 = 外卖结算时选支付方式——不管选哪个，下单流程不变。<br>
+    ① <span class="mono">ctx.setStrategy(new AliPay())</span>：把"支付宝"塞进环境类 → strategy 变量现在指向支付宝；<br>
+    ② 想换微信？再 <span class="mono">setStrategy(new WechatPay())</span> —— <b>不改任何一行代码，换个塞入对象而已</b>（这就是"可替换"）；<br>
+    ③ <span class="mono">ctx.checkout(100)</span>：执行 strategy.pay(100) → 实际跑的是"当前塞进去那个类"的 pay。<br>
+    <b>考题挖的就是这三步里的类型名和变量名。</b></div>
   <pre>
 <span class="c">// 仿真真题：支付方式可切换</span>
 <span class="k">interface</span> <span class="hl">PaymentStrategy</span> {              <span class="c">// 抽象策略（挖空常考接口名）</span>
@@ -200,6 +205,11 @@
 }
 <span class="c">// 使用：Coffee c = new Milk(new SimpleCoffee()); → 12.0，"咖啡+牛奶"</span></pre>
   <div class="box green"><b>装饰器识别三标志：</b>① 装饰类 <b>extends/implements 同一个抽象</b>；② 成员变量类型 = <b>被装饰的抽象类型</b>；③ 方法体 = <b>coffee.cost() 再加点什么</b>（委托+增强）。三者齐 = 装饰器，没有例外。</div>
+  <div class="box blue"><b>人话 + 执行走读：</b>装饰器 = 咖啡加料——裸咖啡 10 元，加奶 +2，再加糖 +1，价格一层层往上叠。<br>
+    ① <span class="mono">new SimpleCoffee()</span>：裸咖啡，cost = 10；<br>
+    ② <span class="mono">new Milk(包住裸咖啡)</span>：Milk 里存着里面那杯（<b>这就是"持有同一类型引用"</b>——挖空就挖它）；<br>
+    ③ 调 <span class="mono">cost()</span>：Milk 先问里面那杯多少钱（coffee.cost()），再加自己的 2 块 → 12。<br>
+    <b>套两层：<span class="mono">new Sugar(new Milk(new SimpleCoffee()))</span> → 10+2+1，俄罗斯套娃，每层加一点。</b></div>
   <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s3"></div>
 </section>
 
@@ -222,6 +232,7 @@
     <span class="k">public void</span> update(<span class="k">float</span> temp) { <span class="c">/* 刷新显示 */</span> }
 }</pre>
   <div class="box green"><b>观察者填空点：</b>① 主题里放的是 <b>List&lt;Observer&gt;</b>（抽象类型列表）；② attach 里 add；③ 通知处遍历调用 <b>o.update(...)</b>。</div>
+  <div class="box blue"><b>执行走读：</b>① attach 把 A、B 两个显示器<b>注册</b>进列表；② 温度变了调 dataChanged()；③ for 循环把列表里每个观察者的 update 都调一遍——<b>主题只管喊一嗓子，谁注册了谁收到</b>（≈ addEventListener + dispatchEvent，你天天在用的浏览器事件模型）。</div>
 
   <h3>▶ 单例 Singleton（识别词：private 构造 + static getInstance）</h3>
   <pre>
