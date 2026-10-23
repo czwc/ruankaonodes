@@ -72,12 +72,16 @@
 <details class="rev"><summary>树2：前序 ABDECF、中序 DBEAFC，求后序？</summary><div class="ans">前序第一个 <b>A 是根</b>，回中序把 DBEAFC 切成左 DBE、右 FC → 左子树根 B（D、E 是它的左右孩子）、右子树根 C（F 是左孩子）→ 后序（左右根）= <b class="ok">DEBFCA</b>。<b>易错：每层都要"回前序找根"，不是只切一次。</b></div></details>
 <details class="rev"><summary>树3：100 个节点的完全二叉树，高度是几？</summary><div class="ans"><b class="ok">7 层</b>（⌈log₂101⌉ = 7；因为 2⁶=64 < 100 ≤ 127=2⁷−1）。<b>易错：64 个节点才是 6 层，100 已经要第 7 层了。</b></div></details>
 <details class="rev"><summary>树4：四个叶子权 2、3、4、5 的哈夫曼树，带权路径长度 WPL = ?</summary><div class="ans">合并：2+3=5 → 4+5=9 → 5+9=14（根）。深度：5 在第 1 层、4 在第 2 层、2 和 3 在第 3 层 → WPL = 5×1+4×2+2×3+3×3 = 5+8+6+9 = <b class="ok">28</b>。<b>易错：每轮挑"当前最小"的两个；权小的叶子离根最远。</b></div></details>
+<details class="rev"><summary>树5：二叉排序树（BST）中序遍历得到什么？</summary><div class="ans"><b class="ok">递增有序序列</b>（左小右大——中序=左根右，天然从小到大）。依次插入 45,24,53,12,37：45 为根，24 在左、53 在右，12 是 24 的左孩子，37 是 24 的右孩子。查找/插入平均 O(log n)。</div></details>
+<details class="rev"><summary>树6：平衡二叉树（AVL）的平衡因子是什么？取值范围？</summary><div class="ans">平衡因子 = <b>左子树高 − 右子树高</b>，任一节点取值只有 <b>-1/0/1</b>；插入导致失衡要"<b>旋转</b>"恢复（考概念和因子计算，不考画图）。</div></details>
 
 <div class="box purple"><b>🧮 计算 4 题：</b></div>
 <details class="rev"><summary>计1：流水线四段 2/3/4/5ns，跑 50 条指令，总时间？</summary><div class="ans">各段之和 = 14ns；周期 = 最长段 = 5ns；总时间 = 14 + 49×5 = <b class="ok">259ns</b>。（第一条 = 各段之和，别乘周期）</div></details>
 <details class="rev"><summary>计2：Cache 命中率 90%，Cache 50ns、主存 450ns，"同时访问"式平均时间？</summary><div class="ans">T = 0.9×50 + 0.1×(50+450) = 45 + 50 = <b class="ok">95ns</b>。（题干有"同时访问"→ 未命中那次把 Cache 时间也搭进去）</div></details>
 <details class="rev"><summary>计3：子网掩码 /28，每个子网可用主机数？</summary><div class="ans">主机位 = 32−28 = 4 → 2⁴−2 = <b class="ok">14 台</b>。（减 2：网络地址+广播地址）</div></details>
 <details class="rev"><summary>计4：32 位数据用海明码校验，需要几位校验位？</summary><div class="ans"><b class="ok">6 位</b>。2^k ≥ n+k+1：k=6 → 64 ≥ 32+6+1=39 ✓；k=5 → 32 < 38 ✗。</div></details>
+<details class="rev"><summary>计5：带宽 3000Hz、16 种码元，尼奎斯特极限速率？信噪比 30dB 呢？</summary><div class="ans">尼奎斯特 = 2W·log₂V = 2×3000×4 = <b class="ok">24000bps</b>；30dB → S/N=1000 → 香农 = 3000×log₂1001 ≈ <b class="ok">30kbps</b>。（dB 每 10 加一个 0）</div></details>
+<details class="rev"><summary>计6：UNIX 系统 13 个地址项（10 直接+1 一级间接+1 二级间接），块 4KB、地址 4B，最大文件多大？</summary><div class="ans">间接块存 4096÷4 = 1024 个地址 → 最大 = (10+1024+1024²)×4KB ≈ <b class="ok">4GB</b>。（直接块只有 10 块，别乘 1024）</div></details>
 
 <div class="box purple"><b>🔎 对号 6 题（概念题，看到字眼就选）：</b></div>
 <details class="rev"><summary>对1："窗口大小改变时，所有依赖它的视图自动刷新" → 什么模式？</summary><div class="ans"><b class="ok">观察者模式</b>（状态变化自动通知所有依赖者；识别词 attach/notify/update）。</div></details>
@@ -127,6 +131,7 @@
   <li>OO 三类对象：<b>边界管接口、控制管逻辑、实体管数据</b>；图遍历：矩阵 O(n²)、邻接表 O(n+e)；DFS 栈、BFS 队列</li>
   <li>海明：2^k≥n+k+1（8 位→4 位）；<b>能纠 1 位错的只有海明</b>，CRC/奇偶只检错</li>
   <li>专业英语：先判<b>词性</b>，只读空格前后一句，不读全文</li>
+  <li>网络/文件计算：<b>香农 C=W·log₂(1+S/N)</b>、尼奎斯特 2W·log₂V、比特率=波特率×log₂V；UNIX 索引最大文件 = <b>(10+1024+1024²)×块</b></li>
 </ol>
 
 <h2>🇬🇧 英语临时抱佛脚（5 分抢救包）</h2>
@@ -165,6 +170,7 @@
   <li>磁盘：平均存取 = 寻道 + 半圈(60000/rpm÷2) + 传输</li>
   <li>图像 = 宽×高×位深÷8（16色=4位）；音频 = 采样率×位×声道×秒÷8</li>
   <li>复杂度 5 长相：单层 i++→n｜<b>i*=2→log n</b>｜两层独立→n²｜外层n内层log→nlogn｜2T(n/2)+O(1)→n、+O(n)→nlogn</li>
+  <li>空间复杂度一句话：固定几个变量→O(1)；开 n 长数组→O(n)；递归往下钻→O(递归深度)</li>
 </ol>
 
 <h2>C. 口诀速查 <small>2 分钟</small></h2>
@@ -219,7 +225,23 @@
   ⑥ 全不会 → <b>把全卷出现次数最多的类名/方法名抄进空里</b>（答案词在卷面至少出现 2 次）。<br>
   <b>交卷前三查：</b>①接口里的空<b>有分号</b>吗；②类名<b>大小写</b>和类图一致吗（ConcretePatient ≠ Concretepatient）；③左接口右 new 实现，<b>形状配对</b>吗。<br>
   <b>期望：六空照抄也能对 3~4 个 = <span class="ok">6~8 分</span>，和"懂的人"拿一样多。</b>
-</div>
+  </div>
+
+  <h2>🥷 全科邪修操作卡（考场上照做，每张 30 秒）</h2>
+  <div class="box purple"><b>卡 1 · 排序"第一趟"手算（给序列画一遍，每样 30 秒）：</b><br>
+  <b>冒泡</b>：相邻两个比，大的往右换，扫一遍 → 最大的沉到末尾｜<b>选择</b>：全表找最小，和第 1 位换｜<b>插入</b>：第 2 个往前插 → 只有前 2 个有序｜<b>快排</b>：以第一个为枢轴，小的扔左大的扔右 → 枢轴落最终位｜<b>堆</b>：堆顶(最大)和末尾换后重调。<br>
+  口诀：<b>冒沉底、选拿头、插前二、快归位、堆顶出</b>——"第一趟谁到了最终位置"按这个对号。</div>
+  <div class="box purple"><b>卡 2 · 模式识别 7 连问（读场景往这上面对）：</b><br>
+  多种做法可切换→<b>策略</b>｜变化了自动通知→<b>观察者</b>｜不改原类套一层加功能→<b>装饰器</b>｜全局只能有一个→<b>单例</b>｜造哪类对象由子类定→<b>工厂方法</b>｜行为跟着内部状态变→<b>状态</b>｜一堆功能包一个入口→<b>外观</b>。<br>
+  字眼记不全 → 回③速查表；下午题最后一问 → <b>模式名+理由+类名对应</b>三句话。</div>
+  <div class="box purple"><b>卡 3 · 树的三句邪修（不用画整棵树）：</b><br>
+  数叶子：<b>n0 = n2+1</b>｜还原树：<b>前序第一个是根，去中序切两半，重复</b>｜高度：<b>完全树 n 个 → ⌈log₂(n+1)⌉</b>；数组存树时 <b>i 的孩子 = 2i 和 2i+1</b>（堆排序全靠这句）。</div>
+  <div class="box purple"><b>卡 4 · 复杂度 5 长相 + 空间一句话：</b><br>
+  单层 i++→n｜i*=2→log n｜两层独立→n²｜外层 n 内层 log→nlogn｜2T(n/2)+O(1)→n、+O(n)→nlogn。<br>
+  空间：固定几个变量 O(1)；开 n 长数组 O(n)；递归往下钻 O(递归深度)。</div>
+  <div class="box purple"><b>卡 5 · 数据库概念题对号：</b><br>
+  候选码：<b>只在依赖左边出现的属性必进</b>，求闭包覆盖全部属性，每组算一个｜完整性：重复主键=实体、不存在外键=参照、超范围=用户定义｜关系代数：<b>σ 挑行 π 挑列 ⋈ 拼表</b>，列号在连接后宽表里从 1 数。</div>
+  <div class="box purple"><b>卡 6 · "不正确的是"题通用打法：</b>题干先圈出"不正确/不包括/错误的是" → 逐项打 ✓✗ → <b>选 ✗ 的那项</b>——你两道错题都是把"正确陈述"选上去了，圈词能救 2 分。</div>
 
 <div class="box red"><b>🖥 机考操作 5 条（进考场先做）：</b>①登录后先看试题五/六的<b>选答入口</b>，确认选了试题六（Java）；②上午 90 分钟内做完并<b>确认每题已选</b>（机考不涂卡但会漏点）；③下午拖拽/填空题先在<b>草稿纸排好顺序</b>再操作；④试题四做完立即保存，25 分钟切走；⑤交卷前剩 10 分钟<b>检查有无空题</b>——空题是唯一 0 分的方式。</div>
 
