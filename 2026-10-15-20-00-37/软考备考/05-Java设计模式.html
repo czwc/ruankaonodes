@@ -129,6 +129,15 @@
     ② 想换微信？再 <span class="mono">setStrategy(new WechatPay())</span> —— <b>不改任何一行代码，换个塞入对象而已</b>（这就是"可替换"）；<br>
     ③ <span class="mono">ctx.checkout(100)</span>：执行 strategy.pay(100) → 实际跑的是"当前塞进去那个类"的 pay。<br>
     <b>考题挖的就是这三步里的类型名和变量名。</b></div>
+  <div class="box purple"><b>挖空详解（填什么｜为什么）：</b>
+    <table>
+      <tr><th>挖空位置</th><th>填什么</th><th>为什么这么填</th></tr>
+      <tr><td>环境类成员变量类型</td><td>PaymentStrategy（接口）</td><td>环境类要能装"任何一种"支付方式——写具体类 AliPay 就锁死了；写接口才能随时换</td></tr>
+      <tr><td>setStrategy 参数类型</td><td>同一个接口</td><td>外面传哪种实现类都收</td></tr>
+      <tr><td>this.strategy = strategy</td><td>原样抄</td><td>把外面塞进来的存进成员变量（this. 用来区分成员变量和参数）</td></tr>
+      <tr><td>checkout 里的调用</td><td>strategy.pay(amount)</td><td>变量指向哪个实现类就执行谁的 pay（多态分派）；写死 new AliPay().pay() 就不可替换了</td></tr>
+    </table>
+  </div>
   <pre>
 <span class="c">// 仿真真题：支付方式可切换</span>
 <span class="k">interface</span> <span class="hl">PaymentStrategy</span> {              <span class="c">// 抽象策略（挖空常考接口名）</span>
@@ -210,6 +219,15 @@
     ② <span class="mono">new Milk(包住裸咖啡)</span>：Milk 里存着里面那杯（<b>这就是"持有同一类型引用"</b>——挖空就挖它）；<br>
     ③ 调 <span class="mono">cost()</span>：Milk 先问里面那杯多少钱（coffee.cost()），再加自己的 2 块 → 12。<br>
     <b>套两层：<span class="mono">new Sugar(new Milk(new SimpleCoffee()))</span> → 10+2+1，俄罗斯套娃，每层加一点。</b></div>
+  <div class="box purple"><b>挖空详解（填什么｜为什么）：</b>
+    <table>
+      <tr><th>挖空位置</th><th>填什么</th><th>为什么这么填</th></tr>
+      <tr><td>装饰器成员变量类型</td><td>Coffee（抽象类型）</td><td>装饰器要能包住"任何一杯咖啡"（裸的或已加料的都行）——写 Coffee 才能无限套娃</td></tr>
+      <tr><td>构造里 super(coffee)</td><td>coffee</td><td>把"里面那杯"交给父类存起来——super = 先让爹干完自己的活</td></tr>
+      <tr><td>cost() 里的委托</td><td>coffee.cost() + 2.0</td><td>先问"里面那杯"多少钱（委托），再加自己这层的 2 元——这就是价格叠加</td></tr>
+      <tr><td>desc() 里的拼接</td><td>coffee.desc() + "+牛奶"</td><td>描述同理往前拼——所以最后 desc = "咖啡+牛奶"</td></tr>
+    </table>
+  </div>
   <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s3"></div>
 </section>
 
@@ -233,6 +251,14 @@
 }</pre>
   <div class="box green"><b>观察者填空点：</b>① 主题里放的是 <b>List&lt;Observer&gt;</b>（抽象类型列表）；② attach 里 add；③ 通知处遍历调用 <b>o.update(...)</b>。</div>
   <div class="box blue"><b>执行走读：</b>① attach 把 A、B 两个显示器<b>注册</b>进列表；② 温度变了调 dataChanged()；③ for 循环把列表里每个观察者的 update 都调一遍——<b>主题只管喊一嗓子，谁注册了谁收到</b>（≈ addEventListener + dispatchEvent，你天天在用的浏览器事件模型）。</div>
+  <div class="box purple"><b>挖空详解（填什么｜为什么）：</b>
+    <table>
+      <tr><th>挖空位置</th><th>填什么</th><th>为什么这么填</th></tr>
+      <tr><td>观察者列表类型</td><td>List&lt;Observer&gt;</td><td>列表里要装"任何一种"观察者——写具体类就只 能通知一家</td></tr>
+      <tr><td>attach 方法体</td><td>obs.add(o)</td><td>"注册" = 把观察者塞进列表，等它收通知</td></tr>
+      <tr><td>通知处</td><td>o.update(temp)</td><td>遍历列表逐个调 update——每个观察者执行自己写的版本（多态）</td></tr>
+    </table>
+  </div>
 
   <h3>▶ 单例 Singleton（识别词：private 构造 + static getInstance）</h3>
   <pre>
@@ -245,6 +271,14 @@
     }
 }</pre>
   <div class="box green"><b>单例三件套：</b>private 构造 + private static 实例 + public static getInstance()——三处都可能挖空，尤其 <b>private Config()</b> 和 <b>getInstance</b>。</div>
+  <div class="box purple"><b>挖空详解（填什么｜为什么）：</b>
+    <table>
+      <tr><th>挖空位置</th><th>填什么</th><th>为什么这么填</th></tr>
+      <tr><td>构造函数前的修饰</td><td>private</td><td>禁止外部 new——一旦允许 new 就能造出第二个，"唯一"不成立</td></tr>
+      <tr><td>实例前的修饰</td><td>private static</td><td>唯一实例挂在类本身上（static=全类共享一份），private 防止直接改</td></tr>
+      <tr><td>getInstance 方法体</td><td>if(instance==null) instance=new Config(); return instance;</td><td>第一次调用才创建，之后永远返回同一份——这就是"唯一"的实现</td></tr>
+    </table>
+  </div>
 
   <h3>▶ 工厂方法 Factory Method（识别词：抽象工厂 + createXxx() 返回抽象产品）</h3>
   <pre>
@@ -258,6 +292,14 @@
 }
 <span class="c">// 使用：LoggerFactory f = new FileLoggerFactory(); f.createLogger().write("hi");</span></pre>
   <div class="box green"><b>工厂方法填空点：</b>① 工厂方法返回类型 = <b>抽象产品</b>；② 具体工厂里 new <b>具体产品</b>；③ 使用方拿抽象类型接住（多态）。和策略的区别：工厂管"创建"，策略管"行为切换"。</div>
+  <div class="box purple"><b>挖空详解（填什么｜为什么）：</b>
+    <table>
+      <tr><th>挖空位置</th><th>填什么</th><th>为什么这么填</th></tr>
+      <tr><td>工厂方法返回类型</td><td>Logger（抽象产品）</td><td>上层只认抽象产品，不关心具体造了哪个——上层代码不用改</td></tr>
+      <tr><td>具体工厂方法体</td><td>return new FileLogger()</td><td>"造哪个"由这个子类决定——想造别的就换一个工厂子类</td></tr>
+      <tr><td>使用处的接收类型</td><td>LoggerFactory f = new FileLoggerFactory()</td><td>用抽象工厂接住具体工厂（多态同款：左抽象右具体）</td></tr>
+    </table>
+  </div>
   <div style="font-size:13px;color:#5b6474;margin:10px 0 4px;font-weight:bold">▶ 随学随练</div><div id="qa-s4"></div>
 </section>
 
@@ -269,6 +311,14 @@
     <span class="mono">class Context { private State state; <span class="hl">public void setState(State s){ this.state = s; }</span> public void request(){ state.handle(this); } }</span>——环境类：持有当前状态，行为委托给状态对象<br>
     <span class="mono">class ConcreteStateA implements State { public void handle(Context c){ /*A状态的行为*/ <span class="hl">c.setState(new ConcreteStateB());</span> } }</span>——状态子类：干活 + <b>自己切换下一个状态</b><br>
     <b>填空眼：</b>①空在 Context→持有 State 引用；②空在状态类→setState(下一个状态)；③空在 request→state.handle(this)。<b>与策略唯一的区别：</b>策略是"外部换算法"，状态是"对象内部自动切换状态类"。</div>
+  <div class="box purple"><b>挖空详解（填什么｜为什么）：</b>
+    <table>
+      <tr><th>挖空位置</th><th>填什么</th><th>为什么这么填</th></tr>
+      <tr><td>Context 成员变量</td><td>private State state</td><td>"当前是什么状态"就指向哪个状态类——行为跟着它变</td></tr>
+      <tr><td>request 方法体</td><td>state.handle(this)</td><td>行为委托给当前状态对象；把 Context 自己传过去，状态类才能反过来切换 Context 的状态</td></tr>
+      <tr><td>状态类 handle 里</td><td>c.setState(new ConcreteStateB())</td><td>干完活自己切到下一个状态——这就是"状态自动流转"，也是状态模式的灵魂</td></tr>
+    </table>
+  </div>
 
   <div class="box purple"><b>六骨架速背卡（学完本节最后过目用，不用再去 08 篇）：</b><br>
     · <b>策略</b>：接口 Strategy + 多个实现类 + Context 持接口引用 → context.pay()；字眼"<b>算法可替换</b>"<br>
