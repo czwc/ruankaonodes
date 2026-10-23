@@ -225,7 +225,27 @@ cnt = 1; last = act[<span class="hl">0</span>].end;
   <div class="box blue"><b>展开法示范（看一遍就会）：</b>T(n) = 2T(n/2) + n → 第 1 层合并代价 n，第 2 层两个子问题共 2×(n/2)=n，每层都是 n；要砍 log n 层才到 1 → 总代价 <b>n × log n = O(n log n)</b>。</div>
   <div class="box orange"><b>复杂度大小排序（选择题直接用）：</b>O(1) &lt; O(log n) &lt; O(n) &lt; O(n log n) &lt; O(n²) &lt; O(n³) &lt; O(2ⁿ) &lt; O(n!)。问"最高/最低复杂度"就按这条链排。</div>
   <h3>▶ 时间复杂度专项：6 类考点 + 三步判定法 + 四大陷阱（做错的基本都栽在这）</h3>
-  <div class="box blue"><b>三步判定法：</b>①看循环变量<b>怎么变</b>：+1/+n → n，×2 或 ÷2 → log n；②多层循环<b>相互独立</b> → 复杂度相乘；③给递归式 → 套下面四模板。</div>
+  <h3>▶ 第 0 步 · 零基础地基（大 O 和 log n 到底是什么，3 分钟）</h3>
+  <div class="box blue"><b>① 大 O 是什么？——比"增长快慢"，不比精确次数。</b>把计算机想成干活的工人：活从 1000 件加到 100 万件，O(n) 的工人活也加 1000 倍，O(n²) 的工人活加 100 万倍——<b>大 O 只看增长量级</b>。所以 3n²、n²/2、n²+999 全都记成 O(n²)：常数和系数都被扔掉。<b>这就是"只跑一半还是 O(n²)"的原因——一半也是平方级增长。</b></div>
+  <div class="box blue"><b>② log n 是什么？——"对半砍几次能砍到 1"。</b>n=1024：1024→512→256→128→64→32→16→8→4→2→1，砍了 <b>10 次</b>，所以 log₂1024=10。生活版：猜 1~1000 之间的数字，每次猜中间值排除一半，最多 10 次必中。<b>只要循环变量"每次翻倍"或"每次砍半"，就是 log n。</b></div>
+  <div class="box purple"><b>③ 逐轮列表演示（看一遍就会认）：</b><span class="mono">for(i=1; i&lt;=16; i*=2) sum++;</span> 把 i 的变化列出来：
+    <table>
+      <tr><th>轮数</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th></tr>
+      <tr><td>i 的值</td><td>1</td><td>2</td><td>4</td><td>8</td><td>16</td><td>32&gt;16 停</td></tr>
+    </table>
+    n=16 只走了 5 轮（不是 16 轮！）——翻倍增长飞快，所以是 <b>log n</b>。反过来 <span class="mono">i++</span> 就是 1,2,3,4…16 走满 16 轮 → n。
+  </div>
+  <div class="box purple"><b>④ 递归式 T(n) 怎么读？——T(n) 读作"处理 n 个东西要多少时间"。</b>
+    <table>
+      <tr><th>递归式</th><th>人话翻译</th><th>结果</th></tr>
+      <tr><td>T(n)=T(n/2)+O(1)</td><td>处理 n = 处理一半 + 自己干一件小事 → 一路砍一半</td><td><b>log n</b>（二分）</td></tr>
+      <tr><td>T(n)=T(n−1)+O(1)</td><td>处理 n = 处理 n−1 + 干一件小事 → 一次少一个</td><td><b>n</b></td></tr>
+      <tr><td>T(n)=2T(n/2)+O(1)</td><td>处理 n = 处理两半 + 合并几乎不干活</td><td><b>n</b>（二叉树遍历：每个点摸一次）</td></tr>
+      <tr><td>T(n)=2T(n/2)+O(n)</td><td>处理 n = 处理两半 + <b>合并要干 n 的活</b>（每层都干 n）→ 共 log n 层</td><td><b>n log n</b>（归并）</td></tr>
+    </table>
+    <b>读法：几路 × 砍多细 + 每层合并代价。决定大小的是"每层合并代价"——O(1) 和 O(n) 一字之差，结果天壤之别。</b>
+  </div>
+  <div class="box blue"><b>三步判定法（读完地基，这三步就是肌肉记忆）：</b>①看循环变量<b>怎么变</b>：+1/+n → n，×2 或 ÷2 → log n；②多层循环<b>相互独立</b> → 复杂度相乘；③给递归式 → 套上面四模板。</div>
   <div class="box purple"><b>考点 1：循环变量乘法增长（最大陷阱）。</b><span class="mono">for(i=1; i&lt;=n; i*=2) sum++;</span> → i 每次翻倍：1,2,4,8…走 log₂n 次就到 n → <b>O(log n)</b>。同理 <span class="mono">while(n&gt;1) n=n/2;</span> → O(log n)。看到 <b>i*=2、i/=2、i&lt;&lt;=1 就条件反射 log n</b>。</div>
   <div class="box purple"><b>考点 2：嵌套内层依赖外层（第二陷阱）。</b><span class="mono">for(i=0;i&lt;n;i++) for(j=i;j&lt;n;j++)</span> → 执行 n+(n−1)+…+1 ≈ n²/2 次 → <b>还是 O(n²)</b>（系数丢掉）。<b>别因为"只跑一半"就选 n 或 nlogn</b>——大 O 丢常数和系数。</div>
   <div class="box purple"><b>考点 3：递归式四模板（一字之差定生死）。</b>
