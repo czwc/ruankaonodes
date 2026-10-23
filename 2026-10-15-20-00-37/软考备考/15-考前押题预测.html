@@ -1,0 +1,614 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>15 · 考前押题全集（近两年四场真题驱动）</title>
+<style>
+  :root{
+    --bg:#f5f6f8; --card:#ffffff; --ink:#2d2d3a; --muted:#6b7280;
+    --red:#c0392b; --blue:#2471a3; --green:#1e8449; --orange:#e67e22; --purple:#7d3c98;
+    --line:#e2e4ea; --soft:#eef1f5;
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:system-ui,"Microsoft YaHei",sans-serif;line-height:1.6;font-size:15px;}
+  .wrap{max-width:920px;margin:0 auto;padding:18px 16px 60px;}
+  header{background:linear-gradient(135deg,#1a1a2e,#2471a3);color:#fff;border-radius:14px;padding:20px;margin-bottom:14px;}
+  header h1{margin:0 0 6px;font-size:22px;}
+  header p{margin:0;opacity:.92;font-size:14px;}
+  h2{font-size:18px;margin:26px 0 10px;padding-left:10px;border-left:5px solid var(--blue);}
+  h2 small{font-weight:normal;color:var(--muted);font-size:13px;}
+  .box{border:1px solid var(--line);border-radius:10px;padding:12px 14px;margin:10px 0;background:var(--card);}
+  .box.red{border-left:5px solid var(--red);background:#fdf3f2;}
+  .box.blue{border-left:5px solid var(--blue);background:#f0f6fb;}
+  .box.green{border-left:5px solid var(--green);background:#eff8f2;}
+  .box.purple{border-left:5px solid var(--purple);background:#f7f1fa;}
+  details{border:1px solid var(--line);border-radius:10px;background:var(--card);margin:8px 0;overflow:hidden;}
+  summary{cursor:pointer;padding:10px 13px;font-weight:600;user-select:none;font-size:14.5px;}
+  summary:hover{background:var(--soft);}
+  details .ans{padding:0 13px 11px;font-size:14px;}
+  .tag{display:inline-block;font-size:11.5px;border-radius:20px;padding:1px 8px;margin-right:5px;vertical-align:1px;}
+  .tag.real{background:#fdeaea;color:var(--red);border:1px solid #f5c6c2;}
+  .tag.var{background:#e8f3fb;color:var(--blue);border:1px solid #c5e0f2;}
+  .tag.freq{background:#fdf2e3;color:#a05a00;border:1px solid #f0d9b5;}
+  .q{font-weight:600;color:#1a1a2e;}
+  .ansline{color:var(--red);font-weight:700;}
+  .why{color:var(--muted);font-size:13px;}
+  table{width:100%;border-collapse:collapse;background:var(--card);font-size:13px;}
+  th,td{border:1px solid var(--line);padding:6px 8px;text-align:left;vertical-align:top;}
+  th{background:var(--soft);}
+  .tblwrap{overflow-x:auto;border-radius:10px;border:1px solid var(--line);}
+  .chk{display:flex;gap:8px;align-items:flex-start;padding:4px 0;}
+  .chk input{margin-top:4px;}
+  code,.mono{font-family:Consolas,monospace;background:var(--soft);padding:1px 5px;border-radius:4px;font-size:13px;}
+  .a{color:var(--blue);text-decoration:none;font-weight:600;}
+  footer{margin-top:30px;color:var(--muted);font-size:12.5px;text-align:center;}
+  @media print{ header{-webkit-print-color-adjust:exact;} details{border:none;} }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>15 · 考前押题全集（近两年四场真题驱动）</h1>
+  <p>2026-10-24 机考前夜 · 数据源：2024下（11月）、2025上（5月）、2025下（11月）、2026上（5月）四场真题回忆 + 环球网校/希赛/51CTO/CSDN 考情交叉验证</p>
+</header>
+
+<div class="box red">
+  <b>为什么这套押题可信——三个事实：</b><br>
+  ① 机考后每场考试是从<b>官方题库多批次抽题</b>，环球网校对 2024 下的原话：「<b>个别题目是历年真题一模一样，出自教材中的例题</b>」——所以「把近四场回忆原题做熟」本身就是命中率最高的押题法；<br>
+  ② 四场真题里有大量<b>考点连年重复</b>：哈夫曼树（2024下原话"连考三年"）、流水线、PV、数字签名、隔离级别、Python、关键路径、排序稳定性……本页每道题都标了考过几场；<br>
+  ③ 我给不了明天的原题（题库保密），但下面 <b>40+ 道题里约三分之一是近两年考过的原题原文</b>，其余是同考点变式——按机考抽题规律，这就是最接近"原题"的东西。
+</div>
+
+<div class="box purple">
+  <b>★ 交叉验证（10-23 深夜补充）：希赛官方《2026 下半年考前 20 问》与本页重合度极高</b>——20 问里 17 问命中本页押题：PC/IR、流水线吞吐率、CISC/RISC、二叉树、图遍历、算法策略、排序复杂度、PV、编译vs解释、DFD父子平衡、UML关系、设计模式、高内聚低耦合、著作权永久保护、防御手段、规范化判断、数字证书/签名、对称非对称加密。<b>机构押题和真题考频指向同一批考点，置信度拉满。</b>本次新增补入：用例图三关系、PV不成对陷阱、编译vs解释、分布式透明、IPv6、归并第一趟、时间片轮转（共 9 张新卡）。
+</div>
+
+<h2>第一区 · 近两年真题原题重现 <small>（这些题实际考过，务必做熟——变个数字就是明天的题）</small></h2>
+
+<details>
+  <summary><span class="tag real">2025下原题</span>大顶堆判断 + 堆的应用</summary>
+  <div class="ans">
+    <span class="q">下列哪个序列是大顶堆？</span> A. 9,7,8,3,5,6,4　B. 8,9,7,3,5,6,4　C. 9,7,8,3,10,6,4　D. 9,7,8,3,5,6,12<br>
+    <span class="ansline">答案：A</span> —— 大顶堆只要求每个爹 ≥ 俩孩子。B 根 8&lt;9 ✗，C 中 7&lt;10 ✗，D 中 8&lt;12 ✗。<br>
+    <span class="q">关联原题（2024下）：</span>从 1000 个数里选最大的 10 个，用什么排序最合适？<span class="ansline">堆排序</span>（只维护 10 大小的堆，不用全排）。<br>
+    <span class="why">两场都考堆，明天大概率还有一道。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2025上原题</span>页面置换 Belady 异常</summary>
+  <div class="ans">
+    <span class="q">页面置换中，Belady 异常（分配的块变多、缺页反而变多）不会出现在（）？</span><br>
+    <span class="ansline">答案：LRU（B）</span> —— LRU 属于栈式算法，绝不出现 Belady 异常；FIFO 会。OPT 也属于栈式算法但考题标准答案是 LRU/FIFO 二选一时选 LRU。<br>
+    <span class="why">2025下又考了"最少访问原则删哪页"——页面置换连考三场，LRU 手算必练。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2025上原题 + 2025下原题</span>数字签名 / 哈希算法（安全加重）</summary>
+  <div class="ans">
+    <span class="q">（2025上）数字签名中，发送方使用（）？</span> <span class="ansline">发送方私钥签名（B）</span>，接收方用发送方公钥验证。<br>
+    <span class="q">（2025下）下列哪个算法用了哈希？SHA256 / ECC / RSA / DES</span> <span class="ansline">SHA256</span>（信息摘要，不是加密）。<br>
+    <span class="why">2026上安全题加到 2~3 道，签名/CA/摘要三件套是明天的铁定考点。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2025上原题 + 2025下原题</span>事务隔离级别</summary>
+  <div class="ans">
+    <span class="q">（2025上）隔离级别安全性最高的是？</span> <span class="ansline">SERIALIZABLE（串行化）</span>。<br>
+    <span class="q">（2025下）要避免脏读，事务隔离级别至少设为？</span> <span class="ansline">READ COMMITTED（读已提交）</span>。<br>
+    <span class="why">记忆链：读未提交（有脏读）→ 读已提交（解决脏读）→ 可重复读（解决不可重复读）→ 串行化（全解决）。连考两场，第三场概率极高。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2025下原题 + 2025上原题</span>流水线计算</summary>
+  <div class="ans">
+    <span class="q">（2025下）指令三段 2ns、2ns、1ns，流水线执行 100 条的总时间？</span><br>
+    <span class="ansline">答案：5 + 99×2 = 203ns</span>（第一条走全程 5，之后每 2ns 出一条，周期=最长段）。<br>
+    <span class="q">变式：</span>吞吐率 = 指令条数 ÷ 总时间 = 100/203；最大吞吐率 = 1/2ns。<br>
+    <span class="why">2026上流水线/Cache 又是重点——这个公式四场里基本场场见。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2025上原题</span>子网划分 /26</summary>
+  <div class="ans">
+    <span class="q">IPv4 子网 /26，可用主机地址数？</span> <span class="ansline">62（2⁶−2）</span>。2024下还考过 B类/16 划 60 个子网选掩码。<br>
+    <span class="why">变式预测：/28 → 14 台；/27 → 30 台。口诀：主机位 n 位，2ⁿ−2。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2025上原题</span>圈复杂度 McCabe</summary>
+  <div class="ans">
+    <span class="q">V(G)=e−n+2p，若 p=1，e=10，n=7，V(G)=？</span> <span class="ansline">10−7+2 = 5</span>。<br>
+    <span class="why">2024下也考了环路复杂度——白盒测试必考计算，公式抄在草稿纸上第一件事。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2025上原题</span>RISC 特点 / RAID5 / HTTP2 / 量子 / 过拟合</summary>
+  <div class="ans">
+    ① RISC 正确描述 → <span class="ansline">编译器优化任务更重</span>（指令精简，复杂功能靠编译器组合）；不是 RISC 的 → 指令种类丰富。<br>
+    ② RAID5 n=4 块磁盘利用率 → <span class="ansline">(n−1)/n = 75%</span>（牺牲 1 块存校验）。<br>
+    ③ HTTP/2 解决队头阻塞 → <span class="ansline">多路复用</span>。<br>
+    ④ 机器学习过拟合原因 → <span class="ansline">训练数据不足/特征过多/模型复杂度高（全部）</span>。<br>
+    ⑤ 量子比特特性 → <span class="ansline">可叠加（0 和 1 同时存在）</span>。<br>
+    <span class="why">这一串都是 2025上原题——新技术+杂题区，2026上延续了 AI 新技术路线，明天这个区域就是这些脸孔。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2025上原题</span>瀑布模型：单元测试计划何时产生</summary>
+  <div class="ans">
+    <span class="q">瀑布模型中各阶段输出文档，正确的是？</span> <span class="ansline">单元测试计划在软件编码阶段产生（可与编码并行设计）</span>。可行性研究报告在计划阶段；集成测试计划在概要设计阶段；详细设计说明书在详细设计阶段。<br>
+    <span class="why">开发模型每年 2~4 题，这题是经典复用题。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2025下原题</span>Python 两连发</summary>
+  <div class="ans">
+    ① <code>list(filter(lambda x: x%2, range(5)))</code> → <span class="ansline">[1, 3]</span>（filter=筛子，保留让函数为真的；range(5)=0~4，奇数只有 1、3）。<br>
+    ② 字典删除键值：<span class="ansline">del d[key] 或 d.pop(key)</span>。<br>
+    <span class="why">2024下考了 3 道 Python（字典删除），2025下 2 道，2026上也有——Python 已是固定 2~3 分，记住 filter/pop/del/len/slice 就够。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2024下原题</span>度为 3 的树求叶子数（树专项原题）</summary>
+  <div class="ans">
+    <span class="q">一棵度为 3 的树，有 5 个度为 1、4 个度为 2、2 个度为 3 的节点，叶子数？</span><br>
+    <span class="ansline">答案：n₀ = n₂ + 2n₃ + 1 = 4 + 2×2 + 1 = 9</span>（通用公式：n₀ = Σ(度−1)×n_度 + 1，二叉树就是它的特例 n₀=n₂+1）。<br>
+    <span class="why">2026上还考了"完全函数依赖"和二叉树构造——树四场连考，13 页练的就是它。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2026上原题</span>IPv6 地址 / 归并第一趟 / 时间片轮转（原题三连）</summary>
+  <div class="ans">
+    ① <span class="q">IPv6 目的地址三种基本类型不包括？</span><span class="ansline">广播（IPv6 取消了广播，用组播替代；三类型 = 单播/组播/任播）</span>。<br>
+    ② <span class="q">哪个排序第一趟后<b>不保证</b>极值归位？</span><span class="ansline">归并排序</span>（选择/冒泡/堆第一趟都能把极值放最终位置，归并只是合并相邻子序列）。<br>
+    ③ <span class="q">时间片轮转调度，时间片过大退化为？</span><span class="ansline">先来先服务 FCFS</span>（过小则切换开销大）。<br>
+    <span class="why">2026上原题三连——都是"反直觉选项"型，明天同款概率高。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2026上原题</span>开闭原则场景题 + 智能家居四模式</summary>
+  <div class="ans">
+    <span class="q">支付系统原只支持支付宝，新增微信支付不改原代码，只加实现类——体现了（）原则？</span><span class="ansline">开放-封闭原则（OCP，对扩展开放对修改封闭）</span>。<br>
+    <span class="q">智能家居场景对号（2026上上午原题型）：</span>一个中央控制器实例→<b>单例</b>；不同品牌灯具统一接口→<b>适配器</b>；传感器变化多设备自动响应→<b>观察者</b>；一键场景封装命令对象→<b>命令模式</b>。<br>
+    <span class="why">场景化出模式是最新趋势——背特征词比背定义有用。</span>
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag real">2024下原题</span>磁盘调度 / 折半查找 / 补码</summary>
+  <div class="ans">
+    ① 最短寻道时间优先（SSTF）：磁道按「离当前位置最近」逐个服务，总移动 = 各步距离和 × 每道 6ms。② 折半查找：20 个数查第 13 个位置的数，比较次数 = <span class="ansline">mid=(0+19)/2=9→13>9 右半→ mid=(10+19)/2=14→13&lt;14 左半→ mid=12? 逐步 3 次内命中</span>——记住 mid=(low+high)/2 向下取整。③ 补码 11111111 的真值 = <span class="ansline">−1</span>；10000000 = −128。<br>
+    <span class="why">这三件是 2024下回忆题原样——OS 磁盘调度和补码轮着出，都是模板题。</span>
+  </div>
+</details>
+
+<h2>第二区 · 分模块押题 38 道 <small>（★越多越优先，点开对答案）</small></h2>
+
+<h3>📦 计算机组成（押 5 道，预计 6~8 分）</h3>
+<details>
+  <summary><span class="tag freq">★★★★★</span>押A1 · 浮点数表示：阶码与尾数</summary>
+  <div class="ans"><span class="q">浮点数的表示范围和精度由什么决定？</span><br><span class="ansline">阶码越长范围越大；尾数越长精度越高</span>。运算顺序：对阶（小阶向大阶看齐，尾数右移）→ 尾数运算 → 规格化。<br><span class="why">2025下、2025上都考了浮点数，模板必背。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押A2 · 补码表示范围与特殊值</summary>
+  <div class="ans"><span class="q">8 位补码能表示的范围？</span><span class="ansline">−128 ~ +127</span>。陷阱：<code>10000000</code> 补码真值 = <b>−128</b>（没有对应的原码）；<code>11111111</code> = −1；正数三码合一。<br><span class="why">2024下考原码、2025下考补码关系，换汤不换药。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押A3 · Cache 命中率计算</summary>
+  <div class="ans"><span class="q">Cache 20ns、主存 200ns、命中率 95%，平均访存时间？</span><br><span class="ansline">0.95×20 + 0.05×200 = 29ns</span>。若题目给「同时访问」方式则为 0.95×20+0.05×(200+20)，看题干措辞。<br><span class="why">2026上明确 Cache 仍是重点。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押A4 · DRAM vs SRAM</summary>
+  <div class="ans"><span class="q">正确叙述组合？</span><span class="ansline">DRAM 集成度高、需刷新、便宜、做主存；SRAM 快、不用刷新、贵、做 Cache</span>。单管 vs 六管。<br><span class="why">2026上原题，存储层次年年有题。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押A5 · 中断 / 寻址方式 / 指令寄存器</summary>
+  <div class="ans">① 程序查询最慢、中断其次、DMA 最快且不占 CPU；② 寻址速度：立即 &gt; 寄存器 &gt; 直接 &gt; 间接；③ PC 存<b>下一条指令地址</b>，IR 存<b>正在执行的指令</b>；④ 指令 = 操作码 + 地址码。<br><span class="why">希赛考前 20 问第 1 问就是 PC/IR，寄存器 2024下考过。</span></div>
+</details>
+
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押A6 · 编译 vs 解释（希赛20问第9问）</summary>
+  <div class="ans"><span class="ansline">编译：整体翻译成目标代码后执行，效率高，报错在编译期</span>；<span class="ansline">解释：边翻译边执行、不生成目标代码，效率低但可移植性强</span>（2025下原题）。Java = 编译+解释混合（先字节码后 JVM）。<b>语义错误编译器查不出</b>（2025下考了语义错误）。<br><span class="why">四场高频轮换 + 希赛押题双确认。</span></div>
+</details>
+
+<h3>📦 操作系统（押 6 道，预计 5~7 分）</h3>
+<details>
+  <summary><span class="tag freq">★★★★★</span>押B1 · PV 操作初值与顺序</summary>
+  <div class="ans"><span class="q">生产者-消费者，缓冲区容量 n，empty/full/mutex 初值？</span><span class="ansline">empty=n，full=0，mutex=1</span>。<br>陷阱题「能否交换两个 P 的顺序」→ <b>不能</b>，可能死锁（先 P(mutex) 再 P(empty)，仓库满时抱着锁等格子）。<br><span class="why">2026上 PV+死锁"很多考生觉得绕"——记住这个陷阱就能反杀。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押B1+ · PV 一定要成对吗？（希赛20问原题）</summary>
+  <div class="ans"><span class="q">PV 操作都必须要成对出现吗？</span><br><span class="ansline">互斥场景必须成对</span>（P申请V释放，保护临界资源）；<b><span class="ansline">同步场景可以不成对</span></b>（多个 P 对一个 V、靠信号量表达先后顺序）。<br><span class="why">希赛 20 问第 8 问原样——概念辨析题，答"不一定"就赢了一半。</span></div>
+</details>
+
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押B2 · 死锁四条件与预防</summary>
+  <div class="ans"><span class="ansline">互斥、保持并等待、不剥夺、循环等待</span>——破坏任一条件可预防；<b>"互斥条件不能破坏"是经典陷阱</b>。死锁处理策略强弱：预防 &lt; 避免（银行家）&lt; 检测恢复。<br><span class="why">2026上考死锁避免，银行家算法"安全性检查"认得名字即可。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押B3 · 三态模型</summary>
+  <div class="ans"><span class="q">运行→阻塞、阻塞→就绪的触发条件？</span><br><span class="ansline">运行→阻塞=等资源/等I/O；阻塞→就绪=等到了（被唤醒）</span>。<b>不存在"阻塞→运行"和"就绪→阻塞"</b>——醒来必须先排队。<br><span class="why">2025下考了三态模型，送分。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押B4 · 磁盘存取时间 / 调度</summary>
+  <div class="ans">存取时间 = 寻道 + 旋转延迟 + 传输。SSTF 按最近磁道服务；SCAN 电梯式单向扫。<br><span class="why">2024下 SSTF 原题（每磁道 6ms）、09 页例 11 有一模一样的模板。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押B5 · SPOOLing / 文件系统</summary>
+  <div class="ans">SPOOLing = 用磁盘把<b>独占设备改成共享的虚拟设备</b>（解决 CPU 与设备速度不匹配），2025下原题。文件目录 = 文件控制块（FCB）的有序集合；位示图 = 一个位管一个块（先圈"从 0 还是 1 编号"）。<br><span class="why">文件系统 2024下、位示图年年轮换。</span></div>
+</details>
+
+<h3>📦 数据结构与算法（押 7 道，预计 7~10 分，你的专项）</h3>
+<details>
+  <summary><span class="tag freq">★★★★★</span>押C1 · n₀=n₂+1 与度 3 树推广</summary>
+  <div class="ans"><span class="q">二叉树 5 个度 2 节点 → 叶子？</span><span class="ansline">6</span>。<span class="q">度 3 树：n₀ = n₂+2n₃+1</span>（2024下原题答案 9）。<br><span class="why">13 页第 2 课原话，四场连考树。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★★</span>押C2 · 前序+中序还原 / 哈夫曼 WPL</summary>
+  <div class="ans">前序首=根，中序切两半，递归拼接（例：前序 ABDECF + 中序 DBEAFC → 后序 <span class="ansline">DEBFCA</span>）。哈夫曼：每次合并最小俩，<span class="ansline">WPL = 每次合并和相加</span>（验算法）。哈夫曼树<b>没有度为 1 的节点</b>；n 个叶子的哈夫曼树共 2n−1 个节点。<br><span class="why">2024下哈夫曼"连考三年"、2025下又考——13 页全练过。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押C3 · 折半查找</summary>
+  <div class="ans">mid=(low+high)/2 <b>向下取整</b>；n 个元素最多比较 ⌈log₂(n+1)⌉ 次（15 个数最多 4 次）；<b>前提：顺序存储 + 有序</b>。<br><span class="why">2024下原题（20 个数查第 13 位）、2025下考了二分查找——14 页例 19 三句话。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押C4 · 排序稳定性与复杂度</summary>
+  <div class="ans">稳定（相等不打架）：<b>冒泡、插入、归并、基数</b>；不稳定：<b>快些选堆（快排/希尔/选择/堆）</b>。快排一趟：基准 5 归位后左小右大，如 [2,3,1,4,5,7,8,6]（2025下原题）。归并/堆 nlogn，快排最坏 O(n²)。<br><span class="why">"快些选堆"四场场场沾边。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押C5 · 图：拓扑 / 最小生成树 / 关键路径</summary>
+  <div class="ans">拓扑排序：每次输出入度 0 的点，<b>输出后擦出边</b>；AOV 网有环则无拓扑序。最小生成树：Prim 点入手、Kruskal 边入手，都<b>不能有环</b>。关键路径 = 最长路径，决定工期；活动最早开始=前序事件最早+耗时，最晚=后序最晚−耗时（2024下、2026上都考关键路径/活动图）。<br><span class="why">图论连考，09 页例 16 拓扑 + 关键路径口诀。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押C6 · 算法策略对号</summary>
+  <div class="ans">分治=子问题独立（归并/快排/二分）；动态规划=子问题重叠有记忆（背包/最长公共子序列）；贪心=局部最优不回头（<b>哈夫曼、最小生成树</b>）；回溯=试探+悔棋（<b>N皇后、八皇后</b>）。<br><span class="why">2025下上午考策略对号、下午考 N皇后回溯、2026上下午考贪心——这张对照表两头通吃。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押C7 · 栈队列 / 矩阵 / 循环队列</summary>
+  <div class="ans">栈=后进先出（函数调用/递归/表达式求值）；队列=先进先出（BFS/打印排队）。循环队列队满：(rear+1)%n == front，元素数=(rear−front+n)%n。三对角矩阵按行存储下标映射（2025下考了）。<br><span class="why">循环队列/特殊矩阵隔年出，扫一眼公式即可。</span></div>
+</details>
+
+<h3>📦 数据库（押 5 道，预计 5~7 分）</h3>
+<details>
+  <summary><span class="tag freq">★★★★★</span>押D1 · 范式判断（半把钥匙/传话链）</summary>
+  <div class="ans">R(学号,姓名,系名,系主任)：主键单字段无半把钥匙问题，但 学号→系名→系主任 是传话链 → <span class="ansline">2NF</span>。"每个非主属性完全函数依赖于主键" → <span class="ansline">2NF</span>（2026上原题）。3NF = 消除传递依赖。<br><span class="why">你已专门攻克，12 页范式三步走卡。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押D2 · SQL 关键字</summary>
+  <div class="ans">分组后条件用 <span class="ansline">HAVING</span>（行条件才是 WHERE）；模糊匹配 LIKE '_' 单字符 '%' 任意；去重 DISTINCT；聚合 COUNT/SUM/AVG；嵌套 IN / EXISTS。授权末尾 <span class="ansline">WITH GRANT OPTION</span> = 可转授。<br><span class="why">2025下考了 SQL 语句，年年必有 1~2 空。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押D3 · 关系代数</summary>
+  <div class="ans">选择 σ=挑行、投影 π=挑列、连接⋈=拼表（自然连接去同名列）、除法÷=「对所有都」的查询。π 投影会产生<b>去重</b>。<br><span class="why">2025下考关系代数，符号认得就得分。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押D4 · 视图与索引</summary>
+  <div class="ans">视图=虚表（存的是查询定义不是数据），好处=简化查询+安全隔离。索引加快查询但<b>拖慢插入/删除/修改、占空间</b>（2025下考了索引错误项：选"提高增删改效率"为错误）。<br><span class="why">2025下原题，数据库杂项区固定出题点。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押D5 · ACID 与故障恢复</summary>
+  <div class="ans"><span class="ansline">原子性A、一致性C、隔离性I、持久性D</span>。日志先写（WAL）； COMMIT 后断电数据不丢=持久性。共享锁S（读）兼容S，排他锁X（写）谁都不兼容。<br><span class="why">2025下考了 ACID/摘要，补上这个闭环。</span></div>
+</details>
+
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押D6 · 分布式数据库透明（希赛20问第18问，冷门但官方点名）</summary>
+  <div class="ans">分布式透明 = 用户不必知道数据在哪：<span class="ansline">分片透明（最高层）→ 位置透明 → 局部映像透明</span>，三层由高到低；实现难度越大透明级别越高。<br><span class="why">我四场考频里没有它，但希赛 20 问专门列了——官方资料点名的冷门点最值得花 2 分钟。</span></div>
+</details>
+
+<h3>📦 计算机网络（押 4 道，预计 4~6 分）</h3>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押E1 · 协议分层对号</summary>
+  <div class="ans">应用层（HTTP/DNS/SMTP发/POP3收/FTP/Telnet）· 传输层（TCP可靠/UDP快）· 网际层（IP/ICMP=ping探针/ARP=IP查MAC 2024下原题）· 网络接口层。HTTP 属<span class="ansline">应用层</span>（2025下原题）、VLAN 属<span class="ansline">数据链路层</span>（2025下原题）。<br><span class="why">2025下连出两道分层题，协议对号表背熟即可全拿。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押E2 · OSI 七层设备与端口</summary>
+  <div class="ans">集线器=物理层（最笨只放大信号）→ 交换机=链路层（认 MAC 按帧转）→ 路由器=网络层（认 IP 选路）→ 网关=高层。端口：HTTP 80 / HTTPS 443 / FTP 21 / SMTP 25 / DNS 53 / POP3 110 / Telnet 23。<br><span class="why">09 页例 17 原题款，2025下考了应用层协议选择。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押E3 · 子网划分变式</summary>
+  <div class="ans">/26→62 台（2025上原题）；/27→30；/28→14；/30→2。给出 IP 段求子网数：2^借位数。CIDR 聚合：连续块合并掩码左移。<br><span class="why">子网 2024下、2025上两场都考，模板口算 30 秒。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押E4 · 网络命令与杂项</summary>
+  <div class="ans">ping=ICMP 测连通；tracert=路径；arp -a=看 MAC 缓存。VPN 不做入侵检测（2025下原题：做认证/加密隧道/分配 IP）。无线漫游=跨 AP 切换（2025下原题）。<br><span class="why">杂项题 2025下出了 3 道，都是「排除法秒选」型。</span></div>
+</details>
+
+<h3>📦 信息安全（押 4 道，预计 3~4 分，2026 加重）</h3>
+<details>
+  <summary><span class="tag freq">★★★★★</span>押F1 · 签名 / 保密 / 摘要三方向</summary>
+  <div class="ans">签名 = <span class="ansline">发方私钥签，发方公钥验</span>（赖不掉）；保密 = <span class="ansline">收方公钥加密，收方私钥开</span>（只有他能开）；完整性 = <span class="ansline">哈希摘要（SHA256/MD5）比对</span>。<br><span class="why">2025上原题 + 2026上加重 + 2025下考哈希——铁三角。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押F2 · CA 证书与算法分类</summary>
+  <div class="ans">CA = 把<b>公钥与身份绑定</b>签发数字证书，防公钥调包。对称（快，密钥分发难）：DES/3DES/AES/SM1；非对称（慢）：RSA/ECC/SM2；国密三兄弟：SM2 非对称、SM3 哈希、SM4 对称。<br><span class="why">2026上 CA 连出 2~3 道，算法分类 2025下考过。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押F3 · 访问控制 / 防火墙 / 攻击</summary>
+  <div class="ans">访问控制三要素：主体/客体/控制策略；自主访问 DAC、强制 MAC、基于角色 RBAC（2024下考访问控制）。防火墙=门卫管进出，<b>防不了内部攻击</b>；IDS 入侵检测（报警）、IPS 入侵防御（拦截）。SQL 注入=拼 SQL 字符串，防=参数化查询；XSS=注入脚本；DDoS=洪泛。<br><span class="why">安全是今年最明确的加重区，多背一道是一道。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★☆☆☆</span>押F4 · 恶意代码 / Kerberos</summary>
+  <div class="ans">病毒寄宿文件、蠕虫自我复制传播、木马伪装后门、宏病毒藏于文档（2024下"邮件 word 病毒"=宏病毒）。Kerberos 需<b>时钟同步</b>（防重放），用 TGT 票据（2025上原题：错误项=无需时钟同步）。<br><span class="why">各隔一场轮换，扫一遍即可。</span></div>
+</details>
+
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押F5 · 常见防御手段对号（希赛20问第16问）</summary>
+  <div class="ans"><span class="ansline">防火墙=控制进出边界流量</span>；<span class="ansline">IDS=检测报警、IPS=拦截阻断</span>；<span class="ansline">加密=保机密性</span>；<span class="ansline">数字签名/摘要=保完整性与不可否认</span>；<span class="ansline">访问控制=保可用边界内的授权</span>；蜜罐=诱捕。场景题按「要防什么→选什么」对号：<b>防窃听→加密；防篡改→摘要+签名；防内部→访问控制+审计；防外部闯入→防火墙+IPS</b>。<br><span class="why">希赛 20 问第 16 问 + 2026 上安全加重区。</span></div>
+</details>
+
+<h3>📦 软件工程（押 6 道，预计 6~9 分）</h3>
+<details>
+  <summary><span class="tag freq">★★★★★</span>押G1 · 开发模型场景对号</summary>
+  <div class="ans">瀑布=需求稳精装房；原型=先出效果图；增量=分栋交房；螺旋=<b>每圈先风险分析</b>；敏捷=边住边改。经典陷阱：单元测试计划<b>在编码阶段产生</b>（2025上原题）、集成测试计划在概要设计阶段。<br><span class="why">年年 2~4 题，09 页例 14。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押G2 · 耦合内聚排序</summary>
+  <div class="ans">耦合（低好）：数据&lt;标记&lt;控制&lt;外部&lt;公共&lt;内容。内聚（高好）：偶然&lt;逻辑&lt;时间&lt;过程&lt;通信&lt;顺序&lt;<b>功能</b>。2024下原题「月/季/半年报表共用一个模块」=<span class="ansline">逻辑内聚</span>（凑巧功能相似捆一起）；2025下原题「完成单一特定任务」=<span class="ansline">功能内聚</span>。<br><span class="why">两场连考内聚，口诀"翻抽屉最差，递纸条最好"。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押G3 · 测试分类与覆盖</summary>
+  <div class="ans">测试目的=<span class="ansline">发现错误</span>（证明无错是错的）；好的测试=发现新错误的测试；测试用例含<b>合理+不合理输入</b>（2025下原题）。白盒覆盖强度：语句&lt;判定&lt;条件&lt;判定/条件&lt;路径覆盖（最强）；<b>McCabe 圈复杂度 = 边−节点+2 = 判定节点数+1</b>（2025上原题 V(G)=5）。黑盒：等价类/边界值/场景。<br><span class="why">圈复杂度两场连考，公式先默写在草稿纸上。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押G4 · 维护分类与软件危机</summary>
+  <div class="ans">维护四类：改正性（修bug）、<b>适应性</b>（环境变了）、<b>完善性</b>（用户提新需求/界面优化，占比最大~50%）、预防性（未雨绸缪）。2025下原题「界面优化」=<span class="ansline">完善性</span>。软件危机表现：费用进度失控/质量低/难维护（2025下原题）。<br><span class="why">维护分类隔年出，四个名字背下来。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押G5 · 关键路径 / 进度计算</summary>
+  <div class="ans">关键路径=<b>最长</b>路，决定最短工期；关键活动总时差=0。最早开始=顺推取 max；最晚开始=逆推取 min 再减耗时。2024下原题（求最早/时差）、2026上又考。<br><span class="why">两场连考，甘特图=进度、PERT=三点估算顺带认脸。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★☆☆☆</span>押G6 · 需求与结构化工具</summary>
+  <div class="ans">结构化分析工具=DFD+数据字典+DD+STD；<b>ER 图不属于</b>（2025下原题，它属于数据库概念设计）。需求验证方法=评审原型；UML 需求阶段主画<b>用例图</b>。<br><span class="why">2025下原题陷阱题，一眼记住。</span></div>
+</details>
+
+<h3>📦 面向对象与设计模式（押 4 道，预计 4~6 分）</h3>
+<details>
+  <summary><span class="tag freq">★★★★★</span>押H1 · 四场景对号设计模式（2025下原题型）</summary>
+  <div class="ans">规则可切换→<b>策略</b>；一变多知自动通知→<b>观察者</b>；全局唯一→<b>单例</b>；接口不兼容→<b>适配器</b>；动态加职责→<b>装饰器</b>；统一接入两条产品线→<b>桥接</b>（2025下下午原题）；复制克隆→<b>原型</b>（2026上下午原题）；状态变行为变→<b>状态</b>。<br><span class="why">上午场景题+下午大题两头押，特征词表见 09 页。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押H2 · 面向对象设计原则</summary>
+  <div class="ans">单一职责（一类一事）、开闭（对扩展开对修改关）、里氏替换（子可代父）、依赖倒置（<b>都依赖抽象</b>，"高层依赖低层"是错误项 2025下原题）、接口隔离（多小接口）、迪米特（最少知识）。<br><span class="why">2025上/2025下连考原则题，错误项特征明显。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押H3 · UML 图与关系</summary>
+  <div class="ans">类图=静态；用例图=需求；序列图/通信图=交互（按时间/按组织）；状态图=单对象状态流转（2025下考）；活动图=流程（2025下考关键路径款）。关系：泛化=三角实线（is-a）、实现=三角虚线、聚合=空心菱形（散了还在）、组合=实心菱形（同生共死）、依赖=虚线箭头。<br><span class="why">UML 2025下考了序列图/活动图/类图关系，2026上稳定。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押H4 · 多态 / 重载重写 / 绑定</summary>
+  <div class="ans">多态=同一消息不同对象不同响应，<b>运行时（动态）绑定</b>；重载=编译期静态、同名不同参；重写=运行期动态、同名同参。封装=藏细节，继承=复用。<br><span class="why">2025下考了多态，概念四选一送分。</span></div>
+</details>
+
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押H5 · 用例图三关系（希赛20问第12问，下午可能也用）</summary>
+  <div class="ans"><span class="ansline">包含 include = 必然要走</span>（「登录」被「查询」包含——不登录查不了）；<span class="ansline">扩展 extend = 可选、偶尔发生</span>（「异常处理」扩展主流程）；<span class="ansline">泛化 = 父子</span>（手机支付泛化出微信/支付宝支付）。判别口诀：<b>必然发生用 include，偶尔才用 extend</b>。箭头方向：include 指向被包含者，extend 指向被扩展者。<br><span class="why">希赛 20 问点名 + 用例图 2024 下下午考过——上午下午两头押。</span></div>
+</details>
+
+<h3>📦 知产法律 / 新技术 / 英语前菜（押 4 道，预计 5~7 分）</h3>
+<details>
+  <summary><span class="tag freq">★★★★★</span>押I1 · 知识产权四件套</summary>
+  <div class="ans">软件著作权：法人=<b>首次发表后 50 年</b>（截止第 50 年 12 月 31 日，2025下原题）；公民=终生+死后 50 年。<b>署名权永久保护</b>。拿工资开发的软件=<b>职务作品归公司</b>。专利：发明 20 年、实用新型/外观 10 年；商标 10 年可续。<br><span class="why">知产 2~3 分场场不落，纯送分。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押I2 · AI/新技术概念题</summary>
+  <div class="ans">大模型=基于 <b>Transformer 架构 + 海量预训练</b>；云计算三模式 IaaS（租毛坯）/PaaS（租精装）/SaaS（拎包入住）；大数据 4V（量大/快/杂/价值密度低）；区块链=去中心化不可篡改；边缘计算=就近处理。<br><span class="why">2025下英语题考大模型、2026上考 AI 辅助软件工程——AI 概念题已从加分项变必答题。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押I3 · Python 补充三连</summary>
+  <div class="ans">① <code>d.pop(key)</code>/del 删键（2024下原题）；② 切片 <code>a[1:4]</code> 取 1~3；③ <code>len()</code>/<code>range(5)=0~4</code>；④ 列表推导 <code>[i*2 for i in range(3)]</code>=[0,2,4]。<br><span class="why">Python 每场 2~3 分，会这四个就是满分。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★☆☆☆</span>押I4 · 项目管理杂项</summary>
+  <div class="ans">风险应对：规避/转移/减轻/接受（2024下原题：主动控制最好策略=风险避免）。COCOMO 规模估算（2025下考）；Gantt=进度；里程碑=零工期活动。<br><span class="why">每年 1~2 道，认脸即可。</span></div>
+</details>
+
+<h3>📦 补漏卡 · 对照官方考纲终检新增（这些是分值表里固定有、上面没覆盖的）</h3>
+<details>
+  <summary><span class="tag freq">★★★★☆</span>押J1 · 后缀表达式（中缀转后缀）</summary>
+  <div class="ans">考试给 <code>A+B*C</code> 这类式子问后缀。口诀：<b>按优先级加括号 → 把运算符挪到对应括号后面 → 去括号</b>。<br>例：<code>(A+B)*C</code> → 后缀 <code>AB+C*</code>；<code>A+B*C</code> → 先算 <code>B*C</code> → <code>ABC*+</code>。逆波兰=后缀、波兰=前缀，别反。<br><span class="why">程序语言+计组交叉必考位，两年内两场都考过表达式相关题。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押J2 · 校验码：海明码 / CRC</summary>
+  <div class="ans"><b>海明码</b>：2^k ≥ n+k+1 定校验位数——64 位数据问至少几位校验：k=7 时 128≥64+7+7=78 成立，答 <b>7</b>（记结论：64 位数据海明校验需 7 位）。<b>CRC</b>：模 2 除法（异或不借位），信息位后补 r 个 0 再除生成多项式，余数就是校验位。<b>可纠正一位错的是海明码，只能检错的是 CRC/奇偶</b>。<br><span class="why">计组每年固定 1 题，公式会套就白送。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押J3 · 传值 vs 传址 + 编译三件套</summary>
+  <div class="ans"><b>传值</b>=复印一份给函数，改了不影响原变量；<b>传址</b>=给他家门牌号，函数顺着地址改的就是原件。考题给代码段问输出——看到 <code>*p</code> 解引用/数组参数就是传址会改原值。<br><b>编译 vs 解释</b>：编译=整本翻译成目标程序再跑（生成目标代码、可独立执行）；解释=同声传译边翻边跑（不生成目标程序、慢但跨平台）。中间代码的作用=<b>与机器无关、利于移植和优化</b>。<br><span class="why">程序语言每年 2~3 分，这三点就是全部主力。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★☆☆☆</span>押J4 · CMMI 与软件质量</summary>
+  <div class="ans">CMMI 五级从低到高：<b>初始→已管理→已定义→量化管理→优化</b>（口诀"初管定量优"，中间"已"字辈俩）。软件质量特性：<b>功能性最首要</b>；可维护性=易修改；可移植性=换环境能跑；可靠性与容错相关。<br><span class="why">软工记忆题常客，纯认脸分。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★★☆☆</span>押J5 · UML 多重度 + 关系代数除法</summary>
+  <div class="ans"><b>多重度符号</b>：<code>1</code>=恰好一个、<code>0..1</code>=零或一、<code>*</code>=任意多个、<code>1..*</code>=至少一个。题干"一个部门有多个员工"→ 部门端写 1、员工端写 <code>*</code>——<b>下午 UML 题标注多重度是官方点名的扣分点</b>。<br><b>关系代数</b>：π 投影（选列）、σ 选择（选行）、⋈ 连接（拼接）；除法 ÷ 考"全部/所有"类查询（查选修了全部课程的学生）。<br><span class="why">多重度上午下午都考；关系代数每年 1 题。</span></div>
+</details>
+<details>
+  <summary><span class="tag freq">★★☆☆☆</span>押J6 · 总线 / 中间件 / 嵌入式一句话</summary>
+  <div class="ans">总线三类：<b>数据、地址、控制</b>——地址总线单向（CPU→内存），宽度决定寻址空间；数据总线双向，宽度决定一次传多少位。中间件=分布式系统里"夹在中间帮忙传话的软件"（消息中间件=削峰解耦）。嵌入式交叉开发=宿主机编写编译 + 目标机运行调试。<br><span class="why">计组/杂项偶考 1 题，一句话挡一下。</span></div>
+</details>
+
+<h2>第三区 · 英语专项押题（5 分，你最忽略的稳定分）</h2>
+
+<div class="box blue">
+  <b>形式与情报：</b>上午卷最后一题组，一篇 200 词左右的短文挖 5 个空，每空 3 选 1（71~75 题，每题 1 分）。近年主题：<b>2025下 = 大模型时代对软件设计的影响</b>（AI 主题！）；历年轮换主题：软件工程过程、测试、面向对象、网络安全。<b>预测明天的主题（按概率）：</b>① AI/大模型与软件开发（连续两年热点，首选）② 软件测试与质量保证 ③ 网络与信息安全。短文首句必完整——先读首句定主题，全文生词再多也能靠搭配做。
+</div>
+
+<details>
+  <summary>英语答题三招（不懂全文也能做）</summary>
+  <div class="ans">
+    <b>① 看空格前后搭固定搭配：</b><code>based on</code>（基于）、<code>consist of</code>（由…组成）、<code>refer to</code>（指代）、<code>be responsible for</code>（负责）、<code>in order to</code>（为了）、<code>such as</code>（例如）、<code>as well as</code>（以及）。<br>
+    <b>② 看词性：</b>空格前是 the/a/an/形容词 → 填<b>名词</b>；前面是主语谓语 → 填<b>名词/代词作宾语</b>；两个完整句子之间 → 填<b>连词</b>（and/however/because）；空格后是名词 → 可能填<b>形容词/动词ing</b>。<br>
+    <b>③ 三选一排除法：</b>先排除词性不对的，再排除语义相反的（如 positive/negative 二选一时看上下文有没有 but/however 转折）。<b>五个空别空，选同一个词性顺眼的也有 2~3 分。</b>
+  </div>
+</details>
+
+<details>
+  <summary>★ 英语必背 30 词（按主题分组，10 分钟）</summary>
+  <div class="ans">
+    <b>通用流程词（几乎每篇都有）：</b>requirement 需求 · specification 规格说明 · design 设计 · implement 实现 · <b>maintenance 维护</b> · <b>integration 集成</b> · <b>validation 确认</b> · verification 验证 · deployment 部署 · deliverable 交付物<br>
+    <b>质量/测试：</b>test case 测试用例 · defect 缺陷 · reliability 可靠性 · usability 易用性 · maintainability 可维护性 · regression 回归<br>
+    <b>面向对象：</b>encapsulation 封装 · <b>inheritance 继承</b> · <b>polymorphism 多态</b> · abstraction 抽象 · interface 接口 · instance 实例<br>
+    <b>AI 热词（押主题相关）：</b>machine learning 机器学习 · deep learning 深度学习 · <b>large language model (LLM) 大语言模型</b> · training data 训练数据 · accuracy 准确率 · automation 自动化 · generate/generation 生成<br>
+    <b>高频动词（填空常考）：</b>ensure 确保 · improve 改善 · provide 提供 · require 需要 · perform 执行 · support 支持
+  </div>
+</details>
+
+<details>
+  <summary>押题：5 个空怎么蒙（AI 主题示范）</summary>
+  <div class="ans">
+    若短文讲 AI 辅助开发，5 空大概率长这样：<br>
+    ① <code>___ on large amounts of data</code> → <span class="ansline">based</span>（based on 固定搭配，出现率最高）<br>
+    ② <code>can ___ the productivity of developers</code> → <span class="ansline">improve</span>（正向动词）<br>
+    ③ <code>___ as code review and testing</code> → <span class="ansline">such</span>（such as 举例）<br>
+    ④ <code>to ___ software quality</code> → <span class="ansline">ensure / improve</span>（二选一看语义）<br>
+    ⑤ <code>developers still need to ___ the generated code</code> → <span class="ansline">review / validate</span>（AI 语境必提人工复核）<br>
+    <span class="why">2025下真题主题就是大模型影响软件设计——按这个语感走，5 分里稳拿 3~4。</span>
+  </div>
+</details>
+
+<h2>第四区 · 下午五题：怎么做 → 怎么拿分（逐题详解）</h2>
+
+<div class="box red">
+  <b>下午通用四条军规（阅卷老师复盘总结，先进脑子再进考场）：</b><br>
+  ① <b>先读问题再读材料</b>——材料两三页，从头读到尾读完就忘。先看问什么（补实体？转关系模式？填类图？），再带着问题回材料找对应句子。<br>
+  ② <b>答案要具体，不写空话</b>——材料里写"客户提交订单"，你的数据流就该叫"订单信息"，写"数据"两个字不给分；数据库题要落到表名、字段、主键。<br>
+  ③ <b>文字问答题用编号列表作答</b>——照格式写：「1. 加工P2缺少输入数据流'XX'。 2. 数据存储D3只有流入没有流出。」一条一空，方便按点给分。<br>
+  ④ <b>绝不留白</b>——数据流名、实体名按业务常识猜也写上；每空必填，空着才是真 0 分。<br>
+  <b>时间预算：</b>开考通览全卷 3~5 分钟 → 每题 25~30 分钟 → 最后留 15 分钟检查补漏。单题超时立即跳，先易后难。
+</div>
+
+<details>
+  <summary><span class="tag freq">必考</span>试题一 数据流图 · 目标 12~14 分 · 约 28 分钟 · 预测背景：AI/智能类业务</summary>
+  <div class="ans">
+    <b>考什么（近两年问法就三种）：</b>① 补外部实体/数据存储的名字；② 补缺失的数据流（起点+终点）；③ 用父子平衡说明图中错误。<br>
+    <b>三步拿分法：</b>先圈<b>外部实体</b>（系统外的人/组织/外部系统，如用户、管理员、支付平台）→ 再圈<b>加工</b>（材料里的动词短语：提交订单、审核付款）→ 最后核对<b>父子平衡</b>：父图每个加工的输入输出流 = 子图展开后之和，多一条少一条就是答案。<br>
+    <b>答题格式示范（照抄这个句式）：</b>「加工P3缺少输出数据流'审核结果'：该数据流从加工P3流出，流向外部实体E1/教师。」——<b>来源加工 + 去向加工（或实体）两端都要写</b>，2026 上这题大多数人只写一端丢一半分。<br>
+    <b>易错点：</b>数据流名用<b>名词</b>（订单信息）、加工名带<b>动词</b>（审核订单），写反不给分；数据存储若"只有入没有出"必是错误（存进去没法查询）；不凭空造材料里没有的流。<br>
+    <b>送分小料：</b>数据字典符号 { }=重复出现、[ ]=其中之一可选、..=取值范围。
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag freq">必考</span>试题二 数据库 · 目标 12~14 分 · 约 25 分钟 · 预测背景：共享/预约/管理平台类</summary>
+  <div class="ans">
+    <b>考什么：</b>① 补 E-R 图（实体/联系/属性）；② E-R 转关系模式并标主外键；③ SQL 填空；④ 偶尔问范式或"看到多个就拆表"。<br>
+    <b>三步拿分法：</b>读材料把<b>名词圈成实体、动词圈成联系</b>（"学生选修课程"→学生—选修—课程）→ 按<b>1:N 外键放 N 端、M:N 独立建中间表（两端主键拼组合主键）、联系若有自己的属性放中间表</b> → 标主外键：<b>多方持外键，外键指向他表主键</b>（2026 上这问"要格外仔细"，慢慢数）。<br>
+    <b>SQL 填空认字法：</b>GROUP BY 后面的条件填 <b>HAVING</b>；统计个数 COUNT(*)、求和 SUM()；"包含全部/所有"用嵌套 <b>IN</b> 或 NOT EXISTS；空里填字段名就照题干给的属性名抄，别自己造。<br>
+    <b>易错点：</b>多对多漏中间表；1:1 也可能"看参与约束"（必填端合并）；组合主键两个成员都要下划线。
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag freq">必考</span>试题三 UML · 目标 10~12 分 · 约 25 分钟 · 预测背景：订单/仓储/调度类；最后一问高频=策略模式</summary>
+  <div class="ans">
+    <b>考什么：</b>① 补类名/属性/方法名；② 判类关系（泛化/实现/聚合/组合/关联/依赖）；③ 标多重度；④ 最后一问设计模式+理由。<br>
+    <b>拿分法：</b>补类图空 = <b>抄题干英文词</b>（2025 下无人机题答案全是材料里的单词）。判关系看图和口诀：<b>三角实线=泛化（继承"是一种"）、三角虚线=实现（"实现某接口"）、空心菱形=聚合（可独立活：班级散了学生还在）、实心菱形=组合（同生共死：订单没了订单项也没了）</b>。多重度：题干"一个 X 对应多个 Y"→ X 端 1、Y 端 <code>*</code>。<br>
+    <b>最后一问模板（背熟直接抄）：</b>「规则/算法不断扩充、可动态切换」→ <b>策略模式：将可变的算法封装成独立类，使它们可相互替换、新增算法不改原有代码，符合开闭原则</b>；「状态改变行为」→状态模式；「状态变化自动通知多方」→观察者。<br>
+    <b>易错点：</b>聚合组合选反（先问"部分能离开整体单独存在吗"）；include（必然包含）和 extend（偶尔扩展）混——用例箭头指向被包含/扩展的用例。
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag freq">必考</span>试题四 算法 · 目标 5~8 分 · 最后做 · 预测：贪心/DFS 回溯全新包装</summary>
+  <div class="ans">
+    <b>先懂一个事实：</b>2026 年起算法题刻意用全新场景，<b>没人能提前背到原题</b>——所以你的目标不是做出来，是把"结构分"拿走。<br>
+    <b>第一问（策略判断）是白送分：</b>思想全写在题干文字里——「每次选当前最优」=<b>贪心</b>；「分解成子问题、保存中间结果」=<b>动态规划</b>；「尝试→不行就退回重来」=<b>回溯</b>；「折半/每次排除一半」=<b>分治</b>。读完题干文字第一问就能答，不用看代码。<br>
+    <b>代码空认五类：</b>循环开头 <code>i=0</code>；递归出口填最小答案（1/n/−1）；累加 <code>sum+a[i]</code>；交换两空夹 <code>temp</code>；最后 return 填一路攒的变量。<b>近两年官方认证失分重灾区=循环边界</b>：拿不准就在 ±1 的选项里选"最普通"的那个。<br>
+    <b>若是 DFS/连通类：</b>认三个词就够：<code>visited[i]=1</code>（标记走过）、<code>dx/dy</code> 四方向数组、函数里<b>递归调用自己</b>。
+  </div>
+</details>
+
+<details>
+  <summary><span class="tag freq">必考</span>试题五/六 Java/C++ 二选一 · 目标 8~10 分 · 最后 30 分钟 · 预测池：观察者/策略/状态/装饰器</summary>
+  <div class="ans">
+    <b>选哪道：</b><b>果断选 Java</b>——你背过六大高频模式骨架，类图+关键词就够；桥接（2025下）、原型（2026上）刚考过，今年大概率轮换回<b>观察者/策略/状态/装饰器/组合</b>。<br>
+    <b>做题顺序：</b>① 读场景一句话定模式（"自动通知"=观察者、"可切换规则"=策略、"状态变行为"=状态、"动态加功能"=装饰器）；② 看类图：三角虚线=接口 → 类声明填 <b>implements 接口名</b>；③ 填空五件套：成员变量填<b>接口名</b>、通知循环填 <b>update()/notify()</b>、<code>new ___</code> 填<b>具体子类</b>、<code>super.___</code> 照类图方法名抄。<br>
+    <b>最后有文字题就用万能三句话：</b>「该模式将 X 与 Y 解耦/封装了变化点，新增功能无需修改原有代码，符合开闭原则，提高了系统的可扩展性和可维护性。」——模式名对了+这段话，最后一问的分就到手。
+  </div>
+</details>
+
+<h2>第五区 · 四场考频总表（押题置信度一目了然）</h2>
+<div class="tblwrap">
+<table>
+  <tr><th>考点</th><th>24下</th><th>25上</th><th>25下</th><th>26上</th><th>明天概率</th></tr>
+  <tr><td>流水线 / Cache</td><td>—</td><td>✔</td><td>✔</td><td>✔</td><td>必考 2~4 分</td></tr>
+  <tr><td>补码 / 浮点数</td><td>✔</td><td>✔</td><td>✔</td><td>—</td><td>高 1~2 分</td></tr>
+  <tr><td>PV / 死锁 / 三态</td><td>✔</td><td>✔</td><td>✔✔</td><td>✔✔</td><td>必考 3~5 分</td></tr>
+  <tr><td>页面置换 / 磁盘</td><td>✔✔</td><td>✔</td><td>✔</td><td>—</td><td>高 1~3 分</td></tr>
+  <tr><td>树（哈夫曼/性质/还原/堆）</td><td>✔✔✔</td><td>✔</td><td>✔✔</td><td>✔✔</td><td>必考 4~7 分</td></tr>
+  <tr><td>排序 / 折半 / 复杂度</td><td>✔✔</td><td>✔</td><td>✔✔</td><td>✔</td><td>必考 2~4 分</td></tr>
+  <tr><td>图 / 关键路径</td><td>✔</td><td>—</td><td>✔</td><td>✔</td><td>高 1~3 分</td></tr>
+  <tr><td>范式 / SQL / 事务</td><td>✔</td><td>✔✔</td><td>✔✔</td><td>✔</td><td>必考 3~5 分</td></tr>
+  <tr><td>网络协议 / 子网</td><td>✔✔✔</td><td>✔</td><td>✔✔✔</td><td>✔</td><td>必考 3~5 分</td></tr>
+  <tr><td>安全（签名/CA/哈希）</td><td>✔</td><td>✔✔</td><td>✔</td><td>✔✔✔</td><td>必考 2~3 分</td></tr>
+  <tr><td>软工（模型/内聚/测试）</td><td>✔✔✔</td><td>✔✔</td><td>✔✔</td><td>✔</td><td>必考 5~8 分</td></tr>
+  <tr><td>设计模式 / UML / 原则</td><td>✔✔</td><td>✔</td><td>✔✔</td><td>✔✔</td><td>必考 4~6 分</td></tr>
+  <tr><td>Python</td><td>✔✔✔</td><td>—</td><td>✔✔</td><td>✔</td><td>高 1~3 分</td></tr>
+  <tr><td>知产 / 法律</td><td>✔✔</td><td>—</td><td>✔✔</td><td>—</td><td>高 2~3 分</td></tr>
+  <tr><td>AI/新技术 / 英语</td><td>✔</td><td>✔</td><td>✔✔</td><td>✔✔</td><td>必考 5~7 分</td></tr>
+</table>
+</div>
+
+<h2>第六区 · 上午必考点终检清单（对照官方分值分布，一处不漏）</h2>
+<p style="color:var(--dim);font-size:13px;margin:4px 0 10px;">按近五年 75 题分值分布逐模块核对：左边是明天<b>必然出现</b>的模块和分值，右边是本页覆盖位置——点开确认即可，考前不需要再看别的。</p>
+<div class="tblwrap">
+<table>
+  <tr><th>模块（预计分值）</th><th>必考点（一个不能漏）</th><th>本页覆盖</th></tr>
+  <tr><td>数据结构与算法（8~10）</td><td>树三件套（性质/遍历还原/哈夫曼）、排序复杂度+稳定性、折半、图、堆</td><td>原题区+押题区+13页</td></tr>
+  <tr><td>软件工程（7~9）</td><td>开发模型对号、内聚耦合排序、测试黑白盒、CMMI五级、风险应对</td><td>押题区+押J4</td></tr>
+  <tr><td>面向对象与UML（6~8）</td><td>类图六关系、多重度、设计模式特征词、开闭原则、23式中高频10个</td><td>押题区+押J5+08页</td></tr>
+  <tr><td>数据库（5~6）</td><td>ER转模式/主外键、范式判断三步、SQL（GROUP/HAVING/嵌套）、事务ACID与隔离级别、关系代数</td><td>押题区+押J5+12页</td></tr>
+  <tr><td>操作系统（5~6）</td><td>PV初值与生产消费、三态转换、死锁四条件、页面置换（LRU/FIFO/时钟）、磁盘调度与存取、位示图、SPOOLing</td><td>原题区+押题区</td></tr>
+  <tr><td>计算机组成（5~6）</td><td>流水线（执行时间/吞吐率）、Cache命中率、补码/浮点、校验码（海明/CRC）、后缀表达式、寻址方式、总线</td><td>原题区+押J1/J2/J6</td></tr>
+  <tr><td>计算机网络（4~5）</td><td>OSI/TCP-IP分层设备、协议用途、子网划分（2ⁿ−2）、IPv6、端口</td><td>押题区+12页</td></tr>
+  <tr><td>信息安全（3~4）</td><td>对称/非对称对号、数字签名方向（发方私钥）、CA/哈希、威胁与防御对号（2026加重，2~3道）</td><td>押题区+12页</td></tr>
+  <tr><td>知识产权（2~3）</td><td>保护期四数字、署名权永久、职务作品、侵权判定</td><td>押I1</td></tr>
+  <tr><td>程序语言（2~3）</td><td>编译vs解释、传值vs传址、文法与中间代码、Python四操作</td><td>押J3+押I3</td></tr>
+  <tr><td>专业英语（5）</td><td>三招答题法 + 高频词表 + AI主题蒙法</td><td>第三区</td></tr>
+  <tr><td>AI/新技术（1~3）</td><td>大模型/云计算三模式/4V/区块链（2026考纲AI增幅最大+数据要素）</td><td>押I2+执行卡x7</td></tr>
+</table>
+</div>
+<div class="box blue"><b>终检结论：</b>12 个模块全部有覆盖，其中 9 个是<b>必考级</b>（场场出现）。上午及格数学：数构 5 + 软工 5 + 面向对象 4 + 数据库 4 + OS 4 + 计组 4 + 网络 3 + 安全 2 + 知产 2 + 英语 4 + 新技术 2 = <b>39 分保底</b>，加上蒙题期望 6~10 → <b>45~49</b>，够线。</div>
+
+<h2>第七区 · 考场执行卡（比多背 10 道题值钱）</h2>
+<div class="box green">
+  <div class="chk"><input type="checkbox" data-key="x1" id="x1"><label for="x1">开考先在草稿纸默写：四公式（流水线 5+99×2 型 / 2ⁿ−2 / (n−1)/n / V(G)=e−n+2）+ 排序稳定性 + 签名方向</label></div>
+  <div class="chk"><input type="checkbox" data-key="x2" id="x2"><label for="x2">单选先易后难；<b>按"不能回头改"的假设打：每题当场定答案、不确定也选一个</b>（有考友反馈部分批次不支持回看，此策略两种规则下都稳）</label></div>
+  <div class="chk"><input type="checkbox" data-key="x3" id="x3"><label for="x3">英语 5 空用三招：固定搭配 → 词性 → 排除，绝不空着</label></div>
+  <div class="chk"><input type="checkbox" data-key="x4" id="x4"><label for="x4">基础知识做完果断交卷（90~120 分钟），时间滚给大题</label></div>
+  <div class="chk"><input type="checkbox" data-key="x5" id="x5"><label for="x5">下午顺序：数据流图 → 数据库 → UML 做扎实；算法/Java 最后 30 分钟认空</label></div>
+  <div class="chk"><input type="checkbox" data-key="x6" id="x6"><label for="x6">每空必填：下拉选词先排除类型不对的；空着才是真 0 分</label></div>
+  <div class="chk"><input type="checkbox" data-key="x7" id="x7"><label for="x7">新技术区留意：2026 考纲新增 AI（增幅最大）、云计算、微服务、DevOps、<b>数据要素</b>——遇到没背过的 AI 概念题，选含「大模型/自动化/数据驱动」的正向描述</label></div>
+</div>
+
+<footer>四场真题回忆 + 希赛考前20问 + 阅卷规范三方交叉验证 · 原题区 14 题 + 押题区 50 道 + 英语专项 + 下午逐题打法 + 必考点终检 · 更新于 2026-10-23 深夜 · 祝明天过线</footer>
+</div>
+
+<script>
+(function(){
+  var KEY='sk15-';
+  var boxes=document.querySelectorAll('.chk input');
+  boxes.forEach(function(b){
+    var id=KEY+b.dataset.key;
+    if(localStorage.getItem(id)==='1'){b.checked=true;}
+    b.addEventListener('change',function(){localStorage.setItem(id,b.checked?'1':'0');});
+  });
+})();
+</script>
+</body>
+</html>

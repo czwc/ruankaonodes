@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>软考·算法+Java 一天速成（零基础抢 13~18 分）</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;--thead:#f0f3f9;--hover:#f4f6fa;--done:#9aa7bd;--blue-bd:#c9dbfb;--green-bd:#bfe8d2;--red-bd:#f3c8c8;--orange-bd:#f5dfb8;--purple-bd:#dccdf7;}
+  :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;--thead:#252c3c;--hover:#252c3c;--done:#7d879c;--blue-bd:#2f4470;--green-bd:#28543c;--red-bd:#5a2e2e;--orange-bd:#5c451c;--purple-bd:#453367;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.9;}
+  .wrap{max-width:980px;margin:0 auto;padding:24px 20px 80px;}
+  header{background:linear-gradient(135deg,#d64545,#2f6fed);color:#fff;border-radius:16px;padding:28px 26px;margin-bottom:22px;position:relative;}
+  header h1{margin:0 0 8px;font-size:24px;} header p{margin:0;opacity:.92;}
+  .theme-btn{position:absolute;top:18px;right:20px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.45);color:#fff;border-radius:20px;padding:5px 14px;font-size:13px;cursor:pointer;font-family:inherit;}
+  nav{display:flex;flex-wrap:wrap;gap:8px;margin:14px 0 4px;}
+  nav a{background:var(--card);border:1px solid var(--border);color:var(--ink);text-decoration:none;padding:6px 14px;border-radius:20px;font-size:14px;}
+  nav a:hover{border-color:var(--blue);color:var(--blue);}
+  section{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:20px 24px;margin-bottom:20px;}
+  h2{margin:0 0 10px;font-size:20px;border-left:5px solid var(--red);padding-left:12px;}
+  h3{margin:18px 0 8px;font-size:15.5px;color:var(--purple);}
+  .box{border-radius:10px;padding:11px 14px;margin:10px 0;font-size:14px;}
+  .box.blue{background:var(--blue-bg);border:1px solid var(--blue-bd);} .box.orange{background:var(--orange-bg);border:1px solid var(--orange-bd);}
+  .box.green{background:var(--green-bg);border:1px solid var(--green-bd);} .box.purple{background:var(--purple-bg);border:1px solid var(--purple-bd);} .box.red{background:var(--red-bg);border:1px solid var(--red-bd);}
+  table{border-collapse:collapse;width:100%;margin:10px 0;font-size:13.5px;}
+  th,td{border:1px solid var(--border);padding:6px 10px;text-align:left;} th{background:var(--thead);}
+  .hl{color:var(--red);font-weight:bold;} .ok{color:var(--green);font-weight:bold;}
+  pre.code{background:var(--thead);border:1px solid var(--border);border-radius:10px;padding:12px 16px;font-family:Consolas,"Courier New",monospace;font-size:14px;line-height:1.5;overflow-x:auto;margin:10px 0;}
+  details{border:1px solid var(--border);border-radius:10px;padding:8px 14px;margin:8px 0;background:var(--card);}
+  summary{cursor:pointer;font-weight:bold;font-size:14px;}
+  details .ans{margin-top:8px;font-size:14px;background:var(--green-bg);border:1px solid var(--green-bd);border-radius:8px;padding:9px 12px;}
+  .miss{font-size:13px;color:var(--muted);display:inline-flex;align-items:center;gap:4px;margin-top:6px;cursor:pointer;}
+  .miss input{accent-color:#d64545;width:14px;height:14px;}
+  .step{background:var(--blue-bg);border:1px solid var(--blue-bd);border-radius:10px;padding:9px 13px;margin:8px 0;font-size:14px;}
+  .chk{display:flex;align-items:flex-start;gap:8px;padding:5px 8px;border-radius:8px;cursor:pointer;font-size:14px;}
+  .chk:hover{background:var(--hover);}
+  .chk input{margin-top:5px;accent-color:#1a9e5c;width:15px;height:15px;flex:none;}
+  .chk.done span{text-decoration:line-through;color:var(--done);}
+  .foot{color:var(--muted);font-size:13px;text-align:center;margin-top:30px;}
+  @media(max-width:640px){table{display:block;overflow-x:auto;} pre.code{font-size:12.5px;}}
+  @media print{.theme-btn,nav{display:none;} details{display:block;} details .ans{display:block!important;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
+  <h1>算法 + Java 一天速成 · 不学思想，只练认空（抢 13~18 分）</h1>
+  <p>上午算法 2h · 下午 Java 2h · 晚上真题认空 1.5h · 目标：这两题从"白给"变成"抢回及格缺口"</p>
+  <nav>
+    <a href="#plan">一天安排</a>
+    <a href="#alg">上午·算法认空</a><a href="#alg3">三大高频算法</a>
+    <a href="#java">下午·Java 认空</a><a href="#patterns">六模式特征词</a>
+    <a href="#test">自测 6 题</a><a href="#plan">晚上清单</a>
+    <a href="09-四天冲刺计划.html">回冲刺计划</a><a href="12-两天极限抢救计划.html">回两天抢救</a>
+  </nav>
+</header>
+
+<!-- ============ 一天安排 ============ -->
+<section id="plan">
+  <h2>先说清一件事：今天到底干什么</h2>
+  <div class="box red"><b>账：</b>前三大题（数据流图/数据库/UML）你已能各拿 ~10 分 = 30 分，及格 45 还差 15。这两题（算法 15 + Java 15）就是缺口来源——<b>不需要会做，按空给分 + 下拉选词，认出 5~7 个空就够回本</b>。</div>
+  <div class="box orange"><b>⚠️ 一句提醒：</b>今天专攻这两题没问题，但<b>晚上留 1 小时给必背 40 条总表</b>（12 篇）——上午卷 75 分才是大盘，别捡了芝麻丢西瓜。</div>
+  <div class="step"><b>上午 9:00–11:00 · 算法认空</b>：本页上半部分，学"五类空"+ 三大高频算法的三句话版，做 2 道迷你练习。</div>
+  <div class="step"><b>下午 14:00–16:00 · Java 认空</b>：本页下半部分，学"认字 + 看类图 + 五类空位"，走完 1 道完整例题。</div>
+  <div class="step"><b>晚上 19:00–20:30 · 真题实战</b>：翻一套真题，算法题、Java 题各做一道——<b>规则：只填认得出的空，认不出的也选一个</b>。做完对照答案数一数：抢到 5 分了吗？抢到了，明天考场重复这个动作就行。</div>
+  <div class="step"><b>20:30–21:30 · 收尾</b>：必背 40 条总表过一遍（只看标记的）+ 本页自测 6 题全对 → 睡觉。考前一晚不碰新东西。</div>
+</section>
+
+<!-- ============ 上午 算法 ============ -->
+<section id="alg">
+  <h2>上午 · 算法题认空（试题四，必答 15 分，目标 5~8）</h2>
+  <div class="box purple">
+    <b>先破除恐惧：算法题=一段代码挖了 4~6 个空 + 每空给下拉选项。</b>你不需要看懂整段代码，只需要<b>认出"空长什么样"</b>——空的答案 90% 落在下面五类里。选项是下拉给的（通常 3~5 个），先排除类型对不上的，剩下蒙顺眼的。
+  </div>
+  <div class="box blue"><b>考场固定流程（背下来）：</b>① 先读<b>题干文字说明</b>——算法思想一般直接白纸黑字写着，读完你就知道这段代码在干嘛；② 看<b>变量名</b>——sum 是累加、max 是最大、temp 是中转、flag 是标记，名字就是提示；③ 认出一个空填一个空；④ 全填完，<b>不留空</b>。</div>
+
+  <h3>五类空 · 每类一道迷你例（点开对答案）</h3>
+  <pre class="code">例A【循环边界】求数组所有元素的和：
+  int sum = 0;
+  for (int i = <b>__①__</b>; i &lt; n; i++)      // 从哪开始？
+      sum = sum + a[i];</pre>
+  <details><summary>例A 答案</summary><div class="ans">① 填 <b>0</b>。循环从数组第一个元素（下标 0）开始。口诀：数组下标从 0 开始，循环起点几乎都是 i=0。</div></details>
+
+  <pre class="code">例B【递归出口】算阶乘 n! = n×(n-1)×…×1：
+  int fact(int n) {
+      if (n &lt;= 1) return <b>__①__</b>;         // 最小情况的答案
+      return n * <b>__②__</b>;                  // 自己调自己
+  }</pre>
+  <details><summary>例B 答案</summary><div class="ans">① 填 <b>1</b>（1! = 1，最小输入的直接答案）。② 填 <b>fact(n-1)</b>——递归 = 出口 + "规模缩小一点的自调用"，函数体内唯一一个函数名调用就是它。</div></details>
+
+  <pre class="code">例C【累加/最值】求数组最大值：
+  int max = a[0];
+  for (int i = 1; i &lt; n; i++)
+      if (a[i] &gt; max) <b>__①__</b>;            // 发现更大的怎么办？
+  return <b>__②__</b>;                          // 最后交出谁？</pre>
+  <details><summary>例C 答案</summary><div class="ans">① 填 <b>max = a[i]</b>（"比 max 大就换上去"）。② 填 <b>max</b>——函数一路在攒谁，最后就返回谁。判断技巧：题干说"求最大值"，代码里叫 max 的变量就是答案。</div></details>
+
+  <pre class="code">例D【交换/移动】把两个数换位置：
+  if (a[j] &gt; a[j+1]) {
+      int t = a[j];
+      <b>__①__</b>;                             // 中间步
+      a[j+1] = t;
+  }</pre>
+  <details><summary>例D 答案</summary><div class="ans">① 填 <b>a[j] = a[j+1]</b>。交换永远是三步曲：<b>t=甲 → 甲=乙 → 乙=t</b>。看到第一行 t=a[j]、第三行 a[j+1]=t，中间只可能是 a[j]=a[j+1]。两个空夹一个 temp 的话，两个空填一样的。</div></details>
+
+  <pre class="code">例E【返回值】在数组里找 key，找到了返回下标：
+  return <b>__①__</b>;   // 循环里没 return，走到底这行</pre>
+  <details><summary>例E 答案</summary><div class="ans">① 填 <b>-1</b>（"没找到"的行业约定）。规律：循环中找到了 return i（下标）；走到底还没找到，返回 -1 或 -1 类的标记值——题干文字说明里通常会写"若不存在则返回-1"。</div></details>
+
+  <div class="box green"><b>五类空速记（就 5 行）：</b>① 循环起点 i=0；② 递归出口=最小答案（1/0/n）；③ 累加 sum+a[i]、最值换 max；④ 交换三步曲夹 temp；⑤ 返回值=一路攒的变量，没找到=-1。</div>
+</section>
+
+<!-- ============ 三大高频算法 ============ -->
+<section id="alg3">
+  <h2>三大高频算法 · 三句话版（只记结论，不学思想）</h2>
+  <div class="box purple">真题最爱的三种，每种给你"填空专用结论"，看到对应代码直接套：</div>
+  <table>
+    <tr><th style="width:16%;">算法</th><th>认得出它</th><th>填空专用结论</th></tr>
+    <tr>
+      <td><b>二分查找</b></td>
+      <td>代码里有 <code>low / high / mid</code>，题干说"有序"</td>
+      <td>①循环条件 <b>low &lt;= high</b>（带等号）；②a[mid] 比 key 大 → 目标在左 → <b>high = mid-1</b>；比小 → <b>low = mid+1</b>；③没找到 <b>return -1</b>。就这三条，全对可能。</td>
+    </tr>
+    <tr>
+      <td><b>冒泡/选择排序</b></td>
+      <td>两层 for 套 if 比较 + 交换</td>
+      <td>外层 <b>i&lt;n</b>（或 n-1），内层 <b>j&lt;n-1-i</b>（冒泡：每轮冒出一个，所以减 i）；比较后交换 = 三步曲夹 temp；内层比较方向看题干要"升序"还是"降序"（a[j]&gt;a[j+1] = 大的往后 = 升序）。</td>
+    </tr>
+    <tr>
+      <td><b>递归</b></td>
+      <td>函数体里出现了自己的名字</td>
+      <td>只找两样：①出口 if(n&lt;=0/==1) return 最小答案；②规律式 = 题干文字里那条公式（如"f(n)=f(n-1)+f(n-2)"），照着翻译。文字说明=答案，逐字对照。</td>
+    </tr>
+  </table>
+  <div class="box orange"><b>遇到完全没见过的算法怎么办：</b>也按五类空蒙——循环开头 i=0、递归出口给最小值、交换夹 temp、return 攒变量。5 个空认出 3 个 = 6 分上下，够本了。<b>千万不要试图"看懂整段代码"，那是给已经会的人的奢侈品。</b></div>
+</section>
+
+<!-- ============ 下午 Java ============ -->
+<section id="java">
+  <h2>下午 · Java 题认空（试题五 C++ / 试题六 Java 二选一，选 Java）</h2>
+  <div class="box purple">
+    <b>先破除恐惧：Java 题的真面目是"设计模式连线题"。</b>它考的不是 Java 语法，是"给你一个场景 + 一张类图 + 一段挖空的代码，让你对号入座"。类图上信息齐全，<b>一半的空不用读代码、看图就能填</b>。
+  </div>
+
+  <h3>第1步 · 认 5 个字（Java 全卷你只需要认识这 5 个词）</h3>
+  <table>
+    <tr><th style="width:22%;">词</th><th>白话</th></tr>
+    <tr><td><b>class</b></td><td>"类" = 一个模具/工种（如：折扣规则）</td></tr>
+    <tr><td><b>interface</b></td><td>"接口" = 一份岗位要求清单（只列要会干什么，不写怎么干）</td></tr>
+    <tr><td><b>extends</b></td><td>"继承" = 我是我爸那种人（类继承类）</td></tr>
+    <tr><td><b>implements</b></td><td>"实现" = 我签了这份岗位要求（类落实接口）</td></tr>
+    <tr><td><b>new</b></td><td>"创建" = 招一个具体的人上岗</td></tr>
+  </table>
+
+  <h3>第2步 · 类图怎么看（30 秒学完）</h3>
+  <div class="box blue">
+    · <b>三角实线箭头</b> → 指向父类（继承，用 <b>extends</b>）<br>
+    · <b>三角虚线箭头</b> → 指向接口（实现，用 <b>implements</b>）<br>
+    · <b>菱形箭头</b> → "整体-部分"（整体那端有菱形）<br>
+    · 类图框里第一行是类名，中间是属性，下面是方法——<b>方法名照图抄，不会错</b>
+  </div>
+
+  <h3>第3步 · 完整例题逐空走（策略模式·会员折扣）</h3>
+  <div class="box orange"><b>题干场景：</b>"订单结算时，普通会员原价，VIP 打八折，以后可能新增新会员类型——折扣方式可以随意切换。"<b>第一反应：算法/做法可切换 = 策略模式</b>（这是设计模式题第一空分：先定模式名）。</div>
+  <pre class="code">interface Discount {                       // 一份"折扣岗位要求"
+      double calc(double price);            // 要求：会算折后价
+  }
+
+  class NormalDiscount <b>__①__</b> Discount {     // 普通会员签这份要求
+      public double calc(double price) { return price; }
+  }
+
+  class VipDiscount implements Discount {
+      public double calc(double price) { return price * 0.8; }
+  }
+
+  class Order {
+      private <b>__②__</b> discount;               // 订单手里握一份"折扣要求"
+      public void setDiscount(Discount d) { this.discount = d; }
+      public double pay(double price) {
+          return discount.<b>__③__</b>(price);     // 让手里的折扣去算
+      }
+  }
+
+  // 用法：order.setDiscount(new <b>__④__</b>());   // 给 VIP 打折</pre>
+  <details><summary>逐空拆解（每空告诉你"为什么是它"）</summary><div class="ans">
+    <b>空① = implements</b>：Discount 是 interface（岗位要求），类签要求用 implements（类图上是三角虚线指向它）。<br>
+    <b>空② = Discount</b>：声明"手里握一份什么"，填<b>接口名</b>——类图里 Order 的箭头指向 Discount。<br>
+    <b>空③ = calc</b>：调用方法名，<b>照接口里抄</b>——接口里只定义了 calc，选项里别的都是干扰。<br>
+    <b>空④ = VipDiscount</b>：new = 招具体的人，场景说"VIP 打八折"，new 后面填<b>具体子类名</b>。<br>
+    <span class="hl">看出来了吗？4 个空没有一个需要"懂 Java"，全靠认字 + 看类图 + 抄方法名。</span>
+  </div></details>
+
+  <div class="box blue"><b>Java 五类空位（背这一段就够了）：</b>① class A ___ B → B 是接口填 implements、是类填 extends；② 声明变量的类型 ___ → 填接口名；③ new ___() → 填具体子类名；④ 调方法 ___() → 照类图/接口抄方法名；⑤ super.___ / this.___ → 父子同名，抄同一个。</div>
+</section>
+
+<!-- ============ 六模式特征词 ============ -->
+<section id="patterns">
+  <h2>六大高频模式 · 特征词表（先背特征词，题干一出现就能定模式）</h2>
+  <table>
+    <tr><th style="width:16%;">模式</th><th>题干特征句</th><th>代码/类图特征（挖空爱考的）</th></tr>
+    <tr><td><b>观察者</b></td><td>"状态变化时<b>自动通知</b>所有依赖者"</td><td>notify() / update()；遍历列表逐个调用</td></tr>
+    <tr><td><b>策略</b></td><td>"算法/做法<b>可以切换</b>"</td><td>统一接口 + 多个实现类；成员变量是接口类型</td></tr>
+    <tr><td><b>单例</b></td><td>"全局<b>只能有一个</b>实例"</td><td>getInstance()；private 构造函数；static 自己 new 自己</td></tr>
+    <tr><td><b>工厂方法</b></td><td>"创建什么<b>由子类决定</b>"</td><td>createXxx() 返回接口类型；new 的活交给子类</td></tr>
+    <tr><td><b>装饰器</b></td><td>"<b>不加子类</b>动态加功能"</td><td>构造函数<b>传入同类型对象</b>（包一层）；方法里前后加料</td></tr>
+    <tr><td><b>代理</b></td><td>"<b>中转/控制</b>对目标的访问"</td><td>和目标同接口；方法里"先…再调真身…再…"，出现 realSubject</td></tr>
+  </table>
+  <div class="box green"><b>最后一问万能模板（"这里用了什么模式，为什么"）：</b>"采用了 <b>××模式</b>。因为题干场景符合'特征句'（抄题干原话+本表第二列），类图中 抽象/接口类 与 具体类 的关系也与之对应。"——三句话，即使不确定也能拿步骤分。</div>
+</section>
+
+<!-- ============ 自测 ============ -->
+<section id="test">
+  <h2>自测 6 题（全对 = 明天这两题你就有底了）</h2>
+  <details><summary>① 二分查找：while (low ___ high) 填什么？</summary><div class="ans"><b>&lt;=</b>（带等号——区间剩 1 个元素时还要查一次）。</div><label class="miss"><input type="checkbox" data-mkey="t-1"> 没记住</label></details>
+  <details><summary>② 二分查找：a[mid] &gt; key 时，high = ___？</summary><div class="ans"><b>mid-1</b>（中间值比目标大 → 目标在左半边 → 右边界左移）。</div><label class="miss"><input type="checkbox" data-mkey="t-2"> 没记住</label></details>
+  <details><summary>③ 递归算 n!，出口 if(n&lt;=1) return ___？</summary><div class="ans"><b>1</b>（1! = 1，最小输入的直接答案）。</div><label class="miss"><input type="checkbox" data-mkey="t-3"> 没记住</label></details>
+  <details><summary>④ class Cat ___ Animal，Animal 是类不是接口，填什么？</summary><div class="ans"><b>extends</b>（类继承类；接口才用 implements——类图三角实线 vs 虚线）。</div><label class="miss"><input type="checkbox" data-mkey="t-4"> 没记住</label></details>
+  <details><summary>⑤ 题干"天气一变，所有公告板自动刷新"，这是什么模式？核心方法名？</summary><div class="ans"><b>观察者模式</b>；核心方法 <b>notify() / update()</b>（遍历列表逐个调用）。</div><label class="miss"><input type="checkbox" data-mkey="t-5"> 没记住</label></details>
+  <details><summary>⑥ order.setDiscount(new ___())，场景是"VIP 打八折"，填什么？</summary><div class="ans"><b>VipDiscount</b>（new 后面跟具体子类名，类图继承箭头末端的那个）。</div><label class="miss"><input type="checkbox" data-mkey="t-6"> 没记住</label></details>
+
+  <h3>今晚收尾清单</h3>
+  <div class="chk"><input type="checkbox" data-key="e-1"><span>上午块：五类空迷你例 A~E 全部自己走过一遍</span></div>
+  <div class="chk"><input type="checkbox" data-key="e-2"><span>三大高频算法"三句话版"各默一遍（二分/排序/递归）</span></div>
+  <div class="chk"><input type="checkbox" data-key="e-3"><span>下午块：策略模式例题逐空看懂 + 认字 5 词 + 类图 30 秒</span></div>
+  <div class="chk"><input type="checkbox" data-key="e-4"><span>真题实战：算法、Java 各做 1 道"只填认得出的空"，数一数抢了几分</span></div>
+  <div class="chk"><input type="checkbox" data-key="e-5"><span>六模式特征词表过 1 遍 + 最后一问万能模板念熟</span></div>
+  <div class="chk"><input type="checkbox" data-key="e-6"><span>回 12 篇过必背 40 条总表（只看标记的）→ 睡够 7 小时</span></div>
+</section>
+
+<div class="foot">算法+Java 一天速成 · 配合 09 篇例18/19 和 12 篇必背总表使用 · 进度保存在本机浏览器</div>
+</div>
+
+<script>
+(function(){
+  const root=document.documentElement, tbtn=document.getElementById('themeBtn');
+  function applyTheme(t){
+    if(t==='dark'){root.setAttribute('data-theme','dark'); tbtn.textContent='白天模式';}
+    else{root.removeAttribute('data-theme'); tbtn.textContent='黑夜模式';}
+  }
+  applyTheme(localStorage.getItem('sk14-theme'));
+  tbtn.addEventListener('click',function(){
+    const t = root.getAttribute('data-theme')==='dark' ? 'light' : 'dark';
+    localStorage.setItem('sk14-theme', t);
+    applyTheme(t);
+  });
+})();
+(function(){
+  const KEY='sk14-';
+  document.querySelectorAll('.chk input').forEach(function(c){
+    c.checked = localStorage.getItem(KEY+c.dataset.key)==='1';
+    if(c.checked) c.closest('.chk').classList.add('done');
+    c.addEventListener('change',function(){
+      localStorage.setItem(KEY+c.dataset.key, c.checked?'1':'0');
+      c.closest('.chk').classList.toggle('done', c.checked);
+    });
+  });
+  const MKEY='sk14-m-';
+  document.querySelectorAll('.miss input').forEach(function(c){
+    c.checked = localStorage.getItem(MKEY+c.dataset.mkey)==='1';
+    c.addEventListener('change',function(){
+      localStorage.setItem(MKEY+c.dataset.mkey, c.checked?'1':'0');
+    });
+  });
+})();
+</script>
+</body>
+</html>

@@ -662,7 +662,7 @@
   </div>
 
   <div class="box red">
-    <b>算法题 / Java 题零基础抢分卡（不会做 ≠ 0 分：机考按空给分 + 下拉选词更好蒙）：</b><br>
+    <b>算法题 / Java 题零基础抢分卡（不会做 ≠ 0 分：机考按空给分 + 下拉选词更好蒙）——考前一天专攻请去 <a class="a" href="14-算法Java一天速成.html">14 篇·算法+Java 一天速成</a>：</b><br>
     <b>及格数学先算清：</b>必答三题（数据流图/数据库/UML）最套路、按点给分，目标 32~40 分；算法题抢 5~8；Java 题抢 8~10 → 合计 ≈ 45~58，<b>前三个拿稳就能过，这两题是"能抢多少是多少"</b>。<br>
     <b>① 算法题（必答 15 分，目标 5~8 分）——五类高频空直接套：</b><br>
     · <b>循环边界</b>：i&lt;n / i&lt;=n / i+1（看数组下标会不会越界）；<br>
@@ -673,6 +673,21 @@
     做题顺序：<b>先读题干文字说明</b>（算法思想往往直接写着）→ 再看代码结构 → 认出一个空填一个空。机考是<b>下拉选词</b>，选项有限：变量类型对不上、代码里没出现过的选项先排除，剩两个蒙"顺眼"的——蒙对率远高于瞎猜。<br>
     <b>② Java 题（二选一，15 分，目标 8~10 分）——考的不是 Java 语法，是设计模式套壳：</b>空位无非五类：<b>extends/implements、成员变量类型（接口名）、方法名（notify/update）、new 具体类、方法调用</b>。三步法：读场景定模式 → 类图对空位 → 套骨架关键词（见上面 6 骨架表）。<b>哪怕整段代码看不懂，类图 + 模式名也能推出一半空。</b>
   </div>
+  <details class="rec"><summary>★ 认空速查表（考场上忘了就回来扫 1 分钟）</summary><div class="ans">
+    <b>算法题——空长什么样，答案就长什么样：</b><br>
+    · <code>for( ___ ; i&lt;n ; i++)</code> 循环边界 → 从哪开始填 <b>i=0</b>，到哪停看题意（&lt;n 或 &lt;=n−1）；<br>
+    · <code>if(n==0||n==1) return ___</code> 递归出口 → 最小输入的<b>直接答案</b>：阶乘填 1，找不到填 −1；<br>
+    · <code>sum = ___</code> → 累加填 <b>sum+a[i]</b>；求最大填 <b>max(a[i],max)</b>；<br>
+    · <code>a[i]=a[j]; a[j]=___</code> 交换 → 三步曲夹一个 <b>temp</b>，两个空填一样的；<br>
+    · 最后一行 <code>return ___</code> → 函数一路在攒的东西：<b>sum/max/下标/flag</b>。<br>
+    <b>Java 题——一半的分在类图上，不用读懂代码：</b><br>
+    · <code>class A ___ B</code> → B 是接口填 <b>implements</b>（三角虚线），B 是类填 <b>extends</b>（三角实线）；<br>
+    · <code>private ___ observer;</code> 声明类型 → 填<b>接口名</b>（类图箭头指向的）；<br>
+    · 通知循环里调 <code>___()</code> → 观察者 = <b>notify()/update()</b>；<br>
+    · <code>new ___()</code> → 填<b>具体子类名</b>（继承箭头末端的类）；<br>
+    · <code>super.___ / this.___</code> → 方法名<b>照类图抄</b>。<br>
+    <span class="hl">通用三步：先看类图定模式名 → 回题干文字找"套路话" → 进代码认空；选项先排除变量类型对不上的。</span>
+  </div></details>
   <details class="rec"><summary>例18【Java 填空零基础演示】观察者模式 4 个空怎么"蒙"出来</summary><div class="ans">场景"天气数据变化时自动通知所有公告板更新"→ 定为<b>观察者模式</b>。骨架：Subject 持 List&lt;Observer&gt;；Observer 是接口（含 update()）；具体类 WeatherBoard 实现它。逐空拆：<br>
     空① <code>interface Observer { public void <b>update</b>(float t); }</code> —— 接口里的方法名：选项里只有 update 是观察者标志方法；<br>
     空② <code>class WeatherBoard <b>implements</b> Observer</code> —— 具体类实现接口用 implements（extends 是继承类）；<br>
