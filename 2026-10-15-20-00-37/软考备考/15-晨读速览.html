@@ -21,6 +21,10 @@
   .box{border-radius:10px;padding:10px 13px;margin:10px 0;font-size:14.5px;}
   .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
   .box.green{background:var(--green-bg);border:1px solid #bfe8d2;}
+  details.rev{background:var(--green-bg);border:1px solid #bfe8d2;border-radius:8px;padding:8px 12px;margin:7px 0;font-size:14.5px;}
+  details.rev summary{cursor:pointer;font-weight:bold;color:var(--ink);}
+  details.rev[open] summary{margin-bottom:4px;}
+  .ans{margin-top:4px;padding-top:4px;border-top:1px dashed var(--border);}
   .mono{font-family:Consolas,monospace;}
   .foot{color:var(--muted);font-size:12.5px;text-align:center;margin-top:26px;}
   .theme-btn{position:fixed;bottom:14px;right:14px;z-index:99;background:var(--card);border:1px solid var(--border);color:var(--ink);border-radius:20px;padding:8px 16px;font-size:13.5px;cursor:pointer;font-family:inherit;box-shadow:0 2px 10px rgba(0,0,0,.15);}
@@ -59,6 +63,31 @@
   <li><b>★★☆ 试题六</b>：Java 类图 + 模式填空（五形状照抄类图）→ D 组第 4 条</li>
 </ol>
 <div class="box green"><b>本页用法（重要）：</b>本页已收录考前速记<b>全部内容</b>——不用再翻其他页。哪条看着眼熟但<b>说不出为什么</b>，才回详解页（结论卡→10 必考点｜错题→14 急救包｜计算→11 训练营｜模板→01/02/03/05 各页）。</div>
+
+<h2>🎯 预测例题实战（先自己做，点开对答案）<small>约 20 分钟 · 树 4 题+计算 4 题+对号 6 题</small></h2>
+<div class="box green"><b>为什么是这 14 题：</b>按近五年题型频率出的仿真题——树是你的最弱点（4 题强化），计算和概念对号覆盖上午剩余失分面。<b>错哪题就回对应详解页重看那一小节。</b></div>
+
+<div class="box purple"><b>🌳 树 4 题（你的最弱点）：</b></div>
+<details class="rev"><summary>树1：某二叉树有 7 个叶子节点，度 2 的节点有几个？</summary><div class="ans"><b class="ok">6 个</b>——n0 = n2 + 1（来历：总边数 n1+2n2 = 节点数−1 = n0+n1+n2−1，消去 n1）。7 个叶子 → n2 = 6。</div></details>
+<details class="rev"><summary>树2：前序 ABDECF、中序 DBEAFC，求后序？</summary><div class="ans">前序第一个 <b>A 是根</b>，回中序把 DBEAFC 切成左 DBE、右 FC → 左子树根 B（D、E 是它的左右孩子）、右子树根 C（F 是左孩子）→ 后序（左右根）= <b class="ok">DEBFCA</b>。<b>易错：每层都要"回前序找根"，不是只切一次。</b></div></details>
+<details class="rev"><summary>树3：100 个节点的完全二叉树，高度是几？</summary><div class="ans"><b class="ok">7 层</b>（⌈log₂101⌉ = 7；因为 2⁶=64 < 100 ≤ 127=2⁷−1）。<b>易错：64 个节点才是 6 层，100 已经要第 7 层了。</b></div></details>
+<details class="rev"><summary>树4：四个叶子权 2、3、4、5 的哈夫曼树，带权路径长度 WPL = ?</summary><div class="ans">合并：2+3=5 → 4+5=9 → 5+9=14（根）。深度：5 在第 1 层、4 在第 2 层、2 和 3 在第 3 层 → WPL = 5×1+4×2+2×3+3×3 = 5+8+6+9 = <b class="ok">28</b>。<b>易错：每轮挑"当前最小"的两个；权小的叶子离根最远。</b></div></details>
+
+<div class="box purple"><b>🧮 计算 4 题：</b></div>
+<details class="rev"><summary>计1：流水线四段 2/3/4/5ns，跑 50 条指令，总时间？</summary><div class="ans">各段之和 = 14ns；周期 = 最长段 = 5ns；总时间 = 14 + 49×5 = <b class="ok">259ns</b>。（第一条 = 各段之和，别乘周期）</div></details>
+<details class="rev"><summary>计2：Cache 命中率 90%，Cache 50ns、主存 450ns，"同时访问"式平均时间？</summary><div class="ans">T = 0.9×50 + 0.1×(50+450) = 45 + 50 = <b class="ok">95ns</b>。（题干有"同时访问"→ 未命中那次把 Cache 时间也搭进去）</div></details>
+<details class="rev"><summary>计3：子网掩码 /28，每个子网可用主机数？</summary><div class="ans">主机位 = 32−28 = 4 → 2⁴−2 = <b class="ok">14 台</b>。（减 2：网络地址+广播地址）</div></details>
+<details class="rev"><summary>计4：32 位数据用海明码校验，需要几位校验位？</summary><div class="ans"><b class="ok">6 位</b>。2^k ≥ n+k+1：k=6 → 64 ≥ 32+6+1=39 ✓；k=5 → 32 < 38 ✗。</div></details>
+
+<div class="box purple"><b>🔎 对号 6 题（概念题，看到字眼就选）：</b></div>
+<details class="rev"><summary>对1："窗口大小改变时，所有依赖它的视图自动刷新" → 什么模式？</summary><div class="ans"><b class="ok">观察者模式</b>（状态变化自动通知所有依赖者；识别词 attach/notify/update）。</div></details>
+<details class="rev"><summary>对2："订单从待支付→已支付→已发货，不同阶段行为不同" → 什么模式？</summary><div class="ans"><b class="ok">状态模式</b>（行为随内部状态改变；与策略的区别：状态是对象<b>自己</b>切换，策略是外部换）。</div></details>
+<details class="rev"><summary>对3："同一份数据导出 Excel/PDF/HTML 多种格式，可随时新增格式" → 什么模式？</summary><div class="ans"><b class="ok">策略模式</b>（算法/做法可替换；"可随时新增"= 对扩展开放）。</div></details>
+<details class="rev"><summary>对4：成绩表插入一个"学生表中不存在的学号" → 违反什么？</summary><div class="ans"><b class="ok">参照完整性</b>（外键必须在对表中真实存在；插入重复主键才是违反实体完整性）。</div></details>
+<details class="rev"><summary>对5：员工离职时拷走公司开发的源码继续使用 → 侵权吗？</summary><div class="ans"><b class="ok">侵权</b>——职务作品/软件的著作权归<b>公司</b>，源码是公司资产，离职带走使用即侵犯著作权（个人只保留署名权这类人身权利）。</div></details>
+<details class="rev"><summary>对6："单源最短路径按路径长度递增次序逐个确定顶点" → 什么策略？</summary><div class="ans"><b class="ok">贪心</b>（每次抓当前最优、绝不回头；Dijkstra/Prim/Kruskal/哈夫曼 全家都是贪心）。</div></details>
+
+<div class="box orange"><b>验收：</b>错 ≤3 题 = 状态良好；错 4~7 题 = 把错题对应详解页小节重看（树→13 篇、计算→11 训练营、对号→09 题眼表）；错 >7 题 → 今晚只重过 A 组结论 + 这 14 题，其他全放弃。</div>
 
 <h2>🕐 明日 120 分钟速记路线（按这个表走，不用自己想）</h2>
 <div class="box blue">
