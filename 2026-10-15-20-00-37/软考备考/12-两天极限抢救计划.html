@@ -331,5 +331,14 @@
   update();
 })();
 </script>
+<button class="theme-btn" id="themeBtn2" type="button">黑夜模式</button>
+<style>
+:root[data-theme="dark"] body{background:#141822;color:#e5e9f2;}
+:root[data-theme="dark"] section,.box,.case,.step,.chk,table,tr,td,th,details,summary,.card,pre{background:#1d2330;color:#e5e9f2;border-color:#2c3446;}
+:root[data-theme="dark"] h1,h2,h3,h4,b,strong{color:#e5e9f2;}
+:root[data-theme="dark"] a{color:#6b99f5;}
+.theme-btn{position:fixed;top:14px;right:16px;z-index:99;background:#1d2330;border:1px solid #2c3446;color:#e5e9f2;border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;}
+</style>
+<script>(function(){var r=document.documentElement,b=document.getElementById('themeBtn2');function a(t){if(t==='dark'){r.setAttribute('data-theme','dark');b.textContent='白天模式';}else{r.removeAttribute('data-theme');b.textContent='黑夜模式';}}a(localStorage.getItem('sk09-theme'));b.addEventListener('click',function(){var t=r.getAttribute('data-theme')==='dark'?'light':'dark';localStorage.setItem('sk09-theme',t);a(t);});})();</script>
 </body>
 </html>

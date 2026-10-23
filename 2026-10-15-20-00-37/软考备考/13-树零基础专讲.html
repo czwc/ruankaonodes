@@ -237,7 +237,12 @@
 
 <!-- ================= 自测 ================= -->
 <section id="test">
-  <h2>毕业自测 8 题（全对才算过关，错的重回对应课）</h2>
+  <h3>第6.5课 · 平衡二叉树 AVL 与 树↔二叉树（概念送分题）</h3>
+<div class="box blue">
+<b>平衡二叉树（AVL）：</b>任意节点的<b>左右子树高度差 ≤ 1</b>。平衡因子 = 左子树高 − 右子树高，取值只有 -1/0/1。<b>考试只考：</b>①给一棵树算几个节点的平衡因子、判断是否平衡；②插入导致失衡要"<b>旋转</b>"恢复（考概念不考画图）。<br>
+<b>树 / 森林转二叉树（孩子兄弟法）：</b>节点的<b>第一个孩子 → 左孩子</b>；相邻<b>兄弟 → 右孩子</b>。口诀"<b>长子作左、兄弟作右</b>"。<b>树转出来的二叉树根没有右子树</b>——真题给树/森林选二叉树形态，按这两句画即可。
+</div>
+<h2>毕业自测 8 题（全对才算过关，错的重回对应课）</h2>
   <details><summary>① 深度为 6 的二叉树最多多少节点？（第2课）</summary><div class="ans">2⁶−1 = <b>63</b>。</div><label class="miss"><input type="checkbox" data-mkey="t-1"> 没记住</label></details>
   <details><summary>② 度为 2 的节点有 10 个，叶子几个？度为 1 的有 8 个，要管吗？（第2课）</summary><div class="ans">n0 = n2+1 = <b>11</b>；度 1 的 8 个<b>不管</b>，干扰项。</div><label class="miss"><input type="checkbox" data-mkey="t-2"> 没记住</label></details>
   <details><summary>③ 前序 ABDEC、中序 DBEAC，后序 = ？（第4课）</summary><div class="ans">根 A → 左{D,B,E} 右{C}；左半根 B，左 D 右 E。后序 = <b>D E B C A</b>。</div><label class="miss"><input type="checkbox" data-mkey="t-3"> 没记住</label></details>
@@ -290,5 +295,14 @@
   });
 })();
 </script>
+<button class="theme-btn" id="themeBtn2" type="button">黑夜模式</button>
+<style>
+:root[data-theme="dark"] body{background:#141822;color:#e5e9f2;}
+:root[data-theme="dark"] section,.box,.case,.step,.chk,table,tr,td,th,details,summary,.card,pre{background:#1d2330;color:#e5e9f2;border-color:#2c3446;}
+:root[data-theme="dark"] h1,h2,h3,h4,b,strong{color:#e5e9f2;}
+:root[data-theme="dark"] a{color:#6b99f5;}
+.theme-btn{position:fixed;top:14px;right:16px;z-index:99;background:#1d2330;border:1px solid #2c3446;color:#e5e9f2;border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;}
+</style>
+<script>(function(){var r=document.documentElement,b=document.getElementById('themeBtn2');function a(t){if(t==='dark'){r.setAttribute('data-theme','dark');b.textContent='白天模式';}else{r.removeAttribute('data-theme');b.textContent='黑夜模式';}}a(localStorage.getItem('sk09-theme'));b.addEventListener('click',function(){var t=r.getAttribute('data-theme')==='dark'?'light':'dark';localStorage.setItem('sk09-theme',t);a(t);});})();</script>
 </body>
 </html>
