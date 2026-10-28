@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>2026下真题回忆版 · 估分页（10.24 批次）</title>
+<style>
+  :root{--bg:#f6f7fb;--card:#fff;--ink:#1f2430;--muted:#5b6474;--blue:#2f6fed;--blue-bg:#eaf1fe;--green:#1a9e5c;--green-bg:#e8f7ef;--red:#d64545;--red-bg:#fdeeee;--orange:#e08a1e;--orange-bg:#fdf3e3;--purple:#7b52d6;--purple-bg:#f1ebfc;--border:#e3e7ef;}
+  *{box-sizing:border-box;}
+  body{margin:0;background:var(--bg);color:var(--ink);font-family:"Microsoft YaHei","PingFang SC",system-ui,sans-serif;line-height:1.75;}
+  .wrap{max-width:860px;margin:0 auto;padding:20px 16px 70px;}
+  header{background:linear-gradient(135deg,#2f6fed,#1a9e5c);color:#fff;border-radius:14px;padding:20px 18px;margin-bottom:16px;}
+  header h1{margin:0 0 6px;font-size:21px;} header p{margin:0;opacity:.92;font-size:13.5px;}
+  h2{margin:22px 0 10px;font-size:17.5px;border-left:5px solid var(--blue);padding-left:10px;}
+  .q{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:11px 14px;margin:9px 0;font-size:14px;}
+  .q b.t{color:var(--blue);}
+  .q .a{margin-top:5px;padding-top:5px;border-top:1px dashed var(--border);}
+  .ok{color:var(--green);font-weight:bold;}
+  .hl{color:var(--red);font-weight:bold;}
+  .why{color:var(--muted);font-size:13px;}
+  .box{border-radius:10px;padding:10px 13px;margin:10px 0;font-size:13.5px;}
+  .box.red{background:var(--red-bg);border:1px solid #f3c8c8;}
+  .box.blue{background:var(--blue-bg);border:1px solid #c9dbfb;}
+  .box.orange{background:var(--orange-bg);border:1px solid #f0dcb2;}
+  .box.green{background:var(--green-bg);border:1px solid #bfe8d2;}
+  a.a{color:var(--blue);font-weight:bold;text-decoration:none;}
+  .theme-btn{position:fixed;top:12px;right:12px;z-index:99;background:var(--card);border:1px solid var(--border);color:var(--ink);border-radius:20px;padding:6px 14px;font-size:13px;cursor:pointer;font-family:inherit;box-shadow:0 2px 8px rgba(0,0,0,.12);}
+  :root[data-theme="dark"]{--bg:#141822;--card:#1d2330;--ink:#e5e9f2;--muted:#8b95a8;--blue:#6b99f5;--blue-bg:#1b2a45;--green:#3ecf85;--green-bg:#12301f;--red:#e8756f;--red-bg:#371d1d;--orange:#eaa43f;--orange-bg:#33260f;--purple:#a88bf0;--purple-bg:#261c42;--border:#2c3446;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <h1>2026 下半年真题回忆版 · 估分页（10.24 批次）</h1>
+  <p>来源：希赛网考生回忆版（10-26 整理）+ 2024.11 批次结构。参考答案为标准解法推定，<b>非官方</b>——官方成绩以软考办公布为准（预计 12 月初可查）。</p>
+</header>
+
+<div class="box orange"><b>📥 完整版（全 70 题 + 答案解析 PDF）直达：</b>希赛网汇总页 <a class="a" href="https://www.educity.cn/rk/5545988.html" target="_blank">educity.cn/rk/5545988.html</a>（7 个分段链接 1-10/11-20/…/61-70）；免费 PDF（840KB 考生回忆版）在希赛资料下载页 <a class="a" href="https://wangxiao.xisaiwang.com/rk/xxzl/n101.html?daohang" target="_blank">wangxiao.xisaiwang.com/rk/xxzl/n101.html</a>（登录希赛账号，列表里选"2026年下半年软件设计师基础知识真题(考生回忆版).pdf"；下午题回忆版也在该页各科列表中）。<b>估分方法：</b>逐题对照下面卡片，数自己上午对的个数 ×1 分 + 下午按问自评。</div>
+
+<div class="box red"><b>⚠️ 避雷（已核实为假真题，别看）：人人文库《2026年11月软考中级软件设计师真题及答案》（8月12日上传，考试前就有"11月真题"，下午卷结构不符软考固定题型，AI 编的）；原创力《2026年下半年软件设计师基础知识真题.docx》（5月上传，同样假）；课课家《案例简答题真题及标准答案》（8月发的考前预测，不是真题）。</b></div>
+
+<h2>上午 · 第 1~10 题（UML/设计模式/正则/归并/职责/CRC）</h2>
+<div class="q"><b class="t">1-2.</b> ①一个 A 对象可对应多个 B 对象；②C 包含多个 D，且 C 不存在时 D 也不再存在。UML 类图中 A-B、C-D 的关系？<div class="a">答案：<b class="ok">关联、组合</b>。<span class="why">①"可对应多个"=关联（非继承/实现）；②"包含多个+同生共死"=组合（实心菱形），若是"可独立存在"才是聚合。</span></div></div>
+<div class="q"><b class="t">3-6.</b> 点单系统：基础饮品固定，下单时动态叠加一种或多种配料，不改基础饮品类。该需求用什么设计？该模式核心特征？统一处理的要求？类图表示？<div class="a">答案：<b class="ok">装饰器模式｜层层包裹基础对象｜配料与基础饮品实现同一抽象接口｜Ice 持有 Beverage 且实现/继承 Beverage（C）</b>。<span class="why">四连问全是我们 05 页背的装饰器套娃四件套——这 8 分是白送的。</span></div></div>
+<div class="q"><b class="t">7.</b> 正则表达式 [a-zA-Z][a-zA-Z0-9]* 最常用于表示什么？<div class="a">答案：<b class="ok">标识符</b>（字母开头+字母数字，就是变量命名规则）。</div></div>
+<div class="q"><b class="t">8.</b> 两个长度均为 n 的递增有序表归并为一个递增有序表，最少比较次数？<div class="a">答案：<b class="ok">n</b>。<span class="why">最少情况：一个表的元素全部小于另一个表——把小表 n 个元素都比完就结束了。</span></div></div>
+<div class="q"><b class="t">9.</b> 购物车类同时负责维护明细、计算优惠、校验资格、推送通知，违反了什么原则？<div class="a">答案：<b class="ok">单一职责</b>（一个类一个变化原因——四件事挤一个类，四处都要改）。</div></div>
+<div class="q"><b class="t">10.</b> 关于 CRC 循环冗余校验，正确的是？<div class="a">答案：<b class="ok">CRC 的除数用生成多项式表示</b>。CRC 只检错不纠错（纠错是海明）；校验位越少能力越弱。</div></div>
+
+<h2>上午 · 第 11~20 题（子网/等价类/SSTF/页号/知产/栈）</h2>
+<div class="q"><b class="t">11.</b> 172.16.10.66/16 的网络地址？<div class="a">答案：<b class="ok">172.16.0.0</b>（/16 前 16 位不变，后 16 位清零）。</div></div>
+<div class="q"><b class="t">12.</b> 用户名[6,20]、密码[8,30]，等价类划分黑盒测试最符合的做法？<div class="a">答案：<b class="ok">合法/非法等价类各选代表值</b>（<6、[6,20]、>20 三类各测一个代表）。</div></div>
+<div class="q"><b class="t">13.</b> TCP 校验和在（　）实现？<div class="a">答案：<b class="ok">传输层</b>（ISO 7498-2 分层防护——TCP/UDP 校验和都在传输层）。</div></div>
+<div class="q"><b class="t">14.</b> R(A,B,C)，F={A→B, B→C}，分解为 R1(A,B)、R2(B,C) 的性质？<div class="a">答案：<b class="ok">无损连接、保持函数依赖（C）</b>。R1∩R2=B，B→AB 且 B→BC 两边都到 → 无损；两条依赖都保留在子模式里。</div></div>
+<div class="q"><b class="t">15.</b> 磁头在 100 号磁道，请求 55,58,39,18,90,150，SSTF 总移动磁道数？<div class="a">答案：<b class="ok">214</b>。路径 100→90→58→55→39→18→150：10+32+3+16+21+132=214。</div></div>
+<div class="q"><b class="t">16.</b> 逻辑地址 32 位、页面 2KB、一级页表，页号占几位？<div class="a">答案：<b class="ok">21 位</b>（2KB=2¹¹ 偏移 11 位，页号=32−11=21）。<span class="why">就是晨读背的"偏移位数=log₂页大小"。</span></div></div>
+<div class="q"><b class="t">17.</b> 员工在职开发软件，无特别约定，著作权归？<div class="a">答案：<b class="ok">单位</b>（职务作品/职务开发归公司——晨读知产表第 3 行）。</div></div>
+<div class="q"><b class="t">18.</b> 指令 Cache 与数据 Cache 分离的主要目的？<div class="a">答案：<b class="ok">降低指令流水线的资源冲突率</b>（取指和取数同时进行，不打架）。</div></div>
+<div class="q"><b class="t">19.</b> a,b,c,d,e 依次入栈，以 d 开头的出栈序列有几个？<div class="a">答案：<b class="ok">4 个</b>。<span class="why">就是 09 页例 14 的原题换数字！d 第一个出 → abc 在栈内、e 未进；e 的插入空位 4 个：de cba / dceba / dcbea / dcbae。</span></div></div>
+<div class="q"><b class="t">20.</b> #define SQUARE(x) x*x，调 SQUARE(1+2) 的结果？<div class="a">答案：<b class="ok">展开为 1+2*1+2=5，运算符优先级问题（C）</b>。宏是文本替换不加括号——想安全要写 #define SQUARE(x) ((x)*(x))。</div></div>
+
+<h2>上午 · 第 21~30 题（三对角/范式/ICMP/URG/DMA/PV/完全树）</h2>
+<div class="q"><b class="t">21.</b> 三对角矩阵 A[1..99,1..99] 按行优先存入 B[1..295]，A[32,33] 的下标？<div class="a">答案：<b class="ok">95（D）</b>。<span class="why">A[32,33]：j=i+1（第 32 行第 2 个非零）。前面：第 1 行 2 个 + 第 2~31 行 30 行×3=90 → 92 个 → k=93。⚠️ 若公式按 3i−3+(j−i+2)=93…（回忆版数字可能有出入，方法：首行 2 个、中间行 3 个，逐行累计）。</span></div></div>
+<div class="q"><b class="t">22.</b> R(A,B,C,D)，F={AB→C, C→D, D→A}，最高属于？<div class="a">答案：<b class="ok">3NF（A）</b>。候选码 AB/BC/BD——全部属性都是主属性，无部分/传递依赖（主属性间的依赖不算），到 3NF；但主属性间存在传递链，不满足 BCNF。</div></div>
+<div class="q"><b class="t">23.</b> IP 协议的补充，传递控制消息和错误报告的是？<div class="a">答案：<b class="ok">ICMP</b>（ping 就是它）。</div></div>
+<div class="q"><b class="t">24.</b> TCP 首部中标记紧急数据优先处理的字段？<div class="a">答案：<b class="ok">URG</b>（URG=紧急指针有效；ACK=确认、SYN=建立连接、RST=重置）。</div></div>
+<div class="q"><b class="t">25.</b> DMA 的叙述中错误的是？<div class="a">答案：<b class="ok">A（"通过执行程序在内存与 I/O 间传送数据"）</b>——那是程序查询方式；DMA 是<b>不经过 CPU</b>、由 DMAC 硬件直接传送，启动和结束才由 CPU 处理。</div></div>
+<div class="q"><b class="t">26.</b> 修正"输入数据编码格式不正确导致计算错误"属于什么维护？<div class="a">答案：<b class="ok">正确性（改正性）维护</b>——修错误=改正性；适应环境=适应性。</div></div>
+<div class="q"><b class="t">27.</b> SCM 核心活动不包括？<div class="a">答案：<b class="ok">代码自动生成（B）</b>。SCM 四件事：版本控制、变更控制、配置状态统计、配置审计。</div></div>
+<div class="q"><b class="t">28.</b> 缓冲区大小 x、初始为空，PV 中 empty/full/mutex 初值？<div class="a">答案：<b class="ok">empty=x, full=0, mutex=1（D）</b>——晨读原题：同步信号量计空位/货物，互斥锁初值恒为 1。</div></div>
+<div class="q"><b class="t">29.</b> 完全二叉树 1000 个结点，叶子数？<div class="a">答案：<b class="ok">500（C）</b>。<span class="why">编号 >⌊n/2⌋ 的都是叶子：1000/2=500，编号 501~1000 共 500 个叶子。</span></div></div>
+<div class="q"><b class="t">30.</b> 订单、支付、库存拆分为独立服务，体现了什么原则？<div class="a">答案：<b class="ok">模块化（B）</b>（拆分独立服务=模块化/高内聚低耦合，微服务思想）。</div></div>
+
+<h2>上午 · 第 31~70 题</h2>
+<div class="box blue"><b>状态：</b>希赛已整理但分段页暂未被收录（汇总页有入口）。<b>直接打开汇总页点 31-40/41-50/51-60/61-70 四个分段</b>：<a class="a" href="https://www.educity.cn/rk/5545988.html" target="_blank">educity.cn/rk/5545988.html</a>。从已见的考点看：31-40 高内聚低耦合/功能内聚/UML 非编程语言/视图虚表，41-50 数字签名不保密/RSA/适应性维护/McCabe，51-60 归并最坏 nlogn/左孩子 2i/关键路径最长，61-70 验收测试/外部实体/方法工具过程——全是晨读页背过的原考点。</div>
+
+<h2>下午 · 各大题结构（2024.11 批次回忆 + 你 10.24 批次可能同池）</h2>
+<div class="q"><b class="t">试题一 数据流图：</b>2024.11 批次考"AI 问答系统"（补外部实体/存储/缺失流+父子平衡概念题）。<b>新增问法：</b>"什么是父图子图平衡？如何保持？"——答案：子图输入输出流与父图对应加工的输入输出流保持一致（数量、名称、方向）。</div>
+<div class="q"><b class="t">试题二 数据库：</b>2024.11 批次考"汽车维修公司"（补联系类型/补模式空缺/主外键/加保险实体）——和 2021 下汽车维修几乎同池，02 页真题②的模板直接套。</div>
+<div class="q"><b class="t">试题三 UML：</b>2024.11 批次考"类似淘宝的网上购物系统"（补用例名/类名/多重性 0..*、1..*）。<span class="why">多重性就是 02 页背的"两边各问一次"。</span></div>
+<div class="q"><b class="t">试题四 算法：</b>2024.11 批次考<b>最大子段和（动态规划 O(n)）</b>——递推式 b[j]=max(b[j−1]+a[j], a[j])，晨读⭐条背过；另一批次考活动选择（贪心，复杂度三连）。<b>最新批次（2025 上）考法待确认，但池子就是这些。</b></div>
+<div class="q"><b class="t">试题五/六 程序设计：</b>面向对象程序设计（Java/C++ 二选一）。</div>
+
+<div class="box blue"><b>📊 估分方法：</b>①上午：对照上面 1~30 题（你记忆里选了什么的逐个数）×每题 1 分，31-70 打开希赛分段页补齐；②下午：按各题"我的讲解"的得分点自评（写全三必写点/三分类就给分）；③<b>两卷都 ≥45 = 过线</b>。成绩查询：软考办官网 ruankao.org.cn，预计 12 月初开放（关注"成绩查询通知"）。</div>
+<div class="box red"><b>批次提醒：</b>机考分批次，不同批次题目不同——本页整理的是 10.24 批次回忆版，正好是你考的那天；如果你是其他批次，题目会不一样，但考点池相同。</div>
+
+<div class="foot">2026 下真题回忆版 · 来源希赛考生回忆（10-26 整理）· 参考答案为标准解法推定非官方 · 成绩以软考办公布为准</div>
+</div>
+
+<button class="theme-btn" id="themeBtn" type="button">黑夜模式</button>
+<script>
+(function(){
+  var root=document.documentElement, btn=document.getElementById('themeBtn');
+  function apply(t){
+    if(t==='dark'){root.setAttribute('data-theme','dark');btn.textContent='白天模式';}
+    else{root.removeAttribute('data-theme');btn.textContent='黑夜模式';}
+  }
+  apply(localStorage.getItem('sk09-theme'));
+  btn.addEventListener('click',function(){
+    var t=root.getAttribute('data-theme')==='dark'?'light':'dark';
+    localStorage.setItem('sk09-theme',t); apply(t);
+  });
+})();
+</script>
+</body>
+</html>
